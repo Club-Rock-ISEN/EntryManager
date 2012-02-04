@@ -6,13 +6,13 @@ import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
 /**
+ * Class representing a member of the association.
  * @author Alex
- * 
  */
 public class Member {
-	private static Logger	T	= Logger.getLogger(Member.class.getName());
+	private static Logger	lg	= Logger.getLogger(Member.class.getName());
 
-	private int				idMember;
+	private Integer			idMember;
 	private String			name;
 	private Gender			gender;
 	private int				entries;
@@ -36,7 +36,7 @@ public class Member {
 	 * @param status
 	 *            the status of the member.
 	 */
-	public Member (final int idMember, final String name, final Gender gender, final int entries,
+	public Member (final Integer idMember, final String name, final Gender gender, final int entries,
 			final double credit, final Status status) {
 		this.idMember = idMember;
 		this.name = name;
@@ -58,7 +58,7 @@ public class Member {
 	 * Returns the idMember.
 	 * @return the idMember
 	 */
-	public int getIdMember () {
+	public Integer getIdMember () {
 		return idMember;
 	}
 
@@ -67,7 +67,7 @@ public class Member {
 	 * @param idMember
 	 *            the idMember to set
 	 */
-	public void setIdMember (final int idMember) {
+	public void setIdMember (final Integer idMember) {
 		this.idMember = idMember;
 	}
 

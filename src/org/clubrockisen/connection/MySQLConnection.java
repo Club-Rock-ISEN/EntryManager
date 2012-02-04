@@ -8,11 +8,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
+ * The singleton for accessing the MySQL database. TODO put URL, user & password in a configuration
+ * file.
  * @author Alex
- * 
  */
 public class MySQLConnection {
-	private static Logger		T			= Logger.getLogger(MySQLConnection.class.getName());
+	private static Logger		lg			= Logger.getLogger(MySQLConnection.class.getName());
 
 	/**
 	 * The URL for connecting the database.
@@ -44,7 +45,7 @@ public class MySQLConnection {
 			try {
 				connection = DriverManager.getConnection(url, user, password);
 			} catch (final SQLException e) {
-				T.severe(e.getMessage());
+				lg.severe(e.getMessage());
 				JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
 			}
 		}

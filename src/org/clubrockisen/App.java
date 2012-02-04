@@ -10,7 +10,7 @@ import org.clubrockisen.connection.MySQLConnection;
  * @author Alex
  */
 public class App {
-	private static Logger	T	= Logger.getLogger(App.class.getName());
+	private static Logger	lg	= Logger.getLogger(App.class.getName());
 
 	/**
 	 * Entry point for the launcher.
@@ -18,7 +18,7 @@ public class App {
 	 *            the arguments from the command line.
 	 */
 	public static void main (final String[] args) {
-		T.info("Starting Club Rock ISEN application.");
+		lg.info("Starting Club Rock ISEN application.");
 		MySQLConnection.getInstance();
 	}
 }
