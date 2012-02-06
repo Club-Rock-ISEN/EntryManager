@@ -1,12 +1,17 @@
 package org.clubrockisen.dao;
 
+import java.util.Collection;
+
+import org.clubrockisen.entities.Column;
+import org.clubrockisen.entities.Entity;
+
 /**
  * Basic CRUD operations on an abstract object.
  * @author Alex
  * @param <T>
  *            The class of the object to manipulate.
  */
-public abstract interface DAO<T> {
+public abstract interface DAO<T extends Entity> {
 
 	/**
 	 * Create operation.
@@ -40,4 +45,19 @@ public abstract interface DAO<T> {
 	 * @return <code>true</code> if the deletion of the object has been successful.
 	 */
 	boolean delete (T obj);
+
+	/**
+	 * Retrieve all the objects available.<br />
+	 * <em>Use with caution.</em>
+	 * @return A collection with all the objects.
+	 */
+	Collection<T> retrieveAll();
+
+	/**
+	 * Retrieve a collection of object matching
+	 * @param field the field to search
+	 * @param value the value to test
+	 * @return A collection with the object matching the
+	 */
+	Collection<T> search (Column field, String value);
 }

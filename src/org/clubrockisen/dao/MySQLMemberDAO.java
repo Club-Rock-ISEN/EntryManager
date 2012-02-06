@@ -1,7 +1,9 @@
 package org.clubrockisen.dao;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
+import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 
 /**
@@ -45,5 +47,17 @@ public class MySQLMemberDAO implements DAO<Member> {
 	public boolean delete (final Member obj) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Collection<Member> retrieveAll () {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Member> search (final Column field, final String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

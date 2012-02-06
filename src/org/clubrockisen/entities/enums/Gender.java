@@ -2,7 +2,6 @@ package org.clubrockisen.entities.enums;
 
 /**
  * Enumeration for the genders.
- * 
  * @author Alex
  */
 public enum Gender {
@@ -23,10 +22,26 @@ public enum Gender {
 	}
 
 	/**
-	 * Returns the abbreviation corresponding to the gender.
+	 * Return the abbreviation corresponding to the gender.
 	 * @return the abbreviation.
 	 */
 	public char getAbbreviation () {
 		return abbreviation;
+	}
+
+	/**
+	 * Return the enumeration matching the character passed as a parameter.
+	 * @param abbreviation
+	 *            the abbreviation to match.
+	 * @return the matching enumeration.
+	 */
+	public static Gender fromValue (final char abbreviation) {
+		if (MALE.getAbbreviation() == abbreviation) {
+			return MALE;
+		}
+		if (FEMALE.getAbbreviation() == abbreviation) {
+			return FEMALE;
+		}
+		throw new IllegalArgumentException("No such gender: '" + abbreviation + "'.");
 	}
 }

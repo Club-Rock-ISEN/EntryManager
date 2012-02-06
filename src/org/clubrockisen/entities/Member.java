@@ -1,5 +1,6 @@
 package org.clubrockisen.entities;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.enums.Gender;
@@ -9,15 +10,29 @@ import org.clubrockisen.entities.enums.Status;
  * Class representing a member of the association.
  * @author Alex
  */
-public class Member {
+public class Member extends Entity {
 	private static Logger	lg	= Logger.getLogger(Member.class.getName());
 
 	private Integer			idMember;
 	private String			name;
 	private Gender			gender;
-	private int				entries;
-	private double			credit;
+	private Integer			entries;
+	private Double			credit;
 	private Status			status;
+
+	@Override
+	protected void setColumns () {
+		if (columns != null) {
+			return;
+		}
+		columns = new ArrayList<Column>();
+		columns.add(new Column(Integer.class, "idMember", true));
+		columns.add(new Column(String.class, "name"));
+		columns.add(new Column(Gender.class, "gender"));
+		columns.add(new Column(Integer.class, "entries"));
+		columns.add(new Column(Double.class, "credit"));
+		columns.add(new Column(Status.class, "status"));
+	}
 
 	/**
 	 * Constructor #1.<br />
@@ -36,14 +51,16 @@ public class Member {
 	 * @param status
 	 *            the status of the member.
 	 */
-	public Member (final Integer idMember, final String name, final Gender gender, final int entries,
-			final double credit, final Status status) {
+	public Member (final Integer idMember, final String name, final Gender gender,
+			final int entries, final double credit, final Status status) {
+		super();
 		this.idMember = idMember;
 		this.name = name;
 		this.gender = gender;
 		this.entries = entries;
 		this.credit = credit;
 		this.status = status;
+		lg.info("New member: " + this.name + ", " + this.gender);
 	}
 
 	/**
@@ -51,11 +68,11 @@ public class Member {
 	 * Default constructor
 	 */
 	public Member () {
-
+		this(null, null, null, 0, 0.0, Status.getDefault());
 	}
 
 	/**
-	 * Returns the idMember.
+	 * Return the idMember.
 	 * @return the idMember
 	 */
 	public Integer getIdMember () {
@@ -63,7 +80,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the idMember.
+	 * Set the idMember.
 	 * @param idMember
 	 *            the idMember to set
 	 */
@@ -72,7 +89,7 @@ public class Member {
 	}
 
 	/**
-	 * Returns the name.
+	 * Return the name.
 	 * @return the name
 	 */
 	public String getName () {
@@ -80,7 +97,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the name.
+	 * Set the name.
 	 * @param name
 	 *            the name to set
 	 */
@@ -89,7 +106,7 @@ public class Member {
 	}
 
 	/**
-	 * Returns the gender.
+	 * Return the gender.
 	 * @return the gender
 	 */
 	public Gender getGender () {
@@ -97,7 +114,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the gender.
+	 * Set the gender.
 	 * @param gender
 	 *            the gender to set
 	 */
@@ -106,7 +123,7 @@ public class Member {
 	}
 
 	/**
-	 * Returns the entries.
+	 * Return the entries.
 	 * @return the entries
 	 */
 	public int getEntries () {
@@ -114,7 +131,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the entries.
+	 * Set the entries.
 	 * @param entries
 	 *            the entries to set
 	 */
@@ -123,7 +140,7 @@ public class Member {
 	}
 
 	/**
-	 * Returns the credit.
+	 * Return the credit.
 	 * @return the credit
 	 */
 	public double getCredit () {
@@ -131,7 +148,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the credit.
+	 * Set the credit.
 	 * @param credit
 	 *            the credit to set
 	 */
@@ -140,7 +157,7 @@ public class Member {
 	}
 
 	/**
-	 * Returns the status.
+	 * Return the status.
 	 * @return the status
 	 */
 	public Status getStatus () {
@@ -148,7 +165,7 @@ public class Member {
 	}
 
 	/**
-	 * Sets the status.
+	 * Set the status.
 	 * @param status
 	 *            the status to set
 	 */
