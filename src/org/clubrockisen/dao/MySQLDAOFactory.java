@@ -10,7 +10,7 @@ import org.clubrockisen.entities.Member;
  * @author Alex
  */
 public class MySQLDAOFactory extends AbstractDAOFactory {
-	protected static final Connection connection = MySQLConnection.getInstance();
+	protected static final Connection CONNECTION = MySQLConnection.getInstance();
 
 	/* (non-Javadoc)
 	 * @see org.clubrockisen.dao.AbstractDAOFactory#getMemberDAO()
