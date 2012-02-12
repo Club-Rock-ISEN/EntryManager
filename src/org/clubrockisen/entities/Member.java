@@ -172,4 +172,13 @@ public class Member extends Entity {
 	public void setStatus (final Status status) {
 		this.status = status;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString () {
+		return name;
+	}
+	
 }
