@@ -92,7 +92,7 @@ public class MainWindow extends JFrame {
 	 * Create the controls, menu, labels, etc.
 	 */
 	private void buildGUI () {
-		this.setTitle("Club Rock ISEN - Gestionnaire des entÃ©es");
+		this.setTitle("Club Rock ISEN - Gestionnaire des entrées");
 		this.setSize(900, 600);
 		this.setMinimumSize(new Dimension(300, 200));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,7 +111,7 @@ public class MainWindow extends JFrame {
 		menuBar = new JMenuBar();
 		// File menu creation
 		fileMenu = new JMenu("Fichier");
-		profitItem = new JMenuItem("BÃ©nÃ©fices de la soirÃ©e");
+		profitItem = new JMenuItem("Bénéfices de la soirée");
 		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		profitItem.addActionListener(new ActionListener() {
 
@@ -120,14 +120,14 @@ public class MainWindow extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		parametersItem = new JMenuItem("RÃ©glage des paramÃ¨tres");
+		parametersItem = new JMenuItem("Réglage des paramètres");
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				resultListModel.add(0, new Member(0, "Alex BarfÃ©ty", Gender.MALE, 0, 0.0,
+				resultListModel.add(0, new Member(0, "Alex Barféty", Gender.MALE, 0, 0.0,
 						Status.VETERAN));
 			}
 		});
@@ -147,7 +147,7 @@ public class MainWindow extends JFrame {
 		fileMenu.add(quitItem);
 
 		// Database menu creation
-		dataBaseMenu = new JMenu("Base de donnÃ©es");
+		dataBaseMenu = new JMenu("Base de données");
 		seeMemberItem = new JMenuItem("Voir tout les membres");
 		seeMemberItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMemberItem.addActionListener(new ActionListener() {
@@ -157,7 +157,7 @@ public class MainWindow extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		seeAttendeesItem = new JMenuItem("Voir les personnes prÃ©sentes");
+		seeAttendeesItem = new JMenuItem("Voir les personnes présentes");
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
 
@@ -166,7 +166,7 @@ public class MainWindow extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		exportDataItem = new JMenuItem("Exporter des donnÃ©es");
+		exportDataItem = new JMenuItem("Exporter des données");
 		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
 		exportDataItem.addActionListener(new ActionListener() {
 
@@ -225,14 +225,14 @@ public class MainWindow extends JFrame {
 
 			}
 		});
-		aboutItem = new JMenuItem("Ã€ propos");
+		aboutItem = new JMenuItem("À propos");
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				JOptionPane.showMessageDialog(mainWindow, "Programme crÃ©Ã© pour le Club Rock ISEN"
-						+ " par Alex BarfÃ©ty en 2012.\nSous licence BSD.", "Ã€ propos",
+				JOptionPane.showMessageDialog(mainWindow, "Programme créé pour le Club Rock ISEN"
+						+ " par Alex Barféty en 2012.\nSous licence BSD.", "À propos",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -311,7 +311,7 @@ public class MainWindow extends JFrame {
 		c.weighty = 0;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = new Insets(5, 5, 5, 5);
-		enterButton = new JButton("EntrÃ©e");
+		enterButton = new JButton("Entrée");
 		panel.add(enterButton, c);
 
 		c = new GridBagConstraints();
@@ -433,7 +433,7 @@ public class MainWindow extends JFrame {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = new Insets(5, 5, 5, 5);
-		nextFreeLabel = new JLabel("Prochaine entrÃ©e gratuite dans :");
+		nextFreeLabel = new JLabel("Prochaine entrée gratuite dans :");
 		pane.add(nextFreeLabel, c);
 
 		c = new GridBagConstraints();
@@ -446,7 +446,7 @@ public class MainWindow extends JFrame {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = new Insets(5, 5, 5, 5);
-		nameField = new JLabel("Alex BarfÃ©ty");
+		nameField = new JLabel("Alex Barféty");
 		pane.add(nameField, c);
 
 		c = new GridBagConstraints();
@@ -510,7 +510,7 @@ public class MainWindow extends JFrame {
 	 */
 	private JPanel buildPartyPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder("SoirÃ©e"));
+		pane.setBorder(BorderFactory.createTitledBorder("Soirée"));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -522,7 +522,7 @@ public class MainWindow extends JFrame {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = new Insets(5, 5, 5, 5);
-		entryPartyTotalNumberLabel = new JLabel("Nombre total d'entrÃ©es :");
+		entryPartyTotalNumberLabel = new JLabel("Nombre total d'entrées :");
 		pane.add(entryPartyTotalNumberLabel, c);
 
 		c = new GridBagConstraints();
@@ -548,7 +548,7 @@ public class MainWindow extends JFrame {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = new Insets(5, 5, 5, 5);
-		entryPartySecondPartNumberLabel = new JLabel("AprÃ¨s 22h :");
+		entryPartySecondPartNumberLabel = new JLabel("Après 22h :");
 		pane.add(entryPartySecondPartNumberLabel, c);
 
 		c = new GridBagConstraints();
