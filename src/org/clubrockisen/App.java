@@ -29,7 +29,7 @@ public class App {
 		final String lookAndFeelName = "Nimbus";
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-			lg.info(laf.getName());
+			lg.fine(laf.getName());
 			if (laf.getName().equals(lookAndFeelName)) {
 				try {
 					UIManager.setLookAndFeel(laf.getClassName());
