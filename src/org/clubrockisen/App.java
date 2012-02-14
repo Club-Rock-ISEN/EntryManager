@@ -26,6 +26,26 @@ public class App {
 	public static void main (final String[] args) {
 		lg.info("Starting Club Rock ISEN application.");
 
+		String translationFile;
+		if (args.length < 1) {
+			translationFile = "data/locale/fr.xml";
+			lg.warning("No language file defined. Using default locale file : " + translationFile);
+		} else {
+			translationFile = args[0];
+		}
+		lg.fine("Language locale file defined: " + translationFile);
+		
+		setLookAndFeel();
+
+		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(DAOType.MYSQL);
+		final MainWindow window = new MainWindow(translationFile, daoFactory);
+		window.setVisible(true);
+	}
+
+	/**
+	 * Sets the look and feel of the application
+	 */
+	private static void setLookAndFeel () {
 		final String lookAndFeelName = "Nimbus";
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
@@ -45,9 +65,5 @@ public class App {
 			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
 					+ ". Using default look and feel.");
 		}
-
-		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(DAOType.MYSQL);
-		final MainWindow window = new MainWindow(daoFactory);
-		window.setVisible(true);
 	}
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="app.title">Club Rock ISEN - Gestionnaire des entrées</entry>
+	
+	<entry key="app.menu.file">Fichier</entry>
+	<entry key="app.menu.file.profit">Bénéfices de la soirée</entry>
+	<entry key="app.menu.file.parameters">Réglage des paramètres</entry>
+	<entry key="app.menu.file.quit">Quitter</entry>
+	<entry key="app.menu.database">Base de données</entry>
+	<entry key="app.menu.database.seeMembers">Voir tout les membres</entry>
+	<entry key="app.menu.database.seeAttendees">Voir les personnes présentes</entry>
+	<entry key="app.menu.database.exportData">Exporter des données</entry>
+	<entry key="app.menu.member">Membre</entry>
+	<entry key="app.menu.newMember">Nouveau membre</entry>
+	<entry key="app.menu.deleteMember">Supprimer membre</entry>
+	<entry key="app.menu.updateMember">Modifier membre</entry>
+	<entry key="app.menu.help">Aide</entry>
+	<entry key="app.menu.help.about">À propos</entry>
+	
+	<entry key="app.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
+	<entry key="app.dialog.about.licence">Distribué sous "Nouvelle Licence BSD".</entry>
+	
+	<entry key="app.mainWindow.groupBox.searchResult">Résultats de recherche</entry>
+	<entry key="app.mainWindow.button.enter">Entrée</entry>
+	<entry key="app.mainWindow.button.update">Modifier</entry>
+	<entry key="app.mainWindow.button.delete">Supprimer</entry>
+	<entry key="app.mainWindow.groupBox.member">Membre</entry>
+	<entry key="app.mainWindow.label.name">Nom :</entry>
+	<entry key="app.mainWindow.label.gender">Sexe :</entry>
+	<entry key="app.mainWindow.label.status">Statut :</entry>
+	<entry key="app.mainWindow.label.entryNumber">Nombre de visites :</entry>
+	<entry key="app.mainWindow.label.nextFree">Prochaine entrée gratuite :</entry>
+	<entry key="app.mainWindow.groupBox.party">Soirée</entry>
+	<entry key="app.mainWindow.label.entryPartyTotal">Nombre total d'entrées :</entry>
+	<entry key="app.mainWindow.label.entryPartyFirstPart">Avant 22h :</entry>
+	<entry key="app.mainWindow.label.entryPartySecondPart">Après 22h :</entry>
+	<entry key="app.mainWindow.label.newMemberNumber">Nombre de nouveaux :</entry>
+	<entry key="app.mainWindow.label.freeMemberNumber">Nombre de gratuits :</entry>
+	<entry key="app.mainWindow.label.maleNumber">Nombre d'hommes :</entry>
+	<entry key="app.mainWindow.label.femaleNumber">Nombre de femmes :</entry>
+	<entry key="app.mainWindow.label.revenue">Chiffre d'affaires :</entry>
+	<entry key="app.mainWindow.label.profit">Bénéfice :</entry>
+</properties>
