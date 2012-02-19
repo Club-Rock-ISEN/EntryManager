@@ -35,6 +35,8 @@ import javax.swing.SwingUtilities;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.enums.Gender;
+import org.clubrockisen.entities.enums.Status;
 
 /**
  * 
@@ -147,6 +149,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
+				daoMember.create(new Member(null, "TESTT", Gender.FEMALE, 28, 0.0, Status.HELPER_MEMBER));
 				resultListModel.add(0, daoMember.find(2));
 			}
 		});

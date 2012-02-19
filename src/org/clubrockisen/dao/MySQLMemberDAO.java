@@ -29,7 +29,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 	 * @param connection
 	 *            the connection to the database.
 	 */
-	public MySQLMemberDAO (final Connection connection) {
+	public MySQLMemberDAO(final Connection connection) {
 		this.connection = connection;
 		lg.fine("New " + this.getClass().getCanonicalName() + ".");
 		// Initialize the columns (call to the constructor is required
@@ -40,13 +40,27 @@ public class MySQLMemberDAO implements DAO<Member> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.clubrockisen.dao.DAO#create(java.lang.Object)
 	 */
 	@Override
 	public boolean create (final Member obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE);
+			final String query = obj.generateInsertQuerySQL(false) + " ("
+					+ "'" + obj.getName() + "',"
+					+ "'" + obj.getGender().getAbbreviation() + "',"
+					+ "'" + obj.getEntries() + "',"
+					+ "'" + obj.getCredit() + "',"
+					+ "'" + obj.getStatus().getName() + "');";
+			lg.info(query);
+			statement.executeUpdate(query);
+			statement.close();
+		} catch (final SQLException e) {
+			lg.warning("Exception while creating a member: " + e.getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	/*
@@ -58,7 +72,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 		Member member = null;
 		lg.fine("finding the member with id = " + id);
 		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			final ResultSet result = statement.executeQuery("SELECT * FROM member WHERE " +
 					columns.get(MemberColumn.ID).getName() + " = " + id);
@@ -80,7 +94,6 @@ public class MySQLMemberDAO implements DAO<Member> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.clubrockisen.dao.DAO#update(java.lang.Object)
 	 */
 	@Override
@@ -91,7 +104,6 @@ public class MySQLMemberDAO implements DAO<Member> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.clubrockisen.dao.DAO#delete(java.lang.Object)
 	 */
 	@Override

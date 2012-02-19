@@ -14,14 +14,24 @@ import org.clubrockisen.entities.enums.Status;
 public class Member extends Entity {
 	private static Logger	lg	= Logger.getLogger(Member.class.getName());
 
-	private static Map<MemberColumn, Column>		columns;
-	
-	private Integer			idMember;
-	private String			name;
-	private Gender			gender;
-	private Integer			entries;
-	private Double			credit;
-	private Status			status;
+	private static Map<MemberColumn, Column>	columns;
+	private static String						entityName	= "member";
+
+	private Integer								idMember;
+	private String								name;
+	private Gender								gender;
+	private Integer								entries;
+	private Double								credit;
+	private Status								status;
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.entities.Entity#getEntityName()
+	 */
+	@Override
+	public String getEntityName () {
+		return entityName;
+	}
 
 	/**
 	 * Enumeration for the column of the table associated to the type.
@@ -31,7 +41,7 @@ public class Member extends Entity {
 	public enum MemberColumn {
 		ID, NAME, GENDER, ENTRIES, CREDIT, STATUS
 	}
-	
+
 	@Override
 	protected void setEntityColumns () {
 		if (columns != null) {
@@ -93,7 +103,7 @@ public class Member extends Entity {
 	 * Default constructor
 	 */
 	public Member () {
-		this(null, null, null, 0, 0.0, Status.getDefault());
+		this(null, null, Gender.getDefault(), 0, 0.0, Status.getDefault());
 	}
 
 	/**

@@ -44,4 +44,12 @@ public enum Gender {
 		}
 		throw new IllegalArgumentException("No such gender: '" + abbreviation + "'.");
 	}
+
+	/**
+	 * Return the default gender to set ({@link #FEMALE})
+	 * @return the default gender to set.
+	 */
+	public static Gender getDefault () {
+		return FEMALE;
+	}
 }

@@ -3,6 +3,7 @@ package org.clubrockisen.dao;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Parameter;
 
 /**
  * The abstract factory for the DAO.
@@ -27,6 +28,12 @@ public abstract class AbstractDAOFactory {
 	 * @return the DAO for the member class.
 	 */
 	public abstract DAO<Member> getMemberDAO ();
+	
+	/**
+	 * Retrieve a DAO for the parameter class.
+	 * @return the DAO for the parameter class.
+	 */
+	public abstract DAO<Parameter> getParameterDAO ();
 
 	/**
 	 * Retrieve and create the appropriate factory.
