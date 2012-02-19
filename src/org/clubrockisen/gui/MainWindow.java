@@ -33,9 +33,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.clubrockisen.dao.AbstractDAOFactory;
+import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
 
 /**
  * 
@@ -78,6 +77,8 @@ public class MainWindow extends JFrame {
 	private final Insets				defaultInsets		= new Insets(5, 5, 5, 5);
 	
 	private final Properties					translator;
+	
+	private final DAO<Member>					daoMember;
 
 	/**
 	 * Constructor #1.<br />
@@ -89,12 +90,15 @@ public class MainWindow extends JFrame {
 	 */
 	public MainWindow (final String translationFile, final AbstractDAOFactory daoFactory) {
 		super();
+		daoMember = daoFactory.getMemberDAO();
+		
 		translator = new Properties();
 		try {
 			translator.loadFromXML(new FileInputStream(translationFile));
 		} catch (final IOException e) {
 			lg.severe("Could not load translation file: " + translationFile + "\n" + e.getMessage());
 		}
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run () {
@@ -143,8 +147,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				resultListModel.add(0, new Member(0, "Alex Barféty", Gender.MALE, 0, 0.0,
-						Status.VETERAN));
+				resultListModel.add(0, daoMember.find(2));
 			}
 		});
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));

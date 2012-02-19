@@ -60,7 +60,16 @@ public enum Status {
 	 * @return the matching enumeration.
 	 */
 	public static Status fromValue (final String name) {
-		return Enum.valueOf(Status.class, name.toUpperCase());
+		try {
+			return Enum.valueOf(Status.class, name.toUpperCase());
+		} catch (final IllegalArgumentException e) {
+			for (final Status currentStatus : Status.values()) {
+				if (currentStatus.getName().compareToIgnoreCase(name) == 0) {
+					return currentStatus;
+				}
+			}
+			throw new IllegalArgumentException("No Status with name '" + name + "'.", e);
+		}
 	}
 
 }

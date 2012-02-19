@@ -26,7 +26,7 @@ public class Column {
 		this.type = type;
 		this.name = name;
 		this.isIndex = isIndex;
-		lg.info("New Column: " + this.name + ", type: " + this.type.getName() +
+		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: " + this.type.getName() +
 				(this.isIndex ? " index" : ""));
 	}
 

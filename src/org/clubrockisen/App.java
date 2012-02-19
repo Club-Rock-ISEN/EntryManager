@@ -2,6 +2,7 @@ package org.clubrockisen;
 
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,8 +16,11 @@ import org.clubrockisen.gui.MainWindow;
  * 
  * @author Alex
  */
-public class App {
+public final class App {
 	private static Logger	lg	= Logger.getLogger(App.class.getName());
+
+	private App () {
+	}
 
 	/**
 	 * Entry point for the launcher.
@@ -34,19 +38,26 @@ public class App {
 			translationFile = args[0];
 		}
 		lg.fine("Language locale file defined: " + translationFile);
-		
+
 		setLookAndFeel();
 
-		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(DAOType.MYSQL);
-		final MainWindow window = new MainWindow(translationFile, daoFactory);
-		window.setVisible(true);
+		final DAOType daoType = DAOType.MYSQL;
+		try {
+			AbstractDAOFactory daoFactory;
+			daoFactory = AbstractDAOFactory.getFactory(daoType);
+			final MainWindow window = new MainWindow(translationFile, daoFactory);
+			window.setVisible(true);
+		} catch (final InstantiationException e) {
+			JOptionPane.showMessageDialog(null, "Could not instantiate a DAO of type " + daoType
+					+ "\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
 	 * Sets the look and feel of the application
 	 */
 	private static void setLookAndFeel () {
-		final String lookAndFeelName = "Nimbus";
+		final String lookAndFeelName = "Nimbus"; // TODO move into parameter table
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
 			lg.fine(laf.getName());

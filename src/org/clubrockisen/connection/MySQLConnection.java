@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * file.
  * @author Alex
  */
-public class MySQLConnection {
+public final class MySQLConnection {
 	private static Logger		lg			= Logger.getLogger(MySQLConnection.class.getName());
 
 	/**
@@ -31,9 +31,12 @@ public class MySQLConnection {
 	private static String		password	= "burgerking";
 
 	/**
-	 * Object
+	 * The connection to the database
 	 */
 	private static Connection	connection;
+
+	private MySQLConnection () {
+	}
 
 	/**
 	 * Creates the connection to the database if it hasn't been established yet and return the
@@ -46,7 +49,8 @@ public class MySQLConnection {
 				connection = DriverManager.getConnection(url, user, password);
 			} catch (final SQLException e) {
 				lg.severe(e.getMessage());
-				JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return connection;

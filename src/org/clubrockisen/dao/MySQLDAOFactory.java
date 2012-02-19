@@ -17,6 +17,6 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	 */
 	@Override
 	public DAO<Member> getMemberDAO () {
-		return new MySQLMemberDAO();
+		return new MySQLMemberDAO(CONNECTION);
 	}
 }

@@ -15,7 +15,8 @@
 	<property name="target.dir" value="${basedir}/target/" description="The target directory for the generated executable files." />
 	<property name="target.lib.dir.name" value="lib" description="The name of the libraries directory in the target folder." />
 	<property name="target.data.dir.name" value="data" description="The name of the data directory in the target folder." />
-	<property name="launcher" value="${data.dir}/crock.bat" description="The launcher for the jar." />
+	<property name="launcher.name" value="crock.bat" description="The name of the launcher for the jar." />
+	<property name="launcher" value="${data.dir}/${launcher.name}" description="The launcher for the jar." />
 	<property name="archive.name" value="crock.zip" description="The archive name." />
 	<property name="main.class" value="org.clubrockisen.App" description="The entry point of the application." />
 
@@ -96,10 +97,9 @@
 		</copy>
 		<!-- Copying the resources files required by the application -->
 		<copy todir="${target.dir}/${target.data.dir.name}">
-			<fileset dir="${data.dir}">
-				<include name="**/*" />
-				<exclude name="**/${launcher}"/>
-			</fileset>
+			<fileset dir="${data.dir}"
+				includes="**/*"
+				excludes="**/${launcher.name}" />
 		</copy>
 		<!-- Finally, creating the jar -->
 		<jar destfile="${target.dir}/${ant.project.name}.jar" basedir="${bin.dir}">

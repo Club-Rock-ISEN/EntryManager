@@ -1,6 +1,7 @@
 package org.clubrockisen.entities;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.enums.Gender;
@@ -13,6 +14,8 @@ import org.clubrockisen.entities.enums.Status;
 public class Member extends Entity {
 	private static Logger	lg	= Logger.getLogger(Member.class.getName());
 
+	private static Map<MemberColumn, Column>		columns;
+	
 	private Integer			idMember;
 	private String			name;
 	private Gender			gender;
@@ -20,18 +23,40 @@ public class Member extends Entity {
 	private Double			credit;
 	private Status			status;
 
+	/**
+	 * Enumeration for the column of the table associated to the type.
+	 * @author Alex
+	 */
+	@SuppressWarnings("javadoc")
+	public enum MemberColumn {
+		ID, NAME, GENDER, ENTRIES, CREDIT, STATUS
+	}
+	
 	@Override
-	protected void setColumns () {
+	protected void setEntityColumns () {
 		if (columns != null) {
 			return;
 		}
-		columns = new ArrayList<Column>();
-		columns.add(new Column(Integer.class, "idMember", true));
-		columns.add(new Column(String.class, "name"));
-		columns.add(new Column(Gender.class, "gender"));
-		columns.add(new Column(Integer.class, "entries"));
-		columns.add(new Column(Double.class, "credit"));
-		columns.add(new Column(Status.class, "status"));
+		columns = new EnumMap<MemberColumn, Column>(MemberColumn.class);
+		columns.put(MemberColumn.ID, new Column(Integer.class, "idMember", true));
+		columns.put(MemberColumn.NAME, new Column(String.class, "name"));
+		columns.put(MemberColumn.GENDER, new Column(Gender.class, "gender"));
+		columns.put(MemberColumn.ENTRIES, new Column(Integer.class, "entries"));
+		columns.put(MemberColumn.CREDIT, new Column(Double.class, "credit"));
+		columns.put(MemberColumn.STATUS, new Column(Status.class, "status"));
+	}
+
+	@Override
+	public Map<? extends Enum<?>, Column> getEntityColumns () {
+		return columns;
+	}
+	
+	/**
+	 * Return the list of the columns of the table Member.
+	 * @return the list of the columns.
+	 */
+	public static Map<? extends Enum<?>, Column> getColumns () {
+		return columns;
 	}
 
 	/**
@@ -60,7 +85,7 @@ public class Member extends Entity {
 		this.entries = entries;
 		this.credit = credit;
 		this.status = status;
-		lg.info("New member: " + this.name + ", " + this.gender);
+		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", " + this.gender);
 	}
 
 	/**
