@@ -1,6 +1,6 @@
 package org.clubrockisen.dao;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Entity;
@@ -51,7 +51,7 @@ public abstract interface DAO<T extends Entity> {
 	 * <em>Use with caution.</em>
 	 * @return A collection with all the objects.
 	 */
-	Collection<T> retrieveAll();
+	List<T> retrieveAll();
 
 	/**
 	 * Retrieve a collection of object matching
@@ -59,5 +59,5 @@ public abstract interface DAO<T extends Entity> {
 	 * @param value the value to test
 	 * @return A collection with the object matching the
 	 */
-	Collection<T> search (Column field, String value);
+	List<T> search (Column field, String value);
 }

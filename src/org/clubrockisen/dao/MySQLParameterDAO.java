@@ -1,7 +1,7 @@
 package org.clubrockisen.dao;
 
 import java.sql.Connection;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -71,7 +71,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 * @see org.clubrockisen.dao.DAO#retrieveAll()
 	 */
 	@Override
-	public Collection<Parameter> retrieveAll () {
+	public List<Parameter> retrieveAll () {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,7 +80,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 * @see org.clubrockisen.dao.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
 	 */
 	@Override
-	public Collection<Parameter> search (final Column field, final String value) {
+	public List<Parameter> search (final Column field, final String value) {
 		// TODO Auto-generated method stub
 		return null;
 	}

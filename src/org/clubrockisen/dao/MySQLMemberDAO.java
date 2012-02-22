@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -77,12 +78,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final ResultSet result = statement.executeQuery("SELECT * FROM member WHERE " +
 					columns.get(MemberColumn.ID).getName() + " = " + id);
 			if (result.first()) {
-				member = new Member(result.getInt(columns.get(MemberColumn.ID).getName()),
-						result.getString(columns.get(MemberColumn.NAME).getName()),
-						Gender.fromValue(result.getString(columns.get(MemberColumn.GENDER).getName()).charAt(0)),
-						result.getInt(columns.get(MemberColumn.ENTRIES).getName()),
-						result.getInt(columns.get(MemberColumn.CREDIT).getName()),
-						Status.fromValue(result.getString(columns.get(MemberColumn.STATUS).getName())));
+				member = createMemberFromResult(result);
 			}
 			result.close();
 			statement.close();
@@ -113,14 +109,82 @@ public class MySQLMemberDAO implements DAO<Member> {
 	}
 
 	@Override
-	public Collection<Member> retrieveAll () {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Member> retrieveAll () {
+		final List<Member> allMembers = new ArrayList<>();
+		lg.fine("Retrieving all members");
+
+		try {
+			final long time1 = System.currentTimeMillis();
+			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			final ResultSet result = statement.executeQuery("SELECT * FROM member");
+			final long time2 = System.currentTimeMillis();
+			while (result.next()) {
+				allMembers.add(createMemberFromResult(result));
+			}
+			final long time3 = System.currentTimeMillis();
+			lg.info("Time for request: " + (time2-time1) + " ms");
+			lg.info("Time for building list: " + (time3-time2) + " ms");
+			lg.info("Time for both: " + (time3-time1) + "ms");
+			
+			result.close();
+			statement.close();
+		} catch (final SQLException e) {
+			lg.warning("Exception while retrieving all members: " + e.getMessage());
+		}
+
+		return allMembers;
 	}
 
 	@Override
-	public Collection<Member> search (final Column field, final String value) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Member> search (final Column field, final String value) {
+		final List<Member> members = new ArrayList<>();
+		lg.fine("Searching members");
+
+		try {
+			final long time1 = System.currentTimeMillis();
+			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			final ResultSet result = statement.executeQuery("SELECT * FROM member WHERE "
+					+ field.getName() + " LIKE '" + value + "%'");
+			final long time2 = System.currentTimeMillis();
+			while (result.next()) {
+				members.add(createMemberFromResult(result));
+			}
+			final long time3 = System.currentTimeMillis();
+			lg.info("Time for request: " + (time2 - time1) + " ms");
+			lg.info("Time for building list: " + (time3 - time2) + " ms");
+			lg.info("Time for both: " + (time3 - time1) + "ms");
+			
+			result.close();
+			statement.close();
+		} catch (final SQLException e) {
+			lg.warning("Exception while searching members: " + e.getMessage());
+		}
+
+		return members;
+	}
+	
+	/**
+	 * Creates a member from a row of result.<br />
+	 * Do not move to the next result.
+	 * @param result the result of the query.
+	 * @return the newly created member.
+	 * @throws SQLException if there was a problem while reading the data from the columns.
+	 */
+	private Member createMemberFromResult (final ResultSet result) throws SQLException {
+		final Member newMember = new Member();
+		
+		// Setting member properties
+		newMember.setIdMember(result.getInt(columns.get(MemberColumn.ID).getName()));
+		newMember.setName(result.getString(columns.get(MemberColumn.NAME).getName()));
+		newMember.setGender(Gender.fromValue(result.getString(
+				columns.get(MemberColumn.GENDER).getName()).charAt(0)));
+		newMember.setEntries(result.getInt(columns.get(MemberColumn.ENTRIES).getName()));
+		newMember.setCredit(result.getInt(columns.get(MemberColumn.CREDIT).getName()));
+		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS)
+				.getName())));
+
+		return newMember;
 	}
 }

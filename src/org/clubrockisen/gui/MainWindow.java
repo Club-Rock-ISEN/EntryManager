@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -35,8 +38,7 @@ import javax.swing.SwingUtilities;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.entities.Member.MemberColumn;
 
 /**
  * 
@@ -116,6 +118,11 @@ public class MainWindow extends JFrame {
 	private void buildGUI () {
 		this.setTitle(translator.getProperty("app.title"));
 		this.setSize(900, 600);
+		try {
+			this.setIconImage(ImageIO.read(new File("./data/images/icon.png")));
+		} catch (final IOException e) {
+			lg.warning("Could not load icon for main window.");
+		}
 		this.setMinimumSize(new Dimension(850, 425));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -149,8 +156,12 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				daoMember.create(new Member(null, "TESTT", Gender.FEMALE, 28, 0.0, Status.HELPER_MEMBER));
-				resultListModel.add(0, daoMember.find(2));
+//				daoMember.create(new Member(null, "TESTT", Gender.FEMALE, 28, 0.0, Status.HELPER_MEMBER));
+//				resultListModel.add(0, daoMember.find(2));
+				resultListModel.clear();
+//				for (final Member currentMember : daoMember.retrieveAll()) {
+//					resultListModel.addElement(currentMember);
+//				}
 			}
 		});
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));
@@ -290,11 +301,34 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		searchBox = new JTextField();
 		searchBox.addKeyListener(new KeyListener() {
-			//TODO move key listener (should trigger search event as well)
+			//TODO move key listener in custom class ?
+			private String oldRequest = "";
+			
 			@Override
-			public void keyTyped (final KeyEvent e) {}
+			public void keyTyped (final KeyEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run () {
+						if (searchBox.getText().trim().length() == 0) {
+							resultListModel.clear();
+							oldRequest = "";
+							return;
+						}
+						if (!oldRequest.equalsIgnoreCase(searchBox.getText().trim())) {
+							oldRequest = searchBox.getText().trim();
+							final List<Member> searchResult = daoMember.search(Member.getColumns().get(MemberColumn.NAME), oldRequest);
+							resultListModel.clear();
+							for (final Member currentMember : searchResult) {
+								resultListModel.addElement(currentMember);
+							}
+						}
+					}
+				});
+			}
+			
 			@Override
 			public void keyReleased (final KeyEvent e) {}
+			
 			@Override
 			public void keyPressed (final KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -370,7 +404,7 @@ public class MainWindow extends JFrame {
 		c.gridy = 3;
 		c.gridwidth = 3;
 		c.gridheight = GridBagConstraints.REMAINDER;
-		c.weightx = 0.33;
+		c.weightx = 1.0;
 		c.weighty = 1.0;
 		c.fill = GridBagConstraints.VERTICAL;
 		c.insets = defaultInsets;
