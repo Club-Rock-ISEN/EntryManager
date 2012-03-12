@@ -93,6 +93,11 @@ public class Parameter extends Entity {
 	public Parameter () {
 		this (null, null, null);
 	}
+	
+	@Override
+	public String getID () {
+		return getName();
+	}
 
 	/**
 	 * Return the name.

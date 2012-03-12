@@ -20,7 +20,8 @@ import org.clubrockisen.entities.enums.Status;
  * @author Alex
  */
 public class MySQLMemberDAO implements DAO<Member> {
-	private static Logger		lg	= Logger.getLogger(MySQLMemberDAO.class.getName());
+	private static Logger							lg	= Logger.getLogger(MySQLMemberDAO.class
+																.getName());
 
 	private final Connection						connection;
 	private final Map<? extends Enum<?>, Column>	columns;
@@ -75,8 +76,9 @@ public class MySQLMemberDAO implements DAO<Member> {
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final ResultSet result = statement.executeQuery("SELECT * FROM member WHERE " +
-					columns.get(MemberColumn.ID).getName() + " = " + id);
+			final String query = "SELECT * FROM member WHERE " + columns.get(MemberColumn.ID).getName() + " = " + id + "";
+			lg.info(query);
+			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
 				member = createMemberFromResult(result);
 			}
@@ -84,6 +86,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while retrieving a member: " + e.getMessage());
+			return null;
 		}
 		return member;
 	}
@@ -94,8 +97,24 @@ public class MySQLMemberDAO implements DAO<Member> {
 	 */
 	@Override
 	public boolean update (final Member obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE);
+			final String query = obj.generateUpdateQuerySQL() +
+					columns.get(MemberColumn.NAME).getName() + " = '" + obj.getName() + "', " +
+					columns.get(MemberColumn.GENDER).getName() + " = '" + obj.getGender().getAbbreviation() + "', " +
+					columns.get(MemberColumn.ENTRIES).getName() + " = '" + obj.getEntries() + "', " +
+					columns.get(MemberColumn.CREDIT).getName() + " = '" + obj.getCredit() + "', " +
+					columns.get(MemberColumn.STATUS).getName() + " = '" + obj.getStatus().getName() + "'" +
+					obj.generateWhereIDQuerySQL();
+			lg.info(query);
+			statement.executeUpdate(query);
+			statement.close();
+		} catch (final Exception e) {
+			lg.warning("Exception while creating a member: " + e.getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	/*
@@ -104,8 +123,21 @@ public class MySQLMemberDAO implements DAO<Member> {
 	 */
 	@Override
 	public boolean delete (final Member obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (obj == null)
+			return true;
+		lg.fine("Deleting member " + obj.getName() + "(id:" + obj.getIdMember() + ")");
+		try {
+			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE);
+			final String query = obj.generateDeleteQuerySQL();
+			lg.info(query);
+			statement.executeUpdate(query);
+			statement.close();
+		} catch (final Exception e) {
+			lg.warning("Exception while deleting member: " + e.getMessage());
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -131,6 +163,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while retrieving all members: " + e.getMessage());
+			return allMembers;
 		}
 
 		return allMembers;
@@ -138,6 +171,9 @@ public class MySQLMemberDAO implements DAO<Member> {
 
 	@Override
 	public List<Member> search (final Column field, final String value) {
+		if (field == null || value == null)
+			return retrieveAll();
+		
 		final List<Member> members = new ArrayList<>();
 		lg.fine("Searching members");
 
@@ -160,6 +196,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while searching members: " + e.getMessage());
+			return members;
 		}
 
 		return members;
@@ -178,12 +215,10 @@ public class MySQLMemberDAO implements DAO<Member> {
 		// Setting member properties
 		newMember.setIdMember(result.getInt(columns.get(MemberColumn.ID).getName()));
 		newMember.setName(result.getString(columns.get(MemberColumn.NAME).getName()));
-		newMember.setGender(Gender.fromValue(result.getString(
-				columns.get(MemberColumn.GENDER).getName()).charAt(0)));
+		newMember.setGender(Gender.fromValue(result.getString(columns.get(MemberColumn.GENDER).getName()).charAt(0)));
 		newMember.setEntries(result.getInt(columns.get(MemberColumn.ENTRIES).getName()));
 		newMember.setCredit(result.getInt(columns.get(MemberColumn.CREDIT).getName()));
-		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS)
-				.getName())));
+		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS).getName())));
 
 		return newMember;
 	}

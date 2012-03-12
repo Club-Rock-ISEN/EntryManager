@@ -13,16 +13,17 @@ import org.clubrockisen.entities.Parameter;
  * @author Alex
  */
 public class MySQLParameterDAO implements DAO<Parameter> {
-	private static Logger	lg	= Logger.getLogger(MySQLParameterDAO.class.getName());
-	
-	private final Connection	connection;
+	private static Logger							lg	= Logger.getLogger(MySQLParameterDAO.class
+																.getName());
+
+	private final Connection						connection;
 	private final Map<? extends Enum<?>, Column>	columns;
 
 	/**
 	 * Constructor #1.<br />
 	 * @param connection the connection to the database.
 	 */
-	public MySQLParameterDAO (final Connection connection) {
+	public MySQLParameterDAO(final Connection connection) {
 		this.connection = connection;
 		lg.fine("New " + this.getClass().getCanonicalName() + ".");
 		// Initialize the columns (call to the constructor is required
@@ -30,8 +31,9 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		new Parameter();
 		columns = Parameter.getColumns();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
 	 */
 	@Override
@@ -40,7 +42,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#find(int)
 	 */
 	@Override
@@ -49,7 +52,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
 	 */
 	@Override
@@ -58,7 +62,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#delete(org.clubrockisen.entities.Entity)
 	 */
 	@Override
@@ -67,7 +72,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#retrieveAll()
 	 */
 	@Override
@@ -76,7 +82,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
 	 */
 	@Override

@@ -10,6 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.AbstractDAOFactory.DAOType;
 import org.clubrockisen.gui.MainWindow;
+import org.clubrockisen.tools.ParametersManager;
 
 /**
  * Launcher for the club rock ISEN application
@@ -45,6 +46,7 @@ public final class App {
 		try {
 			AbstractDAOFactory daoFactory;
 			daoFactory = AbstractDAOFactory.getFactory(daoType);
+			ParametersManager.create(daoFactory);
 			final MainWindow window = new MainWindow(translationFile, daoFactory);
 			window.setVisible(true);
 		} catch (final InstantiationException e) {

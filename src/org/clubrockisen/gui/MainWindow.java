@@ -7,12 +7,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -38,7 +35,8 @@ import javax.swing.SwingUtilities;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.Member.MemberColumn;
+import org.clubrockisen.entities.enums.Gender;
+import org.clubrockisen.entities.enums.Status;
 
 /**
  * 
@@ -156,12 +154,11 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-//				daoMember.create(new Member(null, "TESTT", Gender.FEMALE, 28, 0.0, Status.HELPER_MEMBER));
-//				resultListModel.add(0, daoMember.find(2));
-				resultListModel.clear();
-//				for (final Member currentMember : daoMember.retrieveAll()) {
-//					resultListModel.addElement(currentMember);
-//				}
+				daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
+				final Member tmp = daoMember.find(13739);
+				tmp.setEntries(tmp.getEntries()+1);
+				tmp.setName("SUCCESS");
+				daoMember.update(tmp);
 			}
 		});
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));
@@ -300,49 +297,6 @@ public class MainWindow extends JFrame {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = defaultInsets;
 		searchBox = new JTextField();
-		searchBox.addKeyListener(new KeyListener() {
-			//TODO move key listener in custom class ?
-			private String oldRequest = "";
-			
-			@Override
-			public void keyTyped (final KeyEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run () {
-						if (searchBox.getText().trim().length() == 0) {
-							resultListModel.clear();
-							oldRequest = "";
-							return;
-						}
-						if (!oldRequest.equalsIgnoreCase(searchBox.getText().trim())) {
-							oldRequest = searchBox.getText().trim();
-							final List<Member> searchResult = daoMember.search(Member.getColumns().get(MemberColumn.NAME), oldRequest);
-							resultListModel.clear();
-							for (final Member currentMember : searchResult) {
-								resultListModel.addElement(currentMember);
-							}
-						}
-					}
-				});
-			}
-			
-			@Override
-			public void keyReleased (final KeyEvent e) {}
-			
-			@Override
-			public void keyPressed (final KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run () {
-							lg.fine("Down arrow pressed, passing focus to result list.");
-							resultList.setSelectedIndex(0);
-							resultList.requestFocusInWindow();
-						}
-					});
-				}
-			}
-		});
 		panel.add(searchBox, c);
 
 		c = new GridBagConstraints();
@@ -357,11 +311,15 @@ public class MainWindow extends JFrame {
 		resultListModel = new DefaultListModel<Member>();
 		resultList = new JList<Member>(resultListModel);
 		final JScrollPane scrollPane = new JScrollPane(resultList);
-		scrollPane.setBorder(BorderFactory.createTitledBorder(translator.getProperty("app.mainWindow.groupBox.searchResult")));
+		scrollPane.setBorder(BorderFactory.createTitledBorder(translator
+				.getProperty("app.mainWindow.groupBox.searchResult")));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel.add(scrollPane, c);
+		
+		searchBox.addKeyListener(new SearchBoxKeyListener(searchBox, resultList, resultListModel,
+				daoMember));
 
 		c = new GridBagConstraints();
 		c.gridx = 1;
@@ -430,7 +388,8 @@ public class MainWindow extends JFrame {
 	 */
 	private JPanel buildMemberPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder(translator.getProperty("app.mainWindow.groupBox.member")));
+		pane.setBorder(BorderFactory.createTitledBorder(translator
+				.getProperty("app.mainWindow.groupBox.member")));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;

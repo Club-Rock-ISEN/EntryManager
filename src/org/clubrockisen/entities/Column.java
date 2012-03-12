@@ -11,7 +11,7 @@ public class Column {
 
 	private Class<?>		type;
 	private String			name;
-	private boolean			isIndex;
+	private boolean			isID;
 
 	/**
 	 * Constructor #1.<br />
@@ -19,15 +19,15 @@ public class Column {
 	 *            the type of the column.
 	 * @param name
 	 *            the name of the column.
-	 * @param isIndex
+	 * @param isID
 	 *            <code>true</code> if the column is an index.
 	 */
-	public Column (final Class<?> type, final String name, final boolean isIndex) {
+	public Column (final Class<?> type, final String name, final boolean isID) {
 		this.type = type;
 		this.name = name;
-		this.isIndex = isIndex;
+		this.isID = isID;
 		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: " + this.type.getName() +
-				(this.isIndex ? " index" : ""));
+				(this.isID ? " index" : ""));
 	}
 
 	/**
@@ -76,20 +76,20 @@ public class Column {
 	}
 
 	/**
-	 * Return the isIndex.
-	 * @return the isIndex.
+	 * Return the isID.
+	 * @return the isID.
 	 */
-	public boolean isIndex () {
-		return isIndex;
+	public boolean isID () {
+		return isID;
 	}
 
 	/**
-	 * Set the isIndex.
-	 * @param isIndex
-	 *            the isIndex to set.
+	 * Set the isID.
+	 * @param isID
+	 *            the isID to set.
 	 */
-	public void setIndex (final boolean isIndex) {
-		this.isIndex = isIndex;
+	public void setID (final boolean isID) {
+		this.isID = isID;
 	}
 
 }

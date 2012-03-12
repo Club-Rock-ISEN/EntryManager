@@ -106,6 +106,11 @@ public class Member extends Entity {
 		this(null, null, Gender.getDefault(), 0, 0.0, Status.getDefault());
 	}
 
+	@Override
+	public String getID () {
+		return getIdMember().toString();
+	}
+	
 	/**
 	 * Return the idMember.
 	 * @return the idMember
