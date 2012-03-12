@@ -12,9 +12,9 @@ public class Parameter extends Entity {
 	private static Logger						lg	= Logger.getLogger(Parameter.class.getName());
 
 	private static Map<ParameterColumn, Column>	columns;
-	private static String						entityName = "parameters";
+	private static String						entityName = "parameter";
 
-	private String								name;
+	private final String								name;
 	private String								value;
 	private String								type;
 
@@ -105,15 +105,6 @@ public class Parameter extends Entity {
 	 */
 	public String getName () {
 		return name;
-	}
-
-	/**
-	 * Set the name.
-	 * @param name
-	 *            the name to set.
-	 */
-	public void setName (final String name) {
-		this.name = name;
 	}
 
 	/**

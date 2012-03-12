@@ -10,6 +10,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.AbstractDAOFactory.DAOType;
 import org.clubrockisen.gui.MainWindow;
+import org.clubrockisen.tools.ParametersEnum;
 import org.clubrockisen.tools.ParametersManager;
 
 /**
@@ -40,13 +41,12 @@ public final class App {
 		}
 		lg.fine("Language locale file defined: " + translationFile);
 
-		setLookAndFeel();
-
 		final DAOType daoType = DAOType.MYSQL;
 		try {
 			AbstractDAOFactory daoFactory;
 			daoFactory = AbstractDAOFactory.getFactory(daoType);
 			ParametersManager.create(daoFactory);
+			setLookAndFeel();
 			final MainWindow window = new MainWindow(translationFile, daoFactory);
 			window.setVisible(true);
 		} catch (final InstantiationException e) {
@@ -59,7 +59,7 @@ public final class App {
 	 * Sets the look and feel of the application
 	 */
 	private static void setLookAndFeel () {
-		final String lookAndFeelName = "Nimbus"; // TODO move into parameter table
+		final String lookAndFeelName = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL).getValue();
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
 			lg.fine(laf.getName());

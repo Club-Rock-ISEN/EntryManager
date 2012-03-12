@@ -35,8 +35,11 @@ import javax.swing.SwingUtilities;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.tools.ParametersEnum;
+import org.clubrockisen.tools.ParametersManager;
 
 /**
  * 
@@ -155,10 +158,13 @@ public class MainWindow extends JFrame {
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
 				daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
-				final Member tmp = daoMember.find(13739);
+				final Member tmp = daoMember.find(13741);
 				tmp.setEntries(tmp.getEntries()+1);
 				tmp.setName("SUCCESS");
 				daoMember.update(tmp);
+				final Parameter laf = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL);
+				laf.setValue("Nimbus");
+				ParametersManager.getInstance().set(laf);
 			}
 		});
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));

@@ -64,11 +64,11 @@ public enum Status {
 			return Enum.valueOf(Status.class, name.toUpperCase());
 		} catch (final IllegalArgumentException e) {
 			for (final Status currentStatus : Status.values()) {
-				if (currentStatus.getName().compareToIgnoreCase(name) == 0) {
+				if (currentStatus.getName().equalsIgnoreCase(name)) {
 					return currentStatus;
 				}
 			}
-			throw new IllegalArgumentException("No Status with name '" + name + "'.", e);
+			throw new IllegalArgumentException("No status with name '" + name + "'.", e);
 		}
 	}
 

@@ -16,7 +16,8 @@ import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
 /**
- * TODO implement.
+ * Class used to manipulating the members in the database.<br />
+ * This class should be the only access point to the {@link Member} entity.
  * @author Alex
  */
 public class MySQLMemberDAO implements DAO<Member> {
@@ -76,7 +77,8 @@ public class MySQLMemberDAO implements DAO<Member> {
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = "SELECT * FROM member WHERE " + columns.get(MemberColumn.ID).getName() + " = " + id + "";
+			final Member m = new Member();
+			final String query = m.generateSearchAllQuery() + m.generateWhereIDQuerySQL(id);
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
@@ -84,7 +86,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			}
 			result.close();
 			statement.close();
-		} catch (final SQLException e) {
+		} catch (final Exception e) {
 			lg.warning("Exception while retrieving a member: " + e.getMessage());
 			return null;
 		}
@@ -111,7 +113,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			statement.executeUpdate(query);
 			statement.close();
 		} catch (final Exception e) {
-			lg.warning("Exception while creating a member: " + e.getMessage());
+			lg.warning("Exception while updating a member: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -149,15 +151,17 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final ResultSet result = statement.executeQuery("SELECT * FROM member");
+			final String query = new Member().generateSearchAllQuery();
+			lg.info(query);
+			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
 			while (result.next()) {
 				allMembers.add(createMemberFromResult(result));
 			}
 			final long time3 = System.currentTimeMillis();
-			lg.info("Time for request: " + (time2-time1) + " ms");
-			lg.info("Time for building list: " + (time3-time2) + " ms");
-			lg.info("Time for both: " + (time3-time1) + "ms");
+			lg.fine("Time for request: " + (time2-time1) + " ms");
+			lg.fine("Time for building list: " + (time3-time2) + " ms");
+			lg.fine("Time for both: " + (time3-time1) + "ms");
 			
 			result.close();
 			statement.close();
@@ -181,16 +185,17 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final ResultSet result = statement.executeQuery("SELECT * FROM member WHERE "
-					+ field.getName() + " LIKE '" + value + "%'");
+			final String query = new Member().generateSearchAllQuery() + " WHERE " + field.getName() + " LIKE '" + value + "%'";
+			lg.info(query);
+			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
 			while (result.next()) {
 				members.add(createMemberFromResult(result));
 			}
 			final long time3 = System.currentTimeMillis();
-			lg.info("Time for request: " + (time2 - time1) + " ms");
-			lg.info("Time for building list: " + (time3 - time2) + " ms");
-			lg.info("Time for both: " + (time3 - time1) + "ms");
+			lg.fine("Time for request: " + (time2 - time1) + " ms");
+			lg.fine("Time for building list: " + (time3 - time2) + " ms");
+			lg.fine("Time for both: " + (time3 - time1) + "ms");
 			
 			result.close();
 			statement.close();

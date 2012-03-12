@@ -71,21 +71,7 @@ public class SearchBoxKeyListener implements KeyListener {
 			@Override
 			public void run () {
 				if (e.getSource() instanceof JTextField) {
-					final JTextField source = (JTextField) e.getSource();
-					if (source.getText().trim().length() == 0) {
-						listModel.clear();
-						oldRequest = "";
-						return;
-					}
-					if (!oldRequest.equalsIgnoreCase(textBox.getText().trim())) {
-						oldRequest = source.getText().trim();
-						final List<Member> searchResult = daoMember.search(
-								Member.getColumns().get(MemberColumn.NAME), oldRequest);
-						listModel.clear();
-						for (final Member currentMember : searchResult) {
-							listModel.addElement(currentMember);
-						}
-					}
+					updateModel(e);
 				}
 			}
 		});
@@ -106,6 +92,28 @@ public class SearchBoxKeyListener implements KeyListener {
 					list.requestFocusInWindow();
 				}
 			});
+		}
+	}
+
+	/**
+	 * Update the list model with the result of the search in the field.
+	 * @param event the event to process.
+	 */
+	private void updateModel (final KeyEvent event) {
+		final JTextField source = (JTextField) event.getSource();
+		if (source.getText().trim().length() == 0) {
+			listModel.clear();
+			oldRequest = "";
+			return;
+		}
+		if (!oldRequest.equalsIgnoreCase(textBox.getText().trim())) {
+			oldRequest = source.getText().trim();
+			final List<Member> searchResult = daoMember.search(
+					Member.getColumns().get(MemberColumn.NAME), oldRequest);
+			listModel.clear();
+			for (final Member currentMember : searchResult) {
+				listModel.addElement(currentMember);
+			}
 		}
 	}
 }

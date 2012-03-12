@@ -1,15 +1,22 @@
 package org.clubrockisen.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Parameter;
+import org.clubrockisen.entities.Parameter.ParameterColumn;
+import org.clubrockisen.tools.ParametersEnum;
 
 /**
- * 
+ * Class used to manipulating the parameters in the database.<br />
+ * This class should be the only access point to the {@link Parameter} entity.
  * @author Alex
  */
 public class MySQLParameterDAO implements DAO<Parameter> {
@@ -32,23 +39,25 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		columns = Parameter.getColumns();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
+	/**
+	 * {@inheritDoc}
+	 * Not available for the {@link Parameter} entity, parameters should only be created using the
+	 * database and adding the appropriate enumeration in {@link ParametersEnum}.
 	 */
 	@Override
 	public boolean create (final Parameter obj) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#find(int)
+	/**
+	 * {@inheritDoc}
+	 * Not available for the {@link Parameter} entity, the unique ID of the parameter being a
+	 * {@link String}.
+	 * Use {@link #search(Column, String)} instead.
+	 * @see #search(Column, String)
 	 */
 	@Override
 	public Parameter find (final int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,17 +67,30 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 */
 	@Override
 	public boolean update (final Parameter obj) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE);
+			final String query = obj.generateUpdateQuerySQL() +
+					columns.get(ParameterColumn.VALUE).getName() + " = '" + obj.getValue() + "', " +
+					columns.get(ParameterColumn.TYPE).getName() + " = '" + obj.getType() + "'" +
+					obj.generateWhereIDQuerySQL();
+			lg.info(query);
+			statement.executeUpdate(query);
+			statement.close();
+		} catch (final Exception e) {
+			lg.warning("Exception while updating a parameter: " + e.getMessage());
+			return false;
+		}
+		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#delete(org.clubrockisen.entities.Entity)
+	/**
+	 * {@inheritDoc}
+	 * Not available for the {@link Parameter} entity, parameters should only be deleted using the
+	 * database and deleting the appropriate enumeration in {@link ParametersEnum}.
 	 */
 	@Override
 	public boolean delete (final Parameter obj) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -78,8 +100,33 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 */
 	@Override
 	public List<Parameter> retrieveAll () {
-		// TODO Auto-generated method stub
-		return null;
+		final List<Parameter> allParameters = new ArrayList<>();
+		lg.fine("Retrieving all parameters");
+
+		try {
+			final long time1 = System.currentTimeMillis();
+			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			final String query = new Parameter().generateSearchAllQuery();
+			lg.info(query);
+			final ResultSet result = statement.executeQuery(query);
+			final long time2 = System.currentTimeMillis();
+			while (result.next()) {
+				allParameters.add(createParameterFromResult(result));
+			}
+			final long time3 = System.currentTimeMillis();
+			lg.fine("Time for request: " + (time2-time1) + " ms");
+			lg.fine("Time for building list: " + (time3-time2) + " ms");
+			lg.fine("Time for both: " + (time3-time1) + "ms");
+			
+			result.close();
+			statement.close();
+		} catch (final SQLException e) {
+			lg.warning("Exception while retrieving all parameters: " + e.getMessage());
+			return allParameters;
+		}
+
+		return allParameters;
 	}
 
 	/*
@@ -88,7 +135,52 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 */
 	@Override
 	public List<Parameter> search (final Column field, final String value) {
-		// TODO Auto-generated method stub
-		return null;
+		if (field == null || value == null)
+			return retrieveAll();
+		
+		final List<Parameter> parameters = new ArrayList<>();
+		lg.fine("Searching members");
+
+		try {
+			final long time1 = System.currentTimeMillis();
+			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			final String query = new Parameter().generateSearchAllQuery() + " WHERE " + field.getName() + " LIKE '" + value + "%'";
+			lg.info(query);
+			final ResultSet result = statement.executeQuery(query);
+			final long time2 = System.currentTimeMillis();
+			while (result.next()) {
+				parameters.add(createParameterFromResult(result));
+			}
+			final long time3 = System.currentTimeMillis();
+			lg.fine("Time for request: " + (time2 - time1) + " ms");
+			lg.fine("Time for building list: " + (time3 - time2) + " ms");
+			lg.fine("Time for both: " + (time3 - time1) + "ms");
+			
+			result.close();
+			statement.close();
+		} catch (final SQLException e) {
+			lg.warning("Exception while searching parameters: " + e.getMessage());
+			return parameters;
+		}
+
+		return parameters;
+	}
+	
+	/**
+	 * Creates a parameter from a row of result.<br />
+	 * Do not move to the next result.
+	 * @param result the result of the query.
+	 * @return the newly created parameter.
+	 * @throws SQLException if there was a problem while reading the data from the columns.
+	 */
+	private Parameter createParameterFromResult (final ResultSet result) throws SQLException {
+		final Parameter newParameter = new Parameter(result.getString(columns.get(ParameterColumn.NAME).getName()), null, null);
+		
+		// Setting parameters properties
+		newParameter.setType(result.getString(columns.get(ParameterColumn.TYPE).getName()));
+		newParameter.setValue(result.getString(columns.get(ParameterColumn.VALUE).getName()));
+
+		return newParameter;
 	}
 }

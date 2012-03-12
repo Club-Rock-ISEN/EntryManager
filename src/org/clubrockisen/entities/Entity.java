@@ -52,8 +52,9 @@ public abstract class Entity {
 	 */
 	public Column getIDColumn () throws Exception {
 		for (final Column column : getEntityColumns().values()) {
-			if (column.isID())
+			if (column.isID()) {
 				return column;
+			}
 		}
 		throw new Exception("No ID column for entity ");
 	}
@@ -93,13 +94,13 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Generates a string with the delete statement for a SQL database.
+	 * Generates a string with the delete statement for a SQL database.<br />
 	 * <code>DELETE FROM entity WHERE idColumn = value</code>
 	 * @return the query which delete an object from the table.
 	 * @throws Exception if the query could not be generated.
 	 */
 	public String generateDeleteQuerySQL () throws Exception {
-		return "DELETE FROM " + getEntityName() + generateWhereIDQuerySQL();
+		return "DELETE FROM " + getEntityName() + generateWhereIDQuerySQL(getID());
 	}
 
 	/**
@@ -112,18 +113,39 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Generates the 'WHERE' part of a query which identifies it by its id.
+	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
 	 * <code> WHERE idColumn = value</code>
 	 * @return the WHERE clause of a query.
 	 * @throws Exception if the query could not be generated.
 	 */
 	public String generateWhereIDQuerySQL () throws Exception {
+		return generateWhereIDQuerySQL(getID());
+	}
+
+	/**
+	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
+	 * <code> WHERE idColumn = value</code>
+	 * @param id TODO
+	 * @return the WHERE clause of a query.
+	 * @throws Exception if the query could not be generated.
+	 */
+	public String generateWhereIDQuerySQL (final Object id) throws Exception {
 		final Column idColumn = getIDColumn();
 		String fieldValue = " = ";
-		if (idColumn.getType().equals(Integer.class))
-			fieldValue += getID();
-		else
-			fieldValue += "`" + getID() + "`";
+		if (idColumn.getType().equals(Integer.class)) {
+			fieldValue += id.toString();
+		} else {
+			fieldValue += "'" + id.toString() + "'";
+		}
 		return " WHERE " + getIDColumn().getName() + fieldValue;
+	}
+	
+	/**
+	 * Generates the 'SELECT *' query for the current object.<br />
+	 * <code>SELECT * FROM entity</code>
+	 * @return the SQL query for retrieving all the rows from an entity.
+	 */
+	public String generateSearchAllQuery () {
+		return "SELECT * FROM " + getEntityName();
 	}
 }

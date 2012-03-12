@@ -1,13 +1,13 @@
 package org.clubrockisen.tools;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
 import org.clubrockisen.entities.Parameter;
-import org.clubrockisen.entities.Parameter.ParameterColumn;
 
 /**
  * Manager for the parameters.<br />
@@ -15,7 +15,7 @@ import org.clubrockisen.entities.Parameter.ParameterColumn;
  * easier access and handling.
  * @author Alex
  */
-public class ParametersManager {
+public final class ParametersManager {
 	private static Logger				lg			= Logger.getLogger(ParametersManager.class
 															.getName());
 
@@ -52,11 +52,12 @@ public class ParametersManager {
 	 */
 	private void loadParameters () {
 		parameters = new EnumMap<>(ParametersEnum.class);
+		final List<Parameter> dbParameters = dao.retrieveAll();
 		
-		for (final ParametersEnum parameter : ParametersEnum.values()) {
-			final Parameter param = dao.search(Parameter.getColumns().get(ParameterColumn.NAME), parameter.getName()).get(0);
-			parameters.put(parameter, param);
+		for (final Parameter parameter : dbParameters) {
+			parameters.put(ParametersEnum.fromValue(parameter.getName()), parameter);
 		}
+		
 	}
 	
 	/**
@@ -67,5 +68,18 @@ public class ParametersManager {
 	public Parameter get (final ParametersEnum parameter) {
 		return parameters.get(parameter);
 	}
-
+	
+	/**
+	 * Update the value and/or the type of the parameter.<br />
+	 * Do not update the name of the parameter.
+	 * @param parameter the parameter to update
+	 */
+	public void set (final Parameter parameter) {
+		if (dao.update(parameter)) {
+			lg.fine("Parameter " + parameter.getName() + " updated successfully.");
+		} else {
+			lg.warning("Parameter " + parameter.getName() + " was not updated.");
+		}
+			
+	}
 }
