@@ -47,7 +47,7 @@ public class Member extends Entity {
 		if (columns != null) {
 			return;
 		}
-		columns = new EnumMap<MemberColumn, Column>(MemberColumn.class);
+		columns = new EnumMap<>(MemberColumn.class);
 		columns.put(MemberColumn.ID, new Column(Integer.class, "idMember", true));
 		columns.put(MemberColumn.NAME, new Column(String.class, "name"));
 		columns.put(MemberColumn.GENDER, new Column(Gender.class, "gender"));
@@ -87,7 +87,7 @@ public class Member extends Entity {
 	 *            the status of the member.
 	 */
 	public Member (final Integer idMember, final String name, final Gender gender,
-			final int entries, final double credit, final Status status) {
+			final Integer entries, final Double credit, final Status status) {
 		super();
 		this.idMember = idMember;
 		this.name = name;
@@ -103,7 +103,7 @@ public class Member extends Entity {
 	 * Default constructor
 	 */
 	public Member () {
-		this(null, null, Gender.getDefault(), 0, 0.0, Status.getDefault());
+		this(null, null, Gender.getDefault(), null, null, Status.getDefault());
 	}
 
 	@Override

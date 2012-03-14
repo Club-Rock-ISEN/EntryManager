@@ -3,14 +3,10 @@ package org.clubrockisen;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.AbstractDAOFactory.DAOType;
 import org.clubrockisen.gui.MainWindow;
-import org.clubrockisen.tools.ParametersEnum;
 import org.clubrockisen.tools.ParametersManager;
 
 /**
@@ -46,7 +42,6 @@ public final class App {
 			AbstractDAOFactory daoFactory;
 			daoFactory = AbstractDAOFactory.getFactory(daoType);
 			ParametersManager.create(daoFactory);
-			setLookAndFeel();
 			final MainWindow window = new MainWindow(translationFile, daoFactory);
 			window.setVisible(true);
 		} catch (final InstantiationException e) {
@@ -55,28 +50,4 @@ public final class App {
 		}
 	}
 
-	/**
-	 * Sets the look and feel of the application
-	 */
-	private static void setLookAndFeel () {
-		final String lookAndFeelName = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL).getValue();
-		boolean lookAndFeelFound = false;
-		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-			lg.fine(laf.getName());
-			if (laf.getName().equals(lookAndFeelName)) {
-				try {
-					UIManager.setLookAndFeel(laf.getClassName());
-					lookAndFeelFound = true;
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
-					lg.warning("Could not set the look and feel " + laf.getName());
-					lookAndFeelFound = false;
-				}
-			}
-		}
-		if (!lookAndFeelFound) {
-			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
-					+ ". Using default look and feel.");
-		}
-	}
 }

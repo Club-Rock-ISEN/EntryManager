@@ -31,6 +31,9 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.DAO;
@@ -42,7 +45,7 @@ import org.clubrockisen.tools.ParametersEnum;
 import org.clubrockisen.tools.ParametersManager;
 
 /**
- * 
+ * The main window of the GUI.
  * @author Alex
  */
 public class MainWindow extends JFrame {
@@ -107,10 +110,37 @@ public class MainWindow extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run () {
+				setLookAndFeel();
 				buildGUI();
 				lg.info("Building main window.");
 			}
 		});
+	}
+	
+	/**
+	 * Sets the look and feel of the application
+	 */
+	private void setLookAndFeel () {
+		final String lookAndFeelName = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL).getValue();
+		boolean lookAndFeelFound = false;
+		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
+			lg.fine(laf.getName());
+			if (laf.getName().equals(lookAndFeelName)) {
+				try {
+					UIManager.setLookAndFeel(laf.getClassName());
+					lg.fine("Look and feel properly setted (" + laf.getName() + ").");
+					lookAndFeelFound = true;
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e) {
+					lg.warning("Could not set the look and feel " + laf.getName());
+					lookAndFeelFound = false;
+				}
+			}
+		}
+		if (!lookAndFeelFound) {
+			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
+					+ ". Using default look and feel.");
+		}
 	}
 
 	/**
