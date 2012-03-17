@@ -104,13 +104,12 @@ public class MainWindow extends JFrame {
 		try {
 			translator.loadFromXML(new FileInputStream(translationFile));
 		} catch (final IOException e) {
-			lg.severe("Could not load translation file: " + translationFile + "\n" + e.getMessage());
+			lg.severe("Could not load translation file: " + translationFile + " (" + e.getMessage() + ")");
 		}
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run () {
-				setLookAndFeel();
 				buildGUI();
 				lg.info("Building main window.");
 			}
@@ -120,7 +119,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Sets the look and feel of the application
 	 */
-	private void setLookAndFeel () {
+	public static void setLookAndFeel () {
 		final String lookAndFeelName = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL).getValue();
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
@@ -160,7 +159,6 @@ public class MainWindow extends JFrame {
 		this.setResizable(true);
 		buildMenus();
 		buildMainContainer();
-
 		mainWindow = this;
 	}
 
@@ -188,7 +186,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
 				daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
-				final Member tmp = daoMember.find(13741);
+				final Member tmp = daoMember.find(1);
 				tmp.setEntries(tmp.getEntries()+1);
 				tmp.setName("SUCCESS");
 				daoMember.update(tmp);

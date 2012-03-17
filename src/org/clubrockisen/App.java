@@ -42,6 +42,11 @@ public final class App {
 			AbstractDAOFactory daoFactory;
 			daoFactory = AbstractDAOFactory.getFactory(daoType);
 			ParametersManager.create(daoFactory);
+			try {
+				MainWindow.setLookAndFeel();
+			} catch (NullPointerException e) {
+				lg.warning("Could not set look and feel (" + e.getMessage() + ")");
+			}
 			final MainWindow window = new MainWindow(translationFile, daoFactory);
 			window.setVisible(true);
 		} catch (final InstantiationException e) {
