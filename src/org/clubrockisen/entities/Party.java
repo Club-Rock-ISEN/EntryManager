@@ -12,10 +12,10 @@ import java.util.logging.Logger;
  */
 public class Party extends Entity {
 	private static Logger					lg			= Logger.getLogger(Party.class.getName());
-
+	
 	private static Map<PartyColumn, Column>	columns;
 	private static String					entityName	= "party";
-
+	
 	private Integer							idParty;
 	private Date							date;
 	private Integer							entriesTotal;
@@ -27,7 +27,7 @@ public class Party extends Entity {
 	private Integer							entriesFemale;
 	private Double							revenue;
 	private Double							profit;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getEntityName()
@@ -36,7 +36,7 @@ public class Party extends Entity {
 	public String getEntityName () {
 		return entityName;
 	}
-
+	
 	/**
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
@@ -45,15 +45,16 @@ public class Party extends Entity {
 	public enum PartyColumn {
 		ID, DATE, ENTRIES_TOTAL, ENTRIES_FIRST_PART, ENTRIES_SECOND_PART, ENTRIES_NEW_MEMBER, ENTRIES_FREE, ENTRIES_MALE, ENTRIES_FEMALE, REVENUE, PROFIT;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#setEntityColumns()
 	 */
 	@Override
 	protected void setEntityColumns () {
-		if (columns != null)
+		if (columns != null) {
 			return;
+		}
 		columns = new EnumMap<>(PartyColumn.class);
 		columns.put(PartyColumn.ID, new Column(Integer.class, "idParty", true));
 		columns.put(PartyColumn.DATE, new Column(java.sql.Date.class, "date"));
@@ -67,7 +68,7 @@ public class Party extends Entity {
 		columns.put(PartyColumn.REVENUE, new Column(Double.class, "revenue"));
 		columns.put(PartyColumn.PROFIT, new Column(Double.class, "profit"));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
@@ -76,7 +77,7 @@ public class Party extends Entity {
 	public Map<? extends Enum<?>, Column> getEntityColumns () {
 		return columns;
 	}
-
+	
 	/**
 	 * Return the list of the columns of the table party.
 	 * @return the columns.
@@ -84,7 +85,7 @@ public class Party extends Entity {
 	public static Map<? extends Enum<?>, Column> getColumns () {
 		return columns;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getID()
@@ -93,21 +94,32 @@ public class Party extends Entity {
 	public String getID () {
 		return getIdParty().toString();
 	}
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Constructor setting all the fields.
-	 * @param idParty the id of the party.
-	 * @param date the date of the party.
-	 * @param entriesTotal the total number of entries.
-	 * @param entriesFirstPart the entries during the first part.
-	 * @param entriesSecondPart the entries during the second part.
-	 * @param entriesNewMembers the entries of the new members.
-	 * @param entriesFree the entries of the free members.
-	 * @param entriesMale the entries of the male members.
-	 * @param entriesFemale the entries of the female members.
-	 * @param revenue the revenue of the party.
-	 * @param profit the profit of the party.
+	 * @param idParty
+	 *        the id of the party.
+	 * @param date
+	 *        the date of the party.
+	 * @param entriesTotal
+	 *        the total number of entries.
+	 * @param entriesFirstPart
+	 *        the entries during the first part.
+	 * @param entriesSecondPart
+	 *        the entries during the second part.
+	 * @param entriesNewMembers
+	 *        the entries of the new members.
+	 * @param entriesFree
+	 *        the entries of the free members.
+	 * @param entriesMale
+	 *        the entries of the male members.
+	 * @param entriesFemale
+	 *        the entries of the female members.
+	 * @param revenue
+	 *        the revenue of the party.
+	 * @param profit
+	 *        the profit of the party.
 	 */
 	public Party(final Integer idParty, final Date date, final Integer entriesTotal,
 			final Integer entriesFirstPart, final Integer entriesSecondPart,
@@ -125,8 +137,9 @@ public class Party extends Entity {
 		this.entriesFemale = entriesFemale;
 		this.revenue = revenue;
 		this.profit = profit;
+		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.date);
 	}
-
+	
 	/**
 	 * Constructor #2.<br />
 	 * Default constructor.
@@ -134,7 +147,7 @@ public class Party extends Entity {
 	public Party() {
 		this(null, null, null, null, null, null, null, null, null, null, null);
 	}
-
+	
 	/**
 	 * Return the idParty.
 	 * @return the idParty.
@@ -142,7 +155,7 @@ public class Party extends Entity {
 	public Integer getIdParty () {
 		return idParty;
 	}
-
+	
 	/**
 	 * Set the idParty.
 	 * @param idParty the idParty to set.
@@ -150,7 +163,7 @@ public class Party extends Entity {
 	public void setIdParty (final Integer idParty) {
 		this.idParty = idParty;
 	}
-
+	
 	/**
 	 * Return the date.
 	 * @return the date.
@@ -158,7 +171,7 @@ public class Party extends Entity {
 	public Date getDate () {
 		return date;
 	}
-
+	
 	/**
 	 * Set the date.
 	 * @param date the date to set.
@@ -166,7 +179,7 @@ public class Party extends Entity {
 	public void setDate (final Date date) {
 		this.date = date;
 	}
-
+	
 	/**
 	 * Return the entriesTotal.
 	 * @return the entriesTotal.
@@ -174,7 +187,7 @@ public class Party extends Entity {
 	public Integer getEntriesTotal () {
 		return entriesTotal;
 	}
-
+	
 	/**
 	 * Set the entriesTotal.
 	 * @param entriesTotal the entriesTotal to set.
@@ -182,7 +195,7 @@ public class Party extends Entity {
 	public void setEntriesTotal (final Integer entriesTotal) {
 		this.entriesTotal = entriesTotal;
 	}
-
+	
 	/**
 	 * Return the entriesFirstPart.
 	 * @return the entriesFirstPart.
@@ -190,7 +203,7 @@ public class Party extends Entity {
 	public Integer getEntriesFirstPart () {
 		return entriesFirstPart;
 	}
-
+	
 	/**
 	 * Set the entriesFirstPart.
 	 * @param entriesFirstPart the entriesFirstPart to set.
@@ -198,7 +211,7 @@ public class Party extends Entity {
 	public void setEntriesFirstPart (final Integer entriesFirstPart) {
 		this.entriesFirstPart = entriesFirstPart;
 	}
-
+	
 	/**
 	 * Return the entriesSecondPart.
 	 * @return the entriesSecondPart.
@@ -206,7 +219,7 @@ public class Party extends Entity {
 	public Integer getEntriesSecondPart () {
 		return entriesSecondPart;
 	}
-
+	
 	/**
 	 * Set the entriesSecondPart.
 	 * @param entriesSecondPart the entriesSecondPart to set.
@@ -214,7 +227,7 @@ public class Party extends Entity {
 	public void setEntriesSecondPart (final Integer entriesSecondPart) {
 		this.entriesSecondPart = entriesSecondPart;
 	}
-
+	
 	/**
 	 * Return the entriesNewMembers.
 	 * @return the entriesNewMembers.
@@ -222,7 +235,7 @@ public class Party extends Entity {
 	public Integer getEntriesNewMembers () {
 		return entriesNewMembers;
 	}
-
+	
 	/**
 	 * Set the entriesNewMembers.
 	 * @param entriesNewMembers the entriesNewMembers to set.
@@ -230,7 +243,7 @@ public class Party extends Entity {
 	public void setEntriesNewMembers (final Integer entriesNewMembers) {
 		this.entriesNewMembers = entriesNewMembers;
 	}
-
+	
 	/**
 	 * Return the entriesFree.
 	 * @return the entriesFree.
@@ -238,7 +251,7 @@ public class Party extends Entity {
 	public Integer getEntriesFree () {
 		return entriesFree;
 	}
-
+	
 	/**
 	 * Set the entriesFree.
 	 * @param entriesFree the entriesFree to set.
@@ -246,7 +259,7 @@ public class Party extends Entity {
 	public void setEntriesFree (final Integer entriesFree) {
 		this.entriesFree = entriesFree;
 	}
-
+	
 	/**
 	 * Return the entriesMale.
 	 * @return the entriesMale.
@@ -254,7 +267,7 @@ public class Party extends Entity {
 	public Integer getEntriesMale () {
 		return entriesMale;
 	}
-
+	
 	/**
 	 * Set the entriesMale.
 	 * @param entriesMale the entriesMale to set.
@@ -262,7 +275,7 @@ public class Party extends Entity {
 	public void setEntriesMale (final Integer entriesMale) {
 		this.entriesMale = entriesMale;
 	}
-
+	
 	/**
 	 * Return the entriesFemale.
 	 * @return the entriesFemale.
@@ -270,7 +283,7 @@ public class Party extends Entity {
 	public Integer getEntriesFemale () {
 		return entriesFemale;
 	}
-
+	
 	/**
 	 * Set the entriesFemale.
 	 * @param entriesFemale the entriesFemale to set.
@@ -278,7 +291,7 @@ public class Party extends Entity {
 	public void setEntriesFemale (final Integer entriesFemale) {
 		this.entriesFemale = entriesFemale;
 	}
-
+	
 	/**
 	 * Return the revenue.
 	 * @return the revenue.
@@ -286,7 +299,7 @@ public class Party extends Entity {
 	public Double getRevenue () {
 		return revenue;
 	}
-
+	
 	/**
 	 * Set the revenue.
 	 * @param revenue the revenue to set.
@@ -294,7 +307,7 @@ public class Party extends Entity {
 	public void setRevenue (final Double revenue) {
 		this.revenue = revenue;
 	}
-
+	
 	/**
 	 * Return the profit.
 	 * @return the profit.
@@ -302,7 +315,7 @@ public class Party extends Entity {
 	public Double getProfit () {
 		return profit;
 	}
-
+	
 	/**
 	 * Set the profit.
 	 * @param profit the profit to set.
@@ -310,7 +323,7 @@ public class Party extends Entity {
 	public void setProfit (final Double profit) {
 		this.profit = profit;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -318,5 +331,5 @@ public class Party extends Entity {
 	public String toString () {
 		return new SimpleDateFormat("EEEE d MMMM yyyy").format(getDate());
 	}
-
+	
 }

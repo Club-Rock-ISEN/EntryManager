@@ -5,12 +5,16 @@ import java.sql.Connection;
 import org.clubrockisen.connection.MySQLConnection;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
+import org.clubrockisen.entities.Party;
 
 /**
  * The factory for the MySQL DAO classes.
  * @author Alex
  */
 public class MySQLDAOFactory extends AbstractDAOFactory {
+	/**
+	 * The connection to the MySQL database.
+	 */
 	protected static final Connection	CONNECTION	= MySQLConnection.getInstance();
 
 	/*
@@ -29,5 +33,14 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	@Override
 	public DAO<Parameter> getParameterDAO () {
 		return new MySQLParameterDAO(CONNECTION);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.AbstractDAOFactory#getPartyDAO()
+	 */
+	@Override
+	public DAO<Party> getPartyDAO() {
+		return new MySQLPartyDAO(CONNECTION);
 	}
 }

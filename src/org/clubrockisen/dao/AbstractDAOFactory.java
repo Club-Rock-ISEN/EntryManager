@@ -4,16 +4,17 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
+import org.clubrockisen.entities.Party;
 
 /**
- * The abstract factory for the DAO.
+ * The abstract factory for the {@link DAO}.
  * @author Alex
  */
 public abstract class AbstractDAOFactory {
 	private static Logger	lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
 
 	/**
-	 * The enumeration for the DAO types.
+	 * The enumeration for the {@link DAO} types.
 	 * @author Alex
 	 */
 	public enum DAOType {
@@ -24,16 +25,22 @@ public abstract class AbstractDAOFactory {
 	}
 
 	/**
-	 * Retrieve a DAO for the member class.
+	 * Retrieve a {@link DAO} for the {@link Parameter} class.
+	 * @return the DAO for the parameter class.
+	 */
+	public abstract DAO<Parameter> getParameterDAO ();
+
+	/**
+	 * Retrieve a {@link DAO} for the {@link Member} class.
 	 * @return the DAO for the member class.
 	 */
 	public abstract DAO<Member> getMemberDAO ();
 	
 	/**
-	 * Retrieve a DAO for the parameter class.
-	 * @return the DAO for the parameter class.
+	 * Retrieve a {@link DAO} for the {@link Party} class.
+	 * @return the DAO for the party class.
 	 */
-	public abstract DAO<Parameter> getParameterDAO ();
+	public abstract DAO<Party> getPartyDAO ();
 
 	/**
 	 * Retrieve and create the appropriate factory.

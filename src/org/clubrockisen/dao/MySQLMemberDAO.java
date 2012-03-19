@@ -17,16 +17,16 @@ import org.clubrockisen.entities.enums.Status;
 
 /**
  * Class used to manipulating the members in the database.<br />
- * This class should be the only access point to the {@link Member} entity.
+ * This class should be the only access point to the {@link Member} table in the database.
  * @author Alex
  */
 public class MySQLMemberDAO implements DAO<Member> {
 	private static Logger							lg	= Logger.getLogger(MySQLMemberDAO.class
-																.getName());
-
+			.getName());
+	
 	private final Connection						connection;
 	private final Map<? extends Enum<?>, Column>	columns;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * @param connection
@@ -37,16 +37,19 @@ public class MySQLMemberDAO implements DAO<Member> {
 		lg.fine("New " + this.getClass().getCanonicalName() + ".");
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
-		new Member();
-		columns = Member.getColumns();
+		columns = new Member().getEntityColumns();
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#create(java.lang.Object)
 	 */
 	@Override
 	public boolean create (final Member obj) {
+		if (obj == null) {
+			return false;
+		}
+		lg.fine("Creating the member " + obj.getName());
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
@@ -65,7 +68,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 		}
 		return true;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#find(int)
@@ -73,7 +76,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 	@Override
 	public Member find (final int id) {
 		Member member = null;
-		lg.fine("finding the member with id = " + id);
+		lg.fine("Finding the member with id = " + id);
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
@@ -92,13 +95,17 @@ public class MySQLMemberDAO implements DAO<Member> {
 		}
 		return member;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#update(java.lang.Object)
 	 */
 	@Override
 	public boolean update (final Member obj) {
+		if (obj == null) {
+			return false;
+		}
+		lg.fine("Updating the member with id = " + obj.getIdMember());
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
@@ -118,16 +125,17 @@ public class MySQLMemberDAO implements DAO<Member> {
 		}
 		return true;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.DAO#delete(java.lang.Object)
 	 */
 	@Override
 	public boolean delete (final Member obj) {
-		if (obj == null)
+		if (obj == null) {
 			return true;
-		lg.fine("Deleting member " + obj.getName() + "(id:" + obj.getIdMember() + ")");
+		}
+		lg.fine("Deleting member " + obj.getName() + "(id: " + obj.getIdMember() + ")");
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
@@ -141,12 +149,12 @@ public class MySQLMemberDAO implements DAO<Member> {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public List<Member> retrieveAll () {
 		final List<Member> allMembers = new ArrayList<>();
 		lg.fine("Retrieving all members");
-
+		
 		try {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -169,23 +177,25 @@ public class MySQLMemberDAO implements DAO<Member> {
 			lg.warning("Exception while retrieving all members: " + e.getMessage());
 			return allMembers;
 		}
-
+		
 		return allMembers;
 	}
-
+	
 	@Override
 	public List<Member> search (final Column field, final String value) {
-		if (field == null || value == null)
+		if (field == null || value == null) {
 			return retrieveAll();
+		}
 		
 		final List<Member> members = new ArrayList<>();
-		lg.fine("Searching members");
-
+		lg.fine("Searching members with " + field.getName() + " = " + value);
+		
 		try {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Member().generateSearchAllQuery() + " WHERE " + field.getName() + " LIKE '" + value + "%'";
+			final String query = new Member().generateSearchAllQuery() + " WHERE " + field.getName() +
+					" LIKE '" + value + "%'";
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
@@ -203,16 +213,18 @@ public class MySQLMemberDAO implements DAO<Member> {
 			lg.warning("Exception while searching members: " + e.getMessage());
 			return members;
 		}
-
+		
 		return members;
 	}
 	
 	/**
 	 * Creates a member from a row of result.<br />
 	 * Do not move to the next result.
-	 * @param result the result of the query.
+	 * @param result
+	 *        the result of the query.
 	 * @return the newly created member.
-	 * @throws SQLException if there was a problem while reading the data from the columns.
+	 * @throws SQLException
+	 *         if there was a problem while reading the data from the columns.
 	 */
 	private Member createMemberFromResult (final ResultSet result) throws SQLException {
 		final Member newMember = new Member();
@@ -222,9 +234,9 @@ public class MySQLMemberDAO implements DAO<Member> {
 		newMember.setName(result.getString(columns.get(MemberColumn.NAME).getName()));
 		newMember.setGender(Gender.fromValue(result.getString(columns.get(MemberColumn.GENDER).getName()).charAt(0)));
 		newMember.setEntries(result.getInt(columns.get(MemberColumn.ENTRIES).getName()));
-		newMember.setCredit(result.getInt(columns.get(MemberColumn.CREDIT).getName()));
+		newMember.setCredit(result.getDouble(columns.get(MemberColumn.CREDIT).getName()));
 		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS).getName())));
-
+		
 		return newMember;
 	}
 }
