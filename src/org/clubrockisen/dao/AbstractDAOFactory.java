@@ -2,6 +2,7 @@ package org.clubrockisen.dao;
 
 import java.util.logging.Logger;
 
+import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
@@ -12,7 +13,7 @@ import org.clubrockisen.entities.Party;
  */
 public abstract class AbstractDAOFactory {
 	private static Logger	lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
-
+	
 	/**
 	 * The enumeration for the {@link DAO} types.
 	 * @author Alex
@@ -23,13 +24,13 @@ public abstract class AbstractDAOFactory {
 		 */
 		MYSQL
 	}
-
+	
 	/**
 	 * Retrieve a {@link DAO} for the {@link Parameter} class.
 	 * @return the DAO for the parameter class.
 	 */
 	public abstract DAO<Parameter> getParameterDAO ();
-
+	
 	/**
 	 * Retrieve a {@link DAO} for the {@link Member} class.
 	 * @return the DAO for the member class.
@@ -41,7 +42,13 @@ public abstract class AbstractDAOFactory {
 	 * @return the DAO for the party class.
 	 */
 	public abstract DAO<Party> getPartyDAO ();
-
+	
+	/**
+	 * Retrieve a {@link DAO} for the {@link EntryMemberParty} class.
+	 * @return the DAO for the entries class.
+	 */
+	public abstract DAO<EntryMemberParty> getEntryMemberPartyDAO();
+	
 	/**
 	 * Retrieve and create the appropriate factory.
 	 * @param type

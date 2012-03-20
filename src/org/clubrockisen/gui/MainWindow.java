@@ -41,8 +41,8 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.tools.ParametersEnum;
-import org.clubrockisen.tools.ParametersManager;
+import org.clubrockisen.services.ParametersEnum;
+import org.clubrockisen.services.ParametersManager;
 
 /**
  * The main window of the GUI.

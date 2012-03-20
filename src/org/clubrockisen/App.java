@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import org.clubrockisen.dao.AbstractDAOFactory;
 import org.clubrockisen.dao.AbstractDAOFactory.DAOType;
 import org.clubrockisen.gui.MainWindow;
-import org.clubrockisen.tools.ParametersManager;
+import org.clubrockisen.services.ParametersManager;
 
 /**
  * Launcher for the club rock ISEN application

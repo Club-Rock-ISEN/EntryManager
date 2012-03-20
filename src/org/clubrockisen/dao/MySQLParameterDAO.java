@@ -44,8 +44,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 * database and adding the appropriate enumeration in {@link ParametersEnum}.
 	 */
 	@Override
-	public boolean create (final Parameter obj) {
-		return false;
+	public Parameter create (final Parameter obj) {
+		return null;
 	}
 	
 	/**

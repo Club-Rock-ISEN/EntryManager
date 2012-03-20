@@ -3,16 +3,18 @@ package org.clubrockisen.entities;
 import java.util.logging.Logger;
 
 /**
- * 
+ * Class representing a column in a entity.<br />
+ * It is defined by a name and a type. The column should be load once and for all to avoid unnecessary
+ * duplicates.
  * @author Alex
  */
 public class Column {
 	private static Logger	lg	= Logger.getLogger(Column.class.getName());
-
+	
 	private Class<?>		type;
 	private String			name;
 	private boolean			isID;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * @param type
@@ -29,7 +31,7 @@ public class Column {
 		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: " + this.type.getName() +
 				(this.isID ? " index" : ""));
 	}
-
+	
 	/**
 	 * Constructor #2.<br />
 	 * @param type
@@ -40,7 +42,7 @@ public class Column {
 	public Column (final Class<?> type, final String name) {
 		this(type, name, false);
 	}
-
+	
 	/**
 	 * Return the type.
 	 * @return the type
@@ -48,7 +50,7 @@ public class Column {
 	public Class<?> getType () {
 		return type;
 	}
-
+	
 	/**
 	 * Set the type.
 	 * @param type
@@ -57,7 +59,7 @@ public class Column {
 	public void setType (final Class<?> type) {
 		this.type = type;
 	}
-
+	
 	/**
 	 * Return the name.
 	 * @return the name.
@@ -65,7 +67,7 @@ public class Column {
 	public String getName () {
 		return name;
 	}
-
+	
 	/**
 	 * Set the name.
 	 * @param name
@@ -74,7 +76,7 @@ public class Column {
 	public void setName (final String name) {
 		this.name = name;
 	}
-
+	
 	/**
 	 * Return the isID.
 	 * @return the isID.
@@ -82,7 +84,7 @@ public class Column {
 	public boolean isID () {
 		return isID;
 	}
-
+	
 	/**
 	 * Set the isID.
 	 * @param isID
@@ -91,5 +93,5 @@ public class Column {
 	public void setID (final boolean isID) {
 		this.isID = isID;
 	}
-
+	
 }

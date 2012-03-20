@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  */
 public abstract class Entity {
 	private static Logger	lg	= Logger.getLogger(Entity.class.getName());
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Unique constructor of the class. Ensure to call the {@link #setEntityColumns()} method.
@@ -20,30 +20,30 @@ public abstract class Entity {
 			setEntityColumns();
 		}
 	}
-
+	
 	/**
 	 * Return the name of the represented entity.
 	 * @return the name of the represented entity.
 	 */
 	public abstract String getEntityName ();
-
+	
 	/**
 	 * Method that creates the columns (or fields) of the entity that is represent.
 	 */
 	protected abstract void setEntityColumns ();
-
+	
 	/**
 	 * Return the list of the columns of the table.
 	 * @return the list of the columns.
 	 */
 	public abstract Map<? extends Enum<?>, Column> getEntityColumns ();
-
+	
 	/**
 	 * Return the id field (as a {@link String}) of the entity.
 	 * @return the id of the object.
 	 */
 	public abstract String getID ();
-
+	
 	/**
 	 * Return the id {@link Column} of the entity.
 	 * @return the {@link Column} which is defined as the unique (and identifying) column of the
@@ -58,7 +58,7 @@ public abstract class Entity {
 		}
 		throw new Exception("No ID column for entity ");
 	}
-
+	
 	/**
 	 * Generates the beginning of the insert query in SQL syntax:<br />
 	 * <code>INSERT INTO (<i>column names</i>) VALUES</code>
@@ -69,7 +69,7 @@ public abstract class Entity {
 	public String generateInsertQuerySQL () {
 		return generateInsertQuerySQL(true);
 	}
-
+	
 	/**
 	 * Generates the beginning of the insert query in SQL syntax:<br />
 	 * <code>INSERT INTO (<i>column names</i>) VALUES</code><br />
@@ -82,17 +82,17 @@ public abstract class Entity {
 	 */
 	public String generateInsertQuerySQL (final boolean putID) {
 		String query = "";
-
+		
 		for (final Column currentColumn : getEntityColumns().values()) {
 			if (!putID && currentColumn.isID()) {
 				continue;
 			}
 			query += (query.isEmpty() ? "" : ",") + "`" + currentColumn.getName() + "`";
 		}
-
+		
 		return "INSERT INTO " + getEntityName() + "(" + query + ") VALUES ";
 	}
-
+	
 	/**
 	 * Generates a string with the delete statement for a SQL database.<br />
 	 * <code>DELETE FROM entity WHERE idColumn = value</code>
@@ -102,7 +102,7 @@ public abstract class Entity {
 	public String generateDeleteQuerySQL () throws Exception {
 		return "DELETE FROM " + getEntityName() + generateWhereIDQuerySQL(getID());
 	}
-
+	
 	/**
 	 * Generates the beginning of the update query of the entity.
 	 * <code>UPDATE entity SET </code>
@@ -121,18 +121,18 @@ public abstract class Entity {
 	public String generateWhereIDQuerySQL () throws Exception {
 		return generateWhereIDQuerySQL(getID());
 	}
-
+	
 	/**
 	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
 	 * <code> WHERE idColumn = value</code>
-	 * @param id TODO
+	 * @param id the id of the object to find.
 	 * @return the WHERE clause of a query.
 	 * @throws Exception if the query could not be generated.
 	 */
 	public String generateWhereIDQuerySQL (final Object id) throws Exception {
 		final Column idColumn = getIDColumn();
 		String fieldValue = " = ";
-		if (idColumn.getType().equals(Integer.class)) {
+		if (idColumn.getType().getSuperclass().equals(Number.class)) {
 			fieldValue += id.toString();
 		} else {
 			fieldValue += "'" + id.toString() + "'";

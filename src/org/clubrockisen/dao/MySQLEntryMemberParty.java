@@ -10,19 +10,16 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Column;
-import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.Member.MemberColumn;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.entities.EntryMemberParty;
+import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
 
 /**
- * Class used to manipulating the members in the database.<br />
- * This class should be the only access point to the {@link Member} table in the database.
+ * Class used to manipulating the entries of the members in the database.<br />
+ * This class should be the only access point to the {@link EntryMemberParty} table in the database.
  * @author Alex
  */
-public class MySQLMemberDAO implements DAO<Member> {
-	private static Logger							lg	= Logger.getLogger(MySQLMemberDAO.class
-			.getName());
+public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
+	private static Logger	lg	= Logger.getLogger(MySQLEntryMemberParty.class.getName());
 	
 	private final Connection						connection;
 	private final Map<? extends Enum<?>, Column>	columns;
@@ -30,42 +27,40 @@ public class MySQLMemberDAO implements DAO<Member> {
 	/**
 	 * Constructor #1.<br />
 	 * @param connection
-	 *            the connection to the database.
+	 *        the connection to the database.
 	 */
-	public MySQLMemberDAO(final Connection connection) {
+	public MySQLEntryMemberParty (final Connection connection) {
 		this.connection = connection;
 		lg.fine("New " + this.getClass().getCanonicalName() + ".");
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
-		columns = new Member().getEntityColumns();
+		columns = new EntryMemberParty().getEntityColumns();
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(java.lang.Object)
+	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public Member create (final Member obj) {
+	public EntryMemberParty create (final EntryMemberParty obj) {
 		if (obj == null) {
 			return null;
 		}
 		
-		Member newMember = null;
-		lg.fine("Creating the member " + obj.getName());
+		EntryMemberParty newEntry = null;
+		lg.fine("Creating the entry for member " + obj.getIdMember() + " at party " + obj.getIdParty());
+		
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
 			final String query = obj.generateInsertQuerySQL(false) + " ("
-					+ "'" + obj.getName() + "',"
-					+ "'" + obj.getGender().getAbbreviation() + "',"
-					+ "'" + obj.getEntries() + "',"
-					+ "'" + obj.getCredit() + "',"
-					+ "'" + obj.getStatus().getName() + "');";
+					+ "'" + obj.getIdMember() + "',"
+					+ "'" + obj.getIdParty() + "');";
 			lg.info(query);
 			statement.executeUpdate(query);
 			final ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
-				newMember = find(resultSet.getInt(1));
+				newEntry = find(resultSet.getInt(1));
 			} else {
 				throw new SQLException("could not retrieve last inserted id.");
 			}
@@ -74,7 +69,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			lg.warning("Exception while creating a member: " + e.getMessage());
 			return null;
 		}
-		return newMember;
+		return newEntry;
 	}
 	
 	/*
@@ -82,18 +77,18 @@ public class MySQLMemberDAO implements DAO<Member> {
 	 * @see org.clubrockisen.dao.DAO#find(int)
 	 */
 	@Override
-	public Member find (final int id) {
-		Member member = null;
+	public EntryMemberParty find (final int id) {
+		EntryMemberParty entry = null;
 		lg.fine("Finding the member with id = " + id);
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final Member m = new Member();
-			final String query = m.generateSearchAllQuery() + m.generateWhereIDQuerySQL(id);
+			final EntryMemberParty e = new EntryMemberParty();
+			final String query = e.generateSearchAllQuery() + e.generateWhereIDQuerySQL(id);
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
-				member = createMemberFromResult(result);
+				entry = createEntryMemberPartyformResult(result);
 			}
 			result.close();
 			statement.close();
@@ -101,34 +96,31 @@ public class MySQLMemberDAO implements DAO<Member> {
 			lg.warning("Exception while retrieving a member: " + e.getMessage());
 			return null;
 		}
-		return member;
+		return entry;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(java.lang.Object)
+	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean update (final Member obj) {
+	public boolean update (final EntryMemberParty obj) {
 		if (obj == null) {
 			return false;
 		}
-		lg.fine("Updating the member with id = " + obj.getIdMember());
+		lg.fine("Updating the entry with id = " + obj.getIdEntryMemberParty());
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
 			final String query = obj.generateUpdateQuerySQL() +
-					columns.get(MemberColumn.NAME).getName() + " = '" + obj.getName() + "', " +
-					columns.get(MemberColumn.GENDER).getName() + " = '" + obj.getGender().getAbbreviation() + "', " +
-					columns.get(MemberColumn.ENTRIES).getName() + " = '" + obj.getEntries() + "', " +
-					columns.get(MemberColumn.CREDIT).getName() + " = '" + obj.getCredit() + "', " +
-					columns.get(MemberColumn.STATUS).getName() + " = '" + obj.getStatus().getName() + "'" +
+					columns.get(EntryMemberColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
+					columns.get(EntryMemberColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
 					obj.generateWhereIDQuerySQL();
 			lg.info(query);
 			statement.executeUpdate(query);
 			statement.close();
 		} catch (final Exception e) {
-			lg.warning("Exception while updating a member: " + e.getMessage());
+			lg.warning("Exception while updating an entry: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -136,14 +128,14 @@ public class MySQLMemberDAO implements DAO<Member> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#delete(java.lang.Object)
+	 * @see org.clubrockisen.dao.DAO#delete(org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean delete (final Member obj) {
+	public boolean delete (final EntryMemberParty obj) {
 		if (obj == null) {
 			return true;
 		}
-		lg.fine("Deleting member " + obj.getName() + "(id: " + obj.getIdMember() + ")");
+		lg.fine("Deleting entry " + obj.getIdEntryMemberParty());
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
@@ -152,27 +144,31 @@ public class MySQLMemberDAO implements DAO<Member> {
 			statement.executeUpdate(query);
 			statement.close();
 		} catch (final Exception e) {
-			lg.warning("Exception while deleting member: " + e.getMessage());
+			lg.warning("Exception while deleting entry: " + e.getMessage());
 			return false;
 		}
 		return true;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.DAO#retrieveAll()
+	 */
 	@Override
-	public List<Member> retrieveAll () {
-		final List<Member> allMembers = new ArrayList<>();
+	public List<EntryMemberParty> retrieveAll () {
+		final List<EntryMemberParty> allEntries = new ArrayList<>();
 		lg.fine("Retrieving all members");
 		
 		try {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Member().generateSearchAllQuery();
+			final String query = new EntryMemberParty().generateSearchAllQuery();
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
 			while (result.next()) {
-				allMembers.add(createMemberFromResult(result));
+				allEntries.add(createEntryMemberPartyformResult(result));
 			}
 			final long time3 = System.currentTimeMillis();
 			lg.fine("Time for request: " + (time2-time1) + " ms");
@@ -182,27 +178,31 @@ public class MySQLMemberDAO implements DAO<Member> {
 			result.close();
 			statement.close();
 		} catch (final SQLException e) {
-			lg.warning("Exception while retrieving all members: " + e.getMessage());
-			return allMembers;
+			lg.warning("Exception while retrieving all entries: " + e.getMessage());
+			return allEntries;
 		}
 		
-		return allMembers;
+		return allEntries;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
+	 */
 	@Override
-	public List<Member> search (final Column field, final String value) {
+	public List<EntryMemberParty> search (final Column field, final String value) {
 		if (field == null || value == null) {
 			return retrieveAll();
 		}
 		
-		final List<Member> members = new ArrayList<>();
-		lg.fine("Searching members with " + field.getName() + " = " + value);
+		final List<EntryMemberParty> entries = new ArrayList<>();
+		lg.fine("Searching entries with " + field.getName() + " = " + value);
 		
 		try {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			String query = new Member().generateSearchAllQuery() + " WHERE " + field.getName();
+			String query = new EntryMemberParty().generateSearchAllQuery() + " WHERE " + field.getName();
 			if (field.getType().equals(String.class)) {
 				query += " LIKE '" + value + "%'";
 			} else if (field.getType().getSuperclass().equals(Number.class)) {
@@ -214,7 +214,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
 			while (result.next()) {
-				members.add(createMemberFromResult(result));
+				entries.add(createEntryMemberPartyformResult(result));
 			}
 			final long time3 = System.currentTimeMillis();
 			lg.fine("Time for request: " + (time2 - time1) + " ms");
@@ -224,33 +224,31 @@ public class MySQLMemberDAO implements DAO<Member> {
 			result.close();
 			statement.close();
 		} catch (final SQLException e) {
-			lg.warning("Exception while searching members: " + e.getMessage());
-			return members;
+			lg.warning("Exception while searching entries: " + e.getMessage());
+			return entries;
 		}
 		
-		return members;
+		return entries;
 	}
 	
 	/**
-	 * Creates a member from a row of result.<br />
+	 * Creates an entry from a row of result.<br />
 	 * Do not move to the next result.
 	 * @param result
 	 *        the result of the query.
-	 * @return the newly created member.
+	 * @return the newly created entry.
 	 * @throws SQLException
 	 *         if there was a problem while reading the data from the columns.
 	 */
-	private Member createMemberFromResult (final ResultSet result) throws SQLException {
-		final Member newMember = new Member();
+	private EntryMemberParty createEntryMemberPartyformResult (final ResultSet result) throws SQLException {
+		final EntryMemberParty newEntry = new EntryMemberParty();
 		
-		// Setting member properties
-		newMember.setIdMember(result.getInt(columns.get(MemberColumn.ID).getName()));
-		newMember.setName(result.getString(columns.get(MemberColumn.NAME).getName()));
-		newMember.setGender(Gender.fromValue(result.getString(columns.get(MemberColumn.GENDER).getName()).charAt(0)));
-		newMember.setEntries(result.getInt(columns.get(MemberColumn.ENTRIES).getName()));
-		newMember.setCredit(result.getDouble(columns.get(MemberColumn.CREDIT).getName()));
-		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS).getName())));
+		// Setting entry properties
+		newEntry.setIdEntryMemberParty(result.getInt(columns.get(EntryMemberColumn.ID).getName()));
+		newEntry.setIdMember(result.getInt(columns.get(EntryMemberColumn.MEMBER_ID).getName()));
+		newEntry.setIdParty(result.getInt(columns.get(EntryMemberColumn.PARTY_ID).getName()));
 		
-		return newMember;
+		return newEntry;
 	}
+	
 }

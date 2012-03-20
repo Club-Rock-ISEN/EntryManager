@@ -46,10 +46,13 @@ public class MySQLPartyDAO implements DAO<Party> {
 	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean create (final Party obj) {
+	public Party create (final Party obj) {
 		if (obj == null) {
-			return false;
+			return null;
 		}
+		
+		Party newParty = null;
+		lg.fine("Creating the party " + obj.getDate());
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 					ResultSet.CONCUR_UPDATABLE);
@@ -66,12 +69,18 @@ public class MySQLPartyDAO implements DAO<Party> {
 					+ "'" + obj.getProfit() + "');";
 			lg.info(query);
 			statement.executeUpdate(query);
+			final ResultSet resultSet = statement.getGeneratedKeys();
+			if (resultSet.next()) {
+				newParty = find(resultSet.getInt(1));
+			} else {
+				throw new SQLException("could not retrieve last inserted id.");
+			}
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while creating a party: " + e.getMessage());
-			return false;
+			return null;
 		}
-		return true;
+		return newParty;
 	}
 	
 	/*
@@ -225,7 +234,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			final long time3 = System.currentTimeMillis();
 			lg.fine("Time for request: " + (time2 - time1) + " ms");
 			lg.fine("Time for building list: " + (time3 - time2) + " ms");
-			lg.fine("Time for both: " + (time3 - time1) + "ms");
+			lg.fine("Time for both: " + (time3 - time1) + " ms");
 			
 			result.close();
 			statement.close();
