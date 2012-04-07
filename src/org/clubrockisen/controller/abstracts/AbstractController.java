@@ -1,0 +1,111 @@
+package org.clubrockisen.controller.abstracts;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import org.clubrockisen.model.AbstractModel;
+import org.clubrockisen.view.abstracts.AbstractView;
+
+/**
+ * Abstract class which defines the default behavior for generic controllers.<br />
+ * Allows to register several {@link AbstractView views} and {@link AbstractModel models}, the
+ * controller is in charge of the communications between the views and the model that they display.
+ * @author Alex
+ */
+public class AbstractController implements PropertyChangeListener {
+	private static Logger				lg	= Logger.getLogger(AbstractController.class.getName());
+	
+	private final List<AbstractModel>	registeredModels;
+	private final List<AbstractView>	registeredViews;
+	
+	/**
+	 * Constructor #1.<br />
+	 * Default constructor.
+	 */
+	public AbstractController () {
+		registeredModels = new ArrayList<>();
+		registeredViews = new ArrayList<>();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange (final PropertyChangeEvent evt) {
+		lg.info("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
+				+ " (" + evt.getOldValue() + ")");
+		for (final AbstractView view : registeredViews) {
+			view.modelPropertyChange(evt);
+		}
+	}
+	
+	/**
+	 * Add a model and subscribe to its modifications.
+	 * @param model
+	 *        the model to add to the controller.
+	 */
+	public void addModel (final AbstractModel model) {
+		registeredModels.add(model);
+		model.addModelChangeListener(this);
+	}
+	
+	/**
+	 * Remove a model and unsubscribe to its modifications.
+	 * @param model
+	 *        the model to remove.
+	 */
+	public void removeModel (final AbstractModel model) {
+		registeredModels.remove(model);
+		model.removeModelListener(this);
+	}
+	
+	/**
+	 * Add a view to notify on models changes.
+	 * @param view
+	 *        the view to notify.
+	 */
+	public void addView (final AbstractView view) {
+		registeredViews.add(view);
+	}
+	
+	/**
+	 * Remove a view from the controller and thus will not receive any future property changes.
+	 * @param view
+	 *        the view to remove from future notifications.
+	 */
+	public void removeView (final AbstractView view) {
+		registeredViews.remove(view);
+	}
+	
+	/**
+	 * Utility method for setting property on models
+	 * @param propertyName
+	 *        the name of the property to update (used in the setter).
+	 * @param newValue
+	 *        the value to set, of the appropriate class.
+	 */
+	protected void setModelProperty (final String propertyName, final Object newValue) {
+		for (final AbstractModel model : registeredModels) {
+			try {
+				final Method method = model.getClass().getMethod("set" + propertyName,
+						new Class[] { newValue.getClass() });
+				method.invoke(model, newValue);
+			} catch (SecurityException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+				lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
+						+ " for property " + propertyName + " (" + e.getMessage() + ")");
+			} catch (final NoSuchMethodException e) {
+				// This is a "normal" exception (model has not the property to update)
+				lg.info("Model " + model.getClass().getSimpleName()
+						+ " has no setter for property " + propertyName + " (" + e.getMessage()
+						+ ")");
+			}
+		}
+	}
+}
