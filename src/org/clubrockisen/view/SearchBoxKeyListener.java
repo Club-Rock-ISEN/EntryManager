@@ -1,4 +1,4 @@
-package org.clubrockisen.gui;
+package org.clubrockisen.view;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import org.clubrockisen.dao.DAO;
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 
@@ -25,15 +25,15 @@ import org.clubrockisen.entities.Member.MemberColumn;
  */
 public class SearchBoxKeyListener implements KeyListener {
 	private static Logger					lg						= Logger.getLogger(SearchBoxKeyListener.class
-																			.getName());
-
+			.getName());
+	
 	private final JTextField				textBox;
 	private final JList<Member>				list;
 	private final DefaultListModel<Member>	listModel;
 	private final DAO<Member>				daoMember;
 	private String							oldRequest				= "";
 	private final int						changeFocusKeyTrigger;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * @param textBox the text box which is being listened to.
@@ -45,7 +45,7 @@ public class SearchBoxKeyListener implements KeyListener {
 			final DefaultListModel<Member> listModel, final DAO<Member> daoMember) {
 		this(textBox, list, listModel, daoMember, KeyEvent.VK_DOWN);
 	}
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * @param textBox the text box which is being listened to.
@@ -64,7 +64,7 @@ public class SearchBoxKeyListener implements KeyListener {
 		this.daoMember = daoMember;
 		this.changeFocusKeyTrigger = changeFocusKeyTrigger;
 	}
-
+	
 	@Override
 	public void keyTyped (final KeyEvent e) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -76,11 +76,11 @@ public class SearchBoxKeyListener implements KeyListener {
 			}
 		});
 	}
-
+	
 	@Override
 	public void keyReleased (final KeyEvent e) {
 	}
-
+	
 	@Override
 	public void keyPressed (final KeyEvent e) {
 		if (e.getKeyCode() == changeFocusKeyTrigger) {
@@ -94,7 +94,7 @@ public class SearchBoxKeyListener implements KeyListener {
 			});
 		}
 	}
-
+	
 	/**
 	 * Update the list model with the result of the search in the field.
 	 * @param event the event to process.

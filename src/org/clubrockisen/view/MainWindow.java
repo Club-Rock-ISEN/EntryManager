@@ -1,4 +1,4 @@
-package org.clubrockisen.gui;
+package org.clubrockisen.view;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,59 +36,60 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.clubrockisen.dao.AbstractDAOFactory;
-import org.clubrockisen.dao.DAO;
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.services.ParametersEnum;
-import org.clubrockisen.services.ParametersManager;
+import org.clubrockisen.service.ParametersEnum;
+import org.clubrockisen.service.ParametersManager;
+import org.clubrockisen.view.abstracts.AbstractView;
 
 /**
  * The main window of the GUI.
  * @author Alex
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements AbstractView {
 	private static Logger				lg					= Logger.getLogger(MainWindow.class
-																	.getName());
+			.getName());
 	/**
 	 * Serial version UID
 	 */
 	private static final long			serialVersionUID	= 8512382872996144843L;
-
+	
 	/**
 	 * The unicode for delta
 	 */
 	public static final String			DELTA				= "\u0394";
-
+	
 	/** Attributes for the controls **/
 	private MainWindow					mainWindow;
 	private JMenuBar					menuBar;
 	private JMenu						fileMenu, dataBaseMenu, memberMenu, helpMenu;
 	private JMenuItem					profitItem, parametersItem, quitItem, seeMembersItem,
-			seeAttendeesItem, exportDataItem, newMemberItem, deleteMemberItem, updateMemberItem,
-			helpItem, aboutItem;
+	seeAttendeesItem, exportDataItem, newMemberItem, deleteMemberItem, updateMemberItem,
+	helpItem, aboutItem;
 	private Container					panel, memberPanel, partyPanel;
 	private JTextField					searchBox;
 	private JList<Member>				resultList;
 	private JButton						enterButton, updateButton, deleteButton;
 	private JLabel						nameLabel, genderLabel, statusLabel, entryNumberLabel,
-			nextFreeLabel, nameField, genderField, statusField, entryNumberField, nextFreeField,
-			entryPartyTotalNumberLabel, entryPartyFirstPartNumberLabel,
-			entryPartySecondPartNumberLabel, newMemberNumberLabel, freeMemberNumberLabel,
-			maleNumberLabel, femaleNumberLabel, deltaLabel, revenueLabel, profitLabel,
-			entryPartyTotalNumberField, entryPartyFirstPartNumberField,
-			entryPartySecondPartNumberField, newMemberNumberField, freeMemberNumberField,
-			maleNumberField, femaleNumberField, deltaField, revenueField, profitField;
-
+	nextFreeLabel, nameField, genderField, statusField, entryNumberField, nextFreeField,
+	entryPartyTotalNumberLabel, entryPartyFirstPartNumberLabel,
+	entryPartySecondPartNumberLabel, newMemberNumberLabel, freeMemberNumberLabel,
+	maleNumberLabel, femaleNumberLabel, deltaLabel, revenueLabel, profitLabel,
+	entryPartyTotalNumberField, entryPartyFirstPartNumberField,
+	entryPartySecondPartNumberField, newMemberNumberField, freeMemberNumberField,
+	maleNumberField, femaleNumberField, deltaField, revenueField, profitField;
+	
 	private DefaultListModel<Member>	resultListModel;
 	private final Insets				defaultInsets		= new Insets(5, 5, 5, 5);
 	
 	private final Properties					translator;
 	
 	private final DAO<Member>					daoMember;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Unique constructor. Build the GUI of the application.
@@ -141,7 +143,7 @@ public class MainWindow extends JFrame {
 					+ ". Using default look and feel.");
 		}
 	}
-
+	
 	/**
 	 * Create the controls, menu, labels, etc.
 	 */
@@ -161,7 +163,7 @@ public class MainWindow extends JFrame {
 		buildMainContainer();
 		mainWindow = this;
 	}
-
+	
 	/**
 	 * Create the menu bar and its items.
 	 */
@@ -172,7 +174,7 @@ public class MainWindow extends JFrame {
 		profitItem = new JMenuItem(translator.getProperty("app.menu.file.profit"));
 		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		profitItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -181,7 +183,7 @@ public class MainWindow extends JFrame {
 		parametersItem = new JMenuItem(translator.getProperty("app.menu.file.parameters"));
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -198,7 +200,7 @@ public class MainWindow extends JFrame {
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				lg.info("Exit program.");
@@ -209,13 +211,13 @@ public class MainWindow extends JFrame {
 		fileMenu.add(parametersItem);
 		fileMenu.addSeparator();
 		fileMenu.add(quitItem);
-
+		
 		// Database menu creation
 		dataBaseMenu = new JMenu(translator.getProperty("app.menu.database"));
 		seeMembersItem = new JMenuItem(translator.getProperty("app.menu.database.seeMembers"));
 		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMembersItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -224,7 +226,7 @@ public class MainWindow extends JFrame {
 		seeAttendeesItem = new JMenuItem(translator.getProperty("app.menu.database.seeAttendees"));
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -233,7 +235,7 @@ public class MainWindow extends JFrame {
 		exportDataItem = new JMenuItem(translator.getProperty("app.menu.database.exportData"));
 		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
 		exportDataItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -243,13 +245,13 @@ public class MainWindow extends JFrame {
 		dataBaseMenu.add(seeAttendeesItem);
 		dataBaseMenu.addSeparator();
 		dataBaseMenu.add(exportDataItem);
-
+		
 		// Member menu creation
 		memberMenu = new JMenu(translator.getProperty("app.menu.member"));
 		newMemberItem = new JMenuItem(translator.getProperty("app.menu.newMember"));
 		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 		newMemberItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -258,7 +260,7 @@ public class MainWindow extends JFrame {
 		deleteMemberItem = new JMenuItem(translator.getProperty("app.menu.deleteMember"));
 		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
 		deleteMemberItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -267,7 +269,7 @@ public class MainWindow extends JFrame {
 		updateMemberItem = new JMenuItem(translator.getProperty("app.menu.updateMember"));
 		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
 		updateMemberItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -276,36 +278,36 @@ public class MainWindow extends JFrame {
 		memberMenu.add(newMemberItem);
 		memberMenu.add(deleteMemberItem);
 		memberMenu.add(updateMemberItem);
-
+		
 		// Help menu creation
 		helpMenu = new JMenu(translator.getProperty("app.menu.help"));
 		helpItem = new JMenuItem(translator.getProperty("app.menu.help"));
 		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		helpItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				
 			}
 		});
 		aboutItem = new JMenuItem(translator.getProperty("app.menu.help.about"));
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(mainWindow,
 						translator.getProperty("app.dialog.about.author") + " Alex Barféty.\n"
 								+ translator.getProperty("app.dialog.about.licence"),
-						translator.getProperty("app.menu.help.about"),
-						JOptionPane.INFORMATION_MESSAGE);
+								translator.getProperty("app.menu.help.about"),
+								JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		helpMenu.add(helpItem);
 		helpMenu.addSeparator();
 		helpMenu.add(aboutItem);
-
+		
 		// Adding menus to menu bar
 		menuBar.add(fileMenu);
 		menuBar.add(dataBaseMenu);
@@ -313,14 +315,14 @@ public class MainWindow extends JFrame {
 		menuBar.add(helpMenu);
 		this.setJMenuBar(menuBar);
 	}
-
+	
 	/**
 	 * Builds the containers of the main window
 	 */
 	private void buildMainContainer () {
 		panel = getContentPane();
 		panel.setLayout(new GridBagLayout());
-
+		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -332,7 +334,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		searchBox = new JTextField();
 		panel.add(searchBox, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
@@ -354,7 +356,7 @@ public class MainWindow extends JFrame {
 		
 		searchBox.addKeyListener(new SearchBoxKeyListener(searchBox, resultList, resultListModel,
 				daoMember));
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
@@ -366,7 +368,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		enterButton = new JButton(translator.getProperty("app.mainWindow.button.enter"));
 		panel.add(enterButton, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 2;
 		c.gridy = 0;
@@ -378,7 +380,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		updateButton = new JButton(translator.getProperty("app.mainWindow.button.update"));
 		panel.add(updateButton, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 3;
 		c.gridy = 0;
@@ -390,7 +392,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		deleteButton = new JButton(translator.getProperty("app.mainWindow.button.delete"));
 		panel.add(deleteButton, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
@@ -402,7 +404,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		memberPanel = buildMemberPanel();
 		panel.add(memberPanel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 4;
 		c.gridy = 0;
@@ -415,7 +417,7 @@ public class MainWindow extends JFrame {
 		partyPanel = buildPartyPanel();
 		panel.add(partyPanel, c);
 	}
-
+	
 	/**
 	 * Build the panel with the member information.
 	 * @return the panel.
@@ -424,7 +426,7 @@ public class MainWindow extends JFrame {
 		final JPanel pane = new JPanel(new GridBagLayout());
 		pane.setBorder(BorderFactory.createTitledBorder(translator
 				.getProperty("app.mainWindow.groupBox.member")));
-
+		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -437,7 +439,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		nameLabel = new JLabel(translator.getProperty("app.mainWindow.label.name"));
 		pane.add(nameLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
@@ -450,7 +452,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		genderLabel = new JLabel(translator.getProperty("app.mainWindow.label.gender"));
 		pane.add(genderLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
@@ -463,7 +465,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		statusLabel = new JLabel(translator.getProperty("app.mainWindow.label.status"));
 		pane.add(statusLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
@@ -476,7 +478,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.entryNumber"));
 		pane.add(entryNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 4;
@@ -489,7 +491,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		nextFreeLabel = new JLabel(translator.getProperty("app.mainWindow.label.nextFree"));
 		pane.add(nextFreeLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
@@ -502,7 +504,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		nameField = new JLabel("Alex Barféty");
 		pane.add(nameField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
@@ -515,7 +517,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		genderField = new JLabel("homme");
 		pane.add(genderField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
@@ -528,7 +530,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		statusField = new JLabel("membre d'honneur");
 		pane.add(statusField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
@@ -541,7 +543,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryNumberField = new JLabel("13");
 		pane.add(entryNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
@@ -554,10 +556,10 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		nextFreeField = new JLabel("5");
 		pane.add(nextFreeField, c);
-
+		
 		return pane;
 	}
-
+	
 	/**
 	 * Builds the panel with the party information.
 	 * @return the panel.
@@ -565,7 +567,7 @@ public class MainWindow extends JFrame {
 	private JPanel buildPartyPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
 		pane.setBorder(BorderFactory.createTitledBorder(translator.getProperty("app.mainWindow.groupBox.party")));
-
+		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -578,7 +580,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartyTotalNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.entryPartyTotal"));
 		pane.add(entryPartyTotalNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 1;
@@ -591,7 +593,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartyFirstPartNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.entryPartyFirstPart"));
 		pane.add(entryPartyFirstPartNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 2;
@@ -604,7 +606,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartySecondPartNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.entryPartySecondPart"));
 		pane.add(entryPartySecondPartNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 3;
@@ -617,7 +619,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		newMemberNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.newMemberNumber"));
 		pane.add(newMemberNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 4;
@@ -630,7 +632,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		freeMemberNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.freeMemberNumber"));
 		pane.add(freeMemberNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 5;
@@ -643,7 +645,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		maleNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.maleNumber"));
 		pane.add(maleNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 6;
@@ -656,7 +658,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		femaleNumberLabel = new JLabel(translator.getProperty("app.mainWindow.label.femaleNumber"));
 		pane.add(femaleNumberLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 7;
@@ -695,7 +697,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		profitLabel = new JLabel(translator.getProperty("app.mainWindow.label.profit"));
 		pane.add(profitLabel, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 0;
@@ -708,7 +710,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartyTotalNumberField = new JLabel("12");
 		pane.add(entryPartyTotalNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 1;
@@ -721,7 +723,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartyFirstPartNumberField = new JLabel("0");
 		pane.add(entryPartyFirstPartNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 2;
@@ -734,7 +736,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		entryPartySecondPartNumberField = new JLabel("0");
 		pane.add(entryPartySecondPartNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
@@ -747,7 +749,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		newMemberNumberField = new JLabel("3");
 		pane.add(newMemberNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 4;
@@ -760,7 +762,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		freeMemberNumberField = new JLabel("1");
 		pane.add(freeMemberNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 5;
@@ -773,7 +775,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		maleNumberField = new JLabel("4");
 		pane.add(maleNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 6;
@@ -786,7 +788,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		femaleNumberField = new JLabel("8");
 		pane.add(femaleNumberField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 7;
@@ -799,7 +801,7 @@ public class MainWindow extends JFrame {
 		c.insets = defaultInsets;
 		deltaField = new JLabel("4");
 		pane.add(deltaField, c);
-
+		
 		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 8;
@@ -828,6 +830,14 @@ public class MainWindow extends JFrame {
 		
 		return pane;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
+	@Override
+	public void modelPropertyChange (final PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
