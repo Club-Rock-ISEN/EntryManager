@@ -4,10 +4,10 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import org.clubrockisen.dao.AbstractDAOFactory;
-import org.clubrockisen.dao.AbstractDAOFactory.DAOType;
-import org.clubrockisen.gui.MainWindow;
-import org.clubrockisen.services.ParametersManager;
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory.DAOType;
+import org.clubrockisen.service.ParametersManager;
+import org.clubrockisen.view.MainWindow;
 
 /**
  * Launcher for the club rock ISEN application
@@ -16,10 +16,10 @@ import org.clubrockisen.services.ParametersManager;
  */
 public final class App {
 	private static Logger	lg	= Logger.getLogger(App.class.getName());
-
+	
 	private App () {
 	}
-
+	
 	/**
 	 * Entry point for the launcher.
 	 * @param args
@@ -27,7 +27,7 @@ public final class App {
 	 */
 	public static void main (final String[] args) {
 		lg.info("Starting Club Rock ISEN application.");
-
+		
 		String translationFile;
 		if (args.length < 1) {
 			translationFile = "data/locale/fr.xml";
@@ -36,7 +36,7 @@ public final class App {
 			translationFile = args[0];
 		}
 		lg.fine("Language locale file defined: " + translationFile);
-
+		
 		final DAOType daoType = DAOType.MYSQL;
 		try {
 			AbstractDAOFactory daoFactory;
@@ -44,7 +44,7 @@ public final class App {
 			ParametersManager.create(daoFactory);
 			try {
 				MainWindow.setLookAndFeel();
-			} catch (NullPointerException e) {
+			} catch (final NullPointerException e) {
 				lg.warning("Could not set look and feel (" + e.getMessage() + ")");
 			}
 			final MainWindow window = new MainWindow(translationFile, daoFactory);
@@ -54,5 +54,5 @@ public final class App {
 					+ "\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
+	
 }
