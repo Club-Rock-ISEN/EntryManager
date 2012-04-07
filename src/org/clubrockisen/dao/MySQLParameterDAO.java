@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
-import org.clubrockisen.services.ParametersEnum;
+import org.clubrockisen.service.ParametersEnum;
 
 /**
  * Class used to manipulating the parameters in the database.<br />

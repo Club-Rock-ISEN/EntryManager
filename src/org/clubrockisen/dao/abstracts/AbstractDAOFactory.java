@@ -1,7 +1,8 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.abstracts;
 
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.MySQLDAOFactory;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;

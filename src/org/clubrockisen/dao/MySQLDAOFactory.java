@@ -3,6 +3,8 @@ package org.clubrockisen.dao;
 import java.sql.Connection;
 
 import org.clubrockisen.connection.MySQLConnection;
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
