@@ -4,6 +4,7 @@ package org.clubrockisen.service;
 /**
  * The enumeration for the parameters.<br />
  * When adding a parameter, add its corresponding enumeration in this class.
+ * 
  * @author Alex
  */
 public enum ParametersEnum {
@@ -54,8 +55,10 @@ public enum ParametersEnum {
 	 */
 	public static ParametersEnum fromValue (final String name) {
 		try {
+			// First, try to use the JDK method
 			return Enum.valueOf(ParametersEnum.class, name.toUpperCase());
 		} catch (final IllegalArgumentException e) {
+			// If fail, try to compare with the name of the enumeration
 			for (final ParametersEnum currentParam : ParametersEnum.values()) {
 				if (currentParam.getName().equalsIgnoreCase(name)) {
 					return currentParam;

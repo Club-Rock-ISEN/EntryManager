@@ -18,8 +18,8 @@ import org.clubrockisen.entities.Member.MemberColumn;
  * A custom key listener.<br />
  * It searches for a new {@link Member} on each keystroke of the text box and refresh the list which
  * present the results. <br />
- * Also, if you press the key specified (down arrow by default), the focus will be passed to the
- * list which holds the results.
+ * Also, if the key specified is pressed (down arrow by default), the focus will be passed to the
+ * list holding the results.
  * 
  * @author Alex
  */

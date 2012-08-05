@@ -63,7 +63,7 @@ public abstract class Entity {
 	 * Generates the beginning of the insert query in SQL syntax:<br />
 	 * <code>INSERT INTO (<i>column names</i>) VALUES</code>
 	 * @return the query ready for the entity specific data.
-	 * @see #generateInsertQuerySQL(boolean) Method that allow you to specify if the ID column
+	 * @see #generateInsertQuerySQL(boolean) Method that allows to specify if the ID column
 	 *      should be in the query
 	 */
 	public String generateInsertQuerySQL () {

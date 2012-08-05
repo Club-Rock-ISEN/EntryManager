@@ -17,13 +17,22 @@ import org.clubrockisen.service.abstracts.IParametersManager;
  * @author Alex
  */
 public final class ParametersManager implements IParametersManager {
+	/** Logger */
 	private static Logger				lg			= Logger.getLogger(ParametersManager.class.getName());
 	
+	/** Unique instance of the manager */
 	private static ParametersManager	singleton	= null;
 	
+	/** The access to the parameters */
 	private final DAO<Parameter>		dao;
+	/** The map between the parameters (registered in the {@link ParametersEnum}) and the concrete parameter from the database */
 	private Map<ParametersEnum, Parameter>		parameters;
 	
+	/**
+	 * Constructor #1.<br />
+	 * Build the instance of the class.
+	 * @param daoFactory the factory for the DAO
+	 */
 	private ParametersManager(final AbstractDAOFactory daoFactory) {
 		lg.info("Building singleton for " + this.getClass().getName());
 		this.dao = daoFactory.getParameterDAO();
@@ -73,8 +82,7 @@ public final class ParametersManager implements IParametersManager {
 	/*
 	 * (non-Javadoc)
 	 * @see
-	 * org.clubrockisen.services.interfaces.IParametersManager#set(org.clubrockisen.entities.Parameter
-	 * )
+	 * org.clubrockisen.services.interfaces.IParametersManager#set(org.clubrockisen.entities.Parameter)
 	 */
 	@Override
 	public boolean set (final Parameter parameter) {

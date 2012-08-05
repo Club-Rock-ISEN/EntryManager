@@ -15,9 +15,7 @@ import org.clubrockisen.entities.Party;
  * @author Alex
  */
 public class MySQLDAOFactory extends AbstractDAOFactory {
-	/**
-	 * The connection to the MySQL database.
-	 */
+	/** The connection to the MySQL database */
 	protected static final Connection	CONNECTION	= MySQLConnection.getInstance();
 	
 	/*

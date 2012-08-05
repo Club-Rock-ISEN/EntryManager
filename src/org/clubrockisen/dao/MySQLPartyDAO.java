@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.DAO;
@@ -21,12 +22,14 @@ import org.clubrockisen.entities.Party.PartyColumn;
  * @author Alex
  */
 public class MySQLPartyDAO implements DAO<Party> {
-	private static Logger							lg	= Logger.getLogger(MySQLPartyDAO.class
-			.getName());
+	/** Logger */
+	private static Logger							lg	= Logger.getLogger(MySQLPartyDAO.class.getName());
 	
 	private final Connection						connection;
+	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
-	private final SimpleDateFormat						dateFormat;
+	/** Date format used in the database */
+	private final SimpleDateFormat					dateFormat;
 	
 	/**
 	 * Constructor #1.
@@ -76,6 +79,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			} else {
 				throw new SQLException("could not retrieve last inserted id.");
 			}
+			resultSet.close();
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while creating a party: " + e.getMessage());
@@ -101,6 +105,8 @@ public class MySQLPartyDAO implements DAO<Party> {
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
 				party = createPartyFromResult(result);
+			} else {
+				lg.info("Could not find party with id = " + id);
 			}
 			result.close();
 			statement.close();
@@ -166,7 +172,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			statement.execute(query);
 			statement.close();
 		} catch (final Exception e) {
-			lg.warning("Exception while deleting member: " + e.getMessage());
+			lg.warning("Exception while deleting party: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -192,10 +198,13 @@ public class MySQLPartyDAO implements DAO<Party> {
 			while (result.next()) {
 				allParties.add(createPartyFromResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2 - time1) + " ms");
-			lg.fine("Time for building list: " + (time3 - time2) + " ms");
-			lg.fine("Time for both: " + (time3 - time1) + "ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2 - time1) + " ms");
+				lg.fine("Time for building list: " + (time3 - time2) + " ms");
+				lg.fine("Time for both: " + (time3 - time1) + "ms");
+			}
 			
 			result.close();
 			statement.close();
@@ -232,10 +241,13 @@ public class MySQLPartyDAO implements DAO<Party> {
 			while (result.next()) {
 				parties.add(createPartyFromResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2 - time1) + " ms");
-			lg.fine("Time for building list: " + (time3 - time2) + " ms");
-			lg.fine("Time for both: " + (time3 - time1) + " ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2 - time1) + " ms");
+				lg.fine("Time for building list: " + (time3 - time2) + " ms");
+				lg.fine("Time for both: " + (time3 - time1) + " ms");
+			}
 			
 			result.close();
 			statement.close();
@@ -260,6 +272,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 		final Party newParty = new Party();
 		
 		newParty.setIdParty(result.getInt(columns.get(PartyColumn.ID).getName()));
+		newParty.setDate(result.getDate(columns.get(PartyColumn.DATE).getName()));
 		newParty.setEntriesTotal(result.getInt(columns.get(PartyColumn.ENTRIES_TOTAL).getName()));
 		newParty.setEntriesFirstPart(result.getInt(columns.get(PartyColumn.ENTRIES_FIRST_PART).getName()));
 		newParty.setEntriesSecondPart(result.getInt(columns.get(PartyColumn.ENTRIES_SECOND_PART).getName()));

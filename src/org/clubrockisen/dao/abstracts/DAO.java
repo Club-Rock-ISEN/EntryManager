@@ -11,7 +11,7 @@ import org.clubrockisen.entities.Entity;
  * @param <T>
  *        The class of the object to manipulate.
  */
-public abstract interface DAO<T extends Entity> {
+public interface DAO<T extends Entity> {
 	
 	/**
 	 * Create operation.

@@ -21,10 +21,12 @@ import org.clubrockisen.service.ParametersEnum;
  * @author Alex
  */
 public class MySQLParameterDAO implements DAO<Parameter> {
-	private static Logger							lg	= Logger.getLogger(MySQLParameterDAO.class
-			.getName());
+	/** Logger */
+	private static Logger							lg	= Logger.getLogger(MySQLParameterDAO.class.getName());
 	
+	/** The connection to the database */
 	private final Connection						connection;
+	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
 	
 	/**
@@ -142,7 +144,8 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Parameter().generateSearchAllQuery() + " WHERE " + field.getName() + " LIKE '" + value + "%'";
+			final String query = new Parameter().generateSearchAllQuery() + " WHERE " +
+					field.getName() + " LIKE '" + value + "%'";
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			while (result.next()) {

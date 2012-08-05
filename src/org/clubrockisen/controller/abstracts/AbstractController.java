@@ -4,11 +4,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.clubrockisen.model.AbstractModel;
+import org.clubrockisen.model.abstracts.AbstractModel;
 import org.clubrockisen.view.abstracts.AbstractView;
 
 /**
@@ -18,9 +18,12 @@ import org.clubrockisen.view.abstracts.AbstractView;
  * @author Alex
  */
 public class AbstractController implements PropertyChangeListener {
+	/** Logger */
 	private static Logger				lg	= Logger.getLogger(AbstractController.class.getName());
 	
+	/** The models represented by the views */
 	private final List<AbstractModel>	registeredModels;
+	/** The views to be updated by the models */
 	private final List<AbstractView>	registeredViews;
 	
 	/**
@@ -28,8 +31,8 @@ public class AbstractController implements PropertyChangeListener {
 	 * Default constructor.
 	 */
 	public AbstractController () {
-		registeredModels = new ArrayList<>();
-		registeredViews = new ArrayList<>();
+		registeredModels = new LinkedList<>();
+		registeredViews = new LinkedList<>();
 	}
 	
 	/*
@@ -101,10 +104,9 @@ public class AbstractController implements PropertyChangeListener {
 				lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
 						+ " for property " + propertyName + " (" + e.getMessage() + ")");
 			} catch (final NoSuchMethodException e) {
-				// This is a "normal" exception (model has not the property to update)
-				lg.info("Model " + model.getClass().getSimpleName()
-						+ " has no setter for property " + propertyName + " (" + e.getMessage()
-						+ ")");
+				// This is a "normal" exception (model does not have the property to update)
+				lg.info("Model " + model.getClass().getSimpleName() + " has no setter for " +
+						"property " + propertyName + " (" + e.getMessage() + ")");
 			}
 		}
 	}

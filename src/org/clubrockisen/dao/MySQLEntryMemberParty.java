@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.DAO;
@@ -20,9 +21,12 @@ import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
  * @author Alex
  */
 public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
+	/** Logger */
 	private static Logger	lg	= Logger.getLogger(MySQLEntryMemberParty.class.getName());
 	
+	/** The connection to the database */
 	private final Connection						connection;
+	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
 	
 	/**
@@ -45,6 +49,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 	@Override
 	public EntryMemberParty create (final EntryMemberParty obj) {
 		if (obj == null) {
+			lg.info("Cannot create a null " + EntryMemberParty.class.getName());
 			return null;
 		}
 		
@@ -59,15 +64,17 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 					+ "'" + obj.getIdParty() + "');";
 			lg.info(query);
 			statement.executeUpdate(query);
-			final ResultSet resultSet = statement.getGeneratedKeys();
-			if (resultSet.next()) {
-				newEntry = find(resultSet.getInt(1));
+			// Retrieve last inserted entry member party
+			final ResultSet result = statement.getGeneratedKeys();
+			if (result.next()) {
+				newEntry = find(result.getInt(1));
 			} else {
-				throw new SQLException("could not retrieve last inserted id.");
+				throw new SQLException("Could not retrieve last inserted id.");
 			}
+			result.close();
 			statement.close();
 		} catch (final SQLException e) {
-			lg.warning("Exception while creating a member: " + e.getMessage());
+			lg.warning("SQL exception while creating an entry member party: " + e.getMessage());
 			return null;
 		}
 		return newEntry;
@@ -80,21 +87,24 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 	@Override
 	public EntryMemberParty find (final int id) {
 		EntryMemberParty entry = null;
-		lg.fine("Finding the member with id = " + id);
+		lg.fine("Finding the entry member party with id = " + id);
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			final EntryMemberParty e = new EntryMemberParty();
 			final String query = e.generateSearchAllQuery() + e.generateWhereIDQuerySQL(id);
 			lg.info(query);
+			// Retrieve the inserted entry member
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
 				entry = createEntryMemberPartyformResult(result);
+			} else {
+				lg.info("Could not retrieve entry member party with id = " + id);
 			}
 			result.close();
 			statement.close();
 		} catch (final Exception e) {
-			lg.warning("Exception while retrieving a member: " + e.getMessage());
+			lg.warning("Exception while retrieving an entry member party: " + e.getMessage());
 			return null;
 		}
 		return entry;
@@ -158,7 +168,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 	@Override
 	public List<EntryMemberParty> retrieveAll () {
 		final List<EntryMemberParty> allEntries = new ArrayList<>();
-		lg.fine("Retrieving all members");
+		lg.fine("Retrieving all entries");
 		
 		try {
 			final long time1 = System.currentTimeMillis();
@@ -171,10 +181,13 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 			while (result.next()) {
 				allEntries.add(createEntryMemberPartyformResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2-time1) + " ms");
-			lg.fine("Time for building list: " + (time3-time2) + " ms");
-			lg.fine("Time for both: " + (time3-time1) + " ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2-time1) + " ms");
+				lg.fine("Time for building list: " + (time3-time2) + " ms");
+				lg.fine("Time for both: " + (time3-time1) + " ms");
+			}
 			
 			result.close();
 			statement.close();
@@ -217,10 +230,13 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 			while (result.next()) {
 				entries.add(createEntryMemberPartyformResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2 - time1) + " ms");
-			lg.fine("Time for building list: " + (time3 - time2) + " ms");
-			lg.fine("Time for both: " + (time3 - time1) + "ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2 - time1) + " ms");
+				lg.fine("Time for building list: " + (time3 - time2) + " ms");
+				lg.fine("Time for both: " + (time3 - time1) + "ms");
+			}
 			
 			result.close();
 			statement.close();

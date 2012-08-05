@@ -2,22 +2,32 @@ package org.clubrockisen;
 
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory.DAOType;
+import org.clubrockisen.service.Configuration;
+import org.clubrockisen.service.ConfigurationKey;
 import org.clubrockisen.service.ParametersManager;
 import org.clubrockisen.view.MainWindow;
 
 /**
- * Launcher for the club rock ISEN application
- * 
+ * Launcher for the Club Rock ISEN application.
  * @author Alex
  */
 public final class App {
+	/** Logger */
 	private static Logger	lg	= Logger.getLogger(App.class.getName());
 	
+	/** Access to the configuration */
+	private static final Configuration		config	= Configuration.getInstance();
+	/** Access to the key structure of the configuration */
+	private static final ConfigurationKey	KEYS	= ConfigurationKey.CONFIGURATION_KEY;
+	
+	/**
+	 * Constructor #1.<br />
+	 * Default private constructor to avoid instantiating the class.
+	 */
 	private App () {
+		super();
 	}
 	
 	/**
@@ -28,31 +38,18 @@ public final class App {
 	public static void main (final String[] args) {
 		lg.info("Starting Club Rock ISEN application.");
 		
-		String translationFile;
-		if (args.length < 1) {
-			translationFile = "data/locale/fr.xml";
-			lg.warning("No language file defined. Using default locale file : " + translationFile);
-		} else {
-			translationFile = args[0];
-		}
-		lg.fine("Language locale file defined: " + translationFile);
-		
+		/** Loading DAO factory and parameters */
 		final DAOType daoType = DAOType.MYSQL;
-		try {
-			AbstractDAOFactory daoFactory;
-			daoFactory = AbstractDAOFactory.getFactory(daoType);
-			ParametersManager.create(daoFactory);
-			try {
-				MainWindow.setLookAndFeel();
-			} catch (final NullPointerException e) {
-				lg.warning("Could not set look and feel (" + e.getMessage() + ")");
-			}
-			final MainWindow window = new MainWindow(translationFile, daoFactory);
-			window.setVisible(true);
-		} catch (final InstantiationException e) {
-			JOptionPane.showMessageDialog(null, "Could not instantiate a DAO of type " + daoType
-					+ "\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
+		AbstractDAOFactory daoFactory;
+		daoFactory = AbstractDAOFactory.getFactory(daoType);
+		ParametersManager.create(daoFactory);
+		
+		/** Loading GUI */
+		final String translationFile = config.get(KEYS.TRANSLATION_FILE());
+		lg.info("Language locale file defined: " + translationFile);
+		MainWindow.setLookAndFeel();
+		final MainWindow window = new MainWindow(translationFile, daoFactory);
+		window.setVisible(true);
 	}
 	
 }

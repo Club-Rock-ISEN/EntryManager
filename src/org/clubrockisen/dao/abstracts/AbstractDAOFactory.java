@@ -9,10 +9,12 @@ import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 
 /**
- * The abstract factory for the {@link DAO}.
+ * The abstract factory for the {@link DAO}.<br />
+ * Define the different DAO object that should be created for a complete access to the data.
  * @author Alex
  */
 public abstract class AbstractDAOFactory {
+	/** Logger */
 	private static Logger	lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
 	
 	/**
@@ -53,18 +55,15 @@ public abstract class AbstractDAOFactory {
 	/**
 	 * Retrieve and create the appropriate factory.
 	 * @param type
-	 *            the type of DAO you want.
+	 *            the type of DAO required.
 	 * @return the factory to use for creating the DAO objects.
-	 * @throws InstantiationException
-	 *             if the type sent has no implementation.
 	 */
-	public static AbstractDAOFactory getFactory (final DAOType type)
-			throws InstantiationException {
+	public static AbstractDAOFactory getFactory (final DAOType type) {
 		switch (type) {
 			case MYSQL:
 				return new MySQLDAOFactory();
 		}
 		lg.severe("Unimplemented DAO type (" + type + ").");
-		throw new InstantiationException("Unimplemented DAO type: " + type);
+		throw new Error("DAO of type " + type + " is not implemented.");
 	}
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- Data base connection information -->
+	<entry key="configuration.db.url">jdbc:mysql://localhost/crock</entry>
+	<entry key="configuration.db.username">crock</entry>
+	<entry key="configuration.db.password">burgerking</entry>
+	
+	<!-- Miscellaneous -->
+	<entry key="configuration.translationFile">./data/locale/fr.xml</entry>
+</properties>

@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.DAO;
@@ -22,10 +23,12 @@ import org.clubrockisen.entities.enums.Status;
  * @author Alex
  */
 public class MySQLMemberDAO implements DAO<Member> {
-	private static Logger							lg	= Logger.getLogger(MySQLMemberDAO.class
-			.getName());
+	/** Logger */
+	private static Logger							lg	= Logger.getLogger(MySQLMemberDAO.class.getName());
 	
+	/** The connection to the database */
 	private final Connection						connection;
+	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
 	
 	/**
@@ -64,6 +67,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 					+ "'" + obj.getStatus().getName() + "');";
 			lg.info(query);
 			statement.executeUpdate(query);
+			// Retrieving the created member
 			final ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
 				newMember = find(resultSet.getInt(1));
@@ -95,6 +99,8 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
 				member = createMemberFromResult(result);
+			} else {
+				lg.info("Could not retrieve member with id = " + id);
 			}
 			result.close();
 			statement.close();
@@ -175,10 +181,13 @@ public class MySQLMemberDAO implements DAO<Member> {
 			while (result.next()) {
 				allMembers.add(createMemberFromResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2-time1) + " ms");
-			lg.fine("Time for building list: " + (time3-time2) + " ms");
-			lg.fine("Time for both: " + (time3-time1) + " ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2 - time1) + " ms");
+				lg.fine("Time for building list: " + (time3 - time2) + " ms");
+				lg.fine("Time for both: " + (time3 - time1) + " ms");
+			}
 			
 			result.close();
 			statement.close();
@@ -217,10 +226,13 @@ public class MySQLMemberDAO implements DAO<Member> {
 			while (result.next()) {
 				members.add(createMemberFromResult(result));
 			}
-			final long time3 = System.currentTimeMillis();
-			lg.fine("Time for request: " + (time2 - time1) + " ms");
-			lg.fine("Time for building list: " + (time3 - time2) + " ms");
-			lg.fine("Time for both: " + (time3 - time1) + "ms");
+			// Time for query logging
+			if (lg.isLoggable(Level.FINE)) {
+				final long time3 = System.currentTimeMillis();
+				lg.fine("Time for request: " + (time2 - time1) + " ms");
+				lg.fine("Time for building list: " + (time3 - time2) + " ms");
+				lg.fine("Time for both: " + (time3 - time1) + "ms");
+			}
 			
 			result.close();
 			statement.close();

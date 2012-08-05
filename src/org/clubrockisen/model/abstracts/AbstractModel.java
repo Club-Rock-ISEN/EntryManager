@@ -1,4 +1,4 @@
-package org.clubrockisen.model;
+package org.clubrockisen.model.abstracts;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
