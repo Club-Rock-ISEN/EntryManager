@@ -1,4 +1,4 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,9 +20,9 @@ import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
  * This class should be the only access point to the {@link EntryMemberParty} table in the database.
  * @author Alex
  */
-public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
+public class MySQLEntryMemberPartyDAO implements DAO<EntryMemberParty> {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(MySQLEntryMemberParty.class.getName());
+	private static Logger	lg	= Logger.getLogger(MySQLEntryMemberPartyDAO.class.getName());
 	
 	/** The connection to the database */
 	private final Connection						connection;
@@ -34,7 +34,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 	 * @param connection
 	 *        the connection to the database.
 	 */
-	public MySQLEntryMemberParty (final Connection connection) {
+	public MySQLEntryMemberPartyDAO (final Connection connection) {
 		this.connection = connection;
 		lg.fine("New " + this.getClass().getCanonicalName() + ".");
 		// Initialize the columns (call to the constructor is required
@@ -63,7 +63,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 					+ "'" + obj.getIdMember() + "',"
 					+ "'" + obj.getIdParty() + "');";
 			lg.info(query);
-			statement.executeUpdate(query);
+			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 			// Retrieve last inserted entry member party
 			final ResultSet result = statement.getGeneratedKeys();
 			if (result.next()) {
@@ -92,7 +92,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			final EntryMemberParty e = new EntryMemberParty();
-			final String query = e.generateSearchAllQuery() + e.generateWhereIDQuerySQL(id);
+			final String query = e.generateSearchAllQuerySQL() + e.generateWhereIDQuerySQL(id);
 			lg.info(query);
 			// Retrieve the inserted entry member
 			final ResultSet result = statement.executeQuery(query);
@@ -174,7 +174,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new EntryMemberParty().generateSearchAllQuery();
+			final String query = new EntryMemberParty().generateSearchAllQuerySQL();
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
@@ -216,7 +216,7 @@ public class MySQLEntryMemberParty implements DAO<EntryMemberParty> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			String query = new EntryMemberParty().generateSearchAllQuery() + " WHERE " + field.getName();
+			String query = new EntryMemberParty().generateSearchAllQuerySQL() + " WHERE " + field.getName();
 			if (field.getType().equals(String.class)) {
 				query += " LIKE '" + value + "%'";
 			} else if (field.getType().getSuperclass().equals(Number.class)) {

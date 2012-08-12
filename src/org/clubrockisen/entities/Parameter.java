@@ -9,15 +9,21 @@ import java.util.logging.Logger;
  * @author Alex
  */
 public class Parameter extends Entity {
+	/** Logger */
 	private static Logger						lg	= Logger.getLogger(Parameter.class.getName());
-
+	
+	/** Map between the enumeration and the actual columns in the database */
 	private static Map<ParameterColumn, Column>	columns;
+	/** Name of the entity */
 	private static String						entityName = "parameter";
-
-	private final String								name;
+	
+	/** Name of the parameter */
+	private final String						name;
+	/** Value of the parameter */
 	private String								value;
+	/** Type of the parameter */
 	private String								type;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getEntityName()
@@ -26,7 +32,7 @@ public class Parameter extends Entity {
 	public String getEntityName () {
 		return entityName;
 	}
-
+	
 	/**
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
@@ -35,7 +41,7 @@ public class Parameter extends Entity {
 	public enum ParameterColumn {
 		NAME, VALUE, TYPE
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#setEntityColumns()
@@ -50,7 +56,7 @@ public class Parameter extends Entity {
 		columns.put(ParameterColumn.VALUE, new Column(String.class, "value"));
 		columns.put(ParameterColumn.TYPE, new Column(String.class, "type"));
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
@@ -67,9 +73,19 @@ public class Parameter extends Entity {
 	public static Map<? extends Enum<?>, Column> getColumns () {
 		return columns;
 	}
-
+	
 	/**
 	 * Constructor #1.<br />
+	 * Constructor using only the name of the parameter.
+	 * @param name
+	 *            the name of the parameter.
+	 */
+	public Parameter (final String name) {
+		this (name, null, null);
+	}
+	
+	/**
+	 * Constructor #2.<br />
 	 * Constructor using all the fields.
 	 * @param name
 	 *            the name of the parameter.
@@ -98,7 +114,7 @@ public class Parameter extends Entity {
 	public String getID () {
 		return getName();
 	}
-
+	
 	/**
 	 * Return the name.
 	 * @return the name.
@@ -106,7 +122,7 @@ public class Parameter extends Entity {
 	public String getName () {
 		return name;
 	}
-
+	
 	/**
 	 * Return the value.
 	 * @return the value.
@@ -114,7 +130,7 @@ public class Parameter extends Entity {
 	public String getValue () {
 		return value;
 	}
-
+	
 	/**
 	 * Set the value.
 	 * @param value
@@ -123,7 +139,7 @@ public class Parameter extends Entity {
 	public void setValue (final String value) {
 		this.value = value;
 	}
-
+	
 	/**
 	 * Return the type.
 	 * @return the type.
@@ -131,7 +147,7 @@ public class Parameter extends Entity {
 	public String getType () {
 		return type;
 	}
-
+	
 	/**
 	 * Set the type.
 	 * @param type
@@ -140,5 +156,5 @@ public class Parameter extends Entity {
 	public void setType (final String type) {
 		this.type = type;
 	}
-
+	
 }

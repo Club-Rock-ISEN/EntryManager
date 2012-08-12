@@ -1,4 +1,4 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -66,7 +66,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 					+ "'" + obj.getCredit() + "',"
 					+ "'" + obj.getStatus().getName() + "');";
 			lg.info(query);
-			statement.executeUpdate(query);
+			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 			// Retrieving the created member
 			final ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
@@ -74,6 +74,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			} else {
 				throw new SQLException("could not retrieve last inserted id.");
 			}
+			resultSet.close();
 			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("Exception while creating a member: " + e.getMessage());
@@ -94,7 +95,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			final Member m = new Member();
-			final String query = m.generateSearchAllQuery() + m.generateWhereIDQuerySQL(id);
+			final String query = m.generateSearchAllQuerySQL() + m.generateWhereIDQuerySQL(id);
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
@@ -174,7 +175,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Member().generateSearchAllQuery();
+			final String query = new Member().generateSearchAllQuerySQL();
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
@@ -212,7 +213,7 @@ public class MySQLMemberDAO implements DAO<Member> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			String query = new Member().generateSearchAllQuery() + " WHERE " + field.getName();
+			String query = new Member().generateSearchAllQuerySQL() + " WHERE " + field.getName();
 			if (field.getType().equals(String.class)) {
 				query += " LIKE '" + value + "%'";
 			} else if (field.getType().getSuperclass().equals(Number.class)) {

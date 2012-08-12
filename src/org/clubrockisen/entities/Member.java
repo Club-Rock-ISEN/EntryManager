@@ -12,18 +12,27 @@ import org.clubrockisen.entities.enums.Status;
  * @author Alex
  */
 public class Member extends Entity {
-	private static Logger	lg	= Logger.getLogger(Member.class.getName());
-
+	/** Logger */
+	private static Logger						lg			= Logger.getLogger(Member.class.getName());
+	
+	/** Map between the column enumeration and the actual columns from the database */
 	private static Map<MemberColumn, Column>	columns;
+	/** Name of the entity*/
 	private static String						entityName	= "member";
-
+	
+	/** The id of the member */
 	private Integer								idMember;
+	/** The name of the member */
 	private String								name;
+	/** The gender of the member */
 	private Gender								gender;
+	/** The number of entries of this member */
 	private Integer								entries;
+	/** The credit on the member's account */
 	private Double								credit;
+	/** The status of the member */
 	private Status								status;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.entities.Entity#getEntityName()
@@ -32,7 +41,7 @@ public class Member extends Entity {
 	public String getEntityName () {
 		return entityName;
 	}
-
+	
 	/**
 	 * Enumeration for the column of the table associated to the type.
 	 * @author Alex
@@ -41,7 +50,7 @@ public class Member extends Entity {
 	public enum MemberColumn {
 		ID, NAME, GENDER, ENTRIES, CREDIT, STATUS
 	}
-
+	
 	@Override
 	protected void setEntityColumns () {
 		if (columns != null) {
@@ -55,7 +64,7 @@ public class Member extends Entity {
 		columns.put(MemberColumn.CREDIT, new Column(Double.class, "credit"));
 		columns.put(MemberColumn.STATUS, new Column(Status.class, "status"));
 	}
-
+	
 	@Override
 	public Map<? extends Enum<?>, Column> getEntityColumns () {
 		return columns;
@@ -68,23 +77,23 @@ public class Member extends Entity {
 	public static Map<? extends Enum<?>, Column> getColumns () {
 		return columns;
 	}
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Constructor using all the fields.
 	 * 
 	 * @param idMember
-	 *            the id of the member.
+	 *        the id of the member.
 	 * @param name
-	 *            the name of the member.
+	 *        the name of the member.
 	 * @param gender
-	 *            the gender of the member.
+	 *        the gender of the member.
 	 * @param entries
-	 *            the number of entries of the member
+	 *        the number of entries of the member
 	 * @param credit
-	 *            the credit of the member.
+	 *        the credit of the member.
 	 * @param status
-	 *            the status of the member.
+	 *        the status of the member.
 	 */
 	public Member (final Integer idMember, final String name, final Gender gender,
 			final Integer entries, final Double credit, final Status status) {
@@ -97,7 +106,7 @@ public class Member extends Entity {
 		this.status = status;
 		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", " + this.gender);
 	}
-
+	
 	/**
 	 * Constructor #2.<br />
 	 * Default constructor
@@ -105,7 +114,7 @@ public class Member extends Entity {
 	public Member () {
 		this(null, null, Gender.getDefault(), null, null, Status.getDefault());
 	}
-
+	
 	@Override
 	public String getID () {
 		return getIdMember().toString();
@@ -118,16 +127,16 @@ public class Member extends Entity {
 	public Integer getIdMember () {
 		return idMember;
 	}
-
+	
 	/**
 	 * Set the idMember.
 	 * @param idMember
-	 *            the idMember to set
+	 *        the idMember to set
 	 */
 	public void setIdMember (final Integer idMember) {
 		this.idMember = idMember;
 	}
-
+	
 	/**
 	 * Return the name.
 	 * @return the name
@@ -135,16 +144,16 @@ public class Member extends Entity {
 	public String getName () {
 		return name;
 	}
-
+	
 	/**
 	 * Set the name.
 	 * @param name
-	 *            the name to set
+	 *        the name to set
 	 */
 	public void setName (final String name) {
 		this.name = name;
 	}
-
+	
 	/**
 	 * Return the gender.
 	 * @return the gender
@@ -152,16 +161,16 @@ public class Member extends Entity {
 	public Gender getGender () {
 		return gender;
 	}
-
+	
 	/**
 	 * Set the gender.
 	 * @param gender
-	 *            the gender to set
+	 *        the gender to set
 	 */
 	public void setGender (final Gender gender) {
 		this.gender = gender;
 	}
-
+	
 	/**
 	 * Return the entries.
 	 * @return the entries
@@ -169,16 +178,16 @@ public class Member extends Entity {
 	public int getEntries () {
 		return entries;
 	}
-
+	
 	/**
 	 * Set the entries.
 	 * @param entries
-	 *            the entries to set
+	 *        the entries to set
 	 */
 	public void setEntries (final int entries) {
 		this.entries = entries;
 	}
-
+	
 	/**
 	 * Return the credit.
 	 * @return the credit
@@ -186,16 +195,16 @@ public class Member extends Entity {
 	public double getCredit () {
 		return credit;
 	}
-
+	
 	/**
 	 * Set the credit.
 	 * @param credit
-	 *            the credit to set
+	 *        the credit to set
 	 */
 	public void setCredit (final double credit) {
 		this.credit = credit;
 	}
-
+	
 	/**
 	 * Return the status.
 	 * @return the status
@@ -203,17 +212,18 @@ public class Member extends Entity {
 	public Status getStatus () {
 		return status;
 	}
-
+	
 	/**
 	 * Set the status.
 	 * @param status
-	 *            the status to set
+	 *        the status to set
 	 */
 	public void setStatus (final Status status) {
 		this.status = status;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

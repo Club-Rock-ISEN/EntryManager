@@ -1,4 +1,4 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -72,7 +72,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 					+ "'" + obj.getRevenue() + "',"
 					+ "'" + obj.getProfit() + "');";
 			lg.info(query);
-			statement.executeUpdate(query);
+			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 			final ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
 				newParty = find(resultSet.getInt(1));
@@ -100,7 +100,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			final Party p = new Party();
-			final String query = p.generateSearchAllQuery() + p.generateWhereIDQuerySQL(id);
+			final String query = p.generateSearchAllQuerySQL() + p.generateWhereIDQuerySQL(id);
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			if (result.first()) {
@@ -191,7 +191,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Party().generateSearchAllQuery();
+			final String query = new Party().generateSearchAllQuerySQL();
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			final long time2 = System.currentTimeMillis();
@@ -233,7 +233,7 @@ public class MySQLPartyDAO implements DAO<Party> {
 			final long time1 = System.currentTimeMillis();
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Party().generateSearchAllQuery() + " WHERE " + field.getName() +
+			final String query = new Party().generateSearchAllQuerySQL() + " WHERE " + field.getName() +
 					" LIKE '" + value + "%'";
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);

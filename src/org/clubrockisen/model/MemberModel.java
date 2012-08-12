@@ -56,11 +56,11 @@ public class MemberModel extends AbstractModel {
 	
 	/**
 	 * Initialize model with the member.
-	 * @param member
+	 * @param memberToUse
 	 *        the member to use.
 	 */
-	public void initMember (final Member member) {
-		
+	public void initMember (final Member memberToUse) {
+		this.member = memberToUse;
 	}
 	
 	/**

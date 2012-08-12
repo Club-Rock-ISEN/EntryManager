@@ -1,4 +1,4 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,7 +13,6 @@ import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
-import org.clubrockisen.service.ParametersEnum;
 
 /**
  * Class used to manipulating the parameters in the database.<br />
@@ -44,7 +43,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	/**
 	 * {@inheritDoc}
 	 * Not available for the {@link Parameter} entity, parameters should only be created using the
-	 * database and adding the appropriate enumeration in {@link ParametersEnum}.
+	 * database.
 	 */
 	@Override
 	public Parameter create (final Parameter obj) {
@@ -92,7 +91,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	/**
 	 * {@inheritDoc}
 	 * Not available for the {@link Parameter} entity, parameters should only be deleted using the
-	 * database and deleting the appropriate enumeration in {@link ParametersEnum}.
+	 * database.
 	 */
 	@Override
 	public boolean delete (final Parameter obj) {
@@ -111,7 +110,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Parameter().generateSearchAllQuery();
+			final String query = new Parameter().generateSearchAllQuerySQL();
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
 			while (result.next()) {
@@ -139,12 +138,12 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 		}
 		
 		final List<Parameter> parameters = new ArrayList<>();
-		lg.fine("Searching members");
+		lg.fine("Searching parameters");
 		
 		try {
 			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Parameter().generateSearchAllQuery() + " WHERE " +
+			final String query = new Parameter().generateSearchAllQuerySQL() + " WHERE " +
 					field.getName() + " LIKE '" + value + "%'";
 			lg.info(query);
 			final ResultSet result = statement.executeQuery(query);
@@ -172,7 +171,7 @@ public class MySQLParameterDAO implements DAO<Parameter> {
 	 *         if there was a problem while reading the data from the columns.
 	 */
 	private Parameter createParameterFromResult (final ResultSet result) throws SQLException {
-		final Parameter newParameter = new Parameter(result.getString(columns.get(ParameterColumn.NAME).getName()), null, null);
+		final Parameter newParameter = new Parameter(result.getString(columns.get(ParameterColumn.NAME).getName()));
 		
 		// Setting parameters properties
 		newParameter.setType(result.getString(columns.get(ParameterColumn.TYPE).getName()));

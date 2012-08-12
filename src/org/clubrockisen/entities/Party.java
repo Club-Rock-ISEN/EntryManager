@@ -11,21 +11,35 @@ import java.util.logging.Logger;
  * @author Alex
  */
 public class Party extends Entity {
+	/** Logger */
 	private static Logger					lg			= Logger.getLogger(Party.class.getName());
 	
+	/** Map between the enumeration and the actual columns in the database */
 	private static Map<PartyColumn, Column>	columns;
+	/** Name of the entity */
 	private static String					entityName	= "party";
 	
+	/** The id of the party */
 	private Integer							idParty;
+	/** The date of the party */
 	private Date							date;
+	/** The total entries of the party */
 	private Integer							entriesTotal;
+	/** The number of entries during the first part */
 	private Integer							entriesFirstPart;
+	/** The number of entries during the second part */
 	private Integer							entriesSecondPart;
+	/** The number of new member entries */
 	private Integer							entriesNewMembers;
+	/** The number of free entries */
 	private Integer							entriesFree;
+	/** The number of male during the party */
 	private Integer							entriesMale;
+	/** The number of female during the party */
 	private Integer							entriesFemale;
+	/** The revenue for the party */
 	private Double							revenue;
+	/** The profit for the party */
 	private Double							profit;
 	
 	/*
@@ -325,11 +339,12 @@ public class Party extends Entity {
 		this.profit = profit;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString () {
+	public String toString () { // TODO edit
 		return new SimpleDateFormat("EEEE d MMMM yyyy").format(getDate());
 	}
 	

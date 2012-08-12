@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -39,9 +40,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.Parameter;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.ParametersEnum;
 import org.clubrockisen.service.ParametersManager;
 import org.clubrockisen.view.abstracts.AbstractView;
@@ -129,11 +127,14 @@ public class MainWindow extends JFrame implements AbstractView {
 			if (laf.getName().equals(lookAndFeelName)) {
 				try {
 					UIManager.setLookAndFeel(laf.getClassName());
-					lg.fine("Look and feel properly setted (" + laf.getName() + ").");
+					if (lg.isLoggable(Level.FINE)) {
+						lg.fine("Look and feel properly setted (" + laf.getName() + ").");
+					}
 					lookAndFeelFound = true;
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e) {
-					lg.warning("Could not set the look and feel " + laf.getName());
+					lg.warning("Could not set the look and feel " + laf.getName() + ". Cause: " +
+							e.getCause() + " " + e.getMessage());
 					lookAndFeelFound = false;
 				}
 			}
@@ -187,14 +188,15 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
-				final Member tmp = daoMember.find(1);
-				tmp.setEntries(tmp.getEntries()+1);
-				tmp.setName("SUCCESS");
-				daoMember.update(tmp);
-				final Parameter laf = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL);
-				laf.setValue("Nimbus");
-				ParametersManager.getInstance().set(laf);
+				daoMember.find(10000);
+				//daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
+				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
+				//tmp.setEntries(tmp.getEntries()+1);
+				//tmp.setName("SUCCESS");
+				//daoMember.update(tmp);
+				//final Parameter laf = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL);
+				//laf.setValue("Nimbus");
+				//ParametersManager.getInstance().set(laf);
 			}
 		});
 		quitItem = new JMenuItem(translator.getProperty("app.menu.file.quit"));

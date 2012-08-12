@@ -3,6 +3,7 @@ package org.clubrockisen.connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -17,23 +18,23 @@ import org.clubrockisen.service.ConfigurationKey;
  */
 public final class MySQLConnection {
 	/** Logger */
-	private static Logger					lg		= Logger.getLogger(MySQLConnection.class.getName());
+	private static Logger			lg		= Logger.getLogger(MySQLConnection.class.getName());
 	
 	/** The unique instance of the class */
-	private static MySQLConnection			singleton;
+	private static MySQLConnection	singleton;
 	
 	/** Access to the configuration */
 	private final Configuration		config	= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private final ConfigurationKey	KEYS	= ConfigurationKey.CONFIGURATION_KEY;
+	private final ConfigurationKey	keys	= ConfigurationKey.CONFIGURATION_KEY;
 	/** The URL for connecting the database */
-	private String							url;
+	private String					url;
 	/** The user name of the schema */
-	private String							user;
+	private String					user;
 	/** The password associated to the user */
-	private String							password;
+	private String					password;
 	/** The connection to the database */
-	private Connection						connection;
+	private Connection				connection;
 	
 	/**
 	 * Constructor #1.<br />
@@ -47,15 +48,18 @@ public final class MySQLConnection {
 			lg.severe("Failed to create the connection to the database" + e.getMessage());
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Successfully connected to database " + url);
+		}
 	}
 	
 	/**
 	 * Load the parameters from the configuration file.
 	 */
 	private void loadParameters () {
-		url = config.get(KEYS.DB.URL());
-		user = config.get(KEYS.DB.USER_NAME());
-		password = config.get(KEYS.DB.PASSWORD());
+		url = config.get(keys.DB().URL());
+		user = config.get(keys.DB().USER_NAME());
+		password = config.get(keys.DB().PASSWORD());
 	}
 	
 	/**

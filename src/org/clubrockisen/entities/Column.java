@@ -1,5 +1,6 @@
 package org.clubrockisen.entities;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -9,10 +10,14 @@ import java.util.logging.Logger;
  * @author Alex
  */
 public class Column {
+	/** Logger */
 	private static Logger	lg	= Logger.getLogger(Column.class.getName());
 	
+	/** The Java type associated to the column */
 	private Class<?>		type;
+	/** The name (identifier) of the column in the data base */
 	private String			name;
+	/** <code>true</code> if the column is an index of the table */
 	private boolean			isID;
 	
 	/**
@@ -28,12 +33,15 @@ public class Column {
 		this.type = type;
 		this.name = name;
 		this.isID = isID;
-		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: " + this.type.getName() +
-				(this.isID ? " index" : ""));
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: "
+					+ this.type.getName() + (this.isID ? " index" : ""));
+		}
 	}
 	
 	/**
 	 * Constructor #2.<br />
+	 * Build a column which is not an index of the table.
 	 * @param type
 	 *            the type of the column.
 	 * @param name
@@ -79,7 +87,7 @@ public class Column {
 	
 	/**
 	 * Return the isID.
-	 * @return the isID.
+	 * @return <code>true</code> if the column is an index of the table.
 	 */
 	public boolean isID () {
 		return isID;
@@ -88,7 +96,7 @@ public class Column {
 	/**
 	 * Set the isID.
 	 * @param isID
-	 *            the isID to set.
+	 *            <code>true</code> if the column is an index of the table.
 	 */
 	public void setID (final boolean isID) {
 		this.isID = isID;

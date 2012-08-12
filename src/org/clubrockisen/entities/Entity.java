@@ -1,23 +1,35 @@
 package org.clubrockisen.entities;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ * Represent an abstract entity of the database.
  * @author Alex
  */
 public abstract class Entity {
-	private static Logger	lg	= Logger.getLogger(Entity.class.getName());
+	/** Logger */
+	private static Logger								lg	= Logger.getLogger(Entity.class.getName());
+	
+	/** Map between the entities and their id columns */
+	private static Map<Class<? extends Entity>, Column>	idColumns;
 	
 	/**
 	 * Constructor #1.<br />
 	 * Unique constructor of the class. Ensure to call the {@link #setEntityColumns()} method.
 	 */
-	protected Entity() {
+	protected Entity () {
 		if (getEntityColumns() == null) {
-			lg.fine("Calling the #setColumn() method.");
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Calling the #setColumn() method.");
+			}
 			setEntityColumns();
+		}
+		
+		if (idColumns == null) {
+			idColumns = new HashMap<>();
 		}
 	}
 	
@@ -48,15 +60,23 @@ public abstract class Entity {
 	 * Return the id {@link Column} of the entity.
 	 * @return the {@link Column} which is defined as the unique (and identifying) column of the
 	 *         object.
-	 * @throws Exception if no such {@link Column} could be found.
+	 * @throws NoIdException
+	 *         if no such {@link Column} could be found.
 	 */
-	public Column getIDColumn () throws Exception {
+	public Column getIDColumn () throws NoIdException {
+		// If the id column has previously been found
+		if (idColumns.containsKey(getClass())) {
+			return idColumns.get(getClass());
+		}
+		// Searching the id column
 		for (final Column column : getEntityColumns().values()) {
 			if (column.isID()) {
-				return column;
+				idColumns.put(getClass(), column);
+				return idColumns.get(getClass());
 			}
 		}
-		throw new Exception("No ID column for entity ");
+		// If none, throw exception
+		throw new NoIdException(this.getClass());
 	}
 	
 	/**
@@ -76,8 +96,8 @@ public abstract class Entity {
 	 * The {@link Column}s will be inserted in the order of their declaration in the corresponding
 	 * enumeration.
 	 * @param putID
-	 *            <code>true</code> if the {@link Column#isID() ID column} should be present in the
-	 *            query.
+	 *        <code>true</code> if the {@link Column#isID() ID column} should be present in the
+	 *        query.
 	 * @return the query ready for the entity specific data.
 	 */
 	public String generateInsertQuerySQL (final boolean putID) {
@@ -97,15 +117,15 @@ public abstract class Entity {
 	 * Generates a string with the delete statement for a SQL database.<br />
 	 * <code>DELETE FROM entity WHERE idColumn = value</code>
 	 * @return the query which delete an object from the table.
-	 * @throws Exception if the query could not be generated.
+	 * @throws NoIdException
+	 *         if the query could not be generated.
 	 */
-	public String generateDeleteQuerySQL () throws Exception {
+	public String generateDeleteQuerySQL () throws NoIdException {
 		return "DELETE FROM " + getEntityName() + generateWhereIDQuerySQL(getID());
 	}
 	
 	/**
-	 * Generates the beginning of the update query of the entity.
-	 * <code>UPDATE entity SET </code>
+	 * Generates the beginning of the update query of the entity. <code>UPDATE entity SET </code>
 	 * @return the query ready for adding the entity specific data.
 	 */
 	public String generateUpdateQuerySQL () {
@@ -116,23 +136,25 @@ public abstract class Entity {
 	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
 	 * <code> WHERE idColumn = value</code>
 	 * @return the WHERE clause of a query.
-	 * @throws Exception if the query could not be generated.
+	 * @throws NoIdException
+	 *         if the query could not be generated.
 	 */
-	public String generateWhereIDQuerySQL () throws Exception {
+	public String generateWhereIDQuerySQL () throws NoIdException {
 		return generateWhereIDQuerySQL(getID());
 	}
 	
 	/**
 	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
 	 * <code> WHERE idColumn = value</code>
-	 * @param id the id of the object to find.
+	 * @param id
+	 *        the id of the object to find.
 	 * @return the WHERE clause of a query.
-	 * @throws Exception if the query could not be generated.
+	 * @throws NoIdException
+	 *         if the query could not be generated.
 	 */
-	public String generateWhereIDQuerySQL (final Object id) throws Exception {
-		final Column idColumn = getIDColumn();
+	public String generateWhereIDQuerySQL (final Object id) throws NoIdException {
 		String fieldValue = " = ";
-		if (idColumn.getType().getSuperclass().equals(Number.class)) {
+		if (getIDColumn().getType().getSuperclass().equals(Number.class)) {
 			fieldValue += id.toString();
 		} else {
 			fieldValue += "'" + id.toString() + "'";
@@ -145,7 +167,7 @@ public abstract class Entity {
 	 * <code>SELECT * FROM entity</code>
 	 * @return the SQL query for retrieving all the rows from an entity.
 	 */
-	public String generateSearchAllQuery () {
+	public String generateSearchAllQuerySQL () {
 		return "SELECT * FROM " + getEntityName();
 	}
 }

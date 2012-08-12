@@ -15,7 +15,7 @@ public interface IParametersManager {
 	 *        the parameter to retrieve.
 	 * @return the object which contains the information about the parameter (value, type).
 	 */
-	public Parameter get (final ParametersEnum parameter);
+	Parameter get (final ParametersEnum parameter);
 	
 	/**
 	 * Update the value and/or the type of the parameter.<br />
@@ -24,5 +24,5 @@ public interface IParametersManager {
 	 *        the parameter to update
 	 * @return <code>true</code> if the parameter has been successfully updated.
 	 */
-	public boolean set (final Parameter parameter);
+	boolean set (final Parameter parameter);
 }

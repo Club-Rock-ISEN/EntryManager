@@ -9,14 +9,19 @@ import java.util.logging.Logger;
  * @author Alex
  */
 public class EntryMemberParty extends Entity {
-	private static Logger							lg			= Logger.getLogger(EntryMemberParty.class
-			.getName());
+	/** Logger */
+	private static Logger							lg			= Logger.getLogger(EntryMemberParty.class.getName());
 	
+	/** Map between the enumeration for the columns and the actual columns in the database */
 	private static Map<EntryMemberColumn, Column>	columns;
+	/** Name of the entity */
 	private static String							entityName	= "entryMemberParty";
 	
+	/** The id of the entry member party */
 	private Integer									idEntryMemberParty;
+	/** The id of the member entering */
 	private Integer									idMember;
+	/** The id of the party where the member is entering */
 	private Integer									idParty;
 	
 	/*
@@ -101,7 +106,7 @@ public class EntryMemberParty extends Entity {
 	 * Default constructor.
 	 */
 	public EntryMemberParty () {
-		this (null, (Integer) null, (Integer) null);
+		this(null, (Integer) null, (Integer) null);
 	}
 	
 	/**
@@ -115,7 +120,7 @@ public class EntryMemberParty extends Entity {
 	 *        the party.
 	 */
 	public EntryMemberParty (final Integer idEntryMemberParty, final Member member, final Party party) {
-		this (idEntryMemberParty, member.getIdMember(), party.getIdParty());
+		this(idEntryMemberParty, member.getIdMember(), party.getIdParty());
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package org.clubrockisen.dao;
+package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
 
@@ -41,7 +41,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	 * @see org.clubrockisen.dao.AbstractDAOFactory#getPartyDAO()
 	 */
 	@Override
-	public DAO<Party> getPartyDAO() {
+	public DAO<Party> getPartyDAO () {
 		return new MySQLPartyDAO(CONNECTION);
 	}
 	
@@ -51,6 +51,6 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	 */
 	@Override
 	public DAO<EntryMemberParty> getEntryMemberPartyDAO () {
-		return new MySQLEntryMemberParty(CONNECTION);
+		return new MySQLEntryMemberPartyDAO(CONNECTION);
 	}
 }

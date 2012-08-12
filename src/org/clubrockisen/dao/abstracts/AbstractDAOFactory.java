@@ -2,7 +2,7 @@ package org.clubrockisen.dao.abstracts;
 
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.MySQLDAOFactory;
+import org.clubrockisen.dao.DAOType;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
@@ -16,17 +16,6 @@ import org.clubrockisen.entities.Party;
 public abstract class AbstractDAOFactory {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
-	
-	/**
-	 * The enumeration for the {@link DAO} types.
-	 * @author Alex
-	 */
-	public enum DAOType {
-		/**
-		 * Access to the database through a MySQL connection.
-		 */
-		MYSQL
-	}
 	
 	/**
 	 * Retrieve a {@link DAO} for the {@link Parameter} class.
@@ -59,11 +48,12 @@ public abstract class AbstractDAOFactory {
 	 * @return the factory to use for creating the DAO objects.
 	 */
 	public static AbstractDAOFactory getFactory (final DAOType type) {
-		switch (type) {
-			case MYSQL:
-				return new MySQLDAOFactory();
+		try {
+			return type.getFactory().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			lg.severe("Cannot instantiate DAO type (" + type + "). " + e.getClass() + ", details: "
+					+ e.getMessage());
+			throw new DAOInstantiationException(type, e);
 		}
-		lg.severe("Unimplemented DAO type (" + type + ").");
-		throw new Error("DAO of type " + type + " is not implemented.");
 	}
 }

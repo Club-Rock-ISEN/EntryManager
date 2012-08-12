@@ -3,6 +3,7 @@ package org.clubrockisen.service;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -18,15 +19,19 @@ import org.clubrockisen.service.abstracts.IParametersManager;
  */
 public final class ParametersManager implements IParametersManager {
 	/** Logger */
-	private static Logger				lg			= Logger.getLogger(ParametersManager.class.getName());
+	private static Logger					lg			= Logger.getLogger(ParametersManager.class
+			.getName());
 	
 	/** Unique instance of the manager */
-	private static ParametersManager	singleton	= null;
+	private static ParametersManager		singleton	= null;
 	
 	/** The access to the parameters */
-	private final DAO<Parameter>		dao;
-	/** The map between the parameters (registered in the {@link ParametersEnum}) and the concrete parameter from the database */
-	private Map<ParametersEnum, Parameter>		parameters;
+	private final DAO<Parameter>			dao;
+	/**
+	 * The map between the parameters (registered in the {@link ParametersEnum}) and the concrete
+	 * parameter from the database
+	 */
+	private Map<ParametersEnum, Parameter>	parameters;
 	
 	/**
 	 * Constructor #1.<br />
@@ -87,7 +92,9 @@ public final class ParametersManager implements IParametersManager {
 	@Override
 	public boolean set (final Parameter parameter) {
 		if (dao.update(parameter)) {
-			lg.fine("Parameter " + parameter.getName() + " updated successfully.");
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Parameter " + parameter.getName() + " updated successfully.");
+			}
 			return true;
 		}
 		lg.warning("Parameter " + parameter.getName() + " was not updated.");
