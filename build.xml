@@ -161,28 +161,44 @@
 		</javadoc>
 	</target>
 
+	<!-- ###### JACOCO ###### -->
+	<!-- The task -->
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="${env.ProgramFiles}/jacoco-0.5.10/lib/jacocoant.jar" />
+    </taskdef>
+
 	<!-- ###### SONAR ###### -->
 	<!-- The task -->
 	<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
 		<classpath path="${ant.home}/lib/sonar-ant-task-1.4.jar" />
 	</taskdef>
 	<!-- The properties -->
+	<property name="sonar.host.url" value="http://0.0.0.0:9090" />
 	<property name="sonar.jdbc.url" value="jdbc:mysql://0.0.0.0:3306/sonar?useUnicode=true&amp;characterEncoding=utf8" />
 	<property name="sonar.jdbc.driverClassName" value="com.mysql.jdbc.Driver" />
 	<property name="sonar.jdbc.username" value="sonar" />
 	<property name="sonar.jdbc.password" value="sonar" />
-	<property name="sonar.host.url" value="http://0.0.0.0:9090" />
     <property name="sonar.java.source" value="${ant.java.version}" />
     <property name="sonar.java.target" location="${ant.java.version}" />
+	<property name="sonar.sources" value="${src.dir}" />
+	<property name="sonar.binaries" value="${bin.dir}" />
+    <!-- <property name="sonar.tests" value="${test.dir}" />
+    <property name="sonar.dynamicAnalysis" value="true" /> -->
 
 	<!-- ================================= 
 			          target: sonar              
 			         ================================= -->
 	<target name="sonar" depends="build" description="Start the sonar analysis">
-		<property name="sonar.sources" value="${src.dir}" />
-		<property name="sonar.binaries" value="${bin.dir}" />
-	    <!-- <property name="sonar.tests" value="${test.dir}" />
-	    <property name="sonar.dynamicAnalysis" value="true" /> -->
+
+	    <!-- <jacoco:coverage>
+	        <junit fork="true" forkmode="once">
+	            <test name="org.clubrockisen.AllTests"/>
+	            <classpath>
+	                <pathelement location="./bin"/>
+	            </classpath>
+	        </junit>
+	    </jacoco:coverage> -->
+
 		<sonar:sonar key="org.clubrockisen:app" version="0.1-SNAPSHOT" xmlns:sonar="antlib:org.sonar.ant" />
 	</target>
 

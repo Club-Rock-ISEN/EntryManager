@@ -58,4 +58,10 @@ public abstract class AbstractModel {
 			final Object newValue) {
 		observable.firePropertyChange(propertyName, oldValue, newValue);
 	}
+	
+	/**
+	 * Persists the current model in the database.<br />
+	 * Create or update operation, depending on the state of the entity in the database.
+	 */
+	public abstract void persist ();
 }

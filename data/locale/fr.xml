@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- Strings used in the application. -->
 <properties>
-	<entry key="app.title">Club Rock ISEN - Gestionnaire des entrées</entry>
 	
-	<entry key="app.menu.file">Fichier</entry>
-	<entry key="app.menu.file.profit">Bénéfices de la soirée</entry>
-	<entry key="app.menu.file.parameters">Réglage des paramètres</entry>
-	<entry key="app.menu.file.quit">Quitter</entry>
-	<entry key="app.menu.database">Base de données</entry>
-	<entry key="app.menu.database.seeMembers">Voir tout les membres</entry>
-	<entry key="app.menu.database.seeAttendees">Voir les personnes présentes</entry>
-	<entry key="app.menu.database.exportData">Exporter des données</entry>
-	<entry key="app.menu.member">Membre</entry>
-	<entry key="app.menu.newMember">Nouveau membre</entry>
-	<entry key="app.menu.deleteMember">Supprimer membre</entry>
-	<entry key="app.menu.updateMember">Modifier membre</entry>
-	<entry key="app.menu.help">Aide</entry>
-	<entry key="app.menu.help.about">À propos</entry>
+	<!-- Entities -->
+	<!-- Member -->
+	<entry key="entity.member">Membre</entry>
+	<entry key="entity.member.name">Nom</entry>
+	<entry key="entity.member.gender">Sexe</entry>
+	<entry key="entity.member.entries">Nombre d'entrée</entry>
+	<entry key="entity.member.credit">Crédit</entry>
+	<entry key="entity.member.status">Statut</entry>
 	
-	<entry key="app.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
-	<entry key="app.dialog.about.licence">Distribué sous "Nouvelle Licence BSD".</entry>
+	<!-- Enumerations -->
+	<!-- Gender -->
+	<entry key="enums.gender.male">Homme</entry>
+	<entry key="enums.gender.female">Femme</entry>
+	<!-- Status -->
+	<entry key="enums.status.member">Membre</entry>
+	<entry key="enums.status.helper_member">Adhérant</entry>
+	<entry key="enums.status.office_member">Membre du bureau</entry>
+	<entry key="enums.status.veteran">Membre d'honneur</entry>
 	
+	<!-- The user interface -->
+	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
+	
+	<!-- The menu of the main window -->
+	<entry key="gui.menu.file">Fichier</entry>
+	<entry key="gui.menu.file.profit">Bénéfices de la soirée</entry>
+	<entry key="gui.menu.file.parameters">Réglage des paramètres</entry>
+	<entry key="gui.menu.file.quit">Quitter</entry>
+	<entry key="gui.menu.database">Base de données</entry>
+	<entry key="gui.menu.database.seeMembers">Voir tout les membres</entry>
+	<entry key="gui.menu.database.seeAttendees">Voir les personnes présentes</entry>
+	<entry key="gui.menu.database.exportData">Exporter des données</entry>
+	<entry key="gui.menu.member">Membre</entry>
+	<entry key="gui.menu.member.newMember">Nouveau membre</entry>
+	<entry key="gui.menu.member.deleteMember">Supprimer membre</entry>
+	<entry key="gui.menu.member.updateMember">Modifier membre</entry>
+	<entry key="gui.menu.help">Aide</entry>
+	<entry key="gui.menu.help.help">Aide</entry>
+	<entry key="gui.menu.help.about">À propos</entry>
+	
+	<!-- Dialogs displayed -->
+	<!-- The about dialog -->
+	<entry key="gui.dialog.about.title">À propos</entry>
+	<entry key="gui.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
+	<entry key="gui.dialog.about.license">Distribué sous "Nouvelle Licence BSD".</entry>
+	
+	<!-- Miscellaneous -->
+	<entry key="misc.fieldValueSeparator"> :</entry>
+	<entry key="misc.currencySymbol">€</entry>
+	<entry key="misc.pluralLetter">s</entry>
+	
+	
+	<!-- Old translations -->
 	<entry key="app.mainWindow.groupBox.searchResult">Résultats de recherche</entry>
 	<entry key="app.mainWindow.button.enter">Entrée</entry>
 	<entry key="app.mainWindow.button.update">Modifier</entry>

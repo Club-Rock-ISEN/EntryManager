@@ -8,6 +8,7 @@ import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
 import org.clubrockisen.service.ParametersManager;
+import org.clubrockisen.service.Translator;
 import org.clubrockisen.view.MainWindow;
 
 /**
@@ -19,16 +20,60 @@ public final class App {
 	private static Logger					lg		= Logger.getLogger(App.class.getName());
 	
 	/** Access to the configuration */
-	private static final Configuration		CONFIG	= Configuration.getInstance();
+	private final Configuration				config;
 	/** Access to the key structure of the configuration */
 	private static final ConfigurationKey	KEYS	= ConfigurationKey.CONFIGURATION_KEY;
 	
 	/**
 	 * Constructor #1.<br />
-	 * Default private constructor to avoid instantiating the class.
+	 * Default private constructor which load the arguments and set the configuration of the program.
+	 * @param args
+	 *        the arguments from the command line.
 	 */
-	private App () {
+	private App (final String[] args) {
 		super();
+		
+		/** Loading configuration file from arguments */
+		if (args.length > 0) {
+			Configuration.setFile(args[0]);
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Loading configuration file from program command line " + args[0]);
+			}
+		}
+		/** Pre-loading configuration and translator. */
+		config = Configuration.getInstance();
+		Translator.getInstance();
+	}
+	
+	/**
+	 * Launch the application.
+	 */
+	private void launch () {
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Club Rock ISEN application starting...");
+		}
+		
+		/** Loading DAO factory and parameters */
+		final DAOType daoType = DAOType.fromValue(config.get(KEYS.DAO_FACTORY()));
+		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
+		ParametersManager.create(daoFactory);
+		
+		/** Loading GUI */
+		MainWindow.setLookAndFeel();
+		final MainWindow window = new MainWindow(daoFactory);
+		// Waiting for the window to build itself
+		synchronized (window) {
+			try {
+				window.wait(5000);
+			} catch (final InterruptedException e) {
+				lg.warning("Main thread interrupted: " + e.getMessage());
+			}
+		}
+		window.setVisible(true);
+		
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Club Rock ISEN application running.");
+		}
 	}
 	
 	/**
@@ -37,27 +82,8 @@ public final class App {
 	 *        the arguments from the command line.
 	 */
 	public static void main (final String[] args) {
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Starting Club Rock ISEN application.");
-		}
-		
-		/** Loading DAO factory and parameters */
-		final DAOType daoType = DAOType.fromValue(CONFIG.get(KEYS.DAO_FACTORY()));
-		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
-		ParametersManager.create(daoFactory);
-		
-		/** Loading GUI */
-		final String translationFile = CONFIG.get(KEYS.TRANSLATION_FILE());
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Language locale file defined: " + translationFile);
-		}
-		MainWindow.setLookAndFeel();
-		final MainWindow window = new MainWindow(translationFile, daoFactory);
-		window.setVisible(true);
-		
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Club Rock ISEN application running.");
-		}
+		final App app = new App(args);
+		app.launch();
 	}
 	
 }

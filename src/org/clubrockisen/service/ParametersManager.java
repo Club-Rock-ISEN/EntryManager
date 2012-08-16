@@ -19,8 +19,7 @@ import org.clubrockisen.service.abstracts.IParametersManager;
  */
 public final class ParametersManager implements IParametersManager {
 	/** Logger */
-	private static Logger					lg			= Logger.getLogger(ParametersManager.class
-			.getName());
+	private static Logger					lg			= Logger.getLogger(ParametersManager.class.getName());
 	
 	/** Unique instance of the manager */
 	private static ParametersManager		singleton	= null;
@@ -36,7 +35,8 @@ public final class ParametersManager implements IParametersManager {
 	/**
 	 * Constructor #1.<br />
 	 * Build the instance of the class.
-	 * @param daoFactory the factory for the DAO
+	 * @param daoFactory
+	 *        the factory for the DAO
 	 */
 	private ParametersManager(final AbstractDAOFactory daoFactory) {
 		lg.info("Building singleton for " + this.getClass().getName());
@@ -46,7 +46,8 @@ public final class ParametersManager implements IParametersManager {
 	
 	/**
 	 * Create the parameter manager.
-	 * @param daoFactory the DAO factory to use.
+	 * @param daoFactory
+	 *        the DAO factory to use.
 	 */
 	public static void create (final AbstractDAOFactory daoFactory) {
 		singleton = new ParametersManager(daoFactory);

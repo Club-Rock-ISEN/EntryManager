@@ -1,5 +1,7 @@
 package org.clubrockisen.entities.enums;
 
+import org.clubrockisen.service.Translator;
+
 /**
  * Enumeration for the genders.
  * @author Alex
@@ -30,6 +32,15 @@ public enum Gender {
 	 */
 	public char getAbbreviation () {
 		return abbreviation;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString () {
+		return Translator.getInstance().get(this);
 	}
 	
 	/**

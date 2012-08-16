@@ -1,5 +1,7 @@
 package org.clubrockisen.entities.enums;
 
+import org.clubrockisen.service.Translator;
+
 /**
  * Enumeration for the status of the member.
  * @author Alex
@@ -36,6 +38,15 @@ public enum Status {
 	 */
 	public String getName () {
 		return name;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString () {
+		return Translator.getInstance().get(this);
 	}
 	
 	/**

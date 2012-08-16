@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.model.abstracts.AbstractModel;
@@ -31,6 +32,7 @@ public class AbstractController implements PropertyChangeListener {
 	 * Default constructor.
 	 */
 	public AbstractController () {
+		super();
 		registeredModels = new LinkedList<>();
 		registeredViews = new LinkedList<>();
 	}
@@ -41,8 +43,10 @@ public class AbstractController implements PropertyChangeListener {
 	 */
 	@Override
 	public void propertyChange (final PropertyChangeEvent evt) {
-		lg.info("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
-				+ " (" + evt.getOldValue() + ")");
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
+					+ " (" + evt.getOldValue() + ")");
+		}
 		for (final AbstractView view : registeredViews) {
 			view.modelPropertyChange(evt);
 		}
@@ -93,7 +97,7 @@ public class AbstractController implements PropertyChangeListener {
 	 * @param newValue
 	 *        the value to set, of the appropriate class.
 	 */
-	protected void setModelProperty (final String propertyName, final Object newValue) {
+	public void setModelProperty (final String propertyName, final Object newValue) {
 		for (final AbstractModel model : registeredModels) {
 			try {
 				final Method method = model.getClass().getMethod("set" + propertyName,

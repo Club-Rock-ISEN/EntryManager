@@ -20,12 +20,15 @@ public final class Configuration {
 	
 	/** Unique instance of the class */
 	private static Configuration	singleton;
+	/** The configuration file to load */
+	private static String			configurationFile = null;
 	
 	/** The configuration properties */
 	private final Properties		configuration;
 	
 	/**
 	 * Constructor #1.<br />
+	 * Private default constructor, load the configuration properties from the configuration file.
 	 */
 	private Configuration () {
 		super();
@@ -46,11 +49,30 @@ public final class Configuration {
 	}
 	
 	/**
+	 * Set the configuration file to load.
+	 * @param filePath
+	 *        the path to the configuration file to load.
+	 */
+	public static void setFile (final String filePath) {
+		configurationFile = filePath;
+		if (singleton == null) {
+			getInstance();
+		} else {
+			getInstance().load();
+		}
+	}
+	
+	/**
 	 * Load the properties from the configuration file.
 	 */
 	private void load () {
+		// Set the file to default, if it has not been set
+		if (configurationFile == null || "".equals(configurationFile)) {
+			configurationFile = ConfigurationKey.FILE;
+		}
+		// Load the properties
 		try {
-			configuration.loadFromXML(new FileInputStream(ConfigurationKey.FILE));
+			configuration.loadFromXML(new FileInputStream(configurationFile));
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Properties successfully loaded:");
 				for (final Entry<Object, Object> currentProp : configuration.entrySet()) {

@@ -20,6 +20,7 @@ public class Member extends Entity {
 	/** Name of the entity*/
 	private static String						entityName	= "member";
 	
+	// The properties of the member
 	/** The id of the member */
 	private Integer								idMember;
 	/** The name of the member */
@@ -46,9 +47,40 @@ public class Member extends Entity {
 	 * Enumeration for the column of the table associated to the type.
 	 * @author Alex
 	 */
-	@SuppressWarnings("javadoc")
 	public enum MemberColumn {
-		ID, NAME, GENDER, ENTRIES, CREDIT, STATUS
+		/** The member's id */
+		ID("Id"),
+		/** The member's name */
+		NAME("Name"),
+		/** The member's gender */
+		GENDER("Gender"),
+		/** The member's entries */
+		ENTRIES("Entries"),
+		/** The member's credit */
+		CREDIT("Credit"),
+		/** The member's status */
+		STATUS("Status");
+		
+		/** The name of the property in the class */
+		private String	propertyName;
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build a new enumeration, based on the name of the attribute in the class.
+		 * @param propertyName
+		 *        the name of the property.
+		 */
+		private MemberColumn (final String propertyName) {
+			this.propertyName = propertyName;
+		}
+		
+		/**
+		 * Return the name of the attribute in the class.
+		 * @return the name of the property.
+		 */
+		public String getPropertyName () {
+			return propertyName;
+		}
 	}
 	
 	@Override
@@ -125,7 +157,7 @@ public class Member extends Entity {
 	 * @return the idMember
 	 */
 	public Integer getIdMember () {
-		return idMember;
+		return idMember == null ? -1 : idMember;
 	}
 	
 	/**
@@ -142,7 +174,7 @@ public class Member extends Entity {
 	 * @return the name
 	 */
 	public String getName () {
-		return name;
+		return name == null ? "" : name;
 	}
 	
 	/**
@@ -159,7 +191,7 @@ public class Member extends Entity {
 	 * @return the gender
 	 */
 	public Gender getGender () {
-		return gender;
+		return gender == null ? Gender.getDefault() : gender;
 	}
 	
 	/**
@@ -176,7 +208,7 @@ public class Member extends Entity {
 	 * @return the entries
 	 */
 	public int getEntries () {
-		return entries;
+		return entries == null ? 0 : entries;
 	}
 	
 	/**
@@ -193,7 +225,7 @@ public class Member extends Entity {
 	 * @return the credit
 	 */
 	public double getCredit () {
-		return credit;
+		return credit == null ? 0.0 : credit;
 	}
 	
 	/**
@@ -210,7 +242,7 @@ public class Member extends Entity {
 	 * @return the status
 	 */
 	public Status getStatus () {
-		return status;
+		return status == null ? Status.getDefault() : status;
 	}
 	
 	/**
@@ -228,7 +260,7 @@ public class Member extends Entity {
 	 */
 	@Override
 	public String toString () {
-		return name;
+		return name + " (" + idMember + ")";
 	}
 	
 }

@@ -1,22 +1,29 @@
 package org.clubrockisen.model;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.abstracts.AbstractModel;
 
 /**
- * TODO
+ * Model for the {@link Member} entity.
  * @author Alex
  */
 public class MemberModel extends AbstractModel {
+	/** Logger */
 	private static Logger		lg	= Logger.getLogger(MemberModel.class.getName());
 	
+	/** The member represented by the member */
 	private Member				member;
+	/** The DAO for members */
 	private final DAO<Member>	daoMember;
+	/** Flag which indicates if the model has already been used */
+	private boolean				newFlag;
 	
 	/**
 	 * Constructor #1.<br />
@@ -25,33 +32,37 @@ public class MemberModel extends AbstractModel {
 	 *        the {@link DAO} for the members.
 	 */
 	public MemberModel (final DAO<Member> daoMember) {
-		lg.fine("Building new " + this.getClass().getSimpleName());
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Building new " + this.getClass().getSimpleName());
+		}
 		this.member = new Member();
 		this.daoMember = daoMember;
+		this.newFlag = true;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#fireModelChange(java.lang.String,
-	 * java.lang.Object, java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
 	 */
 	@Override
-	protected void fireModelChange (final String propertyName, final Object oldValue,
-			final Object newValue) {
-		// Persist changes
+	public void persist () {
 		if (member.getIdMember() != null) {
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Updating member " + member);
+			}
 			daoMember.update(member);
 		} else {
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Creating member " + member);
+			}
 			member = daoMember.create(member);
 		}
-		super.fireModelChange(propertyName, oldValue, newValue);
 	}
 	
 	/**
 	 * Initialize model with default values.
 	 */
 	public void initDefault () {
-		member = new Member();
+		initMember(new Member());
 	}
 	
 	/**
@@ -60,7 +71,13 @@ public class MemberModel extends AbstractModel {
 	 *        the member to use.
 	 */
 	public void initMember (final Member memberToUse) {
-		this.member = memberToUse;
+		member.setIdMember(memberToUse.getIdMember());
+		setName(memberToUse.getName());
+		setGender(memberToUse.getGender());
+		setEntries(memberToUse.getEntries());
+		setCredit(memberToUse.getCredit());
+		setStatus(memberToUse.getStatus());
+		newFlag = false;
 	}
 	
 	/**
@@ -68,7 +85,7 @@ public class MemberModel extends AbstractModel {
 	 * @return the name
 	 */
 	public String getName () {
-		return member.getName();
+		return newFlag ? null : member.getName();
 	}
 	
 	/**
@@ -79,7 +96,7 @@ public class MemberModel extends AbstractModel {
 	public void setName (final String name) {
 		final String oldName = getName();
 		member.setName(name);
-		fireModelChange("", oldName, name);
+		fireModelChange(MemberColumn.NAME.getPropertyName(), oldName, name);
 	}
 	
 	/**
@@ -87,7 +104,7 @@ public class MemberModel extends AbstractModel {
 	 * @return the gender
 	 */
 	public Gender getGender () {
-		return member.getGender();
+		return newFlag ? null : member.getGender();
 	}
 	
 	/**
@@ -98,15 +115,15 @@ public class MemberModel extends AbstractModel {
 	public void setGender (final Gender gender) {
 		final Gender oldGender = getGender();
 		member.setGender(gender);
-		fireModelChange("", oldGender, gender);
+		fireModelChange(MemberColumn.GENDER.getPropertyName(), oldGender, gender);
 	}
 	
 	/**
 	 * Return the entries.
 	 * @return the entries
 	 */
-	public int getEntries () {
-		return member.getEntries();
+	public Integer getEntries () {
+		return newFlag ? null : member.getEntries();
 	}
 	
 	/**
@@ -115,17 +132,17 @@ public class MemberModel extends AbstractModel {
 	 *        the entries to set
 	 */
 	public void setEntries (final int entries) {
-		final int oldEntries = getEntries();
+		final Integer oldEntries = getEntries();
 		member.setEntries(entries);
-		fireModelChange("", oldEntries, entries);
+		fireModelChange(MemberColumn.ENTRIES.getPropertyName(), oldEntries, entries);
 	}
 	
 	/**
 	 * Return the credit.
 	 * @return the credit
 	 */
-	public double getCredit () {
-		return member.getCredit();
+	public Double getCredit () {
+		return newFlag ? null : member.getCredit();
 	}
 	
 	/**
@@ -134,9 +151,9 @@ public class MemberModel extends AbstractModel {
 	 *        the credit to set
 	 */
 	public void setCredit (final double credit) {
-		final double oldCredit = getCredit();
+		final Double oldCredit = getCredit();
 		member.setCredit(credit);
-		fireModelChange("", oldCredit, credit);
+		fireModelChange(MemberColumn.CREDIT.getPropertyName(), oldCredit, credit);
 	}
 	
 	/**
@@ -144,7 +161,7 @@ public class MemberModel extends AbstractModel {
 	 * @return the status
 	 */
 	public Status getStatus () {
-		return member.getStatus();
+		return newFlag ? null : member.getStatus();
 	}
 	
 	/**
@@ -155,6 +172,6 @@ public class MemberModel extends AbstractModel {
 	public void setStatus (final Status status) {
 		final Status oldStatus = getStatus();
 		member.setStatus(status);
-		fireModelChange("", oldStatus, status);
+		fireModelChange(MemberColumn.STATUS.getPropertyName(), oldStatus, status);
 	}
 }
