@@ -136,7 +136,7 @@ public class Party extends Entity {
 	 * @param profit
 	 *        the profit of the party.
 	 */
-	public Party(final Integer idParty, final Date date, final Integer entriesTotal,
+	public Party (final Integer idParty, final Date date, final Integer entriesTotal,
 			final Integer entriesFirstPart, final Integer entriesSecondPart,
 			final Integer entriesNewMembers, final Integer entriesFree, final Integer entriesMale,
 			final Integer entriesFemale, final Double revenue, final Double profit) {
@@ -159,8 +159,17 @@ public class Party extends Entity {
 	 * Constructor #2.<br />
 	 * Default constructor.
 	 */
-	public Party() {
+	public Party () {
 		this(null, null, null, null, null, null, null, null, null, null, null);
+	}
+	
+	/**
+	 * Constructor #3.<br />
+	 * @param date
+	 *        the date of the party.
+	 */
+	public Party (final Date date) {
+		this (null, date, null, null, null, null, null, null, null, null, null);
 	}
 	
 	/**
@@ -345,7 +354,7 @@ public class Party extends Entity {
 	 */
 	@Override
 	public String toString () { // TODO edit
-		return new SimpleDateFormat("EEEE d MMMM yyyy").format(getDate());
+		return new SimpleDateFormat("EEEE d MMMM yyyy").format(getDate()) + " (id: " + idParty + ")";
 	}
 	
 }

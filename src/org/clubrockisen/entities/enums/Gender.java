@@ -34,9 +34,10 @@ public enum Gender {
 		return abbreviation;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Enum#toString()
+	/**
+	 * Return a String containing the translation of the current enumeration (via the
+	 * {@link Translator}).
+	 * @return the translation for the current gender.
 	 */
 	@Override
 	public String toString () {

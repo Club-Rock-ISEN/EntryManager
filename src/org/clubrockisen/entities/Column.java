@@ -102,4 +102,12 @@ public class Column {
 		this.isID = isID;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString () {
+		return "name: " + name + ", type: " + type.getSimpleName() + ", is id: " + isID;
+	}
+	
 }

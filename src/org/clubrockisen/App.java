@@ -22,7 +22,7 @@ public final class App {
 	/** Access to the configuration */
 	private final Configuration				config;
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS	= ConfigurationKey.CONFIGURATION_KEY;
+	private static final ConfigurationKey	KEYS	= ConfigurationKey.KEY;
 	
 	/**
 	 * Constructor #1.<br />
@@ -54,7 +54,7 @@ public final class App {
 		}
 		
 		/** Loading DAO factory and parameters */
-		final DAOType daoType = DAOType.fromValue(config.get(KEYS.DAO_FACTORY()));
+		final DAOType daoType = DAOType.fromValue(config.get(KEYS.daoFactory()));
 		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
 		ParametersManager.create(daoFactory);
 		

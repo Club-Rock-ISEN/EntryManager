@@ -1,9 +1,9 @@
 package org.clubrockisen.entities.enums;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +15,11 @@ import org.junit.Test;
 public class GenderTest {
 	
 	/** The male gender */
-	private Gender male;
+	private Gender	male;
 	/** The female gender */
-	private Gender female;
+	private Gender	female;
+	/** The wrong abbreviation to test */
+	private char	noEnum;
 	
 	/**
 	 * Set the male & female attributes.
@@ -26,6 +28,7 @@ public class GenderTest {
 	public void setUp () {
 		male = Gender.MALE;
 		female = Gender.FEMALE;
+		noEnum = 'z';
 	}
 	
 	/**
@@ -33,7 +36,7 @@ public class GenderTest {
 	 */
 	@Test
 	public void testEnumerations () {
-		assertNotSame(male.getAbbreviation(), female.getAbbreviation());
+		assertThat(male.getAbbreviation(), not(female.getAbbreviation()));
 	}
 	
 	/**
@@ -46,17 +49,33 @@ public class GenderTest {
 	}
 	
 	/**
+	 * Test method for {@link org.clubrockisen.entities.enums.Gender#toString()}.
+	 */
+	@Test
+	public void testToString () {
+		assertNotNull(male.toString());
+		assertNotNull(female.toString());
+		assertThat(male.toString().length(), not(0));
+		assertThat(female.toString().length(), not(0));
+		assertThat(male.toString(), not(female.toString()));
+	}
+	
+	/**
 	 * Test method for {@link org.clubrockisen.entities.enums.Gender#fromValue(char)}.
 	 */
 	@Test
 	public void testFromValue () {
 		assertEquals(male, Gender.fromValue(male.getAbbreviation()));
 		assertEquals(female, Gender.fromValue(female.getAbbreviation()));
-		try {
-			Gender.fromValue('z');
-			fail();
-		} catch (final IllegalArgumentException e) {
-			assertTrue(true);
-		}
 	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.enums.Gender#fromValue(char)} which checks
+	 * that an exception is thrown on wrong value.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromValueException () {
+		Gender.fromValue(noEnum);
+	}
+	
 }

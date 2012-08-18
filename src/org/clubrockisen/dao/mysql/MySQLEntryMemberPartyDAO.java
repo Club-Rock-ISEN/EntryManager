@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
@@ -20,14 +17,14 @@ import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
  * This class should be the only access point to the {@link EntryMemberParty} table in the database.
  * @author Alex
  */
-public class MySQLEntryMemberPartyDAO implements DAO<EntryMemberParty> {
+public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(MySQLEntryMemberPartyDAO.class.getName());
+	private static Logger							lg	= Logger.getLogger(MySQLEntryMemberPartyDAO.class.getName());
 	
-	/** The connection to the database */
-	private final Connection						connection;
 	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
+	/** Sample to be used by the super class */
+	private EntryMemberParty						entrySample;
 	
 	/**
 	 * Constructor #1.<br />
@@ -35,11 +32,39 @@ public class MySQLEntryMemberPartyDAO implements DAO<EntryMemberParty> {
 	 *        the connection to the database.
 	 */
 	public MySQLEntryMemberPartyDAO (final Connection connection) {
-		this.connection = connection;
-		lg.fine("New " + this.getClass().getCanonicalName() + ".");
+		super(connection);
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("New " + this.getClass().getCanonicalName() + ".");
+		}
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
-		columns = new EntryMemberParty().getEntityColumns();
+		columns = getEntitySample().getEntityColumns();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
+	 */
+	@Override
+	protected EntryMemberParty getEntitySample () {
+		if (entrySample == null) {
+			entrySample = new EntryMemberParty();
+		}
+		return entrySample;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#createEntityFromResult(java.sql.ResultSet)
+	 */
+	@Override
+	protected EntryMemberParty createEntityFromResult (final ResultSet result) throws SQLException {
+		final EntryMemberParty newEntry = new EntryMemberParty();
+		
+		// Setting entry properties
+		newEntry.setIdEntryMemberParty(result.getInt(columns.get(EntryMemberColumn.ID).getName()));
+		newEntry.setIdMember(result.getInt(columns.get(EntryMemberColumn.MEMBER_ID).getName()));
+		newEntry.setIdParty(result.getInt(columns.get(EntryMemberColumn.PARTY_ID).getName()));
+		
+		return newEntry;
 	}
 	
 	/*
@@ -49,65 +74,35 @@ public class MySQLEntryMemberPartyDAO implements DAO<EntryMemberParty> {
 	@Override
 	public EntryMemberParty create (final EntryMemberParty obj) {
 		if (obj == null) {
-			lg.info("Cannot create a null " + EntryMemberParty.class.getName());
 			return null;
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Creating the entry for member " + obj.getIdMember() + " at party " + obj.getIdParty());
 		}
 		
 		EntryMemberParty newEntry = null;
-		lg.fine("Creating the entry for member " + obj.getIdMember() + " at party " + obj.getIdParty());
-		
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
+		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateInsertQuerySQL(false) + " ("
 					+ "'" + obj.getIdMember() + "',"
 					+ "'" + obj.getIdParty() + "');";
-			lg.info(query);
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info(query);
+			}
 			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 			// Retrieve last inserted entry member party
-			final ResultSet result = statement.getGeneratedKeys();
-			if (result.next()) {
-				newEntry = find(result.getInt(1));
-			} else {
-				throw new SQLException("Could not retrieve last inserted id.");
+			try (final ResultSet result = statement.getGeneratedKeys()) {
+				if (result.next()) {
+					newEntry = find(result.getInt(1));
+				} else {
+					throw new SQLException("Could not retrieve last inserted id.");
+				}
 			}
-			result.close();
-			statement.close();
 		} catch (final SQLException e) {
 			lg.warning("SQL exception while creating an entry member party: " + e.getMessage());
 			return null;
 		}
 		return newEntry;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#find(int)
-	 */
-	@Override
-	public EntryMemberParty find (final int id) {
-		EntryMemberParty entry = null;
-		lg.fine("Finding the entry member party with id = " + id);
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			final EntryMemberParty e = new EntryMemberParty();
-			final String query = e.generateSearchAllQuerySQL() + e.generateWhereIDQuerySQL(id);
-			lg.info(query);
-			// Retrieve the inserted entry member
-			final ResultSet result = statement.executeQuery(query);
-			if (result.first()) {
-				entry = createEntryMemberPartyformResult(result);
-			} else {
-				lg.info("Could not retrieve entry member party with id = " + id);
-			}
-			result.close();
-			statement.close();
-		} catch (final Exception e) {
-			lg.warning("Exception while retrieving an entry member party: " + e.getMessage());
-			return null;
-		}
-		return entry;
 	}
 	
 	/*
@@ -119,153 +114,25 @@ public class MySQLEntryMemberPartyDAO implements DAO<EntryMemberParty> {
 		if (obj == null) {
 			return false;
 		}
-		lg.fine("Updating the entry with id = " + obj.getIdEntryMemberParty());
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Updating the entry with id = " + obj.getIdEntryMemberParty());
+		}
+		
+		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(EntryMemberColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
 					columns.get(EntryMemberColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
 					obj.generateWhereIDQuerySQL();
-			lg.info(query);
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info(query);
+			}
 			statement.executeUpdate(query);
-			statement.close();
 		} catch (final Exception e) {
 			lg.warning("Exception while updating an entry: " + e.getMessage());
 			return false;
 		}
 		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#delete(org.clubrockisen.entities.Entity)
-	 */
-	@Override
-	public boolean delete (final EntryMemberParty obj) {
-		if (obj == null) {
-			return true;
-		}
-		lg.fine("Deleting entry " + obj.getIdEntryMemberParty());
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
-			final String query = obj.generateDeleteQuerySQL();
-			lg.info(query);
-			statement.executeUpdate(query);
-			statement.close();
-		} catch (final Exception e) {
-			lg.warning("Exception while deleting entry: " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#retrieveAll()
-	 */
-	@Override
-	public List<EntryMemberParty> retrieveAll () {
-		final List<EntryMemberParty> allEntries = new ArrayList<>();
-		lg.fine("Retrieving all entries");
-		
-		try {
-			final long time1 = System.currentTimeMillis();
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			final String query = new EntryMemberParty().generateSearchAllQuerySQL();
-			lg.info(query);
-			final ResultSet result = statement.executeQuery(query);
-			final long time2 = System.currentTimeMillis();
-			while (result.next()) {
-				allEntries.add(createEntryMemberPartyformResult(result));
-			}
-			// Time for query logging
-			if (lg.isLoggable(Level.FINE)) {
-				final long time3 = System.currentTimeMillis();
-				lg.fine("Time for request: " + (time2-time1) + " ms");
-				lg.fine("Time for building list: " + (time3-time2) + " ms");
-				lg.fine("Time for both: " + (time3-time1) + " ms");
-			}
-			
-			result.close();
-			statement.close();
-		} catch (final SQLException e) {
-			lg.warning("Exception while retrieving all entries: " + e.getMessage());
-			return allEntries;
-		}
-		
-		return allEntries;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
-	 */
-	@Override
-	public List<EntryMemberParty> search (final Column field, final String value) {
-		if (field == null || value == null) {
-			return retrieveAll();
-		}
-		
-		final List<EntryMemberParty> entries = new ArrayList<>();
-		lg.fine("Searching entries with " + field.getName() + " = " + value);
-		
-		try {
-			final long time1 = System.currentTimeMillis();
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			String query = new EntryMemberParty().generateSearchAllQuerySQL() + " WHERE " + field.getName();
-			if (field.getType().equals(String.class)) {
-				query += " LIKE '" + value + "%'";
-			} else if (field.getType().getSuperclass().equals(Number.class)) {
-				query += " = " + value;
-			} else {
-				query += " = '" + value + "'";
-			}
-			lg.info(query);
-			final ResultSet result = statement.executeQuery(query);
-			final long time2 = System.currentTimeMillis();
-			while (result.next()) {
-				entries.add(createEntryMemberPartyformResult(result));
-			}
-			// Time for query logging
-			if (lg.isLoggable(Level.FINE)) {
-				final long time3 = System.currentTimeMillis();
-				lg.fine("Time for request: " + (time2 - time1) + " ms");
-				lg.fine("Time for building list: " + (time3 - time2) + " ms");
-				lg.fine("Time for both: " + (time3 - time1) + "ms");
-			}
-			
-			result.close();
-			statement.close();
-		} catch (final SQLException e) {
-			lg.warning("Exception while searching entries: " + e.getMessage());
-			return entries;
-		}
-		
-		return entries;
-	}
-	
-	/**
-	 * Creates an entry from a row of result.<br />
-	 * Do not move to the next result.
-	 * @param result
-	 *        the result of the query.
-	 * @return the newly created entry.
-	 * @throws SQLException
-	 *         if there was a problem while reading the data from the columns.
-	 */
-	private EntryMemberParty createEntryMemberPartyformResult (final ResultSet result) throws SQLException {
-		final EntryMemberParty newEntry = new EntryMemberParty();
-		
-		// Setting entry properties
-		newEntry.setIdEntryMemberParty(result.getInt(columns.get(EntryMemberColumn.ID).getName()));
-		newEntry.setIdMember(result.getInt(columns.get(EntryMemberColumn.MEMBER_ID).getName()));
-		newEntry.setIdParty(result.getInt(columns.get(EntryMemberColumn.PARTY_ID).getName()));
-		
-		return newEntry;
 	}
 	
 }

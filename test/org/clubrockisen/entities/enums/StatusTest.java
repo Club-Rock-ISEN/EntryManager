@@ -1,8 +1,9 @@
 package org.clubrockisen.entities.enums;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,8 @@ public class StatusTest {
 	private Status			office;
 	/** The veteran status */
 	private Status			veteran;
+	/** A status name which does not exists */
+	private String			wrongStatusName;
 	
 	/**
 	 * Build the list with the status.
@@ -37,6 +40,7 @@ public class StatusTest {
 		helper = Status.HELPER_MEMBER;
 		office = Status.OFFICE_MEMBER;
 		veteran = Status.VETERAN;
+		wrongStatusName = "isen";
 	}
 	
 	/**
@@ -45,12 +49,10 @@ public class StatusTest {
 	@Test
 	public void testEnumerations () {
 		for (int index = 0; index < status.size(); ++index) {
-			final Status currentStatus =  status.get(index);
+			final Status currentStatus = status.get(index);
 			for (int otherIndex = index + 1; otherIndex < status.size(); ++otherIndex) {
-				if (currentStatus.getName().equalsIgnoreCase(status.get(otherIndex).getName())) {
-					fail("Two status with name " + currentStatus.getName() + " found (" +
-							currentStatus + " and " + status.get(otherIndex) + ").");
-				}
+				assertThat(currentStatus.getName().toLowerCase(), not(status.get(otherIndex)
+						.getName().toLowerCase()));
 			}
 		}
 	}
@@ -67,6 +69,23 @@ public class StatusTest {
 	}
 	
 	/**
+	 * Test method for {@link org.clubrockisen.entities.enums.Gender#toString()}.
+	 */
+	@Test
+	public void testToString () {
+		for (final Status currentStatus : status) {
+			assertNotNull(currentStatus.toString());
+			assertThat(status.toString().length(), not(0));
+			for (final Status otherStatus : status) {
+				if (currentStatus.equals(otherStatus)) {
+					continue;
+				}
+				assertThat(currentStatus.toString(), not(otherStatus.toString()));
+			}
+		}
+	}
+	
+	/**
 	 * Test method for {@link org.clubrockisen.entities.enums.Status#fromValue(java.lang.String)}.
 	 */
 	@Test
@@ -79,12 +98,14 @@ public class StatusTest {
 		assertEquals(office, Status.fromValue("OFFICE_MEMBER"));
 		assertEquals(veteran, Status.fromValue(veteran.getName()));
 		assertEquals(veteran, Status.fromValue("VETERAN"));
-		try {
-			Status.fromValue("isen");
-			fail();
-		} catch (final IllegalArgumentException e) {
-			assertTrue(true);
-		}
-		
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.enums.Status#fromValue(java.lang.String)}
+	 * which checks if it throws an exception for an unknown status name.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testFromValueException () {
+		Status.fromValue(wrongStatusName);
 	}
 }

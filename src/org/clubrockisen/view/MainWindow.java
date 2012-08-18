@@ -39,6 +39,8 @@ import org.clubrockisen.controller.MemberPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.enums.Gender;
+import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.ParametersEnum;
 import org.clubrockisen.service.ParametersManager;
 import org.clubrockisen.service.TranslationKey;
@@ -103,14 +105,9 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void run () {
 				buildGUI();
-				try {
-					Thread.sleep(2000);
-				} catch (final InterruptedException e) {
-					// TODO Auto-generated catch block
-					lg.warning("TODO (" + e.getMessage() + ")");
-					e.printStackTrace();
+				if (lg.isLoggable(Level.INFO)) {
+					lg.info("Main window built");
 				}
-				lg.info("Main window built");
 				synchronized (mainWindow) {
 					mainWindow.notify();
 				}
@@ -152,7 +149,7 @@ public class MainWindow extends JFrame implements AbstractView {
 	 * Create the controls, menu, labels, etc.
 	 */
 	private void buildGUI () {
-		this.setTitle(translator.get(TranslationKey.GUI.TITLE()));
+		this.setTitle(translator.get(TranslationKey.GUI.title()));
 		this.setSize(900, 600);
 		try {
 			this.setIconImage(ImageIO.read(new File("./data/images/icon.png")));
@@ -174,8 +171,8 @@ public class MainWindow extends JFrame implements AbstractView {
 	private void buildMenus () {
 		menuBar = new JMenuBar();
 		// File menu creation
-		fileMenu = new JMenu(translator.get(TranslationKey.GUI.MENU().FILE().toString()));
-		profitItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().FILE().PROFIT()));
+		fileMenu = new JMenu(translator.get(TranslationKey.GUI.menu().file().toString()));
+		profitItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().profit()));
 		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		profitItem.addActionListener(new ActionListener() {
 			
@@ -184,15 +181,16 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		parametersItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().FILE().PARAMETERS()));
+		parametersItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().parameters()));
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				daoMember.find(10000);
-				//daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
+				lg.info("found: " + daoMember.find(10000));
+				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
+				daoMember.delete(m);
 				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
 				//tmp.setEntries(tmp.getEntries()+1);
 				//tmp.setName("SUCCESS");
@@ -202,7 +200,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				//ParametersManager.getInstance().set(laf);
 			}
 		});
-		quitItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().FILE().QUIT()));
+		quitItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().quit()));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
 			
@@ -218,8 +216,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		dataBaseMenu = new JMenu(translator.get(TranslationKey.GUI.MENU().DATABASE().toString()));
-		seeMembersItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().DATABASE().SEE_MEMBERS()));
+		dataBaseMenu = new JMenu(translator.get(TranslationKey.GUI.menu().database().toString()));
+		seeMembersItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().seeMembers()));
 		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMembersItem.addActionListener(new ActionListener() {
 			
@@ -228,7 +226,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		seeAttendeesItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().DATABASE().SEE_ATTENDEES()));
+		seeAttendeesItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().seeAttendees()));
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
 			
@@ -237,7 +235,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		exportDataItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().DATABASE().EXPORT_DATA()));
+		exportDataItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().exportData()));
 		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
 		exportDataItem.addActionListener(new ActionListener() {
 			
@@ -252,8 +250,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		memberMenu = new JMenu(translator.get(TranslationKey.GUI.MENU().MEMBER().toString()));
-		newMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().MEMBER().NEW_MEMBER()));
+		memberMenu = new JMenu(translator.get(TranslationKey.GUI.menu().member().toString()));
+		newMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().newMember()));
 		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 		newMemberItem.addActionListener(new ActionListener() {
 			
@@ -262,7 +260,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		deleteMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().MEMBER().DELETE_MEMBER()));
+		deleteMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().deleteMember()));
 		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
 		deleteMemberItem.addActionListener(new ActionListener() {
 			
@@ -271,7 +269,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		updateMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().MEMBER().UPDATE_MEMBER()));
+		updateMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().updateMember()));
 		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
 		updateMemberItem.addActionListener(new ActionListener() {
 			
@@ -290,8 +288,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		helpMenu = new JMenu(translator.get(TranslationKey.GUI.MENU().HELP().toString()));
-		helpItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().HELP().HELP()));
+		helpMenu = new JMenu(translator.get(TranslationKey.GUI.menu().help().toString()));
+		helpItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().help().help()));
 		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		helpItem.addActionListener(new ActionListener() {
 			
@@ -301,16 +299,16 @@ public class MainWindow extends JFrame implements AbstractView {
 				
 			}
 		});
-		aboutItem = new JMenuItem(translator.get(TranslationKey.GUI.MENU().HELP().ABOUT()));
+		aboutItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().help().about()));
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(mainWindow,
-						translator.get(TranslationKey.GUI.DIALOG().ABOUT().AUTHOR()) + " Alex Barféty.\n"
-								+ translator.get(TranslationKey.GUI.DIALOG().ABOUT().LICENSE()),
-								translator.get(TranslationKey.GUI.DIALOG().ABOUT().TITLE()),
+						translator.get(TranslationKey.GUI.dialog().about().author()) + " Alex Barféty.\n"
+								+ translator.get(TranslationKey.GUI.dialog().about().license()),
+								translator.get(TranslationKey.GUI.dialog().about().title()),
 								JOptionPane.INFORMATION_MESSAGE);
 			}
 		});

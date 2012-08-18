@@ -2,12 +2,9 @@ package org.clubrockisen.view.abstracts;
 
 import java.beans.PropertyChangeEvent;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
-
 /**
  * Abstract class for views.<br />
- * This allows any views (which extends this class) to be controlled by an
- * {@link AbstractController}.
+ * This allows any views (which extends this class) to be warned on a model's property change.
  * @author Alex
  */
 public interface AbstractView {

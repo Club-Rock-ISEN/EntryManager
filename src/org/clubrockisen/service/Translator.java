@@ -26,7 +26,7 @@ public final class Translator implements ITranslator {
 	/** Access to the configuration */
 	private final Configuration				config	= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS	= ConfigurationKey.CONFIGURATION_KEY;
+	private static final ConfigurationKey	KEYS	= ConfigurationKey.KEY;
 	
 	/** The map between the keys and their translation */
 	private final Properties				translations;
@@ -36,7 +36,7 @@ public final class Translator implements ITranslator {
 	 * Private constructor which load the translation file.
 	 */
 	private Translator () {
-		final String translationFile = config.get(KEYS.TRANSLATION_FILE());
+		final String translationFile = config.get(KEYS.translationFile());
 		translations = new Properties();
 		try {
 			translations.loadFromXML(new FileInputStream(translationFile));

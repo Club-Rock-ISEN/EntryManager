@@ -2,6 +2,7 @@ package org.clubrockisen.model.abstracts;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -11,12 +12,11 @@ import java.util.logging.Logger;
  * @author Alex
  */
 public abstract class AbstractModel {
+	/** Logger */
 	private static Logger			lg	= Logger.getLogger(AbstractModel.class.getName());
 	
-	/**
-	 * The observable object.
-	 */
-	protected PropertyChangeSupport	observable;
+	/** The observable object */
+	private final PropertyChangeSupport	observable;
 	
 	/**
 	 * Constructor #1.<br />
@@ -24,7 +24,9 @@ public abstract class AbstractModel {
 	 */
 	public AbstractModel () {
 		observable = new PropertyChangeSupport(this);
-		lg.fine("Created a new " + this.getClass().getSimpleName());
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Created a new " + this.getClass().getSimpleName());
+		}
 	}
 	
 	/**

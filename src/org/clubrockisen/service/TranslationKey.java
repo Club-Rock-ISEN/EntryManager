@@ -15,7 +15,7 @@ public final class TranslationKey {
 	/**
 	 * Constructor #1.<br />
 	 * Unique default and private constructor. Allow access to the configuration key only through
-	 * {@link #CONFIGURATION_KEY}.
+	 * TODO
 	 */
 	private TranslationKey () {
 		super();
@@ -28,7 +28,7 @@ public final class TranslationKey {
 	 * The GUI related translations
 	 * @author Alex
 	 */
-	public static class Gui {
+	public static final class Gui {
 		/** The key to the GUI structure */
 		private final String	guiKey	= "gui";
 		
@@ -53,7 +53,7 @@ public final class TranslationKey {
 		 * The title of the application.
 		 * @return the translation for the application's title.
 		 */
-		public String TITLE () {
+		public String title () {
 			return guiKey + "." + "title";
 		}
 		
@@ -61,7 +61,7 @@ public final class TranslationKey {
 		 * The menu translation.
 		 * @author Alex
 		 */
-		public static class Menu {
+		public static final class Menu {
 			/** The key to the menu structure */
 			private final String	menuKey;
 			
@@ -89,7 +89,7 @@ public final class TranslationKey {
 			 * The file menu translation.
 			 * @author Alex
 			 */
-			public static class File {
+			public static final class File {
 				/** The key to the file menu */
 				private final String	fileKey;
 				
@@ -117,7 +117,7 @@ public final class TranslationKey {
 				 * The profit item.
 				 * @return the translation for the profit item.
 				 */
-				public String PROFIT () {
+				public String profit () {
 					return fileKey + "." + "profit";
 				}
 				
@@ -125,7 +125,7 @@ public final class TranslationKey {
 				 * The parameters item.
 				 * @return the translation for the parameters item.
 				 */
-				public String PARAMETERS () {
+				public String parameters () {
 					return fileKey + "." + "parameters";
 				}
 				
@@ -133,7 +133,7 @@ public final class TranslationKey {
 				 * The quit item.
 				 * @return the translation for the quit item.
 				 */
-				public String QUIT () {
+				public String quit () {
 					return fileKey + "." + "quit";
 				}
 			}
@@ -142,7 +142,7 @@ public final class TranslationKey {
 			 * Access to the file menu translations.
 			 * @return the file menu translations.
 			 */
-			public File FILE () {
+			public File file () {
 				return new File(menuKey);
 			}
 			
@@ -150,7 +150,7 @@ public final class TranslationKey {
 			 * The database menu translation.
 			 * @author Alex
 			 */
-			public static class Database {
+			public static final class Database {
 				/** The key to the file menu */
 				private final String	databaseKey;
 				
@@ -178,7 +178,7 @@ public final class TranslationKey {
 				 * The see members item.
 				 * @return the translation for the see members item.
 				 */
-				public String SEE_MEMBERS () {
+				public String seeMembers () {
 					return databaseKey + "." + "seeMembers";
 				}
 				
@@ -186,7 +186,7 @@ public final class TranslationKey {
 				 * The see attendees item.
 				 * @return the translation for the see attendees item.
 				 */
-				public String SEE_ATTENDEES () {
+				public String seeAttendees () {
 					return databaseKey + "." + "seeAttendees";
 				}
 				
@@ -194,7 +194,7 @@ public final class TranslationKey {
 				 * The export data item.
 				 * @return the translation for the export data item.
 				 */
-				public String EXPORT_DATA () {
+				public String exportData () {
 					return databaseKey + "." + "exportData";
 				}
 				
@@ -204,7 +204,7 @@ public final class TranslationKey {
 			 * Access to the database menu translations.
 			 * @return the database menu translations.
 			 */
-			public Database DATABASE () {
+			public Database database () {
 				return new Database(menuKey);
 			}
 			
@@ -212,7 +212,7 @@ public final class TranslationKey {
 			 * The member menu translation.
 			 * @author Alex
 			 */
-			public static class Member {
+			public static final class Member {
 				/** The key to the member menu */
 				private final String	memberKey;
 				
@@ -240,7 +240,7 @@ public final class TranslationKey {
 				 * The new member item.
 				 * @return the translation for the new member item.
 				 */
-				public String NEW_MEMBER () {
+				public String newMember () {
 					return memberKey + "." + "newMember";
 				}
 				
@@ -248,7 +248,7 @@ public final class TranslationKey {
 				 * The delete member item.
 				 * @return the translation for the delete member item.
 				 */
-				public String DELETE_MEMBER () {
+				public String deleteMember () {
 					return memberKey + "." + "deleteMember";
 				}
 				
@@ -256,7 +256,7 @@ public final class TranslationKey {
 				 * The update member item.
 				 * @return the translation for the update member item.
 				 */
-				public String UPDATE_MEMBER () {
+				public String updateMember () {
 					return memberKey + "." + "updateMember";
 				}
 				
@@ -266,7 +266,7 @@ public final class TranslationKey {
 			 * Access to the member menu translations.
 			 * @return the member menu translations.
 			 */
-			public Member MEMBER () {
+			public Member member () {
 				return new Member(menuKey);
 			}
 			
@@ -274,7 +274,7 @@ public final class TranslationKey {
 			 * The help menu translation.
 			 * @author Alex
 			 */
-			public static class Help {
+			public static final class Help {
 				/** The key to the help menu */
 				private final String	helpKey;
 				
@@ -302,7 +302,7 @@ public final class TranslationKey {
 				 * The help item.
 				 * @return the translation for the help item.
 				 */
-				public String HELP () {
+				public String help () {
 					return helpKey + "." + "help";
 				}
 				
@@ -310,7 +310,7 @@ public final class TranslationKey {
 				 * The about item.
 				 * @return the translation for the about item.
 				 */
-				public String ABOUT () {
+				public String about () {
 					return helpKey + "." + "about";
 				}
 				
@@ -320,7 +320,7 @@ public final class TranslationKey {
 			 * Access to the help menu translations.
 			 * @return the help menu translations.
 			 */
-			public Help HELP () {
+			public Help help () {
 				return new Help(menuKey);
 			}
 			
@@ -330,7 +330,7 @@ public final class TranslationKey {
 		 * Access to the menu translations.
 		 * @return the menu translations.
 		 */
-		public Menu MENU () {
+		public Menu menu () {
 			return new Menu(guiKey);
 		}
 		
@@ -338,7 +338,7 @@ public final class TranslationKey {
 		 * The dialog translations.
 		 * @author Alex
 		 */
-		public static class Dialog {
+		public static final class Dialog {
 			/** The key to dialogs */
 			private final String	dialogKey;
 			
@@ -366,7 +366,7 @@ public final class TranslationKey {
 			 * The about dialog translations.
 			 * @author Alex
 			 */
-			public static class About {
+			public static final class About {
 				/** The key to the about dialog */
 				private final String	aboutKey;
 				
@@ -394,7 +394,7 @@ public final class TranslationKey {
 				 * The title of the dialog.
 				 * @return the translation of the title of the dialog.
 				 */
-				public String TITLE () {
+				public String title () {
 					return aboutKey + "." + "title";
 				}
 				
@@ -402,7 +402,7 @@ public final class TranslationKey {
 				 * The author of the application.
 				 * @return the translation of the author introduction string.
 				 */
-				public String AUTHOR () {
+				public String author () {
 					return aboutKey + "." + "author";
 				}
 				
@@ -410,7 +410,7 @@ public final class TranslationKey {
 				 * The license of the application.
 				 * @return the translation of the license applicable to the application.
 				 */
-				public String LICENSE () {
+				public String license () {
 					return aboutKey + "." + "license";
 				}
 			}
@@ -419,7 +419,7 @@ public final class TranslationKey {
 			 * Access to the translations for the about dialog.
 			 * @return the about dialog translations.
 			 */
-			public About ABOUT () {
+			public About about () {
 				return new About(dialogKey);
 			}
 			
@@ -429,19 +429,19 @@ public final class TranslationKey {
 		 * Access to the translations for the dialog.
 		 * @return the dialog translations.
 		 */
-		public Dialog DIALOG () {
+		public Dialog dialog () {
 			return new Dialog(guiKey);
 		}
 	}
 	
 	/** Access to the GUI related translations. */
-	public static Gui	GUI	= new Gui();
+	public static final Gui	GUI	= new Gui();
 	
 	/**
 	 * The miscellaneous translations.
 	 * @author Alex
 	 */
-	public static class Misc {
+	public static final class Misc {
 		/** The key to the miscellaneous */
 		private final String	miscKey	= "misc";
 		
@@ -466,7 +466,7 @@ public final class TranslationKey {
 		 * The field / value separator.
 		 * @return the translation for the field / value separator.
 		 */
-		public String FIELD_VALUE_SEPARATOR () {
+		public String fieldValueSeparator () {
 			return miscKey + "." + "fieldValueSeparator";
 		}
 		
@@ -474,7 +474,7 @@ public final class TranslationKey {
 		 * The currency symbol to use.
 		 * @return the translation for the currency symbol.
 		 */
-		public String CURRENCY_SYMBOL () {
+		public String currencySymbol () {
 			return miscKey + "." + "currencySymbol";
 		}
 		
@@ -482,11 +482,11 @@ public final class TranslationKey {
 		 * The currency symbol to use.
 		 * @return the translation for the currency symbol.
 		 */
-		public String PLURAL_LETTER () {
+		public String pluralLetter () {
 			return miscKey + "." + "pluralLetter";
 		}
 	}
 	
 	/** Access to the miscellaneous translations. */
-	public static Misc	MISC	= new Misc();
+	public static final Misc	MISC	= new Misc();
 }

@@ -8,6 +8,7 @@ public class NoIdException extends Exception {
 	/** The serial version UID */
 	private static final long				serialVersionUID	= 7697590367643799579L;
 	
+	/** The class which has no id column */
 	private final Class<? extends Entity>	entityClass;
 	
 	/**

@@ -26,7 +26,7 @@ public final class MySQLConnection {
 	/** Access to the configuration */
 	private final Configuration		config	= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private final ConfigurationKey	keys	= ConfigurationKey.CONFIGURATION_KEY;
+	private final ConfigurationKey	keys	= ConfigurationKey.KEY;
 	/** The URL for connecting the database */
 	private String					url;
 	/** The user name of the schema */
@@ -57,9 +57,9 @@ public final class MySQLConnection {
 	 * Load the parameters from the configuration file.
 	 */
 	private void loadParameters () {
-		url = config.get(keys.DB().URL());
-		user = config.get(keys.DB().USER_NAME());
-		password = config.get(keys.DB().PASSWORD());
+		url = config.get(keys.db().url());
+		user = config.get(keys.db().username());
+		password = config.get(keys.db().password());
 	}
 	
 	/**

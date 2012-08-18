@@ -1,6 +1,5 @@
 package org.clubrockisen.service;
 
-
 /**
  * The enumeration for the parameters.<br />
  * When adding a parameter, add its corresponding enumeration in this class.
@@ -11,31 +10,38 @@ public enum ParametersEnum {
 	/**
 	 * The look and feel of the application.
 	 */
-	LOOK_AND_FEEL ("lookAndFeel"),
+	LOOK_AND_FEEL("lookAndFeel"),
 	
 	/**
 	 * The time limit between the two parts of a party.
 	 */
-	TIME_LIMIT ("timeLimit"),
+	TIME_LIMIT("timeLimit"),
 	
 	/**
 	 * The price for both parts of the party.
 	 */
-	ENTRY_PRICE_TOTAL ("entryPriceTotal"),
+	ENTRY_PRICE_TOTAL("entryPriceTotal"),
 	
 	/**
 	 * The price for the first part.
 	 */
-	ENTRY_PRICE_FIRST_PART ("entryPriceFirstPart"),
+	ENTRY_PRICE_FIRST_PART("entryPriceFirstPart"),
 	
 	/**
 	 * The price for the second part.
 	 */
-	ENTRY_PRICE_SECOND_PART ("entryPriceSecondPart");
+	ENTRY_PRICE_SECOND_PART("entryPriceSecondPart");
 	
-	private String name;
+	/** The name of the parameter */
+	private String	name;
 	
-	private ParametersEnum(final String name) {
+	/**
+	 * Constructor #1.<br />
+	 * Private constructor which build the enumeration.
+	 * @param name
+	 *        the name of the enumeration.
+	 */
+	private ParametersEnum (final String name) {
 		this.name = name;
 	}
 	
@@ -50,7 +56,7 @@ public enum ParametersEnum {
 	/**
 	 * Return the matching enumeration for the name passed.
 	 * @param name
-	 *            the name to look for.
+	 *        the name to look for.
 	 * @return the matching enumeration.
 	 */
 	public static ParametersEnum fromValue (final String name) {

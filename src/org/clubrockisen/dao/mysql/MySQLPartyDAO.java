@@ -5,13 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
@@ -21,15 +18,16 @@ import org.clubrockisen.entities.Party.PartyColumn;
  * The class should be the only access point to the {@link Party} table in the database.
  * @author Alex
  */
-public class MySQLPartyDAO implements DAO<Party> {
+public class MySQLPartyDAO extends MySQLDAO<Party> {
 	/** Logger */
 	private static Logger							lg	= Logger.getLogger(MySQLPartyDAO.class.getName());
 	
-	private final Connection						connection;
 	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
-	/** Date format used in the database */
+	/** Date format used in the database TODO make configurable (or parameter) or better, used prepared statements */
 	private final SimpleDateFormat					dateFormat;
+	/** Sample to be used by the super class */
+	private Party									partySample;
 	
 	/**
 	 * Constructor #1.
@@ -37,238 +35,32 @@ public class MySQLPartyDAO implements DAO<Party> {
 	 *        the connection to the database.
 	 */
 	public MySQLPartyDAO (final Connection connection) {
-		this.connection = connection;
-		lg.fine("New " + this.getClass().getCanonicalName() + ".");
+		super(connection);
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("New " + this.getClass().getCanonicalName() + ".");
+		}
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
 		columns = new Party().getEntityColumns();
 		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
 	 */
 	@Override
-	public Party create (final Party obj) {
-		if (obj == null) {
-			return null;
+	protected Party getEntitySample () {
+		if (partySample == null) {
+			partySample = new Party();
 		}
-		
-		Party newParty = null;
-		lg.fine("Creating the party " + obj.getDate());
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
-			final String query = obj.generateInsertQuerySQL(false) + " ("
-					+ "'" + dateFormat.format(obj.getDate()) + "',"
-					+ "'" + obj.getEntriesTotal() + "',"
-					+ "'" + obj.getEntriesFirstPart() + "',"
-					+ "'" + obj.getEntriesSecondPart() + "',"
-					+ "'" + obj.getEntriesNewMembers() + "',"
-					+ "'" + obj.getEntriesFree() + "',"
-					+ "'" + obj.getEntriesMale() + "',"
-					+ "'" + obj.getEntriesFemale() + "',"
-					+ "'" + obj.getRevenue() + "',"
-					+ "'" + obj.getProfit() + "');";
-			lg.info(query);
-			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			final ResultSet resultSet = statement.getGeneratedKeys();
-			if (resultSet.next()) {
-				newParty = find(resultSet.getInt(1));
-			} else {
-				throw new SQLException("could not retrieve last inserted id.");
-			}
-			resultSet.close();
-			statement.close();
-		} catch (final SQLException e) {
-			lg.warning("Exception while creating a party: " + e.getMessage());
-			return null;
-		}
-		return newParty;
+		return partySample;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#find(int)
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#createEntityFromResult(java.sql.ResultSet)
 	 */
 	@Override
-	public Party find (final int id) {
-		Party party = null;
-		lg.fine("Finding the party with id = " + id);
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			final Party p = new Party();
-			final String query = p.generateSearchAllQuerySQL() + p.generateWhereIDQuerySQL(id);
-			lg.info(query);
-			final ResultSet result = statement.executeQuery(query);
-			if (result.first()) {
-				party = createPartyFromResult(result);
-			} else {
-				lg.info("Could not find party with id = " + id);
-			}
-			result.close();
-			statement.close();
-		} catch (final Exception e) {
-			lg.warning("Exception while retrieving a party: " + e.getMessage());
-			return null;
-		}
-		
-		return party;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
-	 */
-	@Override
-	public boolean update (final Party obj) {
-		if (obj == null) {
-			return false;
-		}
-		lg.fine("Updating the party with id = " + obj.getIdParty());
-		
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
-			final String query = obj.generateUpdateQuerySQL() +
-					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(obj.getDate()) + "', " +
-					columns.get(PartyColumn.ENTRIES_TOTAL).getName() + " = '" + obj.getEntriesTotal() + "', " +
-					columns.get(PartyColumn.ENTRIES_FIRST_PART).getName() + " = '" + obj.getEntriesFirstPart() + "', " +
-					columns.get(PartyColumn.ENTRIES_SECOND_PART).getName() + " = '" + obj.getEntriesSecondPart() + "', " +
-					columns.get(PartyColumn.ENTRIES_NEW_MEMBER).getName() + " = '" + obj.getEntriesNewMembers() + "', " +
-					columns.get(PartyColumn.ENTRIES_FREE).getName() + " = '" + obj.getEntriesFree() + "', " +
-					columns.get(PartyColumn.ENTRIES_MALE).getName() + " = '" + obj.getEntriesMale() + "', " +
-					columns.get(PartyColumn.ENTRIES_FEMALE).getName() + " = '" + obj.getEntriesFemale() + "', " +
-					columns.get(PartyColumn.REVENUE).getName() + " = '" + obj.getRevenue() + "', " +
-					columns.get(PartyColumn.PROFIT).getName() + " = '" + obj.getProfit() + "'" +
-					obj.generateWhereIDQuerySQL();
-			lg.info(query);
-			statement.executeUpdate(query);
-			statement.close();
-		} catch (final Exception e) {
-			lg.warning("Exception while updating a party (" + e.getMessage() + ")");
-			return false;
-		}
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#delete(org.clubrockisen.entities.Entity)
-	 */
-	@Override
-	public boolean delete (final Party obj) {
-		if (obj == null) {
-			return true;
-		}
-		lg.fine("Deleting party " + obj.getDate() + " (id: " + obj.getIdParty() + ")");
-		try {
-			final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-					ResultSet.CONCUR_UPDATABLE);
-			final String query = obj.generateDeleteQuerySQL();
-			lg.info(query);
-			statement.execute(query);
-			statement.close();
-		} catch (final Exception e) {
-			lg.warning("Exception while deleting party: " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#retrieveAll()
-	 */
-	@Override
-	public List<Party> retrieveAll () {
-		final List<Party> allParties = new ArrayList<>();
-		lg.fine("Retrieving all parties");
-		
-		try {
-			final long time1 = System.currentTimeMillis();
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Party().generateSearchAllQuerySQL();
-			lg.info(query);
-			final ResultSet result = statement.executeQuery(query);
-			final long time2 = System.currentTimeMillis();
-			while (result.next()) {
-				allParties.add(createPartyFromResult(result));
-			}
-			// Time for query logging
-			if (lg.isLoggable(Level.FINE)) {
-				final long time3 = System.currentTimeMillis();
-				lg.fine("Time for request: " + (time2 - time1) + " ms");
-				lg.fine("Time for building list: " + (time3 - time2) + " ms");
-				lg.fine("Time for both: " + (time3 - time1) + "ms");
-			}
-			
-			result.close();
-			statement.close();
-		} catch (final SQLException e) {
-			lg.warning("Exception while retrieving all parties: " + e.getMessage());
-			return allParties;
-		}
-		
-		return allParties;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
-	 */
-	@Override
-	public List<Party> search (final Column field, final String value) {
-		if (field == null || value == null) {
-			return retrieveAll();
-		}
-		
-		final List<Party> parties = new ArrayList<>();
-		lg.fine("Searching parties with " + field.getName() + " = " + value);
-		
-		try {
-			final long time1 = System.currentTimeMillis();
-			final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			final String query = new Party().generateSearchAllQuerySQL() + " WHERE " + field.getName() +
-					" LIKE '" + value + "%'";
-			lg.info(query);
-			final ResultSet result = statement.executeQuery(query);
-			final long time2 = System.currentTimeMillis();
-			while (result.next()) {
-				parties.add(createPartyFromResult(result));
-			}
-			// Time for query logging
-			if (lg.isLoggable(Level.FINE)) {
-				final long time3 = System.currentTimeMillis();
-				lg.fine("Time for request: " + (time2 - time1) + " ms");
-				lg.fine("Time for building list: " + (time3 - time2) + " ms");
-				lg.fine("Time for both: " + (time3 - time1) + " ms");
-			}
-			
-			result.close();
-			statement.close();
-		} catch (final SQLException e) {
-			lg.warning("Exception while searching parties: " + e.getMessage());
-			return parties;
-		}
-		
-		return parties;
-	}
-	
-	/**
-	 * Creates a party from a row of a result.<br />
-	 * Do not move to the next result.
-	 * @param result
-	 *        the result of the query
-	 * @return the newly created party.
-	 * @throws SQLException
-	 *         if there was a problem while reading the data from the columns.
-	 */
-	private Party createPartyFromResult (final ResultSet result) throws SQLException {
+	protected Party createEntityFromResult (final ResultSet result) throws SQLException {
 		final Party newParty = new Party();
 		
 		newParty.setIdParty(result.getInt(columns.get(PartyColumn.ID).getName()));
@@ -285,4 +77,88 @@ public class MySQLPartyDAO implements DAO<Party> {
 		
 		return newParty;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	public Party create (final Party obj) {
+		if (obj == null) {
+			return null;
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Creating the party " + obj.getDate());
+		}
+		
+		Party newParty = null;
+		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_UPDATABLE)) {
+			final String query = obj.generateInsertQuerySQL(false) + " ("
+					+ "'" + dateFormat.format(obj.getDate()) + "',"
+					+ "'" + obj.getEntriesTotal() + "',"
+					+ "'" + obj.getEntriesFirstPart() + "',"
+					+ "'" + obj.getEntriesSecondPart() + "',"
+					+ "'" + obj.getEntriesNewMembers() + "',"
+					+ "'" + obj.getEntriesFree() + "',"
+					+ "'" + obj.getEntriesMale() + "',"
+					+ "'" + obj.getEntriesFemale() + "',"
+					+ "'" + obj.getRevenue() + "',"
+					+ "'" + obj.getProfit() + "');";
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info(query);
+			}
+			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			try (final ResultSet resultSet = statement.getGeneratedKeys()) {
+				if (resultSet.next()) {
+					newParty = find(resultSet.getInt(1));
+				} else {
+					throw new SQLException("Could not retrieve last inserted id.");
+				}
+			}
+		} catch (final SQLException e) {
+			lg.warning("Exception while creating a party: " + e.getMessage());
+			return null;
+		}
+		return newParty;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	public boolean update (final Party obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Updating the party with id = " + obj.getIdParty());
+		}
+		
+		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_UPDATABLE)) {
+			final String query = obj.generateUpdateQuerySQL() +
+					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(obj.getDate()) + "', " +
+					columns.get(PartyColumn.ENTRIES_TOTAL).getName() + " = '" + obj.getEntriesTotal() + "', " +
+					columns.get(PartyColumn.ENTRIES_FIRST_PART).getName() + " = '" + obj.getEntriesFirstPart() + "', " +
+					columns.get(PartyColumn.ENTRIES_SECOND_PART).getName() + " = '" + obj.getEntriesSecondPart() + "', " +
+					columns.get(PartyColumn.ENTRIES_NEW_MEMBER).getName() + " = '" + obj.getEntriesNewMembers() + "', " +
+					columns.get(PartyColumn.ENTRIES_FREE).getName() + " = '" + obj.getEntriesFree() + "', " +
+					columns.get(PartyColumn.ENTRIES_MALE).getName() + " = '" + obj.getEntriesMale() + "', " +
+					columns.get(PartyColumn.ENTRIES_FEMALE).getName() + " = '" + obj.getEntriesFemale() + "', " +
+					columns.get(PartyColumn.REVENUE).getName() + " = '" + obj.getRevenue() + "', " +
+					columns.get(PartyColumn.PROFIT).getName() + " = '" + obj.getProfit() + "'" +
+					obj.generateWhereIDQuerySQL();
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info(query);
+			}
+			statement.executeUpdate(query);
+		} catch (final Exception e) {
+			lg.warning("Exception while updating a party (" + e.getMessage() + ")");
+			return false;
+		}
+		return true;
+	}
+	
 }

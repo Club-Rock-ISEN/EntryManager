@@ -40,9 +40,10 @@ public enum Status {
 		return name;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Enum#toString()
+	/**
+	 * Return a String containing the translation of the current enumeration (via the
+	 * {@link Translator}).
+	 * @return the translation for the current status.
 	 */
 	@Override
 	public String toString () {
