@@ -55,7 +55,7 @@ public class EntryMemberParty extends Entity {
 		columns = new EnumMap<>(EntryMemberColumn.class);
 		columns.put(EntryMemberColumn.ID, new Column(Integer.class, "idEntryMemberParty", true));
 		columns.put(EntryMemberColumn.MEMBER_ID, new Column(Integer.class, "idMember"));
-		columns.put(EntryMemberColumn.PARTY_ID, new Column(Integer.class, "idparty"));
+		columns.put(EntryMemberColumn.PARTY_ID, new Column(Integer.class, "idParty"));
 	}
 	
 	/*
@@ -128,7 +128,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idEntryMemberParty.
 	 */
 	public Integer getIdEntryMemberParty () {
-		return idEntryMemberParty;
+		return idEntryMemberParty == null ? -1 : idEntryMemberParty;
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idMember.
 	 */
 	public Integer getIdMember () {
-		return idMember;
+		return idMember == null ? -1 : idMember;
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idParty.
 	 */
 	public Integer getIdParty () {
-		return idParty;
+		return idParty == null ? -1 : idParty;
 	}
 	
 	/**

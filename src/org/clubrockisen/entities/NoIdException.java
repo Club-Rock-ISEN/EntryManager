@@ -25,7 +25,8 @@ public class NoIdException extends Exception {
 	 *        the class which do not own a {@link Column} which is marked as an Id.
 	 */
 	public NoIdException (final Class<? extends Entity> entityClass) {
-		super("Could not find id column in entity " + entityClass.getCanonicalName());
+		super("Could not find id column in entity " + (entityClass == null ? "unknown" :
+			entityClass.getSimpleName()));
 		this.entityClass = entityClass;
 	}
 	
