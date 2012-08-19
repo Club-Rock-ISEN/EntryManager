@@ -19,10 +19,269 @@ public final class TranslationKey {
 	 */
 	private TranslationKey () {
 		super();
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Creating the translation key structure.");
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Creating the translation key structure.");
 		}
 	}
+	
+	/**
+	 * The translations for the entities.
+	 * @author Alex
+	 */
+	public static final class Entity {
+		/** The key to the entity structure */
+		private final String	entityKey	= "entity";
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build the entity structure.
+		 */
+		private Entity () {
+			super();
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString () {
+			return entityKey;
+		}
+		
+		/**
+		 * The translations
+		 * @author Alex
+		 */
+		public static final class Member {
+			/** The key to the member structure */
+			private final String	memberKey;
+			
+			/**
+			 * Constructor #1.<br />
+			 * Build the menu structure.
+			 * @param parentKey
+			 *        the key from the parent category.
+			 */
+			private Member (final String parentKey) {
+				super();
+				this.memberKey = parentKey + "." + "member";
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Object#toString()
+			 */
+			@Override
+			public String toString () {
+				return memberKey;
+			}
+			
+			/**
+			 * The member name.
+			 * @return The translation for the name field.
+			 */
+			public String name () {
+				return memberKey + "." + "name";
+			}
+			
+			/**
+			 * The member gender.
+			 * @return The translation for the gender field.
+			 */
+			public String gender () {
+				return memberKey + "." + "gender";
+			}
+			
+			/**
+			 * The member entry number.
+			 * @return The translation for the entry field.
+			 */
+			public String entries () {
+				return memberKey + "." + "entries";
+			}
+			
+			/**
+			 * The member credit.
+			 * @return The translation for the credit field.
+			 */
+			public String credit () {
+				return memberKey + "." + "credit";
+			}
+			
+			/**
+			 * The member status.
+			 * @return The translation for the status field.
+			 */
+			public String status () {
+				return memberKey + "." + "status";
+			}
+		}
+		
+		/**
+		 * Access to the member translations.
+		 * @return the member translations.
+		 */
+		public Member member () {
+			return new Member(entityKey);
+		}
+		
+	}
+	
+	/** Access to the entity translations */
+	public static final Entity	ENTITY	= new Entity();
+	
+	/**
+	 * The translations for the enumerations.
+	 * @author Alex
+	 */
+	public static final class Enum {
+		/** The key to the enum structure */
+		private final String	enumKey	= "enum";
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build the enum structure.
+		 */
+		private Enum () {
+			super();
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString () {
+			return enumKey;
+		}
+		
+		/**
+		 * The translations for the genders.
+		 * @author Alex
+		 */
+		public static final class Gender {
+			/** The key to the gender structure */
+			private final String	genderKey;
+			
+			/**
+			 * Constructor #1.<br />
+			 * @param parentKey
+			 *        the key from the parent category.
+			 */
+			private Gender (final String parentKey) {
+				super();
+				this.genderKey = parentKey + "." + "gender";
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Object#toString()
+			 */
+			@Override
+			public String toString () {
+				return genderKey;
+			}
+			
+			/**
+			 * The male gender.
+			 * @return the translation for the male gender.
+			 */
+			public String male () {
+				return genderKey + "." + "male";
+			}
+			
+			/**
+			 * The female gender.
+			 * @return the translation for the female gender.
+			 */
+			public String female () {
+				return genderKey + "." + "female";
+			}
+			
+		}
+		
+		/**
+		 * Access to the gender translations.
+		 * @return the gender translations.
+		 */
+		public Gender gender () {
+			return new Gender(enumKey);
+		}
+		
+		/**
+		 * The translations for the status.
+		 * @author Alex
+		 */
+		public static final class Status {
+			/** The key to the gender structure */
+			private final String	statusKey;
+			
+			/**
+			 * Constructor #1.<br />
+			 * @param parentKey
+			 *        the key from the parent category.
+			 */
+			private Status (final String parentKey) {
+				super();
+				this.statusKey = parentKey + "." + "status";
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Object#toString()
+			 */
+			@Override
+			public String toString () {
+				return statusKey;
+			}
+			
+			/**
+			 * The member status.
+			 * @return the translation for the member status.
+			 */
+			public String member () {
+				return statusKey + "." + "member";
+			}
+			
+			/**
+			 * The helper member status.
+			 * @return the translation for the helper member status.
+			 */
+			public String helperMember () {
+				return statusKey + "." + "helperMember";
+			}
+			
+			/**
+			 * The office member status.
+			 * @return the translation for the office member status.
+			 */
+			public String officeMember () {
+				return statusKey + "." + "officeMember";
+			}
+			
+			/**
+			 * The veteran status.
+			 * @return the translation for the veteran status.
+			 */
+			public String veteran () {
+				return statusKey + "." + "veteran";
+			}
+			
+		}
+		
+		/**
+		 * Access to the gender translations.
+		 * @return the gender translations.
+		 */
+		public Status status () {
+			return new Status(enumKey);
+		}
+		
+	}
+	
+	/** Access to the enumeration translations */
+	public static final Enum	ENUM	= new Enum();
 	
 	/**
 	 * The GUI related translations
@@ -136,6 +395,7 @@ public final class TranslationKey {
 				public String quit () {
 					return fileKey + "." + "quit";
 				}
+				
 			}
 			
 			/**

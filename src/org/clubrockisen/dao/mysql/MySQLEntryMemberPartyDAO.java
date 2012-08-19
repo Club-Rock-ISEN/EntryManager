@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
-import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
+import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 
 /**
  * Class used to manipulating the entries of the members in the database.<br />
@@ -60,9 +60,9 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 		final EntryMemberParty newEntry = new EntryMemberParty();
 		
 		// Setting entry properties
-		newEntry.setIdEntryMemberParty(result.getInt(columns.get(EntryMemberColumn.ID).getName()));
-		newEntry.setIdMember(result.getInt(columns.get(EntryMemberColumn.MEMBER_ID).getName()));
-		newEntry.setIdParty(result.getInt(columns.get(EntryMemberColumn.PARTY_ID).getName()));
+		newEntry.setIdEntryMemberParty(result.getInt(columns.get(EntryColumn.ID).getName()));
+		newEntry.setIdMember(result.getInt(columns.get(EntryColumn.MEMBER_ID).getName()));
+		newEntry.setIdParty(result.getInt(columns.get(EntryColumn.PARTY_ID).getName()));
 		
 		return newEntry;
 	}
@@ -121,8 +121,8 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
-					columns.get(EntryMemberColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
-					columns.get(EntryMemberColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
+					columns.get(EntryColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
+					columns.get(EntryColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
 					obj.generateWhereIDQuerySQL();
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info(query);

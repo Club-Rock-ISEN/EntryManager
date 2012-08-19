@@ -13,7 +13,7 @@ public class EntryMemberParty extends Entity {
 	private static Logger							lg			= Logger.getLogger(EntryMemberParty.class.getName());
 	
 	/** Map between the enumeration for the columns and the actual columns in the database */
-	private static Map<EntryMemberColumn, Column>	columns;
+	private static Map<EntryColumn, Column>	columns;
 	/** Name of the entity */
 	private static String							entityName	= "entryMemberParty";
 	
@@ -37,9 +37,34 @@ public class EntryMemberParty extends Entity {
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	@SuppressWarnings("javadoc")
-	public enum EntryMemberColumn {
-		ID, MEMBER_ID, PARTY_ID;
+	public enum EntryColumn {
+		/** The entry's id */
+		ID ("IdEntryMemberParty"),
+		/** The entry's member id */
+		MEMBER_ID ("IdMember"),
+		/** The entry's party id */
+		PARTY_ID ("IdParty");
+		
+		/** The name of the property in the class */
+		private String	propertyName;
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build a new enumeration, based on the name of the attribute in the class.
+		 * @param propertyName
+		 *        the name of the property.
+		 */
+		private EntryColumn (final String propertyName) {
+			this.propertyName = propertyName;
+		}
+		
+		/**
+		 * Return the name of the attribute in the class.
+		 * @return the name of the property.
+		 */
+		public String getPropertyName () {
+			return propertyName;
+		}
 	}
 	
 	/*
@@ -52,10 +77,10 @@ public class EntryMemberParty extends Entity {
 			return;
 		}
 		
-		columns = new EnumMap<>(EntryMemberColumn.class);
-		columns.put(EntryMemberColumn.ID, new Column(Integer.class, "idEntryMemberParty", true));
-		columns.put(EntryMemberColumn.MEMBER_ID, new Column(Integer.class, "idMember"));
-		columns.put(EntryMemberColumn.PARTY_ID, new Column(Integer.class, "idParty"));
+		columns = new EnumMap<>(EntryColumn.class);
+		columns.put(EntryColumn.ID, new Column(Integer.class, "idEntryMemberParty", true));
+		columns.put(EntryColumn.MEMBER_ID, new Column(Integer.class, "idMember"));
+		columns.put(EntryColumn.PARTY_ID, new Column(Integer.class, "idParty"));
 	}
 	
 	/*

@@ -49,17 +49,17 @@ public class Member extends Entity {
 	 */
 	public enum MemberColumn {
 		/** The member's id */
-		ID("Id"),
+		ID ("Id"),
 		/** The member's name */
-		NAME("Name"),
+		NAME ("Name"),
 		/** The member's gender */
-		GENDER("Gender"),
+		GENDER ("Gender"),
 		/** The member's entries */
-		ENTRIES("Entries"),
+		ENTRIES ("Entries"),
 		/** The member's credit */
-		CREDIT("Credit"),
+		CREDIT ("Credit"),
 		/** The member's status */
-		STATUS("Status");
+		STATUS ("Status");
 		
 		/** The name of the property in the class */
 		private String	propertyName;

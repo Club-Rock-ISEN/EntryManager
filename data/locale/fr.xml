@@ -14,13 +14,13 @@
 	
 	<!-- Enumerations -->
 	<!-- Gender -->
-	<entry key="enums.gender.male">Homme</entry>
-	<entry key="enums.gender.female">Femme</entry>
+	<entry key="enum.gender.male">Homme</entry>
+	<entry key="enum.gender.female">Femme</entry>
 	<!-- Status -->
-	<entry key="enums.status.member">Membre</entry>
-	<entry key="enums.status.helper_member">Adhérant</entry>
-	<entry key="enums.status.office_member">Membre du bureau</entry>
-	<entry key="enums.status.veteran">Membre d'honneur</entry>
+	<entry key="enum.status.member">Membre</entry>
+	<entry key="enum.status.helper_member">Adhérant</entry>
+	<entry key="enum.status.office_member">Membre du bureau</entry>
+	<entry key="enum.status.veteran">Membre d'honneur</entry>
 	
 	<!-- The user interface -->
 	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>

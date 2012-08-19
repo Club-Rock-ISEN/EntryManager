@@ -8,10 +8,10 @@ import org.clubrockisen.service.Translator;
  */
 public enum Gender {
 	/** Male */
-	MALE('M'),
+	MALE ('M'),
 	
 	/** Female */
-	FEMALE('F');
+	FEMALE ('F');
 	
 	/** The character used to represent the gender in the database */
 	private char	abbreviation;

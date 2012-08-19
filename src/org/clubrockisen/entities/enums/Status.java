@@ -26,7 +26,7 @@ public enum Status {
 	 * Constructor #1.<br />
 	 * Unique constructor for the enumeration.
 	 * @param name
-	 *            the name of the status.
+	 *        the name of the status.
 	 */
 	private Status (final String name) {
 		this.name = name;
@@ -61,7 +61,7 @@ public enum Status {
 	/**
 	 * Return the matching enumeration for the name passed.
 	 * @param name
-	 *            the name to look for.
+	 *        the name to look for.
 	 * @return the matching enumeration.
 	 */
 	public static Status fromValue (final String name) {

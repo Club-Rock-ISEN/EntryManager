@@ -64,7 +64,7 @@ public final class App {
 		// Waiting for the window to build itself
 		synchronized (window) {
 			try {
-				window.wait(5000);
+				window.wait();
 			} catch (final InterruptedException e) {
 				lg.warning("Main thread interrupted: " + e.getMessage());
 			}

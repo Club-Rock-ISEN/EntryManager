@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.clubrockisen.entities.EntryMemberParty.EntryMemberColumn;
+import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,17 +64,17 @@ public class EntryMemberPartyTest {
 		for (final EntryMemberParty entry : entries) {
 			final Map<? extends Enum<?>, Column> colummns = entry.getEntityColumns();
 			assertEquals(3, colummns.size());
-			assertEquals("idEntryMemberParty", colummns.get(EntryMemberColumn.ID).getName());
-			assertEquals(Integer.class, colummns.get(EntryMemberColumn.ID).getType());
-			assertEquals(true, colummns.get(EntryMemberColumn.ID).isID());
+			assertEquals("idEntryMemberParty", colummns.get(EntryColumn.ID).getName());
+			assertEquals(Integer.class, colummns.get(EntryColumn.ID).getType());
+			assertEquals(true, colummns.get(EntryColumn.ID).isID());
 			
-			assertEquals("idMember", colummns.get(EntryMemberColumn.MEMBER_ID).getName());
-			assertEquals(Integer.class, colummns.get(EntryMemberColumn.MEMBER_ID).getType());
-			assertEquals(false, colummns.get(EntryMemberColumn.MEMBER_ID).isID());
+			assertEquals("idMember", colummns.get(EntryColumn.MEMBER_ID).getName());
+			assertEquals(Integer.class, colummns.get(EntryColumn.MEMBER_ID).getType());
+			assertEquals(false, colummns.get(EntryColumn.MEMBER_ID).isID());
 			
-			assertEquals("idParty", colummns.get(EntryMemberColumn.PARTY_ID).getName());
-			assertEquals(Integer.class, colummns.get(EntryMemberColumn.PARTY_ID).getType());
-			assertEquals(false, colummns.get(EntryMemberColumn.PARTY_ID).isID());
+			assertEquals("idParty", colummns.get(EntryColumn.PARTY_ID).getName());
+			assertEquals(Integer.class, colummns.get(EntryColumn.PARTY_ID).getType());
+			assertEquals(false, colummns.get(EntryColumn.PARTY_ID).isID());
 		}
 		
 	}

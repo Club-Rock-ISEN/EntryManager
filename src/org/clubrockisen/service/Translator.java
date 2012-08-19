@@ -87,9 +87,9 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String get (final Enum<?> key) {
-		final String stringKey = "enums" + "." + key.getClass().getSimpleName().toLowerCase() + "." + key.name().toLowerCase();
-		// TODO 'enums' in translation keys
-		return get(stringKey);
+		return get(TranslationKey.ENUM.toString() + "." +
+				key.getClass().getSimpleName().toLowerCase() + "." +
+				key.name().toLowerCase());
 	}
 	
 	/* (non-Javadoc)
@@ -107,12 +107,9 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String get (final Entity entity, final Column column) {
-		final StringBuilder key = new StringBuilder("entity" + "." + entity.getEntityName().toLowerCase());
-		if (column != null) {
-			key.append("." + column.getName().toLowerCase());
-		}
-		// TODO entity in translation key
-		return get(key.toString());
+		return get(TranslationKey.ENTITY.toString() + "." +
+				entity.getEntityName().toLowerCase() + (column == null ? "" : "." +
+						column.getName().toLowerCase()));
 	}
 	
 }
