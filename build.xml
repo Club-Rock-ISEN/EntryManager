@@ -13,6 +13,7 @@
 	<property name="data.dir" value="${basedir}/data" description="The data directory with the file needed by the application." />
 	<property name="lib.dir" value="${basedir}/lib" description="The library directory." />
 	<property name="doc.dir" value="${basedir}/doc" description="The javadoc directory." />
+    <property name="reports.dir" value="${basedir}/report" description="The reporting directory." />
 	<property name="target.dir" value="${basedir}/target/" description="The target directory for the generated executable files." />
 	<property name="target.lib.dir.name" value="lib" description="The name of the libraries directory in the target folder." />
 	<property name="target.data.dir.name" value="data" description="The name of the data directory in the target folder." />
@@ -66,13 +67,6 @@
 		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false" classpathref="classpath" />
 	</target>
     
-	<!-- ================================= 
-          target: test              
-         ================================= -->
-    <target name="test" depends="build" description="Run all the unit test.">
-        <junit dir="${test.dir}" />
-    </target>
-
 	<!-- ================================= 
 	          target: jar              
 	         ================================= -->
@@ -152,7 +146,7 @@
 	<!-- ================================= 
 			          target: javadoc              
 			         ================================= -->
-	<target name="javadoc" description="Create the javadoc ">
+	<target name="javadoc" description="Create the javadoc">
 		<mkdir dir="${doc.dir}" />
 		<javadoc destdir="${doc.dir}" windowtitle="Club Rock ISEN">
 			<fileset dir="${src.dir}" defaultexcludes="true">
@@ -161,11 +155,28 @@
 		</javadoc>
 	</target>
 
-	<!-- ###### JACOCO ###### -->
-	<!-- The task -->
-    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
-        <classpath path="${env.ProgramFiles}/jacoco-0.5.10/lib/jacocoant.jar" />
-    </taskdef>
+	<!-- ================================= 
+			          target: test              
+			         ================================= -->
+	<target name="test" description="Run the unit tests">
+	    <mkdir dir="${reports.dir}" />
+		<junit fork="yes" forkmode="once">
+			<classpath>
+				<path refid="classpath" />
+				<path location="${bin.dir}" />
+			    <fileset dir="${lib.dir}">
+			        <include name="**/*.jar" />
+			    </fileset>
+			</classpath>
+			<formatter type="xml" />
+			<batchtest todir="${reports.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+    
 
 	<!-- ###### SONAR ###### -->
 	<!-- The task -->
@@ -182,23 +193,16 @@
     <property name="sonar.java.target" location="${ant.java.version}" />
 	<property name="sonar.sources" value="${src.dir}" />
 	<property name="sonar.binaries" value="${bin.dir}" />
-    <!-- <property name="sonar.tests" value="${test.dir}" />
-    <property name="sonar.dynamicAnalysis" value="true" /> -->
+    <property name="sonar.tests" value="${test.dir}" />
+	<property name="sonar.surefire.reportsPath" value="${reports.dir}" />   
+	<property name="sonar.dynamicAnalysis" value="true" />
+    <property name="sonar.jacoco.antTargets" value="test" />
+
 
 	<!-- ================================= 
 			          target: sonar              
 			         ================================= -->
 	<target name="sonar" depends="build" description="Start the sonar analysis">
-
-	    <!-- <jacoco:coverage>
-	        <junit fork="true" forkmode="once">
-	            <test name="org.clubrockisen.AllTests"/>
-	            <classpath>
-	                <pathelement location="./bin"/>
-	            </classpath>
-	        </junit>
-	    </jacoco:coverage> -->
-
 		<sonar:sonar key="org.clubrockisen:app" version="0.1-SNAPSHOT" xmlns:sonar="antlib:org.sonar.ant" />
 	</target>
 
