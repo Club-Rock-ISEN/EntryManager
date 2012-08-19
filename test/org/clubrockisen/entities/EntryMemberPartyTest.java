@@ -64,6 +64,7 @@ public class EntryMemberPartyTest {
 		for (final EntryMemberParty entry : entries) {
 			final Map<? extends Enum<?>, Column> colummns = entry.getEntityColumns();
 			assertEquals(3, colummns.size());
+			
 			assertEquals("idEntryMemberParty", colummns.get(EntryColumn.ID).getName());
 			assertEquals(Integer.class, colummns.get(EntryColumn.ID).getType());
 			assertEquals(true, colummns.get(EntryColumn.ID).isID());
@@ -95,7 +96,7 @@ public class EntryMemberPartyTest {
 	@Test
 	public void testGetColumns () {
 		for (final EntryMemberParty entry : entries) {
-			assertEquals(EntryMemberParty.getColumns(), entry.getEntityColumns());
+			assertEquals(entry.getEntityColumns(), EntryMemberParty.getColumns());
 		}
 	}
 	

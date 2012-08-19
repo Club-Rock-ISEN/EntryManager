@@ -62,10 +62,10 @@ public class StatusTest {
 	 */
 	@Test
 	public void testGetName () {
-		assertEquals(member.getName(), "member");
-		assertEquals(helper.getName(), "helper member");
-		assertEquals(office.getName(), "office member");
-		assertEquals(veteran.getName(), "veteran");
+		assertEquals("member", member.getName());
+		assertEquals("helper member", helper.getName());
+		assertEquals("office member", office.getName());
+		assertEquals("veteran", veteran.getName());
 	}
 	
 	/**

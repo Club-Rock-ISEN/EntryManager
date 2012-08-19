@@ -9,7 +9,7 @@ import org.clubrockisen.dao.mysql.MySQLDAOFactory;
  */
 public enum DAOType {
 	/** Access to the database through a MySQL connection */
-	MYSQL("MySQL", MySQLDAOFactory.class);
+	MYSQL ("MySQL", MySQLDAOFactory.class);
 	
 	/** The name of the DAO type */
 	private final String								name;

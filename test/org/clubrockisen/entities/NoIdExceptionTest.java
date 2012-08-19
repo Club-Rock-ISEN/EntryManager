@@ -31,7 +31,7 @@ public class NoIdExceptionTest {
 	 */
 	@Test
 	public void testGetEntityClass () {
-		assertEquals(memberException.getEntityClass(), Member.class);
+		assertEquals(Member.class, memberException.getEntityClass());
 		assertNull(unknownException.getEntityClass());
 	}
 	
@@ -40,7 +40,7 @@ public class NoIdExceptionTest {
 	 */
 	@Test
 	public void testGetMessage () {
-		assertEquals(memberException.getMessage(), "Could not find id column in entity Member");
-		assertEquals(unknownException.getMessage(), "Could not find id column in entity unknown");
+		assertEquals("Could not find id column in entity Member", memberException.getMessage());
+		assertEquals("Could not find id column in entity unknown", unknownException.getMessage());
 	}
 }

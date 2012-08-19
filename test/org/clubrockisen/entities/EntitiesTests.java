@@ -11,6 +11,6 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ EntitiesEnumsTests.class, ColumnTest.class, NoIdExceptionTest.class,
-	EntryMemberPartyTest.class })
+	EntryMemberPartyTest.class, ParameterTest.class })
 public class EntitiesTests {
 }

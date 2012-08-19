@@ -50,6 +50,7 @@
         <delete includeemptydirs="true" verbose="true">
 			<fileset dir="${target.dir}" includes="**/*" />
         	<fileset dir="${doc.dir}" includes="**/*" />
+            <fileset dir="${reports.dir}" includes="**/*" />
 		</delete>
     </target>
 	

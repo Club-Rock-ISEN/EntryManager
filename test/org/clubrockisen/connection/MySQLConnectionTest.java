@@ -33,8 +33,8 @@ public class MySQLConnectionTest {
 	@Test
 	public void testGetInstance () {
 		try {
-			connection.isValid(1);
-			assertEquals(connection.isClosed(), false);
+			assertEquals(true, connection.isValid(1));
+			assertEquals(false, connection.isClosed());
 		} catch (final SQLException e) {
 			fail("Problem while checking database connection: " + e.getMessage());
 		}

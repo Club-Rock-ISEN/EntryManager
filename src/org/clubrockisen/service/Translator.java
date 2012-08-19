@@ -41,14 +41,15 @@ public final class Translator implements ITranslator {
 		try {
 			translations.loadFromXML(new FileInputStream(translationFile));
 		} catch (final IOException e) {
-			lg.severe("Could not load translation file: " + translationFile + " (" + e.getMessage() + ")");
+			lg.severe("Could not load translation file: " + translationFile + " (" + e.getMessage()
+					+ ")");
 			translations.clear();
 			return;
 		}
 		
 		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Language locale file " + translationFile + " successfully loaded (" +
-					translations.size() + " keys loaded)");
+			lg.info("Language locale file " + translationFile + " successfully loaded ("
+					+ translations.size() + " keys loaded)");
 		}
 	}
 	
@@ -62,8 +63,6 @@ public final class Translator implements ITranslator {
 		}
 		return singleton;
 	}
-	
-	// TODO add field value separator
 	
 	/*
 	 * (non-Javadoc)
@@ -83,16 +82,34 @@ public final class Translator implements ITranslator {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.ITranslator#getField(java.lang.String)
+	 */
+	@Override
+	public String getField (final String key) {
+		return get(key) + get(TranslationKey.MISC.fieldValueSeparator());
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.lang.Enum)
 	 */
 	@Override
 	public String get (final Enum<?> key) {
-		return get(TranslationKey.ENUM.toString() + "." +
-				key.getClass().getSimpleName().toLowerCase() + "." +
-				key.name().toLowerCase());
+		return get(TranslationKey.ENUM.toString() + "."
+				+ key.getClass().getSimpleName().toLowerCase() + "." + key.name().toLowerCase());
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.ITranslator#getField(java.lang.Enum)
+	 */
+	@Override
+	public String getField (final Enum<?> key) {
+		return get(key) + get(TranslationKey.MISC.fieldValueSeparator());
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(org.clubrockisen.entities.Entity)
 	 */
 	@Override
@@ -102,14 +119,34 @@ public final class Translator implements ITranslator {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.service.abstracts.ITranslator#getField(org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	public String getField (final Entity entity) {
+		return getField(entity, null);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(org.clubrockisen.entities.Entity,
 	 * org.clubrockisen.entities.Column)
 	 */
 	@Override
 	public String get (final Entity entity, final Column column) {
-		return get(TranslationKey.ENTITY.toString() + "." +
-				entity.getEntityName().toLowerCase() + (column == null ? "" : "." +
-						column.getName().toLowerCase()));
+		return get(TranslationKey.ENTITY.toString() + "." + entity.getEntityName().toLowerCase()
+				+ (column == null ? "" : "." + column.getName().toLowerCase()));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.service.abstracts.ITranslator#getField(org.clubrockisen.entities.Entity,
+	 * org.clubrockisen.entities.Column)
+	 */
+	@Override
+	public String getField (final Entity entity, final Column column) {
+		return get(entity, column) + get(TranslationKey.MISC.fieldValueSeparator());
 	}
 	
 }

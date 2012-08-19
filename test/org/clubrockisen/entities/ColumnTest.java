@@ -32,8 +32,8 @@ public class ColumnTest {
 	 */
 	@Test
 	public void testGetType () {
-		assertEquals(idColumn.getType(), Integer.class);
-		assertEquals(otherColumn.getType(), String.class);
+		assertEquals(Integer.class, idColumn.getType());
+		assertEquals(String.class, otherColumn.getType());
 	}
 	
 	/**
@@ -43,8 +43,8 @@ public class ColumnTest {
 	public void testSetType () {
 		idColumn.setType(Double.class);
 		otherColumn.setType(Date.class);
-		assertEquals(idColumn.getType(), Double.class);
-		assertEquals(otherColumn.getType(), Date.class);
+		assertEquals(Double.class, idColumn.getType());
+		assertEquals(Date.class, otherColumn.getType());
 	}
 	
 	/**
@@ -52,8 +52,8 @@ public class ColumnTest {
 	 */
 	@Test
 	public void testGetName () {
-		assertEquals(idColumn.getName(), "id");
-		assertEquals(otherColumn.getName(), "name");
+		assertEquals("id", idColumn.getName());
+		assertEquals("name", otherColumn.getName());
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public class ColumnTest {
 	public void testSetName () {
 		idColumn.setName("price");
 		otherColumn.setName("date");
-		assertEquals(idColumn.getName(), "price");
-		assertEquals(otherColumn.getName(), "date");
+		assertEquals("price", idColumn.getName());
+		assertEquals("date", otherColumn.getName());
 	}
 	
 	/**
@@ -72,8 +72,8 @@ public class ColumnTest {
 	 */
 	@Test
 	public void testIsID () {
-		assertEquals(idColumn.isID(), true);
-		assertEquals(otherColumn.isID(), false);
+		assertEquals(true, idColumn.isID());
+		assertEquals(false, otherColumn.isID());
 	}
 	
 	/**
@@ -83,8 +83,8 @@ public class ColumnTest {
 	public void testSetID () {
 		idColumn.setID(false);
 		otherColumn.setID(true);
-		assertEquals(idColumn.isID(), false);
-		assertEquals(otherColumn.isID(), true);
+		assertEquals(false, idColumn.isID());
+		assertEquals(true, otherColumn.isID());
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class ColumnTest {
 	 */
 	@Test
 	public void testToString () {
-		assertEquals(idColumn.toString(), "name: id, type: Integer, is id: true");
-		assertEquals(otherColumn.toString(), "name: name, type: String, is id: false");
+		assertEquals("name: id, type: Integer, is id: true", idColumn.toString());
+		assertEquals("name: name, type: String, is id: false", otherColumn.toString());
 	}
 }
