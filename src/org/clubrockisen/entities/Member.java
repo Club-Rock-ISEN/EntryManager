@@ -260,7 +260,7 @@ public class Member extends Entity {
 	 */
 	@Override
 	public String toString () {
-		return name + " (" + idMember + ")";
+		return name == null ? "" : name;
 	}
 	
 }

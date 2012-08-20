@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
-
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
 
@@ -45,8 +43,9 @@ public final class MySQLConnection {
 		try {
 			connection = DriverManager.getConnection(url, user, password);
 		} catch (final SQLException e) {
-			lg.severe("Failed to create the connection to the database" + e.getMessage());
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			lg.severe("Failed to create the connection to the database " + e.getMessage());
+			throw new SQLConfigurationException("Failed to connect to MySQL database: "
+					+ e.getMessage(), e);
 		}
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Successfully connected to database " + url);
@@ -72,6 +71,23 @@ public final class MySQLConnection {
 			singleton = new MySQLConnection();
 		}
 		return singleton.connection;
+	}
+	
+	/**
+	 * Close the current connection to the database.<br />
+	 * Do nothing is the connection is not valid.
+	 */
+	public static void close () {
+		if (singleton == null || singleton.connection == null) {
+			return;
+		}
+		try {
+			singleton.connection.close();
+		} catch (final SQLException e) {
+			lg.warning("Could not close the connection to the database: " + e.getMessage());
+		}
+		singleton.connection = null;
+		singleton = null;
 	}
 	
 }

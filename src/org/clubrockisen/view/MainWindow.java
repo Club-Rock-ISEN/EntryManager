@@ -86,6 +86,9 @@ public class MainWindow extends JFrame implements AbstractView {
 	/** Instance of the translator */
 	private final Translator			translator			= Translator.getInstance();
 	
+	/** Indicates the readiness of the view */
+	private boolean						ready = false;
+	
 	private final DAO<Member>			daoMember;
 	
 	private final MemberPanelController memberUpdatePanel;
@@ -108,12 +111,20 @@ public class MainWindow extends JFrame implements AbstractView {
 				if (lg.isLoggable(Level.INFO)) {
 					lg.info("Main window built");
 				}
+				ready = true;
 				synchronized (mainWindow) {
 					mainWindow.notify();
 				}
 			}
 		});
-		
+	}
+	
+	/**
+	 * Return the readiness of the window.
+	 * @return <code>true</code> if the form is ready.
+	 */
+	public boolean isReady () {
+		return ready;
 	}
 	
 	/**

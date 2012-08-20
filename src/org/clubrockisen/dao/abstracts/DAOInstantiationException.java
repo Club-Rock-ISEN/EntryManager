@@ -1,12 +1,13 @@
 package org.clubrockisen.dao.abstracts;
 
+import org.clubrockisen.ClubRockISENError;
 import org.clubrockisen.dao.DAOType;
 
 /**
  * Error when using a DAO Type which is not yet implemented.
  * @author Alex
  */
-public class DAOInstantiationException extends Error {
+public class DAOInstantiationException extends ClubRockISENError {
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -705590220302237397L;
 	

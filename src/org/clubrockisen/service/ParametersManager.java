@@ -39,7 +39,9 @@ public final class ParametersManager implements IParametersManager {
 	 *        the factory for the DAO
 	 */
 	private ParametersManager(final AbstractDAOFactory daoFactory) {
-		lg.info("Building singleton for " + this.getClass().getName());
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Building singleton for " + this.getClass().getName());
+		}
 		this.dao = daoFactory.getParameterDAO();
 		loadParameters();
 	}
@@ -59,6 +61,9 @@ public final class ParametersManager implements IParametersManager {
 	 * @return the instance of the parameter manager.
 	 */
 	public static ParametersManager getInstance () {
+		if (singleton == null) {
+			lg.warning("Parameters manager not instantiated yet.");
+		}
 		return singleton;
 	}
 	

@@ -3,6 +3,8 @@ package org.clubrockisen;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 import org.clubrockisen.dao.DAOType;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.service.Configuration;
@@ -53,26 +55,35 @@ public final class App {
 			lg.info("Club Rock ISEN application starting...");
 		}
 		
-		/** Loading DAO factory and parameters */
-		final DAOType daoType = DAOType.fromValue(config.get(KEYS.daoFactory()));
-		final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
-		ParametersManager.create(daoFactory);
-		
-		/** Loading GUI */
-		MainWindow.setLookAndFeel();
-		final MainWindow window = new MainWindow(daoFactory);
-		// Waiting for the window to build itself
-		synchronized (window) {
-			try {
-				window.wait();
-			} catch (final InterruptedException e) {
-				lg.warning("Main thread interrupted: " + e.getMessage());
+		try {
+			/** Loading DAO factory and parameters */
+			final DAOType daoType = DAOType.fromValue(config.get(KEYS.daoFactory()));
+			final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
+			ParametersManager.create(daoFactory);
+			
+			/** Loading GUI */
+			MainWindow.setLookAndFeel();
+			final MainWindow window = new MainWindow(daoFactory);
+			// Waiting for the window to build itself
+			synchronized (window) {
+				try {
+					while (!window.isReady()) {
+						window.wait();
+					}
+				} catch (final InterruptedException e) {
+					lg.warning("Main thread interrupted: " + e.getMessage());
+				}
 			}
-		}
-		window.setVisible(true);
-		
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Club Rock ISEN application running.");
+			window.setVisible(true);
+			
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Club Rock ISEN application running.");
+			}
+		} catch (final ClubRockISENError e) {
+			lg.severe("Cannot run application: " + e.getClass() + "; details: " + e.getMessage());
+			lg.severe("Caused by " + e.getCause());
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Severe error - Application will not run", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

@@ -79,9 +79,9 @@ public class ParameterTest {
 	 */
 	@Test
 	public void testGetID () {
-		assertEquals("", nullParameter.getID());
-		assertEquals("size", parameterFromName.getID());
-		assertEquals("price", fullParameter.getID());
+		for (final Parameter parameter : parameters) {
+			assertEquals(parameter.getName(), parameter.getID());
+		}
 	}
 	
 	/**

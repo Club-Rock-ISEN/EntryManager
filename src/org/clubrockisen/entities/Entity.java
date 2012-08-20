@@ -56,6 +56,8 @@ public abstract class Entity {
 	 */
 	public abstract String getID ();
 	
+	
+	//TODO move methods to MySQLDAO
 	/**
 	 * Return the id {@link Column} of the entity.
 	 * @return the {@link Column} which is defined as the unique (and identifying) column of the
