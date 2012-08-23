@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.clubrockisen.exception.SQLConfigurationError;
 import org.clubrockisen.service.Configuration;
 import org.junit.Test;
 
@@ -40,11 +41,10 @@ public class MySQLConnectionTest {
 	 * @throws SQLException
 	 *         expected to happen.
 	 */
-	@Test(expected = SQLConfigurationException.class)
+	@Test(expected = SQLConfigurationError.class)
 	public void testConnectionFailed () throws SQLException {
 		Configuration.setFile("test/wrongConf.xml");
 		connection = MySQLConnection.getInstance();
-		connection.isValid(1);
 		MySQLConnection.close();
 	}
 	

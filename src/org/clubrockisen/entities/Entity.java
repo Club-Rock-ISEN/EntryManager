@@ -14,7 +14,7 @@ public abstract class Entity {
 	private static Logger								lg	= Logger.getLogger(Entity.class.getName());
 	
 	/** Map between the entities and their id columns */
-	private static Map<Class<? extends Entity>, Column>	idColumns;
+	private static Map<Class<? extends Entity>, Column>	idColumns = new HashMap<>();
 	
 	/**
 	 * Constructor #1.<br />
@@ -28,9 +28,6 @@ public abstract class Entity {
 			setEntityColumns();
 		}
 		
-		if (idColumns == null) {
-			idColumns = new HashMap<>();
-		}
 	}
 	
 	/**
@@ -103,16 +100,22 @@ public abstract class Entity {
 	 * @return the query ready for the entity specific data.
 	 */
 	public String generateInsertQuerySQL (final boolean putID) {
-		String query = "";
+		final StringBuilder columnsNames = new StringBuilder();
 		
 		for (final Column currentColumn : getEntityColumns().values()) {
 			if (!putID && currentColumn.isID()) {
 				continue;
 			}
-			query += (query.isEmpty() ? "" : ",") + "`" + currentColumn.getName() + "`";
+			// Adding a comma between fields
+			if (columnsNames.length() > 0) {
+				columnsNames.append(",");
+			}
+			columnsNames.append("`");
+			columnsNames.append(currentColumn.getName());
+			columnsNames.append("`");
 		}
 		
-		return "INSERT INTO " + getEntityName() + "(" + query + ") VALUES ";
+		return "INSERT INTO " + getEntityName() + "(" + columnsNames.toString() + ") VALUES ";
 	}
 	
 	/**

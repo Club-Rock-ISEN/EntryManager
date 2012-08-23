@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.clubrockisen.dao.DAOType;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.exception.TopLevelError;
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
 import org.clubrockisen.service.ParametersManager;
@@ -79,7 +80,7 @@ public final class App {
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Club Rock ISEN application running.");
 			}
-		} catch (final ClubRockISENError e) {
+		} catch (final TopLevelError e) {
 			lg.severe("Cannot run application: " + e.getClass() + "; details: " + e.getMessage());
 			lg.severe("Caused by " + e.getCause());
 			JOptionPane.showMessageDialog(null, e.getMessage(),

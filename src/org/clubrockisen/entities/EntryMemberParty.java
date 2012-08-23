@@ -153,7 +153,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idEntryMemberParty.
 	 */
 	public Integer getIdEntryMemberParty () {
-		return idEntryMemberParty == null ? -1 : idEntryMemberParty;
+		return idEntryMemberParty == null ? Integer.valueOf(-1) : idEntryMemberParty;
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idMember.
 	 */
 	public Integer getIdMember () {
-		return idMember == null ? -1 : idMember;
+		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
 	
 	/**
@@ -187,7 +187,7 @@ public class EntryMemberParty extends Entity {
 	 * @return the attribute idParty.
 	 */
 	public Integer getIdParty () {
-		return idParty == null ? -1 : idParty;
+		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
 	
 	/**

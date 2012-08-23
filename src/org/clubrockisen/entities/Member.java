@@ -157,7 +157,7 @@ public class Member extends Entity {
 	 * @return the idMember
 	 */
 	public Integer getIdMember () {
-		return idMember == null ? -1 : idMember;
+		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
 	
 	/**

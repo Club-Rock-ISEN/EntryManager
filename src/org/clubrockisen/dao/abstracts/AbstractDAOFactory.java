@@ -7,6 +7,7 @@ import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
+import org.clubrockisen.exception.DAOInstantiationError;
 
 /**
  * The abstract factory for the {@link DAO}.<br />
@@ -53,7 +54,7 @@ public abstract class AbstractDAOFactory {
 		} catch (InstantiationException | IllegalAccessException e) {
 			lg.severe("Cannot instantiate DAO type (" + type + "). " + e.getClass() + ", details: "
 					+ e.getMessage());
-			throw new DAOInstantiationException(type, e);
+			throw new DAOInstantiationError(type, e);
 		}
 	}
 }

@@ -55,10 +55,50 @@ public class Party extends Entity {
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	@SuppressWarnings("javadoc")
 	public enum PartyColumn {
-		ID, DATE, ENTRIES_TOTAL, ENTRIES_FIRST_PART, ENTRIES_SECOND_PART, ENTRIES_NEW_MEMBER,
-		ENTRIES_FREE, ENTRIES_MALE, ENTRIES_FEMALE, REVENUE, PROFIT;
+		/** The party's id */
+		ID ("IdParty"),
+		/** The party's date */
+		DATE ("Date"),
+		/** The party's entry number */
+		ENTRIES_TOTAL ("EntriesTotal"),
+		/** The party's  entry number for the first part */
+		ENTRIES_FIRST_PART ("EntriesFirstPart"),
+		/** The party's  entry number for the second part */
+		ENTRIES_SECOND_PART ("EntriesSecondPart"),
+		/** The party's number of new member */
+		ENTRIES_NEW_MEMBER ("EntriesNewMember"),
+		/** The party's number of free entries */
+		ENTRIES_FREE ("EntriesFreeMember"),
+		/** The party's number of male member */
+		ENTRIES_MALE ("EntriesMale"),
+		/** The party's number of female member */
+		ENTRIES_FEMALE ("EntriesFemale"),
+		/** The party's revenue */
+		REVENUE ("Revenue"),
+		/** The party's profit */
+		PROFIT ("Profit");
+		
+		/** The name of the property in the class */
+		private String	propertyName;
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build a new enumeration, based on the name of the attribute in the class.
+		 * @param propertyName
+		 *        the name of the property.
+		 */
+		private PartyColumn (final String propertyName) {
+			this.propertyName = propertyName;
+		}
+		
+		/**
+		 * Return the name of the attribute in the class.
+		 * @return the name of the property.
+		 */
+		public String getPropertyName () {
+			return propertyName;
+		}
 	}
 	
 	/*
@@ -177,7 +217,7 @@ public class Party extends Entity {
 	 * @return the idParty.
 	 */
 	public Integer getIdParty () {
-		return idParty;
+		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
 	
 	/**
@@ -193,7 +233,7 @@ public class Party extends Entity {
 	 * @return the date.
 	 */
 	public Date getDate () {
-		return date;
+		return date == null ? new Date() : date;
 	}
 	
 	/**
@@ -209,7 +249,7 @@ public class Party extends Entity {
 	 * @return the entriesTotal.
 	 */
 	public Integer getEntriesTotal () {
-		return entriesTotal;
+		return entriesTotal == null ? Integer.valueOf(0) : entriesTotal;
 	}
 	
 	/**
@@ -225,7 +265,7 @@ public class Party extends Entity {
 	 * @return the entriesFirstPart.
 	 */
 	public Integer getEntriesFirstPart () {
-		return entriesFirstPart;
+		return entriesFirstPart == null ? Integer.valueOf(0) : entriesFirstPart;
 	}
 	
 	/**
@@ -241,7 +281,7 @@ public class Party extends Entity {
 	 * @return the entriesSecondPart.
 	 */
 	public Integer getEntriesSecondPart () {
-		return entriesSecondPart;
+		return entriesSecondPart == null ? Integer.valueOf(0) : entriesSecondPart;
 	}
 	
 	/**
@@ -257,7 +297,7 @@ public class Party extends Entity {
 	 * @return the entriesNewMembers.
 	 */
 	public Integer getEntriesNewMembers () {
-		return entriesNewMembers;
+		return entriesNewMembers == null ? Integer.valueOf(0) : entriesNewMembers;
 	}
 	
 	/**
@@ -273,7 +313,7 @@ public class Party extends Entity {
 	 * @return the entriesFree.
 	 */
 	public Integer getEntriesFree () {
-		return entriesFree;
+		return entriesFree == null ? Integer.valueOf(0) : entriesFree;
 	}
 	
 	/**
@@ -289,7 +329,7 @@ public class Party extends Entity {
 	 * @return the entriesMale.
 	 */
 	public Integer getEntriesMale () {
-		return entriesMale;
+		return entriesMale == null ? Integer.valueOf(0) : entriesMale;
 	}
 	
 	/**
@@ -305,7 +345,7 @@ public class Party extends Entity {
 	 * @return the entriesFemale.
 	 */
 	public Integer getEntriesFemale () {
-		return entriesFemale;
+		return entriesFemale == null ? Integer.valueOf(0) : entriesFemale;
 	}
 	
 	/**
@@ -321,7 +361,7 @@ public class Party extends Entity {
 	 * @return the revenue.
 	 */
 	public Double getRevenue () {
-		return revenue;
+		return revenue == null ? Double.valueOf(0.0) : revenue;
 	}
 	
 	/**
@@ -337,7 +377,7 @@ public class Party extends Entity {
 	 * @return the profit.
 	 */
 	public Double getProfit () {
-		return profit;
+		return profit == null ? Double.valueOf(0.0) : profit;
 	}
 	
 	/**

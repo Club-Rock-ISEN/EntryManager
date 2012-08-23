@@ -113,7 +113,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				}
 				ready = true;
 				synchronized (mainWindow) {
-					mainWindow.notify();
+					mainWindow.notifyAll();
 				}
 			}
 		});

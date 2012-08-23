@@ -1,13 +1,12 @@
-package org.clubrockisen.dao.abstracts;
+package org.clubrockisen.exception;
 
-import org.clubrockisen.ClubRockISENError;
 import org.clubrockisen.dao.DAOType;
 
 /**
  * Error when using a DAO Type which is not yet implemented.
  * @author Alex
  */
-public class DAOInstantiationException extends ClubRockISENError {
+public class DAOInstantiationError extends TopLevelError {
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -705590220302237397L;
 	
@@ -16,10 +15,10 @@ public class DAOInstantiationException extends ClubRockISENError {
 	
 	/**
 	 * Constructor #1.<br />
-	 * Default constructor. The use of {@link #DAOInstantiationException(DAOType) other constructor}
+	 * Default constructor. The use of {@link #DAOInstantiationError(DAOType) other constructor}
 	 * is preferred.
 	 */
-	public DAOInstantiationException () {
+	public DAOInstantiationError () {
 		this(null);
 	}
 	
@@ -29,7 +28,7 @@ public class DAOInstantiationException extends ClubRockISENError {
 	 * @param type
 	 *        the type of DAO which is not implemented.
 	 */
-	public DAOInstantiationException (final DAOType type) {
+	public DAOInstantiationError (final DAOType type) {
 		this(type, null);
 	}
 	
@@ -40,7 +39,7 @@ public class DAOInstantiationException extends ClubRockISENError {
 	 * @param cause
 	 *        the exception thrown in the first place.
 	 */
-	public DAOInstantiationException (final DAOType type, final Throwable cause) {
+	public DAOInstantiationError (final DAOType type, final Throwable cause) {
 		super("The DAO of type " + type + " is not implemented.", cause);
 		this.daoType = type;
 	}

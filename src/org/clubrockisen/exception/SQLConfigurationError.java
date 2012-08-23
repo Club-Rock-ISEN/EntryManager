@@ -1,13 +1,11 @@
-package org.clubrockisen.connection;
-
-import org.clubrockisen.ClubRockISENError;
+package org.clubrockisen.exception;
 
 /**
  * Exception indicating a problem with the configuration of the database.<br />
  * Probable cause, wrong URL, login or password.
  * @author Alex
  */
-public class SQLConfigurationException extends ClubRockISENError {
+public class SQLConfigurationError extends TopLevelError {
 	/** Serial Version UID */
 	private static final long	serialVersionUID	= 8530177052070875293L;
 	
@@ -15,7 +13,7 @@ public class SQLConfigurationException extends ClubRockISENError {
 	 * Constructor #1.<br />
 	 * Constructor with no message nor cause.
 	 */
-	public SQLConfigurationException () {
+	public SQLConfigurationError () {
 		this(null);
 	}
 	
@@ -24,7 +22,7 @@ public class SQLConfigurationException extends ClubRockISENError {
 	 * @param message
 	 *        the details of the problem.
 	 */
-	public SQLConfigurationException (final String message) {
+	public SQLConfigurationError (final String message) {
 		this(message, null);
 	}
 	
@@ -35,7 +33,7 @@ public class SQLConfigurationException extends ClubRockISENError {
 	 * @param cause
 	 *        the exception which caused the issue.
 	 */
-	public SQLConfigurationException (final String message, final Throwable cause) {
+	public SQLConfigurationError (final String message, final Throwable cause) {
 		super(message, cause);
 	}
 }

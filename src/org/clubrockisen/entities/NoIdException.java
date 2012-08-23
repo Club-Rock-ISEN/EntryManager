@@ -16,7 +16,7 @@ public class NoIdException extends Exception {
 	 * Default constructor. Build a NoIdExcetpion with no entity class.
 	 */
 	public NoIdException () {
-		this(null);
+		this(Entity.class);
 	}
 	
 	/**
@@ -25,8 +25,7 @@ public class NoIdException extends Exception {
 	 *        the class which do not own a {@link Column} which is marked as an Id.
 	 */
 	public NoIdException (final Class<? extends Entity> entityClass) {
-		super("Could not find id column in entity " + (entityClass == null ? "unknown" :
-			entityClass.getSimpleName()));
+		super("Could not find id column in entity " + entityClass.getSimpleName());
 		this.entityClass = entityClass;
 	}
 	
