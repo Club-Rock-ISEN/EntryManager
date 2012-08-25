@@ -1,7 +1,6 @@
 package org.clubrockisen.entities;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,7 @@ public class NoIdExceptionTest {
 	@Test
 	public void testGetEntityClass () {
 		assertEquals(Member.class, memberException.getEntityClass());
-		assertNull(unknownException.getEntityClass());
+		assertEquals(Entity.class, unknownException.getEntityClass());
 	}
 	
 	/**
@@ -41,6 +40,6 @@ public class NoIdExceptionTest {
 	@Test
 	public void testGetMessage () {
 		assertEquals("Could not find id column in entity Member", memberException.getMessage());
-		assertEquals("Could not find id column in entity unknown", unknownException.getMessage());
+		assertEquals("Could not find id column in entity Entity", unknownException.getMessage());
 	}
 }

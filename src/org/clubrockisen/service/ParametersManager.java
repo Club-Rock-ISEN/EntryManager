@@ -10,6 +10,7 @@ import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.service.abstracts.IParametersManager;
+import org.clubrockisen.service.abstracts.ParametersEnum;
 
 /**
  * Manager for the parameters.<br />
@@ -21,8 +22,6 @@ public final class ParametersManager implements IParametersManager {
 	/** Logger */
 	private static Logger					lg			= Logger.getLogger(ParametersManager.class.getName());
 	
-	/** Unique instance of the manager */
-	private static ParametersManager		singleton	= null;
 	
 	/** The access to the parameters */
 	private final DAO<Parameter>			dao;
@@ -30,7 +29,7 @@ public final class ParametersManager implements IParametersManager {
 	 * The map between the parameters (registered in the {@link ParametersEnum}) and the concrete
 	 * parameter from the database
 	 */
-	private Map<ParametersEnum, Parameter>	parameters;
+	private final Map<ParametersEnum, Parameter>	parameters;
 	
 	/**
 	 * Constructor #1.<br />
@@ -38,46 +37,17 @@ public final class ParametersManager implements IParametersManager {
 	 * @param daoFactory
 	 *        the factory for the DAO
 	 */
-	private ParametersManager(final AbstractDAOFactory daoFactory) {
+	public ParametersManager(final AbstractDAOFactory daoFactory) {
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Building singleton for " + this.getClass().getName());
 		}
 		this.dao = daoFactory.getParameterDAO();
-		loadParameters();
-	}
-	
-	/**
-	 * Create the parameter manager.
-	 * @param daoFactory
-	 *        the DAO factory to use.
-	 */
-	public static void create (final AbstractDAOFactory daoFactory) {
-		singleton = new ParametersManager(daoFactory);
-	}
-	
-	/**
-	 * Returns the instance of the {@link ParametersManager}.<br />
-	 * Ensure to {@link #create(AbstractDAOFactory)} the instance before calling this method.
-	 * @return the instance of the parameter manager.
-	 */
-	public static ParametersManager getInstance () {
-		if (singleton == null) {
-			lg.warning("Parameters manager not instantiated yet.");
-		}
-		return singleton;
-	}
-	
-	/**
-	 * Load the parameters into the map.
-	 */
-	private void loadParameters () {
 		parameters = new EnumMap<>(ParametersEnum.class);
 		final List<Parameter> dbParameters = dao.retrieveAll();
 		
 		for (final Parameter parameter : dbParameters) {
 			parameters.put(ParametersEnum.fromValue(parameter.getName()), parameter);
 		}
-		
 	}
 	
 	/*

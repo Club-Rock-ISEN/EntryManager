@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,8 +52,8 @@ public class StatusTest {
 		for (int index = 0; index < status.size(); ++index) {
 			final Status currentStatus = status.get(index);
 			for (int otherIndex = index + 1; otherIndex < status.size(); ++otherIndex) {
-				assertThat(currentStatus.getName().toLowerCase(), not(status.get(otherIndex)
-						.getName().toLowerCase()));
+				assertThat(currentStatus.getName().toLowerCase(Locale.ENGLISH),
+						not(status.get(otherIndex).getName().toLowerCase(Locale.ENGLISH)));
 			}
 		}
 	}

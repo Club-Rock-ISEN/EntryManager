@@ -47,6 +47,9 @@
 	<entry key="gui.dialog.about.title">À propos</entry>
 	<entry key="gui.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
 	<entry key="gui.dialog.about.license">Distribué sous "Nouvelle Licence BSD".</entry>
+	<!-- The error dialog for no members selected -->
+	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
+	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

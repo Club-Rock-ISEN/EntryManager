@@ -5,14 +5,14 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import org.clubrockisen.dao.DAOType;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.exception.TopLevelError;
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
-import org.clubrockisen.service.ParametersManager;
 import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
+import org.clubrockisen.view.Utils;
 
 /**
  * Launcher for the Club Rock ISEN application.
@@ -57,14 +57,13 @@ public final class App {
 		}
 		
 		try {
-			/** Loading DAO factory and parameters */
-			final DAOType daoType = DAOType.fromValue(config.get(KEYS.daoFactory()));
-			final AbstractDAOFactory daoFactory = AbstractDAOFactory.getFactory(daoType);
-			ParametersManager.create(daoFactory);
+			/** Loading DAO factory and services */
+			AbstractDAOFactory.createFactory(config.get(KEYS.daoFactory()));
+			ServiceFactory.createFactory(config.get(KEYS.serviceFactory()));
 			
 			/** Loading GUI */
-			MainWindow.setLookAndFeel();
-			final MainWindow window = new MainWindow(daoFactory);
+			Utils.setLookAndFeel();
+			final MainWindow window = new MainWindow(AbstractDAOFactory.getImplementation());
 			// Waiting for the window to build itself
 			synchronized (window) {
 				try {

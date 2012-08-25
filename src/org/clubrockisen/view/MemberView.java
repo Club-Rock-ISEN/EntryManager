@@ -21,9 +21,10 @@ import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.view.abstracts.AbstractView;
+import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
 /**
- * TODO
+ * View which displays a panel to update a member.<br />
  * @author Alex
  */
 public class MemberView extends JFrame implements AbstractView {
@@ -83,9 +84,10 @@ public class MemberView extends JFrame implements AbstractView {
 	 */
 	private void buildGUI () {
 		this.setTitle(translator.get(new Member()));
-		this.setSize(300, 450);
-		this.setContentPane(buildMemberPanel());
 		this.setVisible(false);
+		this.setSize(300, 450);
+		this.setLocationRelativeTo(null);
+		this.setContentPane(buildMemberPanel());
 		this.setListeners();
 	}
 	
@@ -198,6 +200,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = defaultInsets;
 		genderField = new JComboBox<>(Gender.values());
+		genderField.setRenderer(new CustomEnumRenderer());
 		pane.add(genderField, c);
 		
 		c = new GridBagConstraints();
@@ -211,6 +214,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = defaultInsets;
 		statusField = new JComboBox<>(Status.values());
+		statusField.setRenderer(new CustomEnumRenderer());
 		pane.add(statusField, c);
 		
 		c = new GridBagConstraints();

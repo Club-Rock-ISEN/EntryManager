@@ -13,7 +13,7 @@ import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.view.MemberView;
 
 /**
- * TODO
+ * Controller for the member update panel.<br />
  * @author Alex
  */
 public class MemberPanelController extends AbstractController implements MemberController {

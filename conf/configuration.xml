@@ -2,7 +2,9 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<!-- DAO factory to load -->
-	<entry key="configuration.dao">MySQL</entry>
+	<entry key="configuration.dao">org.clubrockisen.dao.mysql.MySQLDAOFactory</entry>
+	<!-- Service factory to load -->
+	<entry key="configuration.service">org.clubrockisen.service.ServiceFactoryImpl</entry>
 	
 	<!-- Data base connection information -->
 	<entry key="configuration.db.url">jdbc:mysql://localhost/crock</entry>

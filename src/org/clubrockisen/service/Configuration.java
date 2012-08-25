@@ -20,8 +20,10 @@ public final class Configuration {
 	
 	/** Unique instance of the class */
 	private static Configuration	singleton;
+	/** Lock for singleton initialization */
+	private static Object					lock	= new Object();
 	/** The configuration file to load */
-	private static String			configurationFile = null;
+	private static String			configurationFile = ConfigurationKey.FILE;
 	
 	/** The configuration properties */
 	private final Properties		configuration;
@@ -43,7 +45,9 @@ public final class Configuration {
 	 */
 	public static Configuration getInstance () {
 		if (singleton == null) {
-			singleton = new Configuration();
+			synchronized (lock) {
+				singleton = new Configuration();
+			}
 		}
 		return singleton;
 	}
@@ -66,13 +70,10 @@ public final class Configuration {
 	 * Load the properties from the configuration file.
 	 */
 	private void load () {
-		// Set the file to default, if it has not been set
-		if (configurationFile == null || "".equals(configurationFile)) {
-			configurationFile = ConfigurationKey.FILE;
-		}
 		// Load the properties
 		try {
-			configuration.loadFromXML(new FileInputStream(configurationFile));
+			configuration.loadFromXML(new FileInputStream( configurationFile != null ?
+					configurationFile : ConfigurationKey.FILE));
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Properties successfully loaded:");
 				for (final Entry<Object, Object> currentProp : configuration.entrySet()) {

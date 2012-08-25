@@ -1,6 +1,7 @@
 package org.clubrockisen.entities.enums;
 
-import org.clubrockisen.service.Translator;
+import java.util.Locale;
+
 
 /**
  * Enumeration for the status of the member.
@@ -41,16 +42,6 @@ public enum Status {
 	}
 	
 	/**
-	 * Return a String containing the translation of the current enumeration (via the
-	 * {@link Translator}).
-	 * @return the translation for the current status.
-	 */
-	@Override
-	public String toString () {
-		return Translator.getInstance().get(this);
-	}
-	
-	/**
 	 * Return the default status to set.
 	 * @return the default status to set.
 	 */
@@ -67,7 +58,7 @@ public enum Status {
 	public static Status fromValue (final String name) {
 		try {
 			// First, use the default JDK method
-			return Enum.valueOf(Status.class, name.toUpperCase());
+			return Enum.valueOf(Status.class, name.toUpperCase(Locale.ENGLISH));
 		} catch (final IllegalArgumentException e) {
 			// If failed, try to match the name of an enumeration
 			for (final Status currentStatus : Status.values()) {

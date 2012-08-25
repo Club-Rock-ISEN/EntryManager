@@ -1,4 +1,6 @@
-package org.clubrockisen.service;
+package org.clubrockisen.service.abstracts;
+
+import java.util.Locale;
 
 /**
  * The enumeration for the parameters.<br />
@@ -62,7 +64,7 @@ public enum ParametersEnum {
 	public static ParametersEnum fromValue (final String name) {
 		try {
 			// First, try to use the JDK method
-			return Enum.valueOf(ParametersEnum.class, name.toUpperCase());
+			return Enum.valueOf(ParametersEnum.class, name.toUpperCase(Locale.getDefault()));
 		} catch (final IllegalArgumentException e) {
 			// If fail, try to compare with the name of the enumeration
 			for (final ParametersEnum currentParam : ParametersEnum.values()) {

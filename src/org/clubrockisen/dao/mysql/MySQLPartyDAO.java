@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Column;
+import org.clubrockisen.entities.NoIdException;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 
@@ -154,7 +155,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 				lg.info(query);
 			}
 			statement.executeUpdate(query);
-		} catch (final Exception e) {
+		} catch (final NoIdException | SQLException e) {
 			lg.warning("Exception while updating a party (" + e.getMessage() + ")");
 			return false;
 		}

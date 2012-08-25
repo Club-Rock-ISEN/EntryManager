@@ -1,7 +1,6 @@
 package org.clubrockisen.service.abstracts;
 
 import org.clubrockisen.entities.Parameter;
-import org.clubrockisen.service.ParametersEnum;
 
 /**
  * Interface for the managers for the parameters.<br />

@@ -24,14 +24,21 @@ import org.clubrockisen.entities.Member.MemberColumn;
  * @author Alex
  */
 public class SearchBoxKeyListener implements KeyListener {
+	/** Logger */
 	private static Logger					lg						= Logger.getLogger(SearchBoxKeyListener.class
 			.getName());
 	
+	/** The text box being listened */
 	private final JTextField				textBox;
+	/** The list to refresh */
 	private final JList<Member>				list;
+	/** The model of the list */
 	private final DefaultListModel<Member>	listModel;
+	/** The DAO for the members */
 	private final DAO<Member>				daoMember;
+	/** The previous request, to avoid unnecessary query */
 	private String							oldRequest				= "";
+	/** The key used to change the focus from the search box to the list result */
 	private final int						changeFocusKeyTrigger;
 	
 	/**

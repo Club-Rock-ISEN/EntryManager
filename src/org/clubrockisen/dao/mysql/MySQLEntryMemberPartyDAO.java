@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
+import org.clubrockisen.entities.NoIdException;
 
 /**
  * Class used to manipulating the entries of the members in the database.<br />
@@ -128,7 +129,7 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 				lg.info(query);
 			}
 			statement.executeUpdate(query);
-		} catch (final Exception e) {
+		} catch (final NoIdException | SQLException e) {
 			lg.warning("Exception while updating an entry: " + e.getMessage());
 			return false;
 		}

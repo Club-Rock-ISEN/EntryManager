@@ -36,7 +36,7 @@ public final class ConfigurationKey {
 	 * Configuration regarding the database.
 	 * @author Alex
 	 */
-	public class Db {
+	public static class Db {
 		/** The root key for the database configuration */
 		private final String	dbKey;
 		
@@ -91,6 +91,14 @@ public final class ConfigurationKey {
 	 */
 	public String daoFactory () {
 		return rootKey + "." + "dao";
+	}
+	
+	/**
+	 * The service factory to be used.
+	 * @return the key to the service type.
+	 */
+	public String serviceFactory () {
+		return rootKey + "." + "service";
 	}
 	
 	/**

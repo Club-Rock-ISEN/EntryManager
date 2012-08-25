@@ -2,7 +2,6 @@ package org.clubrockisen.dao.abstracts;
 
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.DAOType;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
@@ -10,13 +9,39 @@ import org.clubrockisen.entities.Party;
 import org.clubrockisen.exception.DAOInstantiationError;
 
 /**
- * The abstract factory for the {@link DAO}.<br />
- * Define the different DAO object that should be created for a complete access to the data.
+ * The abstract factory for the {@link DAO}s.<br />
+ * Define the different DAO objects that should be created for a complete access to the database.
  * @author Alex
  */
 public abstract class AbstractDAOFactory {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
+	private static Logger				lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
+	
+	/** Implementation of the factory to be used */
+	private static AbstractDAOFactory	implementation;
+	
+	/**
+	 * Return the implementation of the factory to be used.
+	 * @return the concrete implementation
+	 */
+	public static AbstractDAOFactory getImplementation () {
+		return implementation;
+	}
+	
+	/**
+	 * Retrieve and create the appropriate factory.
+	 * @param factoryClass
+	 *        the type of DAO required.
+	 */
+	public static void createFactory (final String factoryClass) {
+		try {
+			implementation = (AbstractDAOFactory) Class.forName(factoryClass).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). "
+					+ e.getClass() + ", details: " + e.getMessage());
+			throw new DAOInstantiationError(factoryClass, e);
+		}
+	}
 	
 	/**
 	 * Retrieve a {@link DAO} for the {@link Parameter} class.
@@ -40,21 +65,5 @@ public abstract class AbstractDAOFactory {
 	 * Retrieve a {@link DAO} for the {@link EntryMemberParty} class.
 	 * @return the DAO for the entries class.
 	 */
-	public abstract DAO<EntryMemberParty> getEntryMemberPartyDAO();
-	
-	/**
-	 * Retrieve and create the appropriate factory.
-	 * @param type
-	 *            the type of DAO required.
-	 * @return the factory to use for creating the DAO objects.
-	 */
-	public static AbstractDAOFactory getFactory (final DAOType type) {
-		try {
-			return type.getFactory().newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			lg.severe("Cannot instantiate DAO type (" + type + "). " + e.getClass() + ", details: "
-					+ e.getMessage());
-			throw new DAOInstantiationError(type, e);
-		}
-	}
+	public abstract DAO<EntryMemberParty> getEntryMemberPartyDAO ();
 }

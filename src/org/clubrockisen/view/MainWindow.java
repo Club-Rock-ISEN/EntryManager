@@ -31,9 +31,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.controller.MemberPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -41,10 +38,8 @@ import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.service.ParametersEnum;
-import org.clubrockisen.service.ParametersManager;
-import org.clubrockisen.service.TranslationKey;
 import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractView;
 
 /**
@@ -59,6 +54,8 @@ public class MainWindow extends JFrame implements AbstractView {
 	
 	/** The unicode for delta */
 	public static final String			DELTA				= "\u0394";
+	/** The services */
+	private static final ServiceFactory	SERVICES			= ServiceFactory.getImplementation();
 	
 	/** Attributes for the controls **/
 	private MainWindow					mainWindow;
@@ -82,9 +79,6 @@ public class MainWindow extends JFrame implements AbstractView {
 	
 	private DefaultListModel<Member>	resultListModel;
 	private final Insets				defaultInsets		= new Insets(5, 5, 5, 5);
-	
-	/** Instance of the translator */
-	private final Translator			translator			= Translator.getInstance();
 	
 	/** Indicates the readiness of the view */
 	private boolean						ready = false;
@@ -128,39 +122,10 @@ public class MainWindow extends JFrame implements AbstractView {
 	}
 	
 	/**
-	 * Sets the look and feel of the application
-	 */
-	public static void setLookAndFeel () {
-		final String lookAndFeelName = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL).getValue();
-		boolean lookAndFeelFound = false;
-		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-			lg.fine(laf.getName());
-			if (laf.getName().equals(lookAndFeelName)) {
-				try {
-					UIManager.setLookAndFeel(laf.getClassName());
-					if (lg.isLoggable(Level.FINE)) {
-						lg.fine("Look and feel properly setted (" + laf.getName() + ").");
-					}
-					lookAndFeelFound = true;
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e) {
-					lg.warning("Could not set the look and feel " + laf.getName() + ". Cause: " +
-							e.getCause() + " " + e.getMessage());
-					lookAndFeelFound = false;
-				}
-			}
-		}
-		if (!lookAndFeelFound) {
-			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
-					+ ". Using default look and feel.");
-		}
-	}
-	
-	/**
 	 * Create the controls, menu, labels, etc.
 	 */
 	private void buildGUI () {
-		this.setTitle(translator.get(TranslationKey.GUI.title()));
+		this.setTitle(SERVICES.getTranslator().get(Translator.Key.GUI.title()));
 		this.setSize(900, 600);
 		try {
 			this.setIconImage(ImageIO.read(new File("./data/images/icon.png")));
@@ -182,8 +147,8 @@ public class MainWindow extends JFrame implements AbstractView {
 	private void buildMenus () {
 		menuBar = new JMenuBar();
 		// File menu creation
-		fileMenu = new JMenu(translator.get(TranslationKey.GUI.menu().file().toString()));
-		profitItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().profit()));
+		fileMenu = new JMenu(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().toString()));
+		profitItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().profit()));
 		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		profitItem.addActionListener(new ActionListener() {
 			
@@ -192,7 +157,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		parametersItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().parameters()));
+		parametersItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().parameters()));
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
 			
@@ -211,7 +176,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				//ParametersManager.getInstance().set(laf);
 			}
 		});
-		quitItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().file().quit()));
+		quitItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().quit()));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
 			
@@ -227,8 +192,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		dataBaseMenu = new JMenu(translator.get(TranslationKey.GUI.menu().database().toString()));
-		seeMembersItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().seeMembers()));
+		dataBaseMenu = new JMenu(SERVICES.getTranslator().get(Translator.Key.GUI.menu().database().toString()));
+		seeMembersItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().database().seeMembers()));
 		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMembersItem.addActionListener(new ActionListener() {
 			
@@ -237,7 +202,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		seeAttendeesItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().seeAttendees()));
+		seeAttendeesItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().database().seeAttendees()));
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
 			
@@ -246,7 +211,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		exportDataItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().database().exportData()));
+		exportDataItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().database().exportData()));
 		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
 		exportDataItem.addActionListener(new ActionListener() {
 			
@@ -261,8 +226,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		memberMenu = new JMenu(translator.get(TranslationKey.GUI.menu().member().toString()));
-		newMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().newMember()));
+		memberMenu = new JMenu(SERVICES.getTranslator().get(Translator.Key.GUI.menu().member().toString()));
+		newMemberItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().member().newMember()));
 		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 		newMemberItem.addActionListener(new ActionListener() {
 			
@@ -271,7 +236,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		deleteMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().deleteMember()));
+		deleteMemberItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().member().deleteMember()));
 		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
 		deleteMemberItem.addActionListener(new ActionListener() {
 			
@@ -280,7 +245,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				// TODO Auto-generated method stub
 			}
 		});
-		updateMemberItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().member().updateMember()));
+		updateMemberItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().member().updateMember()));
 		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
 		updateMemberItem.addActionListener(new ActionListener() {
 			
@@ -288,7 +253,8 @@ public class MainWindow extends JFrame implements AbstractView {
 			public void actionPerformed (final ActionEvent e) {
 				if (resultList.getSelectedValue() == null) {
 					lg.info("No member selected, cannot show update member window");
-					// TODO dialog here
+					Utils.showMessageDialog(MainWindow.this, Translator.Key.GUI.dialog()
+							.notSelectedMember(), JOptionPane.WARNING_MESSAGE);
 				} else {
 					memberUpdatePanel.showMember(resultList.getSelectedValue());
 				}
@@ -299,8 +265,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		helpMenu = new JMenu(translator.get(TranslationKey.GUI.menu().help().toString()));
-		helpItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().help().help()));
+		helpMenu = new JMenu(SERVICES.getTranslator().get(Translator.Key.GUI.menu().help().toString()));
+		helpItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().help().help()));
 		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		helpItem.addActionListener(new ActionListener() {
 			
@@ -310,16 +276,16 @@ public class MainWindow extends JFrame implements AbstractView {
 				
 			}
 		});
-		aboutItem = new JMenuItem(translator.get(TranslationKey.GUI.menu().help().about()));
+		aboutItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().help().about()));
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(mainWindow,
-						translator.get(TranslationKey.GUI.dialog().about().author()) + " Alex Barféty.\n"
-								+ translator.get(TranslationKey.GUI.dialog().about().license()),
-								translator.get(TranslationKey.GUI.dialog().about().title()),
+						SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
+								+ SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().license()),
+								SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().title()),
 								JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -366,7 +332,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		resultListModel = new DefaultListModel<Member>();
 		resultList = new JList<Member>(resultListModel);
 		final JScrollPane scrollPane = new JScrollPane(resultList);
-		scrollPane.setBorder(BorderFactory.createTitledBorder(translator
+		scrollPane.setBorder(BorderFactory.createTitledBorder(SERVICES.getTranslator()
 				.get("app.mainWindow.groupBox.searchResult")));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -385,7 +351,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.weighty = 0;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		enterButton = new JButton(translator.get("app.mainWindow.button.enter"));
+		enterButton = new JButton(SERVICES.getTranslator().get("app.mainWindow.button.enter"));
 		panel.add(enterButton, c);
 		
 		c = new GridBagConstraints();
@@ -397,7 +363,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.weighty = 0;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		updateButton = new JButton(translator.get("app.mainWindow.button.update"));
+		updateButton = new JButton(SERVICES.getTranslator().get("app.mainWindow.button.update"));
 		panel.add(updateButton, c);
 		
 		c = new GridBagConstraints();
@@ -409,7 +375,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.weighty = 0;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		deleteButton = new JButton(translator.get("app.mainWindow.button.delete"));
+		deleteButton = new JButton(SERVICES.getTranslator().get("app.mainWindow.button.delete"));
 		panel.add(deleteButton, c);
 		
 		c = new GridBagConstraints();
@@ -443,7 +409,7 @@ public class MainWindow extends JFrame implements AbstractView {
 	 */
 	private JPanel buildMemberPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder(translator
+		pane.setBorder(BorderFactory.createTitledBorder(SERVICES.getTranslator()
 				.get("app.mainWindow.groupBox.member")));
 		
 		GridBagConstraints c = new GridBagConstraints();
@@ -456,7 +422,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nameLabel = new JLabel(translator.get("app.mainWindow.label.name"));
+		nameLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.name"));
 		pane.add(nameLabel, c);
 		
 		c = new GridBagConstraints();
@@ -469,7 +435,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		genderLabel = new JLabel(translator.get("app.mainWindow.label.gender"));
+		genderLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.gender"));
 		pane.add(genderLabel, c);
 		
 		c = new GridBagConstraints();
@@ -482,7 +448,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		statusLabel = new JLabel(translator.get("app.mainWindow.label.status"));
+		statusLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.status"));
 		pane.add(statusLabel, c);
 		
 		c = new GridBagConstraints();
@@ -495,7 +461,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		entryNumberLabel = new JLabel(translator.get("app.mainWindow.label.entryNumber"));
+		entryNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.entryNumber"));
 		pane.add(entryNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -508,7 +474,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nextFreeLabel = new JLabel(translator.get("app.mainWindow.label.nextFree"));
+		nextFreeLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.nextFree"));
 		pane.add(nextFreeLabel, c);
 		
 		c = new GridBagConstraints();
@@ -585,7 +551,7 @@ public class MainWindow extends JFrame implements AbstractView {
 	 */
 	private JPanel buildPartyPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder(translator.get("app.mainWindow.groupBox.party")));
+		pane.setBorder(BorderFactory.createTitledBorder(SERVICES.getTranslator().get("app.mainWindow.groupBox.party")));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -597,7 +563,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		entryPartyTotalNumberLabel = new JLabel(translator.get("app.mainWindow.label.entryPartyTotal"));
+		entryPartyTotalNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.entryPartyTotal"));
 		pane.add(entryPartyTotalNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -610,7 +576,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		entryPartyFirstPartNumberLabel = new JLabel(translator.get("app.mainWindow.label.entryPartyFirstPart"));
+		entryPartyFirstPartNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.entryPartyFirstPart"));
 		pane.add(entryPartyFirstPartNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -623,7 +589,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		entryPartySecondPartNumberLabel = new JLabel(translator.get("app.mainWindow.label.entryPartySecondPart"));
+		entryPartySecondPartNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.entryPartySecondPart"));
 		pane.add(entryPartySecondPartNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -636,7 +602,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		newMemberNumberLabel = new JLabel(translator.get("app.mainWindow.label.newMemberNumber"));
+		newMemberNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.newMemberNumber"));
 		pane.add(newMemberNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -649,7 +615,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		freeMemberNumberLabel = new JLabel(translator.get("app.mainWindow.label.freeMemberNumber"));
+		freeMemberNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.freeMemberNumber"));
 		pane.add(freeMemberNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -662,7 +628,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		maleNumberLabel = new JLabel(translator.get("app.mainWindow.label.maleNumber"));
+		maleNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.maleNumber"));
 		pane.add(maleNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -675,7 +641,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		femaleNumberLabel = new JLabel(translator.get("app.mainWindow.label.femaleNumber"));
+		femaleNumberLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.femaleNumber"));
 		pane.add(femaleNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -701,7 +667,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		revenueLabel = new JLabel(translator.get("app.mainWindow.label.revenue"));
+		revenueLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.revenue"));
 		pane.add(revenueLabel, c);
 		
 		c = new GridBagConstraints();
@@ -714,7 +680,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		profitLabel = new JLabel(translator.get("app.mainWindow.label.profit"));
+		profitLabel = new JLabel(SERVICES.getTranslator().get("app.mainWindow.label.profit"));
 		pane.add(profitLabel, c);
 		
 		c = new GridBagConstraints();

@@ -1,6 +1,5 @@
 package org.clubrockisen.entities.enums;
 
-import org.clubrockisen.service.Translator;
 
 /**
  * Enumeration for the genders.
@@ -32,16 +31,6 @@ public enum Gender {
 	 */
 	public char getAbbreviation () {
 		return abbreviation;
-	}
-	
-	/**
-	 * Return a String containing the translation of the current enumeration (via the
-	 * {@link Translator}).
-	 * @return the translation for the current gender.
-	 */
-	@Override
-	public String toString () {
-		return Translator.getInstance().get(this);
 	}
 	
 	/**
