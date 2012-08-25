@@ -69,6 +69,14 @@ public class MemberPanelController extends AbstractController implements MemberC
 	}
 	
 	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.MemberController#changeNextFree(int)
+	 */
+	@Override
+	public void changeNextFree (final int newNextFree) {
+		memberController.changeNextFree(newNextFree);
+	}
+	
+	/* (non-Javadoc)
 	 * @see org.clubrockisen.controller.MemberController#changeCredit(double)
 	 */
 	@Override

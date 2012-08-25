@@ -40,18 +40,6 @@ public class MemberView extends JFrame implements AbstractView {
 	private final Translator	translator			= Translator.getInstance();
 	
 	// Swing GUI elements
-	/** Label for the member's name */
-	private JLabel				nameLabel;
-	/** Label for the member's {@link Gender} */
-	private JLabel				genderLabel;
-	/** Label for the member's {@link Status} */
-	private JLabel				statusLabel;
-	/** Label for the member's entries */
-	private JLabel				entryNumberLabel;
-	/** Label for the member's next free entry count down */
-	private JLabel				nextFreeLabel;
-	/** Label for the member's credit */
-	private JLabel				creditLabel;
 	/** Field for the member's name */
 	private JTextField			nameField;
 	/** Field for the member's {@link Gender} */
@@ -108,7 +96,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nameLabel = new JLabel(translator.get(new Member(), Member.getColumns().get(MemberColumn.NAME)));
+		final JLabel nameLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.NAME)));
 		pane.add(nameLabel, c);
 		
 		c = new GridBagConstraints();
@@ -121,7 +109,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		genderLabel = new JLabel(translator.get(new Member(), Member.getColumns().get(MemberColumn.GENDER)));
+		final JLabel genderLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.GENDER)));
 		pane.add(genderLabel, c);
 		
 		c = new GridBagConstraints();
@@ -134,7 +122,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		statusLabel = new JLabel(translator.get(new Member(), Member.getColumns().get(MemberColumn.STATUS)));
+		final JLabel statusLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.STATUS)));
 		pane.add(statusLabel, c);
 		
 		c = new GridBagConstraints();
@@ -147,7 +135,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		entryNumberLabel = new JLabel(translator.get(new Member(), Member.getColumns().get(MemberColumn.ENTRIES)));
+		final JLabel entryNumberLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.ENTRIES)));
 		pane.add(entryNumberLabel, c);
 		
 		c = new GridBagConstraints();
@@ -160,7 +148,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nextFreeLabel = new JLabel(translator.get("app.mainWindow.label.nextFree"));
+		final JLabel nextFreeLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.NEXT_FREE)));
 		pane.add(nextFreeLabel, c);
 		
 		c = new GridBagConstraints();
@@ -173,7 +161,7 @@ public class MemberView extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		creditLabel = new JLabel(translator.get(new Member(), Member.getColumns().get(MemberColumn.CREDIT)));
+		final JLabel creditLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.CREDIT)));
 		pane.add(creditLabel, c);
 		
 		c = new GridBagConstraints();
@@ -283,7 +271,8 @@ public class MemberView extends JFrame implements AbstractView {
 			genderField.setSelectedItem(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(MemberColumn.ENTRIES.getPropertyName())) {
 			entryNumberField.setValue(evt.getNewValue());
-			nextFreeField.setValue(6 - Integer.parseInt(evt.getNewValue().toString()) % 6); // TODO make parameter
+		} else if (evt.getPropertyName().equals(MemberColumn.NEXT_FREE.getPropertyName())) {
+			nextFreeField.setValue(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(MemberColumn.CREDIT.getPropertyName())) {
 			creditField.setValue(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(MemberColumn.STATUS.getPropertyName())) {

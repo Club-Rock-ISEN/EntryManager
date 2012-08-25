@@ -25,6 +25,11 @@ public enum ParametersEnum {
 	ENTRY_PRICE_TOTAL("entryPriceTotal"),
 	
 	/**
+	 * The frequency of free entries.
+	 */
+	FREE_ENTRY_FREQUENCY ("freeEntryFrequency"),
+	
+	/**
 	 * The price for the first part.
 	 */
 	ENTRY_PRICE_FIRST_PART("entryPriceFirstPart"),

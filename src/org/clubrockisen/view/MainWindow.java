@@ -165,7 +165,7 @@ public class MainWindow extends JFrame implements AbstractView {
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
 				lg.info("found: " + daoMember.find(10000));
-				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 0.0, Status.MEMBER));
+				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
 				daoMember.delete(m);
 				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
 				//tmp.setEntries(tmp.getEntries()+1);

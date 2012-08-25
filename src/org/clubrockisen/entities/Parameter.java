@@ -10,12 +10,14 @@ import java.util.logging.Logger;
  */
 public class Parameter extends Entity {
 	/** Logger */
-	private static Logger						lg	= Logger.getLogger(Parameter.class.getName());
+	private static Logger						lg			= Logger.getLogger(Parameter.class.getName());
 	
 	/** Map between the enumeration and the actual columns in the database */
 	private static Map<ParameterColumn, Column>	columns;
+	/** Lock for the columns */
+	private static Object						lock		= new Object();
 	/** Name of the entity */
-	private static String						entityName = "parameter";
+	private static String						entityName	= "parameter";
 	
 	/** Name of the parameter */
 	private final String						name;
@@ -48,13 +50,15 @@ public class Parameter extends Entity {
 	 */
 	@Override
 	protected void setEntityColumns () {
-		if (columns != null) {
-			return;
+		synchronized (lock) {
+			if (columns != null) {
+				return;
+			}
+			columns = new EnumMap<ParameterColumn, Column>(ParameterColumn.class);
+			columns.put(ParameterColumn.NAME, new Column(String.class, "name", true));
+			columns.put(ParameterColumn.VALUE, new Column(String.class, "value"));
+			columns.put(ParameterColumn.TYPE, new Column(String.class, "type"));
 		}
-		columns = new EnumMap<ParameterColumn, Column>(ParameterColumn.class);
-		columns.put(ParameterColumn.NAME, new Column(String.class, "name", true));
-		columns.put(ParameterColumn.VALUE, new Column(String.class, "value"));
-		columns.put(ParameterColumn.TYPE, new Column(String.class, "type"));
 	}
 	
 	/*

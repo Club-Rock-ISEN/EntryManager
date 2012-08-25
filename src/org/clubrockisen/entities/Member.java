@@ -17,7 +17,9 @@ public class Member extends Entity {
 	
 	/** Map between the column enumeration and the actual columns from the database */
 	private static Map<MemberColumn, Column>	columns;
-	/** Name of the entity*/
+	/** Lock for the columns */
+	private static Object						lock		= new Object();
+	/** Name of the entity */
 	private static String						entityName	= "member";
 	
 	// The properties of the member
@@ -29,6 +31,8 @@ public class Member extends Entity {
 	private Gender								gender;
 	/** The number of entries of this member */
 	private Integer								entries;
+	/** The number of remaining entry before a free entry */
+	private Integer								nextFree;
 	/** The credit on the member's account */
 	private Double								credit;
 	/** The status of the member */
@@ -56,6 +60,8 @@ public class Member extends Entity {
 		GENDER ("Gender"),
 		/** The member's entries */
 		ENTRIES ("Entries"),
+		/** The member's next free entry counter */
+		NEXT_FREE ("NextFree"),
 		/** The member's credit */
 		CREDIT ("Credit"),
 		/** The member's status */
@@ -85,16 +91,19 @@ public class Member extends Entity {
 	
 	@Override
 	protected void setEntityColumns () {
-		if (columns != null) {
-			return;
+		synchronized (lock) {
+			if (columns != null) {
+				return;
+			}
+			columns = new EnumMap<>(MemberColumn.class);
+			columns.put(MemberColumn.ID, new Column(Integer.class, "idMember", true));
+			columns.put(MemberColumn.NAME, new Column(String.class, "name"));
+			columns.put(MemberColumn.GENDER, new Column(Gender.class, "gender"));
+			columns.put(MemberColumn.ENTRIES, new Column(Integer.class, "entries"));
+			columns.put(MemberColumn.NEXT_FREE, new Column(Integer.class, "nextFree"));
+			columns.put(MemberColumn.CREDIT, new Column(Double.class, "credit"));
+			columns.put(MemberColumn.STATUS, new Column(Status.class, "status"));
 		}
-		columns = new EnumMap<>(MemberColumn.class);
-		columns.put(MemberColumn.ID, new Column(Integer.class, "idMember", true));
-		columns.put(MemberColumn.NAME, new Column(String.class, "name"));
-		columns.put(MemberColumn.GENDER, new Column(Gender.class, "gender"));
-		columns.put(MemberColumn.ENTRIES, new Column(Integer.class, "entries"));
-		columns.put(MemberColumn.CREDIT, new Column(Double.class, "credit"));
-		columns.put(MemberColumn.STATUS, new Column(Status.class, "status"));
 	}
 	
 	@Override
@@ -122,18 +131,21 @@ public class Member extends Entity {
 	 *        the gender of the member.
 	 * @param entries
 	 *        the number of entries of the member
+	 * @param nextFree
+	 *        the number of entries until the next free.
 	 * @param credit
 	 *        the credit of the member.
 	 * @param status
 	 *        the status of the member.
 	 */
 	public Member (final Integer idMember, final String name, final Gender gender,
-			final Integer entries, final Double credit, final Status status) {
+			final Integer entries, final Integer nextFree, final Double credit, final Status status) {
 		super();
 		this.idMember = idMember;
 		this.name = name;
 		this.gender = gender;
 		this.entries = entries;
+		this.nextFree = nextFree;
 		this.credit = credit;
 		this.status = status;
 		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", " + this.gender);
@@ -144,7 +156,7 @@ public class Member extends Entity {
 	 * Default constructor
 	 */
 	public Member () {
-		this(null, null, Gender.getDefault(), null, null, Status.getDefault());
+		this(null, null, Gender.getDefault(), null, null, null, Status.getDefault());
 	}
 	
 	@Override
@@ -207,8 +219,8 @@ public class Member extends Entity {
 	 * Return the entries.
 	 * @return the entries
 	 */
-	public int getEntries () {
-		return entries == null ? 0 : entries;
+	public Integer getEntries () {
+		return entries == null ? Integer.valueOf(0) : entries;
 	}
 	
 	/**
@@ -221,11 +233,27 @@ public class Member extends Entity {
 	}
 	
 	/**
+	 * Return the attribute nextFree.
+	 * @return the attribute nextFree.
+	 */
+	public Integer getNextFree () {
+		return nextFree == null ? Integer.valueOf(-1) : nextFree;
+	}
+	
+	/**
+	 * Set the attribute nextFree.
+	 * @param nextFree the attribute nextFree.
+	 */
+	public void setNextFree (final Integer nextFree) {
+		this.nextFree = nextFree;
+	}
+	
+	/**
 	 * Return the credit.
 	 * @return the credit
 	 */
-	public double getCredit () {
-		return credit == null ? 0.0 : credit;
+	public Double getCredit () {
+		return credit == null ? Double.valueOf(0.0) : credit;
 	}
 	
 	/**

@@ -69,6 +69,7 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 		newMember.setName(result.getString(columns.get(MemberColumn.NAME).getName()));
 		newMember.setGender(Gender.fromValue(result.getString(columns.get(MemberColumn.GENDER).getName()).charAt(0)));
 		newMember.setEntries(result.getInt(columns.get(MemberColumn.ENTRIES).getName()));
+		newMember.setNextFree(result.getInt(columns.get(MemberColumn.NEXT_FREE).getName()));
 		newMember.setCredit(result.getDouble(columns.get(MemberColumn.CREDIT).getName()));
 		newMember.setStatus(Status.fromValue(result.getString(columns.get(MemberColumn.STATUS).getName())));
 		
@@ -94,6 +95,7 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 			final String query = obj.generateInsertQuerySQL(false) + " (" + "'" + obj.getName() + "',"
 					+ "'" + obj.getGender().getAbbreviation() + "',"
 					+ "'" + obj.getEntries() + "',"
+					+ "'" + obj.getNextFree() + "',"
 					+ "'" + obj.getCredit() + "',"
 					+ "'" + obj.getStatus().getName() + "');";
 			if (lg.isLoggable(Level.INFO)) {
@@ -134,6 +136,7 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 					columns.get(MemberColumn.NAME).getName() + " = '" + obj.getName() + "', " +
 					columns.get(MemberColumn.GENDER).getName() + " = '" + obj.getGender().getAbbreviation() + "', " +
 					columns.get(MemberColumn.ENTRIES).getName() + " = '" + obj.getEntries() + "', " +
+					columns.get(MemberColumn.NEXT_FREE).getName() + " = '" + obj.getNextFree() + "', " +
 					columns.get(MemberColumn.CREDIT).getName() + " = '" + obj.getCredit() + "', " +
 					columns.get(MemberColumn.STATUS).getName() + " = '" + obj.getStatus().getName() + "'" +
 					obj.generateWhereIDQuerySQL();

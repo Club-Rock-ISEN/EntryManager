@@ -9,8 +9,19 @@
 	<entry key="entity.member.name">Nom</entry>
 	<entry key="entity.member.gender">Sexe</entry>
 	<entry key="entity.member.entries">Nombre d'entrée</entry>
+	<entry key="entity.member.nextfree">Prochaine entrée gratuite</entry>
 	<entry key="entity.member.credit">Crédit</entry>
 	<entry key="entity.member.status">Statut</entry>
+	<!-- Party -->
+	<entry key="entity.party">Soirée</entry>
+	<entry key="entity.party.date">Date</entry>
+	<entry key="entity.party.entriestotal">Nombre d'entrées</entry>
+	<entry key="entity.party.entriesfirstpart">Entrée pour le cours</entry>
+	<entry key="entity.party.entriessecondpart">Entrées pour la soirée</entry>
+	<entry key="entity.party.entriesnewmember">Nombre de nouveaux</entry>
+	<entry key="entity.party.entriesfree">Nombre de gratuits</entry>
+	<entry key="entity.party.entriesmale">Nombre d'hommes</entry>
+	<entry key="entity.party.entriesfemale">Nombre de femmes</entry>
 	
 	<!-- Enumerations -->
 	<!-- Gender -->

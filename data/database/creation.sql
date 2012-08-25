@@ -38,6 +38,7 @@ CREATE TABLE `crock`.`member` (
 	`name`		VARCHAR(60) NOT NULL						COMMENT 'The name of the member',
 	`gender`	CHAR NOT NULL								COMMENT 'The gender of the member "F" for female, "M" for male.',
 	`entries`	INT(6) NOT NULL								COMMENT 'The number of entries of the member.',
+	`nextFree`	INT(1) NOT NULL								COMMENT 'The number of remaining entries before a free entry.',
 	`credit`	DECIMAL(6, 2)								COMMENT 'The credit of the member.',
 	`status`	VARCHAR(20)									COMMENT 'The status of the member.',
 
@@ -86,7 +87,8 @@ CREATE TABLE `crock`.`entryMemberParty` (
 -- ============================================================
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('lookAndFeel', 'Nimbus', 'String');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('timeLimit', '22:00', 'String');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceTotal', '4.0', 'String');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('freeEntryFrequency', '6', 'Integer');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceTotal', '4.0', 'Double');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceFirstPart', '3.0', 'Double');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceSecondPart', '3.0', 'Double');
 

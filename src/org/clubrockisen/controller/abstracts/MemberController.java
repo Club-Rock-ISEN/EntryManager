@@ -31,6 +31,13 @@ public interface MemberController {
 	void changeEntries (final int newEntries);
 	
 	/**
+	 * Change the number of entries until the next free one in the model.
+	 * @param newNextFree
+	 *        the new value for the next free entry.
+	 */
+	void changeNextFree (final int newNextFree);
+	
+	/**
 	 * Change the credit of the member in the model.
 	 * @param newCredit
 	 *        the new credit for the member.

@@ -16,6 +16,8 @@ public class Party extends Entity {
 	
 	/** Map between the enumeration and the actual columns in the database */
 	private static Map<PartyColumn, Column>	columns;
+	/** Lock for the columns */
+	private static Object					lock		= new Object();
 	/** Name of the entity */
 	private static String					entityName	= "party";
 	
@@ -107,21 +109,23 @@ public class Party extends Entity {
 	 */
 	@Override
 	protected void setEntityColumns () {
-		if (columns != null) {
-			return;
+		synchronized (lock) {
+			if (columns != null) {
+				return;
+			}
+			columns = new EnumMap<>(PartyColumn.class);
+			columns.put(PartyColumn.ID, new Column(Integer.class, "idParty", true));
+			columns.put(PartyColumn.DATE, new Column(java.sql.Date.class, "date"));
+			columns.put(PartyColumn.ENTRIES_TOTAL, new Column(Integer.class, "entriesTotal"));
+			columns.put(PartyColumn.ENTRIES_FIRST_PART, new Column(Integer.class, "entriesFirstPart"));
+			columns.put(PartyColumn.ENTRIES_SECOND_PART, new Column(Integer.class, "entriesSecondPart"));
+			columns.put(PartyColumn.ENTRIES_NEW_MEMBER, new Column(Integer.class, "entriesNewMembers"));
+			columns.put(PartyColumn.ENTRIES_FREE, new Column(Integer.class, "entriesFree"));
+			columns.put(PartyColumn.ENTRIES_MALE, new Column(Integer.class, "entriesMale"));
+			columns.put(PartyColumn.ENTRIES_FEMALE, new Column(Integer.class, "entriesFemale"));
+			columns.put(PartyColumn.REVENUE, new Column(Double.class, "revenue"));
+			columns.put(PartyColumn.PROFIT, new Column(Double.class, "profit"));
 		}
-		columns = new EnumMap<>(PartyColumn.class);
-		columns.put(PartyColumn.ID, new Column(Integer.class, "idParty", true));
-		columns.put(PartyColumn.DATE, new Column(java.sql.Date.class, "date"));
-		columns.put(PartyColumn.ENTRIES_TOTAL, new Column(Integer.class, "entriesTotal"));
-		columns.put(PartyColumn.ENTRIES_FIRST_PART, new Column(Integer.class, "entriesFirstPart"));
-		columns.put(PartyColumn.ENTRIES_SECOND_PART, new Column(Integer.class, "entriesSecondPart"));
-		columns.put(PartyColumn.ENTRIES_NEW_MEMBER, new Column(Integer.class, "entriesNewMembers"));
-		columns.put(PartyColumn.ENTRIES_FREE, new Column(Integer.class, "entriesFree"));
-		columns.put(PartyColumn.ENTRIES_MALE, new Column(Integer.class, "entriesMale"));
-		columns.put(PartyColumn.ENTRIES_FEMALE, new Column(Integer.class, "entriesFemale"));
-		columns.put(PartyColumn.REVENUE, new Column(Double.class, "revenue"));
-		columns.put(PartyColumn.PROFIT, new Column(Double.class, "profit"));
 	}
 	
 	/*

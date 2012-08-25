@@ -67,6 +67,17 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.ENTRIES.getPropertyName(), newEntries);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.MemberController#changeNextFree(int)
+	 */
+	@Override
+	public void changeNextFree (final int newNextFree) {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Changing member next free entry to " + newNextFree + " in controller");
+		}
+		controller.setModelProperty(MemberColumn.NEXT_FREE.getPropertyName(), newNextFree);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.MemberController#changeCredit(double)

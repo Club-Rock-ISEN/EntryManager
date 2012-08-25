@@ -32,7 +32,7 @@ public class MemberTest {
 	@Before
 	public void setUp () {
 		nullMember = new Member();
-		fullMember = new Member(8, "crock", Gender.MALE, 4, 2.8, Status.VETERAN);
+		fullMember = new Member(8, "crock", Gender.MALE, 4, 2, 2.8, Status.VETERAN);
 		
 		members = new ArrayList<>(2);
 		members.add(nullMember);
@@ -56,7 +56,7 @@ public class MemberTest {
 	public void testGetEntityColumns () {
 		for (final Member member : members) {
 			final Map<? extends Enum<?>, Column> columns = member.getEntityColumns();
-			assertEquals(6, columns.size());
+			assertEquals(7, columns.size());
 			
 			assertEquals("idMember", columns.get(MemberColumn.ID).getName());
 			assertEquals(Integer.class, columns.get(MemberColumn.ID).getType());
@@ -73,6 +73,10 @@ public class MemberTest {
 			assertEquals("entries", columns.get(MemberColumn.ENTRIES).getName());
 			assertEquals(Integer.class, columns.get(MemberColumn.ENTRIES).getType());
 			assertEquals(false, columns.get(MemberColumn.ENTRIES).isID());
+			
+			assertEquals("nextFree", columns.get(MemberColumn.NEXT_FREE).getName());
+			assertEquals(Integer.class, columns.get(MemberColumn.NEXT_FREE).getType());
+			assertEquals(false, columns.get(MemberColumn.NEXT_FREE).isID());
 			
 			assertEquals("credit", columns.get(MemberColumn.CREDIT).getName());
 			assertEquals(Double.class, columns.get(MemberColumn.CREDIT).getType());
@@ -173,8 +177,8 @@ public class MemberTest {
 	 */
 	@Test
 	public void testGetEntries () {
-		assertEquals(0, nullMember.getEntries());
-		assertEquals(4, fullMember.getEntries());
+		assertEquals((long) 0, (long) nullMember.getEntries());
+		assertEquals((long) 4, (long) fullMember.getEntries());
 	}
 	
 	/**
@@ -185,8 +189,29 @@ public class MemberTest {
 		nullMember.setEntries(1);
 		fullMember.setEntries(8);
 		
-		assertEquals(1, nullMember.getEntries());
-		assertEquals(8, fullMember.getEntries());
+		assertEquals((long) 1, (long) nullMember.getEntries());
+		assertEquals((long) 8, (long) fullMember.getEntries());
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Member#getNextFree()}.
+	 */
+	@Test
+	public void testGetNextFree () {
+		assertEquals((long) -1, (long) nullMember.getNextFree());
+		assertEquals((long) 2, (long) fullMember.getNextFree());
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Member#setNextFree(Integer)}.
+	 */
+	@Test
+	public void testSetNextFree () {
+		nullMember.setNextFree(4);
+		fullMember.setNextFree(3);
+		
+		assertEquals((long) 4, (long) nullMember.getNextFree());
+		assertEquals((long) 3, (long) fullMember.getNextFree());
 	}
 	
 	/**
@@ -265,7 +290,7 @@ public class MemberTest {
 	@Test
 	public void testGenerateInsertQuerySQL () {
 		for (final Member member : members) {
-			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`credit`,`status`) VALUES ",
+			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
 					member.generateInsertQuerySQL());
 		}
 	}
@@ -276,9 +301,9 @@ public class MemberTest {
 	@Test
 	public void testGenerateInsertQuerySQLBoolean () {
 		for (final Member member : members) {
-			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`credit`,`status`) VALUES ",
+			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
 					member.generateInsertQuerySQL(true));
-			assertEquals("INSERT INTO member(`name`,`gender`,`entries`,`credit`,`status`) VALUES ",
+			assertEquals("INSERT INTO member(`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
 					member.generateInsertQuerySQL(false));
 		}
 	}

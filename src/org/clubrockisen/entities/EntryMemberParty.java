@@ -10,19 +10,21 @@ import java.util.logging.Logger;
  */
 public class EntryMemberParty extends Entity {
 	/** Logger */
-	private static Logger							lg			= Logger.getLogger(EntryMemberParty.class.getName());
+	private static Logger					lg			= Logger.getLogger(EntryMemberParty.class.getName());
 	
 	/** Map between the enumeration for the columns and the actual columns in the database */
 	private static Map<EntryColumn, Column>	columns;
+	/** Lock for the columns */
+	private static Object					lock		= new Object();
 	/** Name of the entity */
-	private static String							entityName	= "entryMemberParty";
+	private static String					entityName	= "entryMemberParty";
 	
 	/** The id of the entry member party */
-	private Integer									idEntryMemberParty;
+	private Integer							idEntryMemberParty;
 	/** The id of the member entering */
-	private Integer									idMember;
+	private Integer							idMember;
 	/** The id of the party where the member is entering */
-	private Integer									idParty;
+	private Integer							idParty;
 	
 	/*
 	 * (non-Javadoc)
@@ -73,14 +75,16 @@ public class EntryMemberParty extends Entity {
 	 */
 	@Override
 	protected void setEntityColumns () {
-		if (columns != null) {
-			return;
+		synchronized (lock) {
+			if (columns != null) {
+				return;
+			}
+			
+			columns = new EnumMap<>(EntryColumn.class);
+			columns.put(EntryColumn.ID, new Column(Integer.class, "idEntryMemberParty", true));
+			columns.put(EntryColumn.MEMBER_ID, new Column(Integer.class, "idMember"));
+			columns.put(EntryColumn.PARTY_ID, new Column(Integer.class, "idParty"));
 		}
-		
-		columns = new EnumMap<>(EntryColumn.class);
-		columns.put(EntryColumn.ID, new Column(Integer.class, "idEntryMemberParty", true));
-		columns.put(EntryColumn.MEMBER_ID, new Column(Integer.class, "idMember"));
-		columns.put(EntryColumn.PARTY_ID, new Column(Integer.class, "idParty"));
 	}
 	
 	/*
