@@ -1,5 +1,6 @@
 package org.clubrockisen.dao.abstracts;
 
+import java.io.Closeable;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.EntryMemberParty;
@@ -13,7 +14,7 @@ import org.clubrockisen.exception.DAOInstantiationError;
  * Define the different DAO objects that should be created for a complete access to the database.
  * @author Alex
  */
-public abstract class AbstractDAOFactory {
+public abstract class AbstractDAOFactory implements Closeable {
 	/** Logger */
 	private static Logger				lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
 	

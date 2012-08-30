@@ -33,7 +33,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import org.clubrockisen.connection.MySQLConnection;
 import org.clubrockisen.controller.MemberPanelController;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -182,9 +181,6 @@ public class MainWindow extends JFrame implements AbstractView {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				lg.info("Exit program.");
-				memberUpdatePanel.dispose();
-				MySQLConnection.close();
 				mainWindow.dispose();
 			}
 		});
@@ -817,8 +813,27 @@ public class MainWindow extends JFrame implements AbstractView {
 		return pane;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.Window#dispose()
+	 */
+	@Override
+	public void dispose () {
+		lg.info("Exit program.");
+		super.dispose();
+		memberUpdatePanel.dispose();
+		try {
+			AbstractDAOFactory.getImplementation().close();
+		} catch (final IOException ex) {
+			lg.warning("Error while closing DAO connection (" + ex.getMessage() + ")");
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent
+	 * )
 	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {

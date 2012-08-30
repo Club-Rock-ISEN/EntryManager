@@ -165,18 +165,20 @@ public class MemberView extends JFrame implements AbstractView {
 		pane.add(entryNumberField, c);
 		
 		c.gridy = ++yIndex;
-		final int freeEntriesLimit = Integer.parseInt(parameters.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue());
-		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0, freeEntriesLimit, 1));
+		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0,
+				Integer.parseInt(parameters.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()), 1));
 		pane.add(nextFreeField, c);
 		
 		c.gridy = ++yIndex;
-		final double minCredit = Double.parseDouble(parameters.get(ParametersEnum.MIN_CREDIT).getValue());
-		final double maxCredit = Double.parseDouble(parameters.get(ParametersEnum.MAX_CREDIT).getValue());
-		creditField = new JSpinner(new SpinnerNumberModel(0.0, minCredit, maxCredit, 0.01));
+		creditField = new JSpinner(new SpinnerNumberModel(0.0,
+				Double.parseDouble(parameters.get(ParametersEnum.MIN_CREDIT).getValue()),
+				Double.parseDouble(parameters.get(ParametersEnum.MAX_CREDIT).getValue()),
+				0.01)); // TODO make constant?
 		pane.add(creditField, c);
 		
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
+		c.gridwidth = 1;
 		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
 		pane.add(cancelButton, c);
 		
