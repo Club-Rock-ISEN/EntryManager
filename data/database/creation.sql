@@ -91,5 +91,7 @@ INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('freeEntryFreq
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceTotal', '4.0', 'Double');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceFirstPart', '3.0', 'Double');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceSecondPart', '3.0', 'Double');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('minCredit', '-10.0', 'Double');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('maxCredit', '250.0', 'Double');
 
 commit;

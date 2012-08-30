@@ -858,16 +858,16 @@ public final class Translator implements ITranslator {
 				}
 				
 				/**
-				 * 
+				 * The dialog to warn when a member is not selected.
 				 * @author Alex
 				 */
 				public static final class NotSelectedMember extends AbstractDialog {
-					/** The key to the about dialog */
+					/** The key to the not selected member dialog */
 					private final String	notSelectedMemberKey;
 					
 					/**
 					 * Constructor #1.<br />
-					 * Build the about dialog structure.
+					 * Build the not selected member dialog structure.
 					 * @param parentKey
 					 *        the key from the parent category.
 					 */
@@ -876,8 +876,10 @@ public final class Translator implements ITranslator {
 						notSelectedMemberKey = parentKey + "." + "notSelectedMember";
 					}
 					
-					/* (non-Javadoc)
-					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 					 */
 					@Override
 					public String toString () {
@@ -894,6 +896,45 @@ public final class Translator implements ITranslator {
 					return new NotSelectedMember(dialogKey);
 				}
 				
+				/**
+				 * The dialog to warn when a member is not persisted.
+				 * @author Alex
+				 */
+				public static final class NotPersistedMember extends AbstractDialog {
+					/** The key to the not persisted member dialog */
+					private final String	notPersistedMember;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the not persisted member dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private NotPersistedMember (final String parentKey) {
+						super();
+						notPersistedMember = parentKey + "." + "notPersistedMember";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return notPersistedMember;
+					}
+					
+				}
+				
+				/**
+				 * Access to the translations for the not persisted member.
+				 * @return the not selected member dialog translations.
+				 */
+				public NotPersistedMember notPersistedMember () {
+					return new NotPersistedMember(dialogKey);
+				}
+				
 			}
 			
 			/**
@@ -903,6 +944,7 @@ public final class Translator implements ITranslator {
 			public Dialog dialog () {
 				return new Dialog(guiKey);
 			}
+			
 		}
 		
 		/** Access to the GUI related translations. */
@@ -950,11 +992,35 @@ public final class Translator implements ITranslator {
 			}
 			
 			/**
-			 * The currency symbol to use.
-			 * @return the translation for the currency symbol.
+			 * The plural letter of the language.
+			 * @return the plural letter of the language.
 			 */
 			public String pluralLetter () {
 				return miscKey + "." + "pluralLetter";
+			}
+			
+			/**
+			 * The 'OK' text to use.
+			 * @return the translation for the OK.
+			 */
+			public String ok () {
+				return miscKey + "." + "ok";
+			}
+			
+			/**
+			 * The 'cancel' text to use.
+			 * @return the translation for the cancel.
+			 */
+			public String cancel () {
+				return miscKey + "." + "cancel";
+			}
+			
+			/**
+			 * The 'apply' text to use.
+			 * @return the translation for the apply.
+			 */
+			public String apply () {
+				return miscKey + "." + "apply";
 			}
 		}
 		

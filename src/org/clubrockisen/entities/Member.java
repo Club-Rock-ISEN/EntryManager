@@ -13,14 +13,17 @@ import org.clubrockisen.entities.enums.Status;
  */
 public class Member extends Entity {
 	/** Logger */
-	private static Logger						lg			= Logger.getLogger(Member.class.getName());
+	private static Logger						lg					= Logger.getLogger(Member.class.getName());
+	
+	/** Serial Version UID */
+	private static final long					serialVersionUID	= 7811625399175984654L;
 	
 	/** Map between the column enumeration and the actual columns from the database */
 	private static Map<MemberColumn, Column>	columns;
 	/** Lock for the columns */
-	private static Object						lock		= new Object();
+	private static Object						lock				= new Object();
 	/** Name of the entity */
-	private static String						entityName	= "member";
+	private static String						entityName			= "member";
 	
 	// The properties of the member
 	/** The id of the member */

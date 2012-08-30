@@ -1,20 +1,24 @@
 package org.clubrockisen.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Represent an abstract entity of the database.
+ * Represent an abstract entity of the database.<br />
  * @author Alex
  */
-public abstract class Entity {
+public abstract class Entity implements Serializable {
 	/** Logger */
-	private static Logger								lg	= Logger.getLogger(Entity.class.getName());
+	private static Logger								lg					= Logger.getLogger(Entity.class.getName());
+	
+	/** Serial Version UID */
+	private static final long							serialVersionUID	= 1337771320210441402L;
 	
 	/** Map between the entities and their id columns */
-	private static Map<Class<? extends Entity>, Column>	idColumns = new HashMap<>();
+	private static Map<Class<? extends Entity>, Column>	idColumns 			= new HashMap<>();
 	
 	/**
 	 * Constructor #1.<br />
@@ -53,8 +57,6 @@ public abstract class Entity {
 	 */
 	public abstract String getID ();
 	
-	
-	//TODO move methods to MySQLDAO
 	/**
 	 * Return the id {@link Column} of the entity.
 	 * @return the {@link Column} which is defined as the unique (and identifying) column of the

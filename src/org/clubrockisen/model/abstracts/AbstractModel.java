@@ -64,6 +64,7 @@ public abstract class AbstractModel {
 	/**
 	 * Persists the current model in the database.<br />
 	 * Create or update operation, depending on the state of the entity in the database.
+	 * @return <code>true</code> if the operation has succeeded.
 	 */
-	public abstract void persist ();
+	public abstract boolean persist ();
 }

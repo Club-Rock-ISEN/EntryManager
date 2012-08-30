@@ -10,14 +10,17 @@ import java.util.logging.Logger;
  */
 public class EntryMemberParty extends Entity {
 	/** Logger */
-	private static Logger					lg			= Logger.getLogger(EntryMemberParty.class.getName());
+	private static Logger					lg					= Logger.getLogger(EntryMemberParty.class.getName());
+	
+	/** Serial Version UID */
+	private static final long				serialVersionUID	= -2478086857006225748L;
 	
 	/** Map between the enumeration for the columns and the actual columns in the database */
 	private static Map<EntryColumn, Column>	columns;
 	/** Lock for the columns */
-	private static Object					lock		= new Object();
+	private static Object					lock				= new Object();
 	/** Name of the entity */
-	private static String					entityName	= "entryMemberParty";
+	private static String					entityName			= "entryMemberParty";
 	
 	/** The id of the entry member party */
 	private Integer							idEntryMemberParty;

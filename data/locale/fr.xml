@@ -61,11 +61,17 @@
 	<!-- The error dialog for no members selected -->
 	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
 	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
+	<!-- The error dialog for no members selected -->
+	<entry key="gui.dialog.notPersistedMember.title">Erreur</entry>
+	<entry key="gui.dialog.notPersistedMember.message">L'enregistrement du membre a échoué.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>
 	<entry key="misc.currencySymbol">€</entry>
 	<entry key="misc.pluralLetter">s</entry>
+	<entry key="misc.ok">OK</entry>
+	<entry key="misc.cancel">Annuler</entry>
+	<entry key="misc.apply">Appliquer</entry>
 	
 	
 	<!-- Old translations -->

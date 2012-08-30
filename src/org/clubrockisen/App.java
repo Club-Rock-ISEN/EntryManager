@@ -63,7 +63,7 @@ public final class App {
 			
 			/** Loading GUI */
 			Utils.setLookAndFeel();
-			final MainWindow window = new MainWindow(AbstractDAOFactory.getImplementation());
+			final MainWindow window = new MainWindow();
 			// Waiting for the window to build itself
 			synchronized (window) {
 				try {

@@ -1,10 +1,13 @@
 package org.clubrockisen.view;
 
 import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Insets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -19,10 +22,13 @@ import org.clubrockisen.service.abstracts.ServiceFactory;
  */
 public final class Utils {
 	/** Logger */
-	private static Logger				lg			= Logger.getLogger(Utils.class.getName());
+	private static Logger				lg				= Logger.getLogger(Utils.class.getName());
 	
 	/** The services */
-	private static final ServiceFactory	SERVICES	= ServiceFactory.getImplementation();
+	private static final ServiceFactory	SERVICES		= ServiceFactory.getImplementation();
+	
+	/** Default insets to be used */
+	private static final Insets			DEFAULT_INSETS	= new Insets(5, 5, 5, 5);
 	
 	/**
 	 * Constructor #1.<br />
@@ -39,7 +45,9 @@ public final class Utils {
 		final String lookAndFeelName = SERVICES.getParameterManager().get(ParametersEnum.LOOK_AND_FEEL).getValue();
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-			lg.fine(laf.getName());
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine(laf.getName());
+			}
 			if (laf.getName().equals(lookAndFeelName)) {
 				try {
 					UIManager.setLookAndFeel(laf.getClassName());
@@ -55,7 +63,13 @@ public final class Utils {
 				}
 			}
 		}
-		if (!lookAndFeelFound) {
+		// Applying changes to application
+		if (lookAndFeelFound) {
+			for (final Frame frame : Frame.getFrames()) {
+				SwingUtilities.updateComponentTreeUI(frame);
+				frame.pack();
+			}
+		} else {
 			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
 					+ ". Using default look and feel.");
 		}
@@ -68,11 +82,23 @@ public final class Utils {
 	 * @param dialog
 	 *        the key to the translations to use.
 	 * @param type
-	 *        the type of the dialog.
+	 *        the type of the dialog. Generally, {@link JOptionPane#ERROR_MESSAGE error},
+	 *        {@link JOptionPane#WARNING_MESSAGE warning}, {@link JOptionPane#INFORMATION_MESSAGE
+	 *        information}, {@link JOptionPane#QUESTION_MESSAGE question} or
+	 *        {@link JOptionPane#PLAIN_MESSAGE plain} message.
+	 * @see JOptionPane#showMessageDialog(Component, Object, String, int, javax.swing.Icon)
 	 */
 	public static void showMessageDialog (final Component parent, final AbstractDialog dialog,
 			final int type) {
 		JOptionPane.showMessageDialog(parent, SERVICES.getTranslator().get(dialog.message()),
 				SERVICES.getTranslator().get(dialog.title()), type);
+	}
+	
+	/**
+	 * Return the default {@link Insets} to be used with most of the component of the application.
+	 * @return the default insets.
+	 */
+	public static Insets getDefaultInsets () {
+		return DEFAULT_INSETS;
 	}
 }

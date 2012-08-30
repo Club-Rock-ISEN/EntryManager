@@ -3,6 +3,7 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
@@ -28,15 +29,13 @@ public class MemberModel extends AbstractModel {
 	/**
 	 * Constructor #1.<br />
 	 * Default constructor.
-	 * @param daoMember
-	 *        the {@link DAO} for the members.
 	 */
-	public MemberModel (final DAO<Member> daoMember) {
+	public MemberModel () {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
 		this.member = new Member();
-		this.daoMember = daoMember;
+		this.daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
 		this.newFlag = true;
 	}
 	
@@ -44,18 +43,22 @@ public class MemberModel extends AbstractModel {
 	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
 	 */
 	@Override
-	public void persist () {
+	public boolean persist () {
+		boolean success = false;
 		if (member.getIdMember() != null) {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Updating member " + member);
 			}
-			daoMember.update(member);
+			success = daoMember.update(member);
 		} else {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Creating member " + member);
 			}
 			member = daoMember.create(member);
+			success = member != null;
 		}
+		
+		return success;
 	}
 	
 	/**
@@ -131,10 +134,29 @@ public class MemberModel extends AbstractModel {
 	 * @param entries
 	 *        the entries to set
 	 */
-	public void setEntries (final int entries) {
+	public void setEntries (final Integer entries) {
 		final Integer oldEntries = getEntries();
 		member.setEntries(entries);
 		fireModelChange(MemberColumn.ENTRIES.getPropertyName(), oldEntries, entries);
+	}
+	
+	/**
+	 * Return the next free entry.
+	 * @return the next free entry
+	 */
+	public Integer getNextFree () {
+		return newFlag ? null : member.getNextFree();
+	}
+	
+	/**
+	 * Set the next free.
+	 * @param nextFree
+	 *        the next free entry to set
+	 */
+	public void setNextFree (final Integer nextFree) {
+		final Integer oldNextFree = getNextFree();
+		member.setNextFree(nextFree);
+		fireModelChange(MemberColumn.NEXT_FREE.getPropertyName(), oldNextFree, nextFree);
 	}
 	
 	/**
@@ -150,7 +172,7 @@ public class MemberModel extends AbstractModel {
 	 * @param credit
 	 *        the credit to set
 	 */
-	public void setCredit (final double credit) {
+	public void setCredit (final Double credit) {
 		final Double oldCredit = getCredit();
 		member.setCredit(credit);
 		fireModelChange(MemberColumn.CREDIT.getPropertyName(), oldCredit, credit);

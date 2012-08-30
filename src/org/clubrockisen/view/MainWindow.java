@@ -31,13 +31,13 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
+import org.clubrockisen.connection.MySQLConnection;
 import org.clubrockisen.controller.MemberPanelController;
+import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractView;
@@ -57,7 +57,8 @@ public class MainWindow extends JFrame implements AbstractView {
 	/** The services */
 	private static final ServiceFactory	SERVICES			= ServiceFactory.getImplementation();
 	
-	/** Attributes for the controls **/
+	// Attributes for the controls
+	/** Reference to the main window (easier access to anonymous classes) */
 	private MainWindow					mainWindow;
 	private JMenuBar					menuBar;
 	private JMenu						fileMenu, dataBaseMenu, memberMenu, helpMenu;
@@ -82,21 +83,19 @@ public class MainWindow extends JFrame implements AbstractView {
 	
 	/** Indicates the readiness of the view */
 	private boolean						ready = false;
-	
-	private final DAO<Member>			daoMember;
-	
+	/** The panel for the member modifications */
 	private final MemberPanelController memberUpdatePanel;
+	/** The panel for the parameters modifications */
+	private final ParametersPanelController	parametersPanel;
 	
 	/**
 	 * Constructor #1.<br />
 	 * Unique constructor. Build the GUI of the application.
-	 * @param daoFactory
-	 *            the factory for the DAO.
 	 */
-	public MainWindow (final AbstractDAOFactory daoFactory) {
+	public MainWindow () {
 		super();
-		daoMember = daoFactory.getMemberDAO();
-		memberUpdatePanel = new MemberPanelController(daoMember);
+		memberUpdatePanel = new MemberPanelController();
+		parametersPanel = null;//new ParametersPanelController();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -133,7 +132,7 @@ public class MainWindow extends JFrame implements AbstractView {
 			lg.warning("Could not load icon for main window.");
 		}
 		this.setMinimumSize(new Dimension(850, 425));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(true);
 		buildMenus();
@@ -155,18 +154,10 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-			}
-		});
-		parametersItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().parameters()));
-		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-		parametersItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
-				lg.info("found: " + daoMember.find(10000));
-				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
-				daoMember.delete(m);
+				//final DAO<Member> daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
+				//lg.info("found: " + daoMember.find(10000));
+				//final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
+				//daoMember.delete(m);
 				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
 				//tmp.setEntries(tmp.getEntries()+1);
 				//tmp.setName("SUCCESS");
@@ -176,6 +167,15 @@ public class MainWindow extends JFrame implements AbstractView {
 				//ParametersManager.getInstance().set(laf);
 			}
 		});
+		parametersItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().parameters()));
+		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
+		parametersItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				parametersPanel.show();
+			}
+		});
 		quitItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().file().quit()));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
@@ -183,7 +183,9 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				lg.info("Exit program.");
-				System.exit(0);
+				memberUpdatePanel.dispose();
+				MySQLConnection.close();
+				mainWindow.dispose();
 			}
 		});
 		fileMenu.add(profitItem);
@@ -273,7 +275,6 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		aboutItem = new JMenuItem(SERVICES.getTranslator().get(Translator.Key.GUI.menu().help().about()));
@@ -340,7 +341,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		panel.add(scrollPane, c);
 		
 		searchBox.addKeyListener(new SearchBoxKeyListener(searchBox, resultList, resultListModel,
-				daoMember));
+				AbstractDAOFactory.getImplementation().getMemberDAO()));
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;

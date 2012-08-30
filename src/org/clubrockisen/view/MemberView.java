@@ -1,25 +1,39 @@
 package org.clubrockisen.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import org.clubrockisen.controller.MemberPanelController;
+import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.abstracts.IParametersManager;
+import org.clubrockisen.service.abstracts.ITranslator;
+import org.clubrockisen.service.abstracts.ParametersEnum;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractView;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
@@ -29,36 +43,52 @@ import org.clubrockisen.view.renderers.CustomEnumRenderer;
  */
 public class MemberView extends JFrame implements AbstractView {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(MemberView.class.getName());
+	private static Logger							lg					= Logger.getLogger(MemberView.class.getName());
 	
 	/** Serial Version UID */
-	private static final long	serialVersionUID	= 5754628770258165084L;
+	private static final long						serialVersionUID	= 5754628770258165084L;
 	
-	/** Default inner border */
-	private final Insets		defaultInsets		= new Insets(5, 5, 5, 5);
+	// Services
+	/** Parameters manager */
+	private final transient IParametersManager		parameters			= ServiceFactory.getImplementation().getParameterManager();
 	/** Translator */
-	private final Translator	translator			= Translator.getInstance();
+	private final transient ITranslator				translator			= ServiceFactory.getImplementation().getTranslator();
 	
 	// Swing GUI elements
 	/** Field for the member's name */
-	private JTextField			nameField;
+	private JTextField								nameField;
 	/** Field for the member's {@link Gender} */
-	private JComboBox<Gender>	genderField;
+	private JComboBox<Gender>						genderField;
 	/** Field for the member's {@link Status} */
-	private JComboBox<Status>	statusField;
+	private JComboBox<Status>						statusField;
 	/** Field for the member's entries */
-	private JSpinner			entryNumberField;
+	private JSpinner								entryNumberField;
 	/** Field for the member's next free entry count down */
-	private JSpinner			nextFreeField;
+	private JSpinner								nextFreeField;
 	/** Field for the member's credit */
-	private JSpinner			creditField;
+	private JSpinner								creditField;
+	/** Button for validating changes on a member */
+	private JButton									validateButton;
+	/** Button for canceling changes on a member */
+	private JButton									cancelButton;
+	
+	// Miscellaneous
+	/** Controller to use when view changes */
+	private final transient MemberPanelController	controller;
+	/** Reference to this object */
+	private MemberView								memberView;
+	/** Instance of a member to easy entity method call */
+	private final Member							m;
 	
 	/**
 	 * Constructor #1.<br />
+	 * @param controller
+	 *        the controller to warn when the changes are applied.
 	 */
-	public MemberView () {
+	public MemberView (final MemberPanelController controller) {
 		super();
-		
+		m = new Member();
+		this.controller = controller;
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run () {
@@ -71,12 +101,15 @@ public class MemberView extends JFrame implements AbstractView {
 	 * Build the GUI for the member view.
 	 */
 	private void buildGUI () {
-		this.setTitle(translator.get(new Member()));
+		this.setTitle(translator.get(m));
 		this.setVisible(false);
-		this.setSize(300, 450);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setContentPane(buildMemberPanel());
 		this.setListeners();
+		this.pack();
+		this.setMinimumSize(getSize());
+		memberView = this;
 	}
 	
 	/**
@@ -86,164 +119,70 @@ public class MemberView extends JFrame implements AbstractView {
 	private JPanel buildMemberPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel nameLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.NAME)));
-		pane.add(nameLabel, c);
+		final Map<? extends Enum<?>, Column> col = Member.getColumns();
+		int xIndex = 0;
+		int yIndex = 0;
+		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.16,
+				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
+				Utils.getDefaultInsets(), 0, 0);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel genderLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.GENDER)));
-		pane.add(genderLabel, c);
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.NAME))), c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel statusLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.STATUS)));
-		pane.add(statusLabel, c);
+		c.gridy = ++yIndex;
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.GENDER))), c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel entryNumberLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.ENTRIES)));
-		pane.add(entryNumberLabel, c);
+		c.gridy = ++yIndex;
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.STATUS))), c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel nextFreeLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.NEXT_FREE)));
-		pane.add(nextFreeLabel, c);
+		c.gridy = ++yIndex;
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.ENTRIES))), c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = defaultInsets;
-		final JLabel creditLabel = new JLabel(translator.getField(new Member(), Member.getColumns().get(MemberColumn.CREDIT)));
-		pane.add(creditLabel, c);
+		c.gridy = ++yIndex;
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.NEXT_FREE))), c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
-		nameField = new JTextField(50);
+		c.gridy = ++yIndex;
+		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.CREDIT))), c);
+		
+		yIndex = 0;
+		c.gridx = ++xIndex;
+		c.gridy = yIndex;
+		c.gridwidth = 2;
+		nameField = new JTextField();
 		pane.add(nameField, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
+		c.gridy = ++yIndex;
 		genderField = new JComboBox<>(Gender.values());
 		genderField.setRenderer(new CustomEnumRenderer());
 		pane.add(genderField, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
+		c.gridy = ++yIndex;
 		statusField = new JComboBox<>(Status.values());
 		statusField.setRenderer(new CustomEnumRenderer());
 		pane.add(statusField, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
+		c.gridy = ++yIndex;
 		entryNumberField = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 		pane.add(entryNumberField, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
-		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0, 6, 1));
-		nextFreeField.setEnabled(false);
+		c.gridy = ++yIndex;
+		final int freeEntriesLimit = Integer.parseInt(parameters.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue());
+		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0, freeEntriesLimit, 1));
 		pane.add(nextFreeField, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 5;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = defaultInsets;
-		creditField = new JSpinner(new SpinnerNumberModel(0.0, -10.0, 1000.0, 0.01));
+		c.gridy = ++yIndex;
+		final double minCredit = Double.parseDouble(parameters.get(ParametersEnum.MIN_CREDIT).getValue());
+		final double maxCredit = Double.parseDouble(parameters.get(ParametersEnum.MAX_CREDIT).getValue());
+		creditField = new JSpinner(new SpinnerNumberModel(0.0, minCredit, maxCredit, 0.01));
 		pane.add(creditField, c);
+		
+		c.gridy = ++yIndex;
+		c.fill = GridBagConstraints.NONE;
+		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
+		pane.add(cancelButton, c);
+		
+		c.gridx = ++xIndex;
+		validateButton = new JButton(translator.get(Translator.Key.MISC.ok()));
+		pane.add(validateButton, c);
 		
 		return pane;
 	}
@@ -252,7 +191,98 @@ public class MemberView extends JFrame implements AbstractView {
 	 * Set the listeners on the components.
 	 */
 	private void setListeners () {
+		nameField.addFocusListener(new FocusAdapter() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
+			 */
+			@Override
+			public void focusLost (final FocusEvent e) {
+				controller.changeName(nameField.getText());
+			}
+		});
 		
+		genderField.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				controller.changeGender((Gender) genderField.getSelectedItem());
+			}
+		});
+		
+		statusField.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				controller.changeStatus((Status) statusField.getSelectedItem());
+			}
+		});
+		
+		entryNumberField.addChangeListener(new ChangeListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+			 */
+			@Override
+			public void stateChanged (final ChangeEvent e) {
+				controller.changeEntries((int) entryNumberField.getValue());
+			}
+		});
+		
+		nextFreeField.addChangeListener(new ChangeListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+			 */
+			@Override
+			public void stateChanged (final ChangeEvent e) {
+				controller.changeNextFree((int) nextFreeField.getValue());
+			}
+		});
+		
+		creditField.addChangeListener(new ChangeListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+			 */
+			@Override
+			public void stateChanged (final ChangeEvent e) {
+				controller.changeCredit((double) creditField.getValue());
+			}
+		});
+		
+		validateButton.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				if (!controller.persist()) {
+					Utils.showMessageDialog(memberView, Translator.Key.GUI.dialog().notPersistedMember(),
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					memberView.setVisible(false);
+				}
+			}
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				memberView.setVisible(false);
+			}
+		});
 	}
 	
 	/*

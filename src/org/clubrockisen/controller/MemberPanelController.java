@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
-import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
@@ -29,13 +28,11 @@ public class MemberPanelController extends AbstractController implements MemberC
 	
 	/**
 	 * Constructor #1.<br />
-	 * @param daoMember
-	 *        the DAO to update the member table.
 	 */
-	public MemberPanelController (final DAO<Member> daoMember) {
+	public MemberPanelController () {
 		super();
-		memberView = new MemberView();
-		memberModel = new MemberModel(daoMember);
+		memberView = new MemberView(this);
+		memberModel = new MemberModel();
 		memberController = new MemberControllerImpl(this);
 		addModel(memberModel);
 		addView(memberView);
@@ -103,5 +100,22 @@ public class MemberPanelController extends AbstractController implements MemberC
 		}
 		memberModel.initMember(member);
 		memberView.setVisible(true);
+	}
+	
+	/**
+	 * Commit the changes to the database.
+	 * @return <code>true</code> if the model has been successfully persisted.
+	 */
+	public boolean persist () {
+		return memberModel.persist();
+	}
+	
+	/**
+	 * Dispose of the panel.<br />
+	 */
+	public void dispose () {
+		memberView.dispose();
+		removeModel(memberModel);
+		removeView(memberView);
 	}
 }

@@ -22,7 +22,7 @@ public class MemberControllerImpl implements MemberController {
 	private final AbstractController	controller;
 	
 	/**
-	 * Constructor #.<br />
+	 * Constructor #1.<br />
 	 * @param controller
 	 *        the controller to be update on a model's change.
 	 */

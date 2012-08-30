@@ -5,19 +5,22 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * TODO
+ * Class representing a parameter of the application.<br />
  * @author Alex
  */
 public class Parameter extends Entity {
 	/** Logger */
-	private static Logger						lg			= Logger.getLogger(Parameter.class.getName());
+	private static Logger						lg					= Logger.getLogger(Parameter.class.getName());
+	
+	/** Serial Version UID */
+	private static final long					serialVersionUID	= 5157162601363481112L;
 	
 	/** Map between the enumeration and the actual columns in the database */
 	private static Map<ParameterColumn, Column>	columns;
 	/** Lock for the columns */
-	private static Object						lock		= new Object();
+	private static Object						lock				= new Object();
 	/** Name of the entity */
-	private static String						entityName	= "parameter";
+	private static String						entityName			= "parameter";
 	
 	/** Name of the parameter */
 	private final String						name;
@@ -39,9 +42,35 @@ public class Parameter extends Entity {
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	@SuppressWarnings("javadoc")
 	public enum ParameterColumn {
-		NAME, VALUE, TYPE
+		/** The parameter's name */
+		NAME("Name"),
+		/** The parameter's value */
+		VALUE("Value"),
+		/** The parameter's type */
+		TYPE("Type");
+		
+		/** The name of the property in the class */
+		private final String	propertyName;
+		
+		/**
+		 * Constructor #1.<br />
+		 * Build a new enumeration, based on the name of the attribute in the class.
+		 * @param propertyName
+		 *        the name of the property.
+		 */
+		private ParameterColumn (final String propertyName) {
+			this.propertyName = propertyName;
+		}
+		
+		/**
+		 * Return the name of the attribute in the class.
+		 * @return the name of the property.
+		 */
+		public String getPropertyName () {
+			return propertyName;
+			
+		}
 	}
 	
 	/*

@@ -37,7 +37,17 @@ public enum ParametersEnum {
 	/**
 	 * The price for the second part.
 	 */
-	ENTRY_PRICE_SECOND_PART("entryPriceSecondPart");
+	ENTRY_PRICE_SECOND_PART("entryPriceSecondPart"),
+	
+	/**
+	 * Minimum threshold for member credit.
+	 */
+	MIN_CREDIT ("minCredit"),
+	
+	/**
+	 * Maximum threshold for member credit.
+	 */
+	MAX_CREDIT ("maxCredit");
 	
 	/** The name of the parameter */
 	private String	name;

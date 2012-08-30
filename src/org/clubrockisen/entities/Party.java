@@ -12,14 +12,17 @@ import java.util.logging.Logger;
  */
 public class Party extends Entity {
 	/** Logger */
-	private static Logger					lg			= Logger.getLogger(Party.class.getName());
+	private static Logger					lg					= Logger.getLogger(Party.class.getName());
+	
+	/** Serial Version UID */
+	private static final long				serialVersionUID	= 8268834443986169942L;
 	
 	/** Map between the enumeration and the actual columns in the database */
 	private static Map<PartyColumn, Column>	columns;
 	/** Lock for the columns */
-	private static Object					lock		= new Object();
+	private static Object					lock				= new Object();
 	/** Name of the entity */
-	private static String					entityName	= "party";
+	private static String					entityName			= "party";
 	
 	/** The id of the party */
 	private Integer							idParty;
