@@ -37,7 +37,8 @@ public abstract class AbstractDAOFactory implements Closeable {
 	public static void createFactory (final String factoryClass) {
 		try {
 			implementation = (AbstractDAOFactory) Class.forName(factoryClass).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+				| ClassCastException e) {
 			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). "
 					+ e.getClass() + ", details: " + e.getMessage());
 			throw new DAOInstantiationError(factoryClass, e);

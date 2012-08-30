@@ -1,5 +1,6 @@
 package org.clubrockisen;
 
+import org.clubrockisen.dao.DAOTests;
 import org.clubrockisen.entities.EntitiesTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -10,6 +11,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({EntitiesTests.class})
+@SuiteClasses({DAOTests.class, EntitiesTests.class})
 public class AllTests {
 }

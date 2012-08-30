@@ -1,6 +1,6 @@
 package org.clubrockisen.entities;
 
-import org.clubrockisen.entities.enums.EntitiesEnumsTests;
+import org.clubrockisen.entities.enums.EnumsTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -10,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ EntitiesEnumsTests.class, ColumnTest.class, NoIdExceptionTest.class,
+@SuiteClasses({ EnumsTests.class, ColumnTest.class, NoIdExceptionTest.class,
 	EntryMemberPartyTest.class, ParameterTest.class, MemberTest.class, PartyTest.class })
 public class EntitiesTests {
 }
