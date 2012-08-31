@@ -1,6 +1,9 @@
 package org.clubrockisen.entities;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
@@ -94,5 +97,48 @@ public class ColumnTest {
 	public void testToString () {
 		assertEquals("name: id, type: Integer, is id: true", idColumn.toString());
 		assertEquals("name: name, type: String, is id: false", otherColumn.toString());
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Column#hashCode()}.
+	 */
+	@Test
+	public void testHashCode () {
+		final Column newIdColumn = new Column(idColumn.getType(), idColumn.getName(), idColumn.isID());
+		assertNotSame(idColumn, newIdColumn);
+		assertEquals(idColumn.hashCode(), newIdColumn.hashCode());
+		
+		// Check that hash code changes on any field update
+		newIdColumn.setID(!idColumn.isID());
+		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
+		
+		newIdColumn.setID(idColumn.isID());
+		newIdColumn.setType(Number.class);
+		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
+		
+		newIdColumn.setType(idColumn.getType());
+		newIdColumn.setName(idColumn.getName() + "//");
+		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Column#equals(Object)}.
+	 */
+	@Test
+	public void testEquals () {
+		final Column newIdColumn = new Column(idColumn.getType(), idColumn.getName(), idColumn.isID());
+		final Column newOtherColumn = new Column(otherColumn.getType(), otherColumn.getName(), otherColumn.isID());
+		
+		assertEquals(idColumn, newIdColumn);
+		assertEquals(otherColumn, newOtherColumn);
+		
+		newIdColumn.setID(!idColumn.isID());
+		newOtherColumn.setName(otherColumn.getName() + "./");
+		assertThat(idColumn, not(newIdColumn));
+		assertThat(otherColumn, not(newOtherColumn));
+		
+		newIdColumn.setID(idColumn.isID());
+		newIdColumn.setName(idColumn.getName() + "..");
+		assertThat(idColumn, not(newOtherColumn));
 	}
 }

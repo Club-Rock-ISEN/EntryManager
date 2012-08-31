@@ -1,5 +1,6 @@
 package org.clubrockisen.entities;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,16 +10,19 @@ import java.util.logging.Logger;
  * duplicates.
  * @author Alex
  */
-public class Column {
+public class Column implements Serializable {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(Column.class.getName());
+	private static Logger		lg					= Logger.getLogger(Column.class.getName());
+	
+	/** Serial Version UID */
+	private static final long	serialVersionUID	= 7764202331118428284L;
 	
 	/** The Java type associated to the column */
-	private Class<?>		type;
+	private Class<?>			type;
 	/** The name (identifier) of the column in the data base */
-	private String			name;
+	private String				name;
 	/** <code>true</code> if the column is an index of the table */
-	private boolean			isID;
+	private boolean				isID;
 	
 	/**
 	 * Constructor #1.<br />
@@ -108,6 +112,56 @@ public class Column {
 	@Override
 	public String toString () {
 		return "name: " + name + ", type: " + type.getSimpleName() + ", is id: " + isID;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode () {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (isID ? 1231 : 1237);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals (final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Column)) {
+			return false;
+		}
+		final Column other = (Column) obj;
+		if (isID != other.isID) {
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

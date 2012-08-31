@@ -1,6 +1,8 @@
 package org.clubrockisen.entities;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -250,6 +252,73 @@ public class ParameterTest {
 	public void testGenerateSearchAllQuerySQL () {
 		for (final Parameter parameter : parameters) {
 			assertEquals("SELECT * FROM parameter", parameter.generateSearchAllQuerySQL());
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Entity#hashCode()}.
+	 */
+	@Test
+	public void testHashCode () {
+		for (final Parameter parameter : parameters) {
+			// Checking that all hash codes are different
+			for (final Parameter other : parameters) {
+				if (parameter != other) {
+					assertThat(parameter.hashCode(), not(other.hashCode()));
+				}
+			}
+			final Parameter clone = new Parameter(parameter.getName(), parameter.getValue(), parameter.getType());
+			assertEquals(parameter.hashCode(), clone.hashCode());
+			clone.setType(parameter.getType() + "/");
+			assertThat(parameter.hashCode(), not(clone.hashCode()));
+			clone.setType(parameter.getType());
+			clone.setValue(parameter.getValue() + "./");
+			assertThat(parameter.hashCode(), not(clone.hashCode()));
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Entity#equals(Object)}.
+	 */
+	@Test
+	public void testEquals () {
+		for (final Parameter parameter : parameters) {
+			// Checking that all hash codes are different
+			for (final Parameter other : parameters) {
+				if (parameter != other) {
+					assertThat(parameter, not(other));
+				} else {
+					assertEquals(parameter, other);
+				}
+			}
+			try {
+				final Parameter clone = parameter.clone();
+				assertEquals(parameter, clone);
+				clone.setType(parameter.getType() + "/");
+				assertThat(parameter, not(clone));
+				clone.setType(parameter.getType());
+				clone.setValue(parameter.getValue() + "./");
+				assertThat(parameter, not(clone));
+			} catch (final CloneNotSupportedException e) {
+				fail(e.getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Parameter#clone()}.
+	 */
+	@Test
+	public void testClone () {
+		try {
+			for (final Parameter parameter : parameters) {
+				final Parameter other = parameter.clone();
+				assertEquals(parameter.getName(), other.getName());
+				assertEquals(parameter.getType(), other.getType());
+				assertEquals(parameter.getValue(), other.getValue());
+			}
+		} catch (final CloneNotSupportedException e) {
+			fail(e.getMessage());
 		}
 	}
 }

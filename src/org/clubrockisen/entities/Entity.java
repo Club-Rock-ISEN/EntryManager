@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * Represent an abstract entity of the database.<br />
  * @author Alex
  */
-public abstract class Entity implements Serializable {
+public abstract class Entity implements Serializable, Cloneable {
 	/** Logger */
 	private static Logger								lg					= Logger.getLogger(Entity.class.getName());
 	

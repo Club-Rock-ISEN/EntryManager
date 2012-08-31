@@ -23,7 +23,7 @@ public class Parameter extends Entity {
 	private static String						entityName			= "parameter";
 	
 	/** Name of the parameter */
-	private final String						name;
+	private String								name;
 	/** Value of the parameter */
 	private String								value;
 	/** Type of the parameter */
@@ -188,6 +188,73 @@ public class Parameter extends Entity {
 	 */
 	public void setType (final String type) {
 		this.type = type;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode () {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals (final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Parameter)) {
+			return false;
+		}
+		final Parameter other = (Parameter) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		if (value == null) {
+			if (other.value != null) {
+				return false;
+			}
+		} else if (!value.equals(other.value)) {
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Parameter clone () throws CloneNotSupportedException {
+		final Parameter clone = (Parameter) super.clone();
+		clone.name = name;
+		clone.type = type;
+		clone.value = value;
+		return clone;
 	}
 	
 }
