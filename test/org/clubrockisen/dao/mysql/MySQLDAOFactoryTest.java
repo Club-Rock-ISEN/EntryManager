@@ -123,5 +123,6 @@ public class MySQLDAOFactoryTest {
 	public void testConnectionFailed () throws SQLException {
 		Configuration.setFile("test/wrongConf.xml");
 		AbstractDAOFactory.createFactory(MySQLDAOFactory.class.getName());
+		factory = AbstractDAOFactory.getImplementation();
 	}
 }

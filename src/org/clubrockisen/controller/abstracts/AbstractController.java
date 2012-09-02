@@ -18,7 +18,7 @@ import org.clubrockisen.view.abstracts.AbstractView;
  * controller is in charge of the communications between the views and the model that they display.
  * @author Alex
  */
-public class AbstractController implements PropertyChangeListener {
+public abstract class AbstractController implements PropertyChangeListener {
 	/** Logger */
 	private static Logger				lg	= Logger.getLogger(AbstractController.class.getName());
 	
@@ -114,4 +114,16 @@ public class AbstractController implements PropertyChangeListener {
 			}
 		}
 	}
+	
+	/**
+	 * Dispose of the resources used by the controller.<br />
+	 * Clear frames, window, unsubscribe models and listeners, etc.
+	 */
+	public abstract void dispose ();
+	
+	/**
+	 * Persists any changes to the database.<br />
+	 * @return <code>true</code> if the operation succeeded.
+	 */
+	public abstract boolean persist ();
 }

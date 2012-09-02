@@ -32,6 +32,15 @@
 	<entry key="enum.status.helper_member">Adhérant</entry>
 	<entry key="enum.status.office_member">Membre du bureau</entry>
 	<entry key="enum.status.veteran">Membre d'honneur</entry>
+	<!-- Parameters name -->
+	<entry key="enum.parametersenum.look_and_feel">Aspect graphique</entry>
+	<entry key="enum.parametersenum.time_limit">Heure de transition</entry>
+	<entry key="enum.parametersenum.entry_price_total">Prix total</entry>
+	<entry key="enum.parametersenum.entry_price_first_part">Prix de la première partie</entry>
+	<entry key="enum.parametersenum.entry_price_second_part">Prix de la seconde partie</entry>
+	<entry key="enum.parametersenum.free_entry_frequency">Fréquence des entrées offertes</entry>
+	<entry key="enum.parametersenum.min_credit">Palier minimum pour le crédit aux adhérants</entry>
+	<entry key="enum.parametersenum.max_credit">Palier maximum pour le crédit aux adhérants</entry>
 	
 	<!-- The user interface -->
 	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
@@ -52,6 +61,9 @@
 	<entry key="gui.menu.help">Aide</entry>
 	<entry key="gui.menu.help.help">Aide</entry>
 	<entry key="gui.menu.help.about">À propos</entry>
+	
+	<!-- The parameter manager -->
+	<entry key="gui.parameters.title">Paramètres</entry>
 	
 	<!-- Dialogs displayed -->
 	<!-- The about dialog -->

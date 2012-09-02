@@ -739,6 +739,52 @@ public final class Translator implements ITranslator {
 			}
 			
 			/**
+			 * The parameters manager panel.
+			 * @author Alex
+			 */
+			public static final class Parameters {
+				/** The key to parameters panel */
+				private final String	parametersKey;
+				
+				/**
+				 * Constructor #1.<br />
+				 * Build the structure for the parameter's panel translations.
+				 * @param parentKey
+				 *        the key from the parent category.
+				 */
+				private Parameters (final String parentKey) {
+					super();
+					parametersKey = parentKey + "." + "parameters";
+				}
+				
+				/*
+				 * (non-Javadoc)
+				 * @see java.lang.Object#toString()
+				 */
+				@Override
+				public String toString () {
+					return parametersKey;
+				}
+				
+				/**
+				 * The title of the panel.
+				 * @return the translation for the panel.
+				 */
+				public String title () {
+					return parametersKey + "." + "title";
+				}
+				
+			}
+			
+			/**
+			 * Access to the parameters manager translations.
+			 * @return the parameters manager translations.
+			 */
+			public Parameters parameters () {
+				return new Parameters(guiKey);
+			}
+			
+			/**
 			 * The dialog translations.
 			 * @author Alex
 			 */

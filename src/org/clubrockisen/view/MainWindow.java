@@ -94,7 +94,7 @@ public class MainWindow extends JFrame implements AbstractView {
 	public MainWindow () {
 		super();
 		memberUpdatePanel = new MemberPanelController();
-		parametersPanel = null;//new ParametersPanelController();
+		parametersPanel = new ParametersPanelController();
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -822,6 +822,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		lg.info("Exit program.");
 		super.dispose();
 		memberUpdatePanel.dispose();
+		parametersPanel.dispose();
 		try {
 			AbstractDAOFactory.getImplementation().close();
 		} catch (final IOException ex) {

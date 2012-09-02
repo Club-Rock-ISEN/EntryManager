@@ -2,6 +2,7 @@ package org.clubrockisen.controller;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,12 +28,12 @@ public class ParametersPanelController extends AbstractController {
 	 */
 	public ParametersPanelController () {
 		super();
-		parametersView = new ParametersView();
-		addView(parametersView);
 		parametersControllers = new EnumMap<>(ParametersEnum.class);
 		for (final ParametersEnum parameter : ParametersEnum.values()) {
 			parametersControllers.put(parameter, new ParameterControllerImpl(parameter, this));
 		}
+		parametersView = new ParametersView(parametersControllers);
+		addView(parametersView);
 		
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine(this.getClass().getName() + " created");
@@ -68,6 +69,33 @@ public class ParametersPanelController extends AbstractController {
 			controller.refreshModel();
 		}
 		parametersView.setVisible(true);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
+	 */
+	@Override
+	public void dispose () {
+		parametersView.dispose();
+		removeView(parametersView);
+		for (final ParameterControllerImpl parameterController : parametersControllers.values()) {
+			parameterController.dispose();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
+	 */
+	@Override
+	public boolean persist () {
+		boolean success = true;
+		for (final Entry<ParametersEnum, ParameterControllerImpl> entry : parametersControllers.entrySet()) {
+			if (!entry.getValue().persist()) {
+				lg.warning("Failed to persist parameter " + entry.getKey());
+				success = false;
+			}
+		}
+		return success;
 	}
 	
 }

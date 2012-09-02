@@ -51,4 +51,10 @@ public interface MemberController {
 	 */
 	void changeStatus (final Status newStatus);
 	
+	/**
+	 * Persists any changes to the database.<br />
+	 * @return <code>true</code> if the operation succeeded.
+	 */
+	boolean persist ();
+	
 }

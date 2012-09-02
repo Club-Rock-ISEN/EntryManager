@@ -101,4 +101,13 @@ public class MemberControllerImpl implements MemberController {
 		}
 		controller.setModelProperty(MemberColumn.STATUS.getPropertyName(), newStatus);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.MemberController#persist()
+	 */
+	@Override
+	public boolean persist () {
+		return controller.persist();
+	}
+	
 }

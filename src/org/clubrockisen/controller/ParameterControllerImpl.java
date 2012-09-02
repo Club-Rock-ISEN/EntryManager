@@ -24,7 +24,7 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	/** The parent controller to be warned when a model change */
 	private final AbstractController	parentController;
 	/** The parameter being controller by this object */
-	private final ParametersEnum	parameter;
+	private final ParametersEnum		parameter;
 	
 	/**
 	 * Constructor #1.<br />
@@ -79,5 +79,21 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	 */
 	public void refreshModel () {
 		parameterModel.initParameter();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
+	 */
+	@Override
+	public void dispose () {
+		removeModel(parameterModel);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
+	 */
+	@Override
+	public boolean persist () {
+		return parameterModel.persist();
 	}
 }

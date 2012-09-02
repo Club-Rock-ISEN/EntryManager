@@ -12,104 +12,89 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.clubrockisen.controller.MemberPanelController;
+import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
-import org.clubrockisen.service.abstracts.IParametersManager;
-import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.abstracts.AbstractView;
+import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
 /**
  * View which displays a panel to update a member.<br />
  * @author Alex
  */
-public class MemberView extends JFrame implements AbstractView {
+public class MemberView extends AbstractFrame {
 	/** Logger */
-	private static Logger							lg					= Logger.getLogger(MemberView.class.getName());
+	private static Logger						lg					= Logger.getLogger(MemberView.class.getName());
 	
 	/** Serial Version UID */
-	private static final long						serialVersionUID	= 5754628770258165084L;
-	
-	// Services
-	/** Parameters manager */
-	private final transient IParametersManager		parameters			= ServiceFactory.getImplementation().getParameterManager();
-	/** Translator */
-	private final transient ITranslator				translator			= ServiceFactory.getImplementation().getTranslator();
+	private static final long					serialVersionUID	= 5754628770258165084L;
 	
 	// Swing GUI elements
 	/** Field for the member's name */
-	private JTextField								nameField;
+	private JTextField							nameField;
 	/** Field for the member's {@link Gender} */
-	private JComboBox<Gender>						genderField;
+	private JComboBox<Gender>					genderField;
 	/** Field for the member's {@link Status} */
-	private JComboBox<Status>						statusField;
+	private JComboBox<Status>					statusField;
 	/** Field for the member's entries */
-	private JSpinner								entryNumberField;
+	private JSpinner							entryNumberField;
 	/** Field for the member's next free entry count down */
-	private JSpinner								nextFreeField;
+	private JSpinner							nextFreeField;
 	/** Field for the member's credit */
-	private JSpinner								creditField;
+	private JSpinner							creditField;
 	/** Button for validating changes on a member */
-	private JButton									validateButton;
+	private JButton								validateButton;
 	/** Button for canceling changes on a member */
-	private JButton									cancelButton;
+	private JButton								cancelButton;
 	
 	// Miscellaneous
 	/** Controller to use when view changes */
-	private final transient MemberPanelController	controller;
-	/** Reference to this object */
-	private MemberView								memberView;
+	private transient MemberController	controller;
 	/** Instance of a member to easy entity method call */
-	private final Member							m;
+	private Member								m;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param controller
 	 *        the controller to warn when the changes are applied.
 	 */
-	public MemberView (final MemberPanelController controller) {
-		super();
-		m = new Member();
-		this.controller = controller;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run () {
-				buildGUI();
-			}
-		});
+	public MemberView (final MemberController controller) {
+		super(controller);
 	}
 	
-	/**
-	 * Build the GUI for the member view.
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
 	 */
-	private void buildGUI () {
-		this.setTitle(translator.get(m));
-		this.setVisible(false);
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		this.setContentPane(buildMemberPanel());
-		this.setListeners();
-		this.pack();
-		this.setMinimumSize(getSize());
-		memberView = this;
+	@Override
+	protected void preInit (final Object ... parameters) {
+		m = new Member();
+		controller = (MemberController) parameters[0];
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.view.abstracts.AbstractFrame#build()
+	 */
+	@Override
+	protected void build () {
+		setTitle(translator.getField(m));
+		setContentPane(buildMemberPanel());
+		setListeners();
 	}
 	
 	/**
@@ -118,7 +103,6 @@ public class MemberView extends JFrame implements AbstractView {
 	 */
 	private JPanel buildMemberPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		
 		final Map<? extends Enum<?>, Column> col = Member.getColumns();
 		int xIndex = 0;
 		int yIndex = 0;
@@ -166,13 +150,13 @@ public class MemberView extends JFrame implements AbstractView {
 		
 		c.gridy = ++yIndex;
 		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0,
-				Integer.parseInt(parameters.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()), 1));
+				Integer.parseInt(paramManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()), 1));
 		pane.add(nextFreeField, c);
 		
 		c.gridy = ++yIndex;
 		creditField = new JSpinner(new SpinnerNumberModel(0.0,
-				Double.parseDouble(parameters.get(ParametersEnum.MIN_CREDIT).getValue()),
-				Double.parseDouble(parameters.get(ParametersEnum.MAX_CREDIT).getValue()),
+				Double.parseDouble(paramManager.get(ParametersEnum.MIN_CREDIT).getValue()),
+				Double.parseDouble(paramManager.get(ParametersEnum.MAX_CREDIT).getValue()),
 				0.01)); // TODO make constant?
 		pane.add(creditField, c);
 		
@@ -267,10 +251,10 @@ public class MemberView extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(memberView, Translator.Key.GUI.dialog().notPersistedMember(),
+					Utils.showMessageDialog(frame, Translator.Key.GUI.dialog().notPersistedMember(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					memberView.setVisible(false);
+					frame.setVisible(false);
 				}
 			}
 		});
@@ -282,7 +266,7 @@ public class MemberView extends JFrame implements AbstractView {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				memberView.setVisible(false);
+				frame.setVisible(false);
 			}
 		});
 	}

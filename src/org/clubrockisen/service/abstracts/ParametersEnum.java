@@ -25,11 +25,6 @@ public enum ParametersEnum {
 	ENTRY_PRICE_TOTAL("entryPriceTotal"),
 	
 	/**
-	 * The frequency of free entries.
-	 */
-	FREE_ENTRY_FREQUENCY ("freeEntryFrequency"),
-	
-	/**
 	 * The price for the first part.
 	 */
 	ENTRY_PRICE_FIRST_PART("entryPriceFirstPart"),
@@ -38,6 +33,11 @@ public enum ParametersEnum {
 	 * The price for the second part.
 	 */
 	ENTRY_PRICE_SECOND_PART("entryPriceSecondPart"),
+	
+	/**
+	 * The frequency of free entries.
+	 */
+	FREE_ENTRY_FREQUENCY ("freeEntryFrequency"),
 	
 	/**
 	 * Minimum threshold for member credit.

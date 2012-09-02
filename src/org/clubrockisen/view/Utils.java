@@ -6,7 +6,10 @@ import java.awt.Insets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -15,6 +18,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
+import org.clubrockisen.view.renderers.LafRenderer;
 
 /**
  * Utility class for GUI related methods.<br />
@@ -100,5 +104,30 @@ public final class Utils {
 	 */
 	public static Insets getDefaultInsets () {
 		return DEFAULT_INSETS;
+	}
+	
+	/**
+	 * Creates the component which allow to edit a parameter.<br />
+	 * Set the appropriate listener on the component.
+	 * @param parameter
+	 *        the parameter.
+	 * @return the component.
+	 */
+	public static JComponent getParameterComponent (final ParametersEnum parameter) {
+		JComponent comp = null;
+		
+		switch (parameter) {
+			case LOOK_AND_FEEL:
+				final JComboBox<LookAndFeelInfo> comboBox = new JComboBox<>(UIManager.getInstalledLookAndFeels());
+				comboBox.setRenderer(new LafRenderer());
+				comp = comboBox;
+				break;
+				
+			default:
+				comp = new JTextField();
+				break;
+		}
+		
+		return comp;
 	}
 }

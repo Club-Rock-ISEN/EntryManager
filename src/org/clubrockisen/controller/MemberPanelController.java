@@ -102,17 +102,12 @@ public class MemberPanelController extends AbstractController implements MemberC
 		memberView.setVisible(true);
 	}
 	
-	/**
-	 * Commit the changes to the database.
-	 * @return <code>true</code> if the model has been successfully persisted.
-	 */
+	@Override
 	public boolean persist () {
 		return memberModel.persist();
 	}
 	
-	/**
-	 * Dispose of the panel.<br />
-	 */
+	@Override
 	public void dispose () {
 		memberView.dispose();
 		removeModel(memberModel);
