@@ -26,6 +26,14 @@ public class Column implements Serializable {
 	
 	/**
 	 * Constructor #1.<br />
+	 * Default constructor.
+	 */
+	public Column () {
+		this(null, null);
+	}
+	
+	/**
+	 * Constructor #2.<br />
 	 * @param type
 	 *            the type of the column.
 	 * @param name
@@ -44,7 +52,7 @@ public class Column implements Serializable {
 	}
 	
 	/**
-	 * Constructor #2.<br />
+	 * Constructor #3.<br />
 	 * Build a column which is not an index of the table.
 	 * @param type
 	 *            the type of the column.
@@ -122,7 +130,7 @@ public class Column implements Serializable {
 	public int hashCode () {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isID ? 1231 : 1237);
+		result = prime * result + (Boolean.valueOf(isID).hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;

@@ -1,6 +1,7 @@
 package org.clubrockisen.dao.abstracts;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.clubrockisen.entities.EntryMemberParty;
@@ -34,8 +35,15 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * @param factoryClass
 	 *        the type of DAO required.
 	 */
-	public static void createFactory (final String factoryClass) {
+	public static synchronized void createFactory (final String factoryClass) {
 		try {
+			if (implementation != null) {
+				try {
+					implementation.close();
+				} catch (final IOException e) {
+					lg.warning("Could not close previous implementation (" + e.getMessage() + ")");
+				}
+			}
 			implementation = (AbstractDAOFactory) Class.forName(factoryClass).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
 				| ClassCastException e) {

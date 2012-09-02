@@ -67,7 +67,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 		}
 		
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Creating DAOs...");
+			lg.fine("Creating DAOs");
 		}
 		// Instantiating all DAOs once to avoid multiple DAOs
 		memberDao = new MySQLMemberDAO(connection);

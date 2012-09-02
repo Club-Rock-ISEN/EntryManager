@@ -5,9 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.exception.DAOInstantiationError;
+import org.clubrockisen.exception.SQLConfigurationError;
+import org.clubrockisen.service.Configuration;
+import org.clubrockisen.service.ConfigurationKey;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,10 +33,24 @@ public class MySQLDAOFactoryTest {
 	 */
 	@Before
 	public void setUp () {
+		Configuration.setFile(ConfigurationKey.FILE);
 		AbstractDAOFactory.createFactory(MySQLDAOFactory.class.getName());
 		factory = AbstractDAOFactory.getImplementation();
 		dummyClass = String.class.getName();
 		fakeClass = "a";
+	}
+	
+	/**
+	 * 
+	 */
+	@After
+	public void tearDown () {
+		try {
+			factory.close();
+		} catch (final IOException e) {
+			fail(e.getMessage());
+		}
+		Configuration.setFile(ConfigurationKey.FILE);
 	}
 	
 	/**
@@ -63,7 +82,7 @@ public class MySQLDAOFactoryTest {
 	 */
 	@Test
 	public void testGetEntryMemberPartyDAO () {
-		assertNotNull(factory.getParameterDAO());
+		assertNotNull(factory.getEntryMemberPartyDAO());
 	}
 	
 	/**
@@ -93,5 +112,16 @@ public class MySQLDAOFactoryTest {
 	@Test(expected=DAOInstantiationError.class)
 	public void testCreateFactoryNotClass () {
 		AbstractDAOFactory.createFactory(fakeClass);
+	}
+	
+	/**
+	 * Test the behavior with a bad configuration file.
+	 * @throws SQLException
+	 *         expected to happen.
+	 */
+	@Test(expected = SQLConfigurationError.class)
+	public void testConnectionFailed () throws SQLException {
+		Configuration.setFile("test/wrongConf.xml");
+		AbstractDAOFactory.createFactory(MySQLDAOFactory.class.getName());
 	}
 }

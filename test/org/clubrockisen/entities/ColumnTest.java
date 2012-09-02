@@ -4,6 +4,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -119,6 +120,14 @@ public class ColumnTest {
 		newIdColumn.setType(idColumn.getType());
 		newIdColumn.setName(idColumn.getName() + "//");
 		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
+		
+		newIdColumn.setName(idColumn.getName());
+		newIdColumn.setType(null);
+		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
+		
+		newIdColumn.setType(idColumn.getType());
+		newIdColumn.setName(null);
+		assertThat(idColumn.hashCode(), not(newIdColumn.hashCode()));
 	}
 	
 	/**
@@ -129,16 +138,34 @@ public class ColumnTest {
 		final Column newIdColumn = new Column(idColumn.getType(), idColumn.getName(), idColumn.isID());
 		final Column newOtherColumn = new Column(otherColumn.getType(), otherColumn.getName(), otherColumn.isID());
 		
+		assertTrue(!idColumn.equals(null));
+		assertTrue(idColumn.equals(idColumn));
+		assertTrue(!idColumn.equals(new Object()));
+		
 		assertEquals(idColumn, newIdColumn);
 		assertEquals(otherColumn, newOtherColumn);
 		
 		newIdColumn.setID(!idColumn.isID());
 		newOtherColumn.setName(otherColumn.getName() + "./");
 		assertThat(idColumn, not(newIdColumn));
-		assertThat(otherColumn, not(newOtherColumn));
+		assertThat(otherColumn, not(newIdColumn));
 		
 		newIdColumn.setID(idColumn.isID());
 		newIdColumn.setName(idColumn.getName() + "..");
-		assertThat(idColumn, not(newOtherColumn));
+		newOtherColumn.setName(otherColumn.getName());
+		newOtherColumn.setType(null);
+		assertThat(idColumn, not(newIdColumn));
+		assertThat(otherColumn, not(newOtherColumn));
+		
+		newIdColumn.setName(idColumn.getName());
+		newIdColumn.setType(Object.class);
+		newOtherColumn.setType(otherColumn.getType());
+		newOtherColumn.setName(null);
+		assertThat(idColumn, not(newIdColumn));
+		assertThat(otherColumn, not(newOtherColumn));
+		
+		newOtherColumn.setType(null);
+		assertThat(new Column(), not(idColumn));
+		assertEquals(new Column(), newOtherColumn);
 	}
 }

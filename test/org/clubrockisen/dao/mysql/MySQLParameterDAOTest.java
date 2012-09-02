@@ -1,10 +1,18 @@
 package org.clubrockisen.dao.mysql;
 
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.clubrockisen.entities.Parameter;
+import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +25,8 @@ import org.junit.Test;
 public class MySQLParameterDAOTest {
 	/** The factory */
 	private static MySQLDAOFactory	factory;
+	/** Backup for the parameters */
+	private static List<Parameter>	parametersBackup;
 	/** The DAO for the parameters */
 	private MySQLParameterDAO		parameterDAO;
 	
@@ -26,6 +36,7 @@ public class MySQLParameterDAOTest {
 	@BeforeClass
 	public static void setUpBeforeClass () {
 		factory = new MySQLDAOFactory();
+		parametersBackup = ((MySQLParameterDAO) factory.getParameterDAO()).retrieveAll();
 	}
 	
 	/**
@@ -34,6 +45,7 @@ public class MySQLParameterDAOTest {
 	@AfterClass
 	public static void tearDownAfterClass () {
 		try {
+			assertEquals(parametersBackup, ((MySQLParameterDAO) factory.getParameterDAO()).retrieveAll());
 			factory.close();
 		} catch (final IOException e) {
 			fail(e.getMessage());
@@ -61,7 +73,8 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testCreate () {
-		fail("Not yet implemented"); // TODO
+		assertNull(parameterDAO.create(new Parameter()));
+		assertNull(parameterDAO.create(null));
 	}
 	
 	/**
@@ -69,7 +82,9 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testFindInt () {
-		fail("Not yet implemented"); // TODO
+		for (int id = 0; id < 100; ++id) {
+			assertNull(parameterDAO.find(id));
+		}
 	}
 	
 	/**
@@ -77,7 +92,21 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testUpdate () {
-		fail("Not yet implemented"); // TODO
+		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		try {
+			for (final Parameter parameter : parameters) {
+				final Parameter backup = parameter.clone();
+				parameter.setValue("foo");
+				parameter.setType("bar");
+				assertTrue(parameterDAO.update(parameter));
+				assertEquals("foo", parameter.getValue());
+				assertEquals("bar", parameter.getType());
+				assertTrue(parameterDAO.update(backup));
+			}
+		} catch (final CloneNotSupportedException e) {
+			fail(e.getMessage());
+		}
+		assertTrue(!parameterDAO.update(null));
 	}
 	
 	/**
@@ -85,7 +114,9 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testDelete () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(false, parameterDAO.delete(null));
+		assertEquals(false, parameterDAO.delete(new Parameter()));
+		// TODO
 	}
 	
 	/**
@@ -93,7 +124,13 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testRetrieveAll () {
-		fail("Not yet implemented"); // TODO
+		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		for (final Parameter parameter : parameters) {
+			assertNotNull(parameter.getName());
+			assertNotNull(parameter.getType());
+			assertNotNull(parameter.getValue());
+			assertThat(parameter.getName(), not(""));
+		}
 	}
 	
 	/**
@@ -101,6 +138,10 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testSearch () {
-		fail("Not yet implemented"); // TODO
+		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		for (final Parameter parameter : parameters) {
+			assertEquals(parameter, parameterDAO.search(Parameter.getColumns().get(ParameterColumn.NAME), parameter.getName()).get(0));
+		}
+		assertEquals(parameters, parameterDAO.search(null, null));
 	}
 }
