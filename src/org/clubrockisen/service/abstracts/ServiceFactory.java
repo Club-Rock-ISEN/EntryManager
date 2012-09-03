@@ -2,7 +2,7 @@ package org.clubrockisen.service.abstracts;
 
 import java.util.logging.Logger;
 
-import org.clubrockisen.exception.ServiceInstantiationError;
+import org.clubrockisen.common.error.ServiceInstantiationError;
 
 /**
  * Factory for the services of the application.<br />

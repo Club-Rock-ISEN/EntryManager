@@ -9,16 +9,21 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.clubrockisen.common.Time;
+import org.clubrockisen.model.SpinnerTimeModel;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.renderers.LafRenderer;
+import org.clubrockisen.view.renderers.SpinnerTimeRenderer;
 
 /**
  * Utility class for GUI related methods.<br />
@@ -122,7 +127,28 @@ public final class Utils {
 				comboBox.setRenderer(new LafRenderer());
 				comp = comboBox;
 				break;
-				
+			case ENTRY_PRICE_TOTAL:
+			case ENTRY_PRICE_FIRST_PART:
+			case ENTRY_PRICE_SECOND_PART:
+			case MAX_CREDIT:
+			case MIN_CREDIT:
+				final JSpinner doubleSpinner = new JSpinner(new SpinnerNumberModel(0.0,
+						Integer.MIN_VALUE, Integer.MAX_VALUE, 0.01));
+				comp = doubleSpinner;
+				break;
+			case FREE_ENTRY_FREQUENCY:
+				final JSpinner intSpinner = new JSpinner(new SpinnerNumberModel(0,
+						Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
+				comp = intSpinner;
+				break;
+			case TIME_LIMIT:
+				final JSpinner timeSpinner = new JSpinner(new SpinnerTimeModel(Time.get("22:00"),
+						Time.get("00:01"),
+						Time.get("23:59"),
+						Time.get("00:00")));
+				timeSpinner.setEditor(new SpinnerTimeRenderer(timeSpinner));
+				comp = timeSpinner;
+				break;
 			default:
 				comp = new JTextField();
 				break;

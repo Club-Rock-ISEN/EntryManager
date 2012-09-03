@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
-import org.clubrockisen.exception.SQLConfigurationError;
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
 

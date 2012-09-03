@@ -83,7 +83,7 @@ public class Parameter extends Entity {
 			if (columns != null) {
 				return;
 			}
-			columns = new EnumMap<ParameterColumn, Column>(ParameterColumn.class);
+			columns = new EnumMap<>(ParameterColumn.class);
 			columns.put(ParameterColumn.NAME, new Column(String.class, "name", true));
 			columns.put(ParameterColumn.VALUE, new Column(String.class, "value"));
 			columns.put(ParameterColumn.TYPE, new Column(String.class, "type"));

@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import org.clubrockisen.common.error.TopLevelError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.exception.TopLevelError;
 import org.clubrockisen.service.Configuration;
 import org.clubrockisen.service.ConfigurationKey;
 import org.clubrockisen.service.Translator;

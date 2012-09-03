@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.beans.PropertyChangeEvent;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -105,7 +106,10 @@ public class ParametersView extends AbstractFrame {
 	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Changing view (according to model): " + evt.getPropertyName() + " with value "
+					+ evt.getNewValue());
+		}
 		// TODO Auto-generated method stub
-		lg.info("Property changed: " + evt);
 	}
 }

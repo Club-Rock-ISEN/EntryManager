@@ -326,8 +326,8 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.weighty = 1.0;
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = defaultInsets;
-		resultListModel = new DefaultListModel<Member>();
-		resultList = new JList<Member>(resultListModel);
+		resultListModel = new DefaultListModel<>();
+		resultList = new JList<>(resultListModel);
 		final JScrollPane scrollPane = new JScrollPane(resultList);
 		scrollPane.setBorder(BorderFactory.createTitledBorder(SERVICES.getTranslator()
 				.get("app.mainWindow.groupBox.searchResult")));

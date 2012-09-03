@@ -4,11 +4,11 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.error.DAOInstantiationError;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
-import org.clubrockisen.exception.DAOInstantiationError;
 
 /**
  * The abstract factory for the {@link DAO}s.<br />

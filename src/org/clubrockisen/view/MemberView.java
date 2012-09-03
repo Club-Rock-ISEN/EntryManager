@@ -92,7 +92,7 @@ public class MemberView extends AbstractFrame {
 	 */
 	@Override
 	protected void build () {
-		setTitle(translator.getField(m));
+		setTitle(translator.get(m));
 		setContentPane(buildMemberPanel());
 		setListeners();
 	}
