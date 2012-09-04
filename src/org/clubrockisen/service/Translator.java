@@ -7,6 +7,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Configuration;
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Entity;
 import org.clubrockisen.service.abstracts.ITranslator;
@@ -15,6 +17,7 @@ import org.clubrockisen.service.abstracts.ITranslator;
  * Implementation of the translator.<br />
  * Singleton which provide utilities method to translate key to the local set in the configuration
  * file.
+ * TODO move keys in common package
  * @author Alex
  */
 public final class Translator implements ITranslator {

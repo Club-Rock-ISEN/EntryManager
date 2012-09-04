@@ -7,11 +7,11 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.clubrockisen.common.Configuration;
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.error.DAOInstantiationError;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.service.Configuration;
-import org.clubrockisen.service.ConfigurationKey;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

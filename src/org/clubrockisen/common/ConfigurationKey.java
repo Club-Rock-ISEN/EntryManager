@@ -1,4 +1,4 @@
-package org.clubrockisen.service;
+package org.clubrockisen.common;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

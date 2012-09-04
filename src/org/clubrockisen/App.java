@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import org.clubrockisen.common.Configuration;
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.error.TopLevelError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.service.Configuration;
-import org.clubrockisen.service.ConfigurationKey;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
