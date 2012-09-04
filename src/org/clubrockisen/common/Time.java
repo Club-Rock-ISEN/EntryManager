@@ -174,7 +174,15 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	 */
 	@Override
 	public String toString () {
-		return (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes;
+		String h = Integer.toString(hours);
+		String m = Integer.toString(minutes);
+		if (h.length() < 2) {
+			h = "0" + h;
+		}
+		if (m.length() < 2) {
+			m = "0" + m;
+		}
+		return h + ":" + m;
 	}
 	
 	/*

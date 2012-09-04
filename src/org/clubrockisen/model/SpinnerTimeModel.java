@@ -3,23 +3,25 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractSpinnerModel;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
 
 import org.clubrockisen.common.Time;
 
 /**
  * Model for a {@link JSpinner} on {@link Time}.<br />
+ * Allow to set a value using a {@link Time} or a {@link String} which can be formatted using
+ * {@link Time#get(String)}.
  * @author Alex
  */
-public class SpinnerTimeModel extends SpinnerDateModel {
+public class SpinnerTimeModel extends AbstractSpinnerModel {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(SpinnerTimeModel.class.getName());
 	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= 5142588648167228978L;
 	
-	
+	// Times
 	/** The value of the model */
 	private Time value;
 	/** The step between two values */
@@ -40,8 +42,7 @@ public class SpinnerTimeModel extends SpinnerDateModel {
 	 * @param minValue
 	 *        the minimum time reachable.
 	 */
-	public SpinnerTimeModel (
-			final Time value, final Time step, final Time maxValue, final Time minValue) {
+	public SpinnerTimeModel (final Time value, final Time step, final Time maxValue, final Time minValue) {
 		super();
 		this.value = value;
 		this.step = step;
@@ -50,6 +51,19 @@ public class SpinnerTimeModel extends SpinnerDateModel {
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info(this.getClass().getName() + " created");
 		}
+	}
+	
+	/**
+	 * Constructor #2.<br />
+	 * @param value
+	 *        the value of the spinner.
+	 * @param maxValue
+	 *        the maximum time reachable.
+	 * @param minValue
+	 *        the minimum time reachable.
+	 */
+	public SpinnerTimeModel (final Time value, final Time maxValue, final Time minValue) {
+		this(value, new Time(0, 1), maxValue, minValue);
 	}
 	
 	/*
@@ -67,8 +81,8 @@ public class SpinnerTimeModel extends SpinnerDateModel {
 	 */
 	@Override
 	public void setValue (final Object value) {
-		if ((value == null) || !(value instanceof Time) || !(value instanceof String)) {
-			throw new IllegalArgumentException("illegal value");
+		if ((value == null) || (!(value instanceof Time) && !(value instanceof String))) {
+			throw new IllegalArgumentException("Illegal value for time " + value);
 		}
 		if (!value.equals(this.value)) {
 			if (value instanceof Time) {
@@ -106,14 +120,21 @@ public class SpinnerTimeModel extends SpinnerDateModel {
 	 * @return the new time to be set.
 	 */
 	private Time incrTime (final int dir) {
-		
 		Time newValue = null;
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("incrTime in dir " + dir + " (value: " + value + ")");
+		}
+		
+		// Changing value
 		if (dir > 0) {
 			newValue = value.add(step);
 		} else if (dir < 0) {
 			newValue = value.sub(step);
 		} else {
-			throw new IllegalArgumentException("");
+			throw new IllegalArgumentException("Direction value " + dir + " is not valid.");
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("newValue: " + newValue);
 		}
 		
 		// Bound checking
