@@ -49,6 +49,7 @@ public class ParametersView extends AbstractFrame {
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void preInit (final Object... parameters) {
 		parametersControllers = (Map<ParametersEnum, ParameterControllerImpl>) parameters[0];
@@ -81,7 +82,7 @@ public class ParametersView extends AbstractFrame {
 		
 		for (final ParametersEnum parameter : ParametersEnum.values()) {
 			// Adding label
-			pane.add(new JLabel(translator.get(parameter)), c);
+			pane.add(new JLabel(translator.getField(parameter)), c);
 			// Adding edit field
 			++xIndex;
 			c.gridx = xIndex;

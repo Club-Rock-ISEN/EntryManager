@@ -35,6 +35,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	
 	/**
 	 * Constructor #2.<br />
+	 * Number of minutes will be set to 0.
 	 * @param hours
 	 *        the number of hours.
 	 */
@@ -64,7 +65,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		this.minutes = cMinutes % MINUTES_PER_HOURS;
 		
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Created time: " + toString());
+			lg.fine("Created time: " + this.hours + " h, " + this.minutes + " min");
 		}
 	}
 	
@@ -77,8 +78,8 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	 * @return the time matching the string.
 	 */
 	public static Time get (final String time) {
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Parsing time " + time);
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Parsing time " + time);
 		}
 		final String[] hms = time.split("[^0-9]");
 		boolean first = true;
@@ -144,7 +145,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	@Override
 	public int compareTo (final Time o) {
 		if (o == null) {
-			return -1;
+			return 1;
 		}
 		if (hours > o.hours) {
 			return 1;
@@ -157,6 +158,28 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 			return -1;
 		}
 		return 0;
+	}
+	
+	/**
+	 * Check if the current time is after the specified time.<br />
+	 * @param time
+	 *        the time used for reference.
+	 * @return <code>true</code> if this time is after the reference time provided.
+	 * @see #compareTo(Time)
+	 */
+	public boolean after (final Time time) {
+		return compareTo(time) > 0;
+	}
+	
+	/**
+	 * Check if the current time is before the specified time.<br />
+	 * @param time
+	 *        the time used for reference.
+	 * @return <code>true</code> if this time is before the reference time provided.
+	 * @see #compareTo(Time)
+	 */
+	public boolean before (final Time time) {
+		return compareTo(time) < 0;
 	}
 	
 	/*

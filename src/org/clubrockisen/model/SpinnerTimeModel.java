@@ -87,8 +87,13 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 		if (!value.equals(this.value)) {
 			if (value instanceof Time) {
 				this.value = (Time) value;
-			} else {
+			} else if (value instanceof String) {
 				this.value = Time.get((String) value);
+			} else {
+				lg.warning("Should not arrived at this point, severe class casting problem with " +
+						value + " of class " + value.getClass());
+				throw new IllegalArgumentException("Should not arrive here: value is not Time or " +
+						"String but is" + value.getClass());
 			}
 			fireStateChanged();
 		}
