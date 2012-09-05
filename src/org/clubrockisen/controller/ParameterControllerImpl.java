@@ -59,8 +59,10 @@ public class ParameterControllerImpl extends AbstractController implements Param
 		setModelProperty(null, newType);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#propertyChange(java.beans.PropertyChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#propertyChange(java.beans.
+	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange (final PropertyChangeEvent evt) {
@@ -74,14 +76,8 @@ public class ParameterControllerImpl extends AbstractController implements Param
 		parentController.propertyChange(newEvt);
 	}
 	
-	/**
-	 * Refresh the model by loading the parameter from the database.
-	 */
-	public void refreshModel () {
-		parameterModel.initParameter();
-	}
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
 	 */
 	@Override
@@ -89,11 +85,21 @@ public class ParameterControllerImpl extends AbstractController implements Param
 		removeModel(parameterModel);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
 	 */
 	@Override
 	public boolean persist () {
 		return parameterModel.persist();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
+	 */
+	@Override
+	public void reload () {
+		parameterModel.reload();
 	}
 }

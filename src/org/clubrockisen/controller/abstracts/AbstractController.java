@@ -126,4 +126,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 * @return <code>true</code> if the operation succeeded.
 	 */
 	public abstract boolean persist ();
+	
+	/**
+	 * Reload the models registered from the database.<br />
+	 */
+	public abstract void reload ();
 }

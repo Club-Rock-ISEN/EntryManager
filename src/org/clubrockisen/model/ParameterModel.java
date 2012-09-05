@@ -35,6 +35,7 @@ public class ParameterModel extends AbstractModel {
 		super();
 		this.parameter = parametersManager.get(parameter);
 		firstRefresh = true;
+		reload();
 	}
 	
 	/**
@@ -105,10 +106,12 @@ public class ParameterModel extends AbstractModel {
 		return parametersManager.set(parameter);
 	}
 	
-	/**
-	 * Re-initialize a parameter from the database.
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
 	 */
-	public void initParameter () {
+	@Override
+	public void reload () {
 		setValue(parameter.getValue());
 		setType(parameter.getType());
 		firstRefresh = false;

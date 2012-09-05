@@ -81,7 +81,8 @@ public class MemberPanelController extends AbstractController implements MemberC
 		memberController.changeCredit(newCredit);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.MemberController#changeStatus(double)
 	 */
 	@Override
@@ -102,15 +103,32 @@ public class MemberPanelController extends AbstractController implements MemberC
 		memberView.setVisible(true);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
+	 */
 	@Override
 	public boolean persist () {
 		return memberModel.persist();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
+	 */
 	@Override
 	public void dispose () {
 		memberView.dispose();
 		removeModel(memberModel);
 		removeView(memberView);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
+	 */
+	@Override
+	public void reload () {
+		memberModel.reload();
+	}
+	
 }

@@ -39,7 +39,8 @@ public class MemberModel extends AbstractModel {
 		this.newFlag = true;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
 	 */
 	@Override
@@ -196,4 +197,21 @@ public class MemberModel extends AbstractModel {
 		member.setStatus(status);
 		fireModelChange(MemberColumn.STATUS.getPropertyName(), oldStatus, status);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
+	 */
+	@Override
+	public void reload () {
+		final int id = member.getIdMember();
+		newFlag = true;
+		if (id > 0) {
+			final Member m = daoMember.find(id);
+			initMember(m);
+		} else {
+			initDefault();
+		}
+	}
+	
 }

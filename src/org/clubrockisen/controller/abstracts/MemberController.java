@@ -57,4 +57,9 @@ public interface MemberController {
 	 */
 	boolean persist ();
 	
+	/**
+	 * Reload the models registered from the database.<br />
+	 */
+	public abstract void reload ();
+	
 }

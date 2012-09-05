@@ -66,12 +66,13 @@ public class ParametersPanelController extends AbstractController {
 	 */
 	public void show () {
 		for (final ParameterControllerImpl controller : parametersControllers.values()) {
-			controller.refreshModel();
+			controller.reload();
 		}
 		parametersView.setVisible(true);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
 	 */
 	@Override
@@ -83,7 +84,8 @@ public class ParametersPanelController extends AbstractController {
 		}
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
 	 */
 	@Override
@@ -96,6 +98,17 @@ public class ParametersPanelController extends AbstractController {
 			}
 		}
 		return success;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
+	 */
+	@Override
+	public void reload () {
+		for (final ParameterControllerImpl parameterController : parametersControllers.values()) {
+			parameterController.reload();
+		}
 	}
 	
 }

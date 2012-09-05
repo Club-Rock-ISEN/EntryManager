@@ -67,7 +67,8 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.ENTRIES.getPropertyName(), newEntries);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.MemberController#changeNextFree(int)
 	 */
 	@Override
@@ -102,12 +103,22 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.STATUS.getPropertyName(), newStatus);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.MemberController#persist()
 	 */
 	@Override
 	public boolean persist () {
 		return controller.persist();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.controller.abstracts.MemberController#reload()
+	 */
+	@Override
+	public void reload () {
+		controller.reload();
 	}
 	
 }

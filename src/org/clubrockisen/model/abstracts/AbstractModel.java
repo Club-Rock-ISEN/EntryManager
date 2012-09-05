@@ -67,4 +67,9 @@ public abstract class AbstractModel {
 	 * @return <code>true</code> if the operation has succeeded.
 	 */
 	public abstract boolean persist ();
+	
+	/**
+	 * Reload the model with the information from the database and fire refresh messages.<br />
+	 */
+	public abstract void reload ();
 }
