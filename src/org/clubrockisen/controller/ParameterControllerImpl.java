@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.ParameterController;
+import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.model.ParameterModel;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 
@@ -47,7 +48,7 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	 */
 	@Override
 	public void changeValue (final String newValue) {
-		setModelProperty(null, newValue);
+		setModelProperty(ParameterColumn.VALUE.getPropertyName(), newValue);
 	}
 	
 	/*
@@ -56,7 +57,7 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	 */
 	@Override
 	public void changeType (final String newType) {
-		setModelProperty(null, newType);
+		setModelProperty(ParameterColumn.TYPE.getPropertyName(), newType);
 	}
 	
 	/*

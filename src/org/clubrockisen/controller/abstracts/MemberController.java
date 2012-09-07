@@ -60,6 +60,6 @@ public interface MemberController {
 	/**
 	 * Reload the models registered from the database.<br />
 	 */
-	public abstract void reload ();
+	void reload ();
 	
 }

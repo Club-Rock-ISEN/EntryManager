@@ -281,6 +281,7 @@ public class MemberView extends AbstractFrame {
 			lg.fine("Changing view (according to model): " + evt.getPropertyName() + " with value "
 					+ evt.getNewValue());
 		}
+		
 		if (evt.getPropertyName().equals(MemberColumn.NAME.getPropertyName())) {
 			nameField.setText(evt.getNewValue().toString());
 		} else if (evt.getPropertyName().equals(MemberColumn.GENDER.getPropertyName())) {

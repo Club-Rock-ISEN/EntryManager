@@ -3,6 +3,8 @@ package org.clubrockisen.view;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,13 +18,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.JTextComponent;
 
 import org.clubrockisen.common.Time;
 import org.clubrockisen.model.SpinnerTimeModel;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.renderers.LafRenderer;
 import org.clubrockisen.view.renderers.SpinnerTimeRenderer;
 
 /**
@@ -48,10 +50,18 @@ public final class Utils {
 	}
 	
 	/**
-	 * Sets the look and feel of the application.
+	 * Sets the look and feel of the application by using the value from the database parameter.
 	 */
 	public static void setLookAndFeel () {
-		final String lookAndFeelName = SERVICES.getParameterManager().get(ParametersEnum.LOOK_AND_FEEL).getValue();
+		setLookAndFeel(SERVICES.getParameterManager().get(ParametersEnum.LOOK_AND_FEEL).getValue());
+	}
+	
+	/**
+	 * Sets the look and feel of the application.
+	 * @param lookAndFeelName
+	 *        the name of the look and feel to set.
+	 */
+	public static void setLookAndFeel (final String lookAndFeelName) {
 		boolean lookAndFeelFound = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
 			if (lg.isLoggable(Level.FINE)) {
@@ -123,8 +133,19 @@ public final class Utils {
 		
 		switch (parameter) {
 			case LOOK_AND_FEEL:
-				final JComboBox<LookAndFeelInfo> comboBox = new JComboBox<>(UIManager.getInstalledLookAndFeels());
-				comboBox.setRenderer(new LafRenderer());
+				final String[] lafNames = new String[UIManager.getInstalledLookAndFeels().length];
+				int index = 0;
+				for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
+					lafNames[index] = laf.getName();
+					++index;
+				}
+				final JComboBox<String> comboBox = new JComboBox<>(lafNames);
+				comboBox.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed (final ActionEvent e) {
+						setLookAndFeel((String) comboBox.getSelectedItem());
+					}
+				});
 				comp = comboBox;
 				break;
 			case ENTRY_PRICE_TOTAL:
@@ -155,5 +176,43 @@ public final class Utils {
 		}
 		
 		return comp;
+	}
+	
+	/**
+	 * Return the value set by the user in the component.<br />
+	 * @param component
+	 *        the component to check.
+	 * @return the value set in the component.
+	 */
+	public static String getValue (final JComponent component) {
+		if (component instanceof JTextComponent) {
+			return ((JTextComponent) component).getText();
+		}
+		if (component instanceof JComboBox<?>) {
+			final Object item = ((JComboBox<?>) component).getSelectedItem();
+			return item.toString();
+		}
+		if (component instanceof JSpinner) {
+			return ((JSpinner) component).getValue().toString();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Set the value in the component.<br />
+	 * @param component
+	 *        the target component.
+	 * @param value
+	 *        the value to set.
+	 */
+	public static void setValue (final JComponent component, final Object value) {
+		if (component instanceof JTextComponent) {
+			((JTextComponent) component).setText(value.toString());
+		} else if (component instanceof JComboBox<?>) {
+			((JComboBox<?>) component).setSelectedItem(value);
+		} else if (component instanceof JSpinner) {
+			((JSpinner) component).setValue(value);
+		}
 	}
 }

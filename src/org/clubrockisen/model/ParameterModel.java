@@ -24,7 +24,7 @@ public class ParameterModel extends AbstractModel {
 	/** The parameter represented by this model */
 	private final Parameter				parameter;
 	/** <code>true</code> if the parameter is on its first refresh. */
-	private boolean	firstRefresh;
+	private final boolean	firstRefresh;
 	
 	/**
 	 * Constructor #1.<br />
@@ -33,9 +33,8 @@ public class ParameterModel extends AbstractModel {
 	 */
 	public ParameterModel (final ParametersEnum parameter) {
 		super();
-		this.parameter = parametersManager.get(parameter);
-		firstRefresh = true;
-		reload();
+		this.parameter = new Parameter(parametersManager.get(parameter).getName());
+		firstRefresh = false;
 	}
 	
 	/**
@@ -75,7 +74,13 @@ public class ParameterModel extends AbstractModel {
 	public void setValue (final String value) {
 		final String oldValue = getValue();
 		parameter.setValue(value);
-		fireModelChange(ParameterColumn.VALUE.getPropertyName(), oldValue, value);
+		Object evtValue = value;
+		if (Integer.class.getSimpleName().equals(parameter.getType())) {
+			evtValue = Integer.valueOf(value);
+		} else if (Double.class.getSimpleName().equals(parameter.getType())) {
+			evtValue = Double.valueOf(value);
+		}
+		fireModelChange(ParameterColumn.VALUE.getPropertyName(), oldValue, evtValue);
 	}
 	
 	/**
@@ -112,8 +117,8 @@ public class ParameterModel extends AbstractModel {
 	 */
 	@Override
 	public void reload () {
-		setValue(parameter.getValue());
-		setType(parameter.getType());
-		firstRefresh = false;
+		final Parameter param = parametersManager.get(ParametersEnum.fromValue(parameter.getName()));
+		setType(param.getType());
+		setValue(param.getValue());
 	}
 }

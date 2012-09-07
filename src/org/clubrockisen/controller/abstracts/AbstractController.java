@@ -106,7 +106,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 			} catch (SecurityException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException e) {
 				lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
-						+ " for property " + propertyName + " (" + e.getMessage() + ")");
+						+ " for property " + propertyName + " (" + e.getClass() + "; "
+						+ e.getMessage() + ")");
+				e.printStackTrace();
 			} catch (final NoSuchMethodException e) {
 				// This is a "normal" exception (model does not have the property to update)
 				lg.info("Model " + model.getClass().getSimpleName() + " has no setter for " +

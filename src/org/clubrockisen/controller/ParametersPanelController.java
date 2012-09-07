@@ -32,32 +32,11 @@ public class ParametersPanelController extends AbstractController {
 		for (final ParametersEnum parameter : ParametersEnum.values()) {
 			parametersControllers.put(parameter, new ParameterControllerImpl(parameter, this));
 		}
-		parametersView = new ParametersView(parametersControllers);
+		parametersView = new ParametersView(this);
 		addView(parametersView);
 		
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine(this.getClass().getName() + " created");
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#setModelProperty(java.lang.String, java.lang.Object)
-	 */
-	@Override
-	public void setModelProperty (final String propertyName, final Object newValue) {
-		ParametersEnum parameterToUpdate = null;
-		String fullProperty = null;
-		for (final ParametersEnum parameter : ParametersEnum.values()) {
-			if (propertyName.startsWith(parameter.getName())) {
-				parameterToUpdate = parameter;
-				fullProperty = propertyName.substring(parameter.getName().length());
-				break;
-			}
-		}
-		if (parameterToUpdate != null && fullProperty != null) {
-			parametersControllers.get(parameterToUpdate).setModelProperty(fullProperty, newValue);
-		} else {
-			lg.warning("Could not parse propertyName " + propertyName + " as a parameter name.");
 		}
 	}
 	
@@ -109,6 +88,29 @@ public class ParametersPanelController extends AbstractController {
 		for (final ParameterControllerImpl parameterController : parametersControllers.values()) {
 			parameterController.reload();
 		}
+	}
+	
+	/**
+	 * Dispatch a change of value on the specified parameter.
+	 * @param parameter
+	 *        the parameter.
+	 * @param newValue
+	 *        the new value of the parameter.
+	 */
+	public void changeValue (final ParametersEnum parameter, final String newValue) {
+		parametersControllers.get(parameter).changeValue(newValue);
+		
+	}
+	
+	/**
+	 * Dispatch a change of type on the specified parameter.
+	 * @param parameter
+	 *        the parameter.
+	 * @param newType
+	 *        the new type of the parameter.
+	 */
+	public void changeType (final ParametersEnum parameter, final String newType) {
+		parametersControllers.get(parameter).changeType(newType);
 	}
 	
 }
