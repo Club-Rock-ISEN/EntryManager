@@ -22,18 +22,17 @@ import org.clubrockisen.service.abstracts.ITranslator;
  */
 public final class Translator implements ITranslator {
 	/** Logger */
-	private static Logger					lg		= Logger.getLogger(Translator.class.getName());
+	private static Logger					lg			= Logger.getLogger(Translator.class.getName());
 	
-	/** Unique instance of the class */
-	private static Translator				singleton;
-	/** Lock for singleton initialization */
-	private static Object					lock	= new Object();
-	
+	// Configuration
 	/** Access to the configuration */
-	private final Configuration				config	= Configuration.getInstance();
+	private final Configuration				config		= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS	= ConfigurationKey.KEY;
+	private static final ConfigurationKey	KEYS		= ConfigurationKey.KEY;
 	
+	// Translations
+	/** Unique instance of the class */
+	private static Translator				singleton	= new Translator();
 	/** The map between the keys and their translation */
 	private final Properties				translations;
 	
@@ -64,11 +63,6 @@ public final class Translator implements ITranslator {
 	 * @return the unique instance of the class.
 	 */
 	public static Translator getInstance () {
-		if (singleton == null) {
-			synchronized (lock) {
-				singleton = new Translator();
-			}
-		}
 		return singleton;
 	}
 	

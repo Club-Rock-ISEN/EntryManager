@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ TimeTest.class })
+@SuiteClasses({ TimeTest.class, ConfigurationTest.class })
 public class CommonTests {
 }

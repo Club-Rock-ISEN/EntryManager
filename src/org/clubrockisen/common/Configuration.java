@@ -19,9 +19,7 @@ public final class Configuration {
 	private static Logger			lg	= Logger.getLogger(Configuration.class.getName());
 	
 	/** Unique instance of the class */
-	private static Configuration	singleton;
-	/** Lock for singleton initialization */
-	private static Object					lock	= new Object();
+	private static Configuration	singleton = new Configuration();
 	/** The configuration file to load */
 	private static String			configurationFile = ConfigurationKey.FILE;
 	
@@ -44,11 +42,6 @@ public final class Configuration {
 	 * @return the instance of the configuration.
 	 */
 	public static Configuration getInstance () {
-		if (singleton == null) {
-			synchronized (lock) {
-				singleton = new Configuration();
-			}
-		}
 		return singleton;
 	}
 	
@@ -72,6 +65,7 @@ public final class Configuration {
 	private void load () {
 		// Load the properties
 		try {
+			configuration.clear();
 			configuration.loadFromXML(new FileInputStream( configurationFile != null ?
 					configurationFile : ConfigurationKey.FILE));
 			if (lg.isLoggable(Level.FINE)) {
