@@ -23,6 +23,8 @@ public class ParameterTest {
 	private Parameter		nullParameter;
 	/** Parameter with a name */
 	private Parameter		parameterFromName;
+	/** Parameter without a component class */
+	private Parameter		noComponentParameter;
 	/** Parameter with all the informations */
 	private Parameter		fullParameter;
 	/** List with the parameters to test */
@@ -35,11 +37,13 @@ public class ParameterTest {
 	public void setUp () {
 		nullParameter = new Parameter();
 		parameterFromName = new Parameter("size");
-		fullParameter = new Parameter("price", "2.8", "Double");
+		noComponentParameter = new Parameter("length", "12", "Integer");
+		fullParameter = new Parameter("price", "2.8", "Double", "ComboBox");
 		
-		parameters = new ArrayList<>(3);
+		parameters = new ArrayList<>(4);
 		parameters.add(nullParameter);
 		parameters.add(parameterFromName);
+		parameters.add(noComponentParameter);
 		parameters.add(fullParameter);
 	}
 	
@@ -60,7 +64,7 @@ public class ParameterTest {
 	public void testGetEntityColumns () {
 		for (final Parameter parameter : parameters) {
 			final Map<? extends Enum<?>, Column> columns = parameter.getEntityColumns();
-			assertEquals(3, columns.size());
+			assertEquals(4, columns.size());
 			
 			assertEquals("name", columns.get(ParameterColumn.NAME).getName());
 			assertEquals(String.class, columns.get(ParameterColumn.NAME).getType());
@@ -73,6 +77,10 @@ public class ParameterTest {
 			assertEquals("type", columns.get(ParameterColumn.TYPE).getName());
 			assertEquals(String.class, columns.get(ParameterColumn.TYPE).getType());
 			assertEquals(false, columns.get(ParameterColumn.TYPE).isID());
+			
+			assertEquals("componentClass", columns.get(ParameterColumn.COMPONENT_CLASS).getName());
+			assertEquals(String.class, columns.get(ParameterColumn.COMPONENT_CLASS).getType());
+			assertEquals(false, columns.get(ParameterColumn.COMPONENT_CLASS).isID());
 		}
 	}
 	
@@ -103,6 +111,7 @@ public class ParameterTest {
 	public void testGetName () {
 		assertEquals("", nullParameter.getName());
 		assertEquals("size", parameterFromName.getName());
+		assertEquals("length", noComponentParameter.getName());
 		assertEquals("price", fullParameter.getName());
 	}
 	
@@ -113,6 +122,7 @@ public class ParameterTest {
 	public void testGetValue () {
 		assertEquals("", nullParameter.getValue());
 		assertEquals("", parameterFromName.getValue());
+		assertEquals("12", noComponentParameter.getValue());
 		assertEquals("2.8", fullParameter.getValue());
 	}
 	
@@ -123,10 +133,12 @@ public class ParameterTest {
 	public void testSetValue () {
 		nullParameter.setValue("null");
 		parameterFromName.setValue("800x640");
+		noComponentParameter.setValue("82");
 		fullParameter.setValue("3.2");
 		
 		assertEquals("null", nullParameter.getValue());
 		assertEquals("800x640", parameterFromName.getValue());
+		assertEquals("82", noComponentParameter.getValue());
 		assertEquals("3.2", fullParameter.getValue());
 	}
 	
@@ -137,6 +149,7 @@ public class ParameterTest {
 	public void testGetType () {
 		assertEquals("", nullParameter.getType());
 		assertEquals("", parameterFromName.getType());
+		assertEquals("Integer", noComponentParameter.getType());
 		assertEquals("Double", fullParameter.getType());
 	}
 	
@@ -147,11 +160,40 @@ public class ParameterTest {
 	public void testSetType () {
 		nullParameter.setType("Object");
 		parameterFromName.setType("String");
+		noComponentParameter.setType("Class");
 		fullParameter.setType("Integer");
 		
 		assertEquals("Object", nullParameter.getType());
 		assertEquals("String", parameterFromName.getType());
+		assertEquals("Class", noComponentParameter.getType());
 		assertEquals("Integer", fullParameter.getType());
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Parameter#getComponentClass()}.
+	 */
+	@Test
+	public void testGetComponentClass () {
+		assertEquals("", nullParameter.getComponentClass());
+		assertEquals("", parameterFromName.getComponentClass());
+		assertEquals("", noComponentParameter.getComponentClass());
+		assertEquals("ComboBox", fullParameter.getComponentClass());
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Parameter#setComponentClass(java.lang.String)}.
+	 */
+	@Test
+	public void testSetComponentClass () {
+		nullParameter.setComponentClass("ComboBox");
+		parameterFromName.setComponentClass("IntSpinner");
+		noComponentParameter.setComponentClass("DoubleSpinner");
+		fullParameter.setComponentClass("TimeSpinner");
+		
+		assertEquals("ComboBox", nullParameter.getComponentClass());
+		assertEquals("IntSpinner", parameterFromName.getComponentClass());
+		assertEquals("DoubleSpinner", noComponentParameter.getComponentClass());
+		assertEquals("TimeSpinner", fullParameter.getComponentClass());
 	}
 	
 	/**
@@ -177,7 +219,7 @@ public class ParameterTest {
 	@Test
 	public void testGenerateInsertQuerySQL () {
 		for (final Parameter parameter : parameters) {
-			assertEquals("INSERT INTO parameter(`name`,`value`,`type`) VALUES ", parameter.generateInsertQuerySQL());
+			assertEquals("INSERT INTO parameter(`name`,`value`,`type`,`componentClass`) VALUES ", parameter.generateInsertQuerySQL());
 		}
 	}
 	
@@ -187,8 +229,8 @@ public class ParameterTest {
 	@Test
 	public void testGenerateInsertQuerySQLBoolean () {
 		for (final Parameter parameter : parameters) {
-			assertEquals("INSERT INTO parameter(`name`,`value`,`type`) VALUES ", parameter.generateInsertQuerySQL(true));
-			assertEquals("INSERT INTO parameter(`value`,`type`) VALUES ", parameter.generateInsertQuerySQL(false));
+			assertEquals("INSERT INTO parameter(`name`,`value`,`type`,`componentClass`) VALUES ", parameter.generateInsertQuerySQL(true));
+			assertEquals("INSERT INTO parameter(`value`,`type`,`componentClass`) VALUES ", parameter.generateInsertQuerySQL(false));
 		}
 	}
 	
@@ -200,6 +242,7 @@ public class ParameterTest {
 		try {
 			assertEquals("DELETE FROM parameter WHERE name = ''", nullParameter.generateDeleteQuerySQL());
 			assertEquals("DELETE FROM parameter WHERE name = 'size'", parameterFromName.generateDeleteQuerySQL());
+			assertEquals("DELETE FROM parameter WHERE name = 'length'", noComponentParameter.generateDeleteQuerySQL());
 			assertEquals("DELETE FROM parameter WHERE name = 'price'", fullParameter.generateDeleteQuerySQL());
 		} catch (final NoIdException e) {
 			fail(e.getMessage());
@@ -224,6 +267,7 @@ public class ParameterTest {
 		try {
 			assertEquals(" WHERE name = ''", nullParameter.generateWhereIDQuerySQL());
 			assertEquals(" WHERE name = 'size'", parameterFromName.generateWhereIDQuerySQL());
+			assertEquals(" WHERE name = 'length'", noComponentParameter.generateWhereIDQuerySQL());
 			assertEquals(" WHERE name = 'price'", fullParameter.generateWhereIDQuerySQL());
 		} catch (final NoIdException e) {
 			fail(e.getMessage());
@@ -239,6 +283,7 @@ public class ParameterTest {
 		try {
 			assertEquals(" WHERE name = 'nbPlaces'", nullParameter.generateWhereIDQuerySQL("nbPlaces"));
 			assertEquals(" WHERE name = 'timeLimit'", parameterFromName.generateWhereIDQuerySQL("timeLimit"));
+			assertEquals(" WHERE name = 'max'", noComponentParameter.generateWhereIDQuerySQL("max"));
 			assertEquals(" WHERE name = 'maxPeople'", fullParameter.generateWhereIDQuerySQL("maxPeople"));
 		} catch (final NoIdException e) {
 			fail(e.getMessage());
@@ -267,12 +312,15 @@ public class ParameterTest {
 					assertThat(parameter.hashCode(), not(other.hashCode()));
 				}
 			}
-			final Parameter clone = new Parameter(parameter.getName(), parameter.getValue(), parameter.getType());
+			final Parameter clone = new Parameter(parameter.getName(), parameter.getValue(), parameter.getType(), parameter.getComponentClass());
 			assertEquals(parameter.hashCode(), clone.hashCode());
 			clone.setType(parameter.getType() + "/");
 			assertThat(parameter.hashCode(), not(clone.hashCode()));
 			clone.setType(parameter.getType());
 			clone.setValue(parameter.getValue() + "./");
+			assertThat(parameter.hashCode(), not(clone.hashCode()));
+			clone.setValue(parameter.getValue());
+			clone.setComponentClass(parameter.getComponentClass() + ".field");
 			assertThat(parameter.hashCode(), not(clone.hashCode()));
 		}
 	}
@@ -299,6 +347,9 @@ public class ParameterTest {
 				clone.setType(parameter.getType());
 				clone.setValue(parameter.getValue() + "./");
 				assertThat(parameter, not(clone));
+				clone.setValue(parameter.getValue());
+				clone.setComponentClass(parameter.getComponentClass() + ".field");
+				assertThat(parameter.hashCode(), not(clone.hashCode()));
 			} catch (final CloneNotSupportedException e) {
 				fail(e.getMessage());
 			}
@@ -316,6 +367,7 @@ public class ParameterTest {
 				assertEquals(parameter.getName(), other.getName());
 				assertEquals(parameter.getType(), other.getType());
 				assertEquals(parameter.getValue(), other.getValue());
+				assertEquals(parameter.getComponentClass(), other.getComponentClass());
 			}
 		} catch (final CloneNotSupportedException e) {
 			fail(e.getMessage());

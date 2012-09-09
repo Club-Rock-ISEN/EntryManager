@@ -57,6 +57,7 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 		// Setting parameters properties
 		newParameter.setType(result.getString(columns.get(ParameterColumn.TYPE).getName()));
 		newParameter.setValue(result.getString(columns.get(ParameterColumn.VALUE).getName()));
+		newParameter.setComponentClass(result.getString(columns.get(ParameterColumn.COMPONENT_CLASS).getName()));
 		
 		return newParameter;
 	}
@@ -96,7 +97,8 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(ParameterColumn.VALUE).getName() + " = '" + obj.getValue() + "', " +
-					columns.get(ParameterColumn.TYPE).getName() + " = '" + obj.getType() + "'" +
+					columns.get(ParameterColumn.TYPE).getName() + " = '" + obj.getType() + "', " +
+					columns.get(ParameterColumn.COMPONENT_CLASS).getName() + " = '" + obj.getComponentClass() + "'" +
 					obj.generateWhereIDQuerySQL();
 			lg.info(query);
 			statement.executeUpdate(query);

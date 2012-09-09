@@ -28,6 +28,8 @@ public class Parameter extends Entity {
 	private String								value;
 	/** Type of the parameter */
 	private String								type;
+	/** Component class */
+	private String								componentClass;
 	
 	/*
 	 * (non-Javadoc)
@@ -48,7 +50,9 @@ public class Parameter extends Entity {
 		/** The parameter's value */
 		VALUE("Value"),
 		/** The parameter's type */
-		TYPE("Type");
+		TYPE("Type"),
+		/** The parameter's component class */
+		COMPONENT_CLASS("ComponentClass");
 		
 		/** The name of the property in the class */
 		private final String	propertyName;
@@ -87,6 +91,7 @@ public class Parameter extends Entity {
 			columns.put(ParameterColumn.NAME, new Column(String.class, "name", true));
 			columns.put(ParameterColumn.VALUE, new Column(String.class, "value"));
 			columns.put(ParameterColumn.TYPE, new Column(String.class, "type"));
+			columns.put(ParameterColumn.COMPONENT_CLASS, new Column(String.class, "componentClass"));
 		}
 	}
 	
@@ -114,12 +119,12 @@ public class Parameter extends Entity {
 	 *            the name of the parameter.
 	 */
 	public Parameter (final String name) {
-		this (name, null, null);
+		this (name, null, null, null);
 	}
 	
 	/**
 	 * Constructor #2.<br />
-	 * Constructor using all the fields.
+	 * Constructor using all the fields but the component class.
 	 * @param name
 	 *            the name of the parameter.
 	 * @param value
@@ -128,10 +133,27 @@ public class Parameter extends Entity {
 	 *            the type of the parameter.
 	 */
 	public Parameter (final String name, final String value, final String type) {
+		this(name, value, type, null);
+	}
+	
+	/**
+	 * Constructor #3.<br />
+	 * Constructor using all the fields.
+	 * @param name
+	 *            the name of the parameter.
+	 * @param value
+	 *            the value of the parameter.
+	 * @param type
+	 *            the type of the parameter.
+	 * @param componentClass
+	 *            the component class of the parameter
+	 */
+	public Parameter (final String name, final String value, final String type, final String componentClass) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.type = type;
+		this.componentClass = componentClass;
 		lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + " = " + this.value);
 	}
 	
@@ -140,7 +162,7 @@ public class Parameter extends Entity {
 	 * Default constructor.
 	 */
 	public Parameter () {
-		this (null, null, null);
+		this (null, null, null, null);
 	}
 	
 	@Override
@@ -190,6 +212,22 @@ public class Parameter extends Entity {
 		this.type = type;
 	}
 	
+	/**
+	 * Return the attribute component.
+	 * @return the attribute component.
+	 */
+	public String getComponentClass () {
+		return componentClass == null ? "" : componentClass;
+	}
+	
+	/**
+	 * Set the attribute component.
+	 * @param component the attribute component.
+	 */
+	public void setComponentClass (final String component) {
+		this.componentClass = component;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -201,6 +239,7 @@ public class Parameter extends Entity {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((componentClass == null ? 0 : componentClass.hashCode()));
 		return result;
 	}
 	
@@ -241,6 +280,13 @@ public class Parameter extends Entity {
 		} else if (!value.equals(other.value)) {
 			return false;
 		}
+		if (componentClass == null) {
+			if (other.componentClass != null) {
+				return false;
+			}
+		} else if (!componentClass.equals(other.componentClass)) {
+			return false;
+		}
 		return true;
 	}
 	
@@ -254,6 +300,7 @@ public class Parameter extends Entity {
 		clone.name = name;
 		clone.type = type;
 		clone.value = value;
+		clone.componentClass = componentClass;
 		return clone;
 	}
 	

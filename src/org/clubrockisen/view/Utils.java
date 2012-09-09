@@ -3,29 +3,18 @@ package org.clubrockisen.view;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.text.JTextComponent;
 
-import org.clubrockisen.common.Time;
-import org.clubrockisen.model.SpinnerTimeModel;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.renderers.SpinnerTimeRenderer;
 
 /**
  * Utility class for GUI related methods.<br />
@@ -121,98 +110,4 @@ public final class Utils {
 		return DEFAULT_INSETS;
 	}
 	
-	/**
-	 * Creates the component which allow to edit a parameter.<br />
-	 * Set the appropriate listener on the component.
-	 * @param parameter
-	 *        the parameter.
-	 * @return the component.
-	 */
-	public static JComponent getParameterComponent (final ParametersEnum parameter) {
-		JComponent comp = null;
-		
-		switch (parameter) {
-			case LOOK_AND_FEEL:
-				final String[] lafNames = new String[UIManager.getInstalledLookAndFeels().length];
-				int index = 0;
-				for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-					lafNames[index] = laf.getName();
-					++index;
-				}
-				final JComboBox<String> comboBox = new JComboBox<>(lafNames);
-				comboBox.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed (final ActionEvent e) {
-						setLookAndFeel((String) comboBox.getSelectedItem());
-					}
-				});
-				comp = comboBox;
-				break;
-			case ENTRY_PRICE_TOTAL:
-			case ENTRY_PRICE_FIRST_PART:
-			case ENTRY_PRICE_SECOND_PART:
-			case MAX_CREDIT:
-			case MIN_CREDIT:
-				final JSpinner doubleSpinner = new JSpinner(new SpinnerNumberModel(0.0,
-						Integer.MIN_VALUE, Integer.MAX_VALUE, 0.01));
-				comp = doubleSpinner;
-				break;
-			case FREE_ENTRY_FREQUENCY:
-				final JSpinner intSpinner = new JSpinner(new SpinnerNumberModel(0,
-						Integer.MIN_VALUE, Integer.MAX_VALUE, 1));
-				comp = intSpinner;
-				break;
-			case TIME_LIMIT:
-				final JSpinner timeSpinner = new JSpinner(new SpinnerTimeModel(Time.get("22:00"),
-						Time.get("00:01"),
-						Time.get("23:59"),
-						Time.get("00:00")));
-				timeSpinner.setEditor(new SpinnerTimeRenderer(timeSpinner));
-				comp = timeSpinner;
-				break;
-			default:
-				comp = new JTextField();
-				break;
-		}
-		
-		return comp;
-	}
-	
-	/**
-	 * Return the value set by the user in the component.<br />
-	 * @param component
-	 *        the component to check.
-	 * @return the value set in the component.
-	 */
-	public static String getValue (final JComponent component) {
-		if (component instanceof JTextComponent) {
-			return ((JTextComponent) component).getText();
-		}
-		if (component instanceof JComboBox<?>) {
-			final Object item = ((JComboBox<?>) component).getSelectedItem();
-			return item.toString();
-		}
-		if (component instanceof JSpinner) {
-			return ((JSpinner) component).getValue().toString();
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Set the value in the component.<br />
-	 * @param component
-	 *        the target component.
-	 * @param value
-	 *        the value to set.
-	 */
-	public static void setValue (final JComponent component, final Object value) {
-		if (component instanceof JTextComponent) {
-			((JTextComponent) component).setText(value.toString());
-		} else if (component instanceof JComboBox<?>) {
-			((JComboBox<?>) component).setSelectedItem(value);
-		} else if (component instanceof JSpinner) {
-			((JSpinner) component).setValue(value);
-		}
-	}
 }

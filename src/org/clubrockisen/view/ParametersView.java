@@ -4,54 +4,49 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.EnumMap;
-import java.util.EventObject;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.parameter.ParameterChangeListener;
+import org.clubrockisen.view.parameter.ParameterComponent;
+import org.clubrockisen.view.parameter.ParameterComponentsManager;
 
 /**
  * View for the parameter manager.<br />
  * @author Alex
  */
-public class ParametersView extends AbstractFrame {
+public class ParametersView extends AbstractFrame implements ParameterChangeListener {
 	/** Logger */
-	private static Logger								lg					= Logger.getLogger(ParametersView.class.getName());
+	private static Logger										lg					= Logger.getLogger(ParametersView.class.getName());
 	
 	/** Serial Version UID */
-	private static final long							serialVersionUID	= -685243639858300613L;
-	
+	private static final long									serialVersionUID	= -685243639858300613L;
+	/** The reference to the parameter components manager */
+	private static ParameterComponentsManager					pcm					= ParameterComponentsManager.getInstance();
 	// Swing GUI elements
 	/** The map with the component used to update the parameters */
-	private transient Map<ParametersEnum, JComponent>	parametersComponents;
+	private transient Map<ParametersEnum, ParameterComponent>	parametersComponents;
 	/** Button for validating changes on a member */
-	private JButton										validateButton;
+	private JButton												validateButton;
 	/** Button for canceling changes on a member */
-	private JButton										cancelButton;
+	private JButton												cancelButton;
 	
 	// Miscellaneous
 	/** The map with the controllers to warn */
-	private transient ParametersPanelController			controller;
+	private transient ParametersPanelController					controller;
 	
 	/**
 	 * Constructor #1.<br />
@@ -104,9 +99,9 @@ public class ParametersView extends AbstractFrame {
 			++xIndex;
 			c.gridx = xIndex;
 			c.gridwidth = 2;
-			final JComponent comp = Utils.getParameterComponent(parameter);
+			final ParameterComponent comp = pcm.getNewComponent(parameter);
 			parametersComponents.put(parameter, comp);
-			pane.add(comp, c);
+			pane.add(comp.getComponent(), c);
 			
 			// Setting the index for the next parameters
 			xIndex = 0;
@@ -135,15 +130,8 @@ public class ParametersView extends AbstractFrame {
 	 * Set the listeners on the components.
 	 */
 	private void setListeners () {
-		for (final Entry<ParametersEnum, JComponent> entry : parametersComponents.entrySet()) {
-			final ParameterChangeListener listener = new ParameterChangeListener(entry.getKey(), entry.getValue());
-			if (entry.getValue() instanceof JComboBox<?>) {
-				((JComboBox<?>) entry.getValue()).addActionListener(listener);
-			} else if (entry.getValue() instanceof JSpinner) {
-				((JSpinner) entry.getValue()).addChangeListener(listener);
-			} else {
-				entry.getValue().addFocusListener(listener);
-			}
+		for (final ParameterComponent component : parametersComponents.values()) {
+			component.installListener(this);
 		}
 		
 		validateButton.addActionListener(new ActionListener() {
@@ -175,72 +163,6 @@ public class ParametersView extends AbstractFrame {
 		});
 	}
 	
-	/**
-	 * Listener for multiple types of events on components.<br />
-	 * @author Alex
-	 */
-	public class ParameterChangeListener extends FocusAdapter implements ActionListener, ChangeListener {
-		/** The parameter being listened to */
-		private final ParametersEnum	parameter;
-		/** The component holding the value */
-		private final JComponent		component;
-		
-		/**
-		 * Constructor #1.<br />
-		 * @param parameter
-		 *        the parameter it listens to.
-		 * @param component
-		 *        the component which holds the value.
-		 */
-		public ParameterChangeListener (final ParametersEnum parameter, final JComponent component) {
-			super();
-			this.parameter = parameter;
-			this.component = component;
-		}
-		
-		/**
-		 * Process the event.<br />
-		 * Warn the controller of changes on the view.
-		 * @param e
-		 *        the event.
-		 */
-		private void event (final EventObject e) {
-			final String value = Utils.getValue(component);
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Fire change in parameter " + parameter + ": " + value);
-			}
-			controller.changeValue(parameter, value);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-		 */
-		@Override
-		public void focusLost (final FocusEvent evt) {
-			event(evt);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed (final ActionEvent e) {
-			event(e);
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-		 */
-		@Override
-		public void stateChanged (final ChangeEvent e) {
-			event(e);
-		}
-		
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * @see
@@ -262,12 +184,19 @@ public class ParametersView extends AbstractFrame {
 				final String propertyName = evt.getPropertyName().substring(parameter.getName().length());
 				if (propertyName.equals(ParameterColumn.VALUE.getPropertyName())) {
 					found = true;
-					Utils.setValue(parametersComponents.get(parameter), evt.getNewValue());
+					parametersComponents.get(parameter).setValue(evt.getNewValue());
 				}
 				if (propertyName.equals(ParameterColumn.TYPE.getPropertyName())) {
 					found = true;
 					if (lg.isLoggable(Level.FINER)) {
 						lg.fine("No component displays the type of a parameter, event ignored");
+					}
+					// Nothing to be done
+				}
+				if (propertyName.equals(ParameterColumn.COMPONENT_CLASS.getPropertyName())) {
+					found = true;
+					if (lg.isLoggable(Level.FINER)) {
+						lg.fine("No component displays the component class of a parameter, event ignored");
 					}
 					// Nothing to be done
 				}
@@ -277,5 +206,13 @@ public class ParametersView extends AbstractFrame {
 		if (!found && lg.isLoggable(Level.INFO)) {
 			lg.info("Property event not managed: " + evt.getPropertyName());
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.view.parameter.ParameterChangeListener#parameterChangeValue(java.lang.String)
+	 */
+	@Override
+	public void parameterChangeValue (final ParametersEnum parameter, final String value) {
+		controller.changeValue(parameter, value);
 	}
 }

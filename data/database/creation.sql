@@ -22,9 +22,10 @@ GRANT INSERT, SELECT, UPDATE, DELETE ON `crock`.* TO `crock`@localhost IDENTIFIE
 --	Table: PARAMETER
 -- ============================================================
 CREATE TABLE `crock`.`parameter` (
-	`name`	VARCHAR(45) NOT NULL	COMMENT 'Name of the parameter.',
-	`value`	VARCHAR(45) NOT NULL	COMMENT 'Value of the parameter.',
-	`type`	VARCHAR(45)				COMMENT 'Type of the parameter.',
+	`name`				VARCHAR(45) NOT NULL	COMMENT 'Name of the parameter.',
+	`value`				VARCHAR(45) NOT NULL	COMMENT 'Value of the parameter.',
+	`type`				VARCHAR(45)				COMMENT 'Type of the parameter.',
+	`componentClass`	VARCHAR(45)				COMMENT 'Component class of the parameter.',
 
 	PRIMARY KEY (`name`),
 	UNIQUE INDEX `parameter_name_unique`	(`name` ASC)
@@ -85,13 +86,13 @@ CREATE TABLE `crock`.`entryMemberParty` (
 -- ============================================================
 --	Data: PARAMETER
 -- ============================================================
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('lookAndFeel', 'Nimbus', 'String');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('timeLimit', '22:00', 'String');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('freeEntryFrequency', '6', 'Integer');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceTotal', '4.0', 'Double');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceFirstPart', '3.0', 'Double');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('entryPriceSecondPart', '3.0', 'Double');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('minCredit', '-10.0', 'Double');
-INSERT INTO `crock`.`parameter` (`name`, `value`, `type`) VALUES ('maxCredit', '250.0', 'Double');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('lookAndFeel', 'Nimbus', 'String', 'LAFComboBox');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('timeLimit', '22:00', 'String', 'TimeSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('freeEntryFrequency', '6', 'Integer', 'IntegerSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('entryPriceTotal', '4.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('entryPriceFirstPart', '3.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('entryPriceSecondPart', '3.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('minCredit', '-10.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('maxCredit', '250.0', 'Double', 'DoubleSpinner');
 
 commit;

@@ -24,7 +24,7 @@ public class ParameterModel extends AbstractModel {
 	/** The parameter represented by this model */
 	private final Parameter				parameter;
 	/** <code>true</code> if the parameter is on its first refresh. */
-	private final boolean	firstRefresh;
+	private final boolean				firstRefresh;
 	
 	/**
 	 * Constructor #1.<br />
@@ -102,6 +102,25 @@ public class ParameterModel extends AbstractModel {
 		fireModelChange(ParameterColumn.TYPE.getPropertyName(), oldType, type);
 	}
 	
+	/**
+	 * Return the component class.
+	 * @return the component class of the parameter.
+	 */
+	public String getComponentClass () {
+		return firstRefresh ? null : parameter.getComponentClass();
+	}
+	
+	/**
+	 * Set the type of the parameter.
+	 * @param componentClass
+	 *        the new component class.
+	 */
+	public void setComponentClass (final String componentClass) {
+		final String oldType = parameter.getComponentClass();
+		parameter.setComponentClass(componentClass);
+		fireModelChange(ParameterColumn.COMPONENT_CLASS.getPropertyName(), oldType, componentClass);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
@@ -118,6 +137,7 @@ public class ParameterModel extends AbstractModel {
 	@Override
 	public void reload () {
 		final Parameter param = parametersManager.get(ParametersEnum.fromValue(parameter.getName()));
+		setComponentClass(param.getComponentClass());
 		setType(param.getType());
 		setValue(param.getValue());
 	}
