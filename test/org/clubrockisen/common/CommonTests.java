@@ -1,5 +1,6 @@
 package org.clubrockisen.common;
 
+import org.clubrockisen.common.error.ErrorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -9,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ TimeTest.class, ConfigurationTest.class })
+@SuiteClasses({ TimeTest.class, ConfigurationTest.class, ErrorTest.class })
 public class CommonTests {
 }

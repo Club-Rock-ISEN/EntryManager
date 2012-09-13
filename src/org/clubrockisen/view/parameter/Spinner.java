@@ -55,11 +55,11 @@ public abstract class Spinner extends ParameterComponent {
 	/**
 	 * Return the spinner editor to be used.<br />
 	 * Override this method if required.
-	 * @param spinner
+	 * @param targetSpinner
 	 *        the spinner used.
 	 * @return the spinner editor.
 	 */
-	protected JComponent getSpinnerEditor (final JSpinner spinner) {
+	protected JComponent getSpinnerEditor (final JSpinner targetSpinner) {
 		// Nothing to be done
 		return null;
 	}

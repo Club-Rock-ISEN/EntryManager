@@ -92,7 +92,7 @@ public class MemberView extends AbstractFrame {
 	 */
 	@Override
 	protected void build () {
-		setTitle(translator.get(m));
+		setTitle(getTranslator().get(m));
 		setContentPane(buildMemberPanel());
 		setListeners();
 	}
@@ -110,22 +110,22 @@ public class MemberView extends AbstractFrame {
 				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
 				Utils.getDefaultInsets(), 0, 0);
 		
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.NAME))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.NAME))), c);
 		
 		c.gridy = ++yIndex;
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.GENDER))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.GENDER))), c);
 		
 		c.gridy = ++yIndex;
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.STATUS))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.STATUS))), c);
 		
 		c.gridy = ++yIndex;
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.ENTRIES))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.ENTRIES))), c);
 		
 		c.gridy = ++yIndex;
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.NEXT_FREE))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.NEXT_FREE))), c);
 		
 		c.gridy = ++yIndex;
-		pane.add(new JLabel(translator.getField(m, col.get(MemberColumn.CREDIT))), c);
+		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.CREDIT))), c);
 		
 		yIndex = 0;
 		c.gridx = ++xIndex;
@@ -150,24 +150,24 @@ public class MemberView extends AbstractFrame {
 		
 		c.gridy = ++yIndex;
 		nextFreeField = new JSpinner(new SpinnerNumberModel(0, 0,
-				Integer.parseInt(paramManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()), 1));
+				Integer.parseInt(getParamManager().get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()), 1));
 		pane.add(nextFreeField, c);
 		
 		c.gridy = ++yIndex;
 		creditField = new JSpinner(new SpinnerNumberModel(0.0,
-				Double.parseDouble(paramManager.get(ParametersEnum.MIN_CREDIT).getValue()),
-				Double.parseDouble(paramManager.get(ParametersEnum.MAX_CREDIT).getValue()),
-				0.01)); // TODO make constant?
+				Double.parseDouble(getParamManager().get(ParametersEnum.MIN_CREDIT).getValue()),
+				Double.parseDouble(getParamManager().get(ParametersEnum.MAX_CREDIT).getValue()),
+				0.01));
 		pane.add(creditField, c);
 		
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
 		c.gridwidth = 1;
-		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
+		cancelButton = new JButton(getTranslator().get(Translator.Key.MISC.cancel()));
 		pane.add(cancelButton, c);
 		
 		c.gridx = ++xIndex;
-		validateButton = new JButton(translator.get(Translator.Key.MISC.ok()));
+		validateButton = new JButton(getTranslator().get(Translator.Key.MISC.ok()));
 		pane.add(validateButton, c);
 		
 		return pane;
@@ -251,10 +251,10 @@ public class MemberView extends AbstractFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(frame, Translator.Key.GUI.dialog().notPersistedMember(),
+					Utils.showMessageDialog(getFrame(), Translator.Key.GUI.dialog().notPersistedMember(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					frame.setVisible(false);
+					getFrame().setVisible(false);
 				}
 			}
 		});
@@ -266,7 +266,7 @@ public class MemberView extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				frame.setVisible(false);
+				getFrame().setVisible(false);
 			}
 		});
 	}

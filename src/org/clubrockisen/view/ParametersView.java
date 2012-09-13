@@ -73,7 +73,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	 */
 	@Override
 	protected void build () {
-		setTitle(translator.get(Translator.Key.GUI.parameters().title()));
+		setTitle(getTranslator().get(Translator.Key.GUI.parameters().title()));
 		setContentPane(buildParametersPanel());
 		setListeners();
 	}
@@ -94,7 +94,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 		// Loop for parameters
 		for (final ParametersEnum parameter : ParametersEnum.values()) {
 			// Adding label
-			pane.add(new JLabel(translator.getField(parameter)), c);
+			pane.add(new JLabel(getTranslator().getField(parameter)), c);
 			// Adding edit field
 			++xIndex;
 			c.gridx = xIndex;
@@ -116,11 +116,11 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
 		c.gridwidth = 1;
-		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
+		cancelButton = new JButton(getTranslator().get(Translator.Key.MISC.cancel()));
 		pane.add(cancelButton, c);
 		
 		c.gridx = ++xIndex;
-		validateButton = new JButton(translator.get(Translator.Key.MISC.ok()));
+		validateButton = new JButton(getTranslator().get(Translator.Key.MISC.ok()));
 		pane.add(validateButton, c);
 		
 		return pane;
@@ -142,11 +142,11 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(frame,
+					Utils.showMessageDialog(getFrame(),
 							Translator.Key.GUI.dialog().notPersistedMember(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					frame.setVisible(false);
+					getFrame().setVisible(false);
 				}
 			}
 		});
@@ -158,7 +158,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				frame.setVisible(false);
+				getFrame().setVisible(false);
 			}
 		});
 	}

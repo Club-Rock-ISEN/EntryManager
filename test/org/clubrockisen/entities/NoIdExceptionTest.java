@@ -2,7 +2,6 @@ package org.clubrockisen.entities;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,27 +10,18 @@ import org.junit.Test;
  */
 public class NoIdExceptionTest {
 	
-	/** Exception with the entity that generated the problem */
-	private NoIdException	memberException;
 	/** Exception with no entity information */
-	private NoIdException	unknownException;
-	
-	/**
-	 * Build the exception which will be used in the tests.
-	 */
-	@Before
-	public void setUp () {
-		memberException = new NoIdException(Member.class);
-		unknownException = new NoIdException();
-	}
+	private final NoIdException	unknownException = new NoIdException();
+	/** Exception with the entity that generated the problem */
+	private final NoIdException	memberException = new NoIdException(Member.class);
 	
 	/**
 	 * Test method for {@link org.clubrockisen.entities.NoIdException#getEntityClass()}.
 	 */
 	@Test
 	public void testGetEntityClass () {
-		assertEquals(Member.class, memberException.getEntityClass());
 		assertEquals(Entity.class, unknownException.getEntityClass());
+		assertEquals(Member.class, memberException.getEntityClass());
 	}
 	
 	/**
@@ -39,7 +29,7 @@ public class NoIdExceptionTest {
 	 */
 	@Test
 	public void testGetMessage () {
-		assertEquals("Could not find id column in entity Member", memberException.getMessage());
 		assertEquals("Could not find id column in entity Entity", unknownException.getMessage());
+		assertEquals("Could not find id column in entity Member", memberException.getMessage());
 	}
 }

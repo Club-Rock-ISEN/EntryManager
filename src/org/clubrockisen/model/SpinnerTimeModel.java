@@ -4,12 +4,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractSpinnerModel;
-import javax.swing.JSpinner;
 
 import org.clubrockisen.common.Time;
 
 /**
- * Model for a {@link JSpinner} on {@link Time}.<br />
+ * Model for a JSpinner on {@link Time}.<br />
  * Allow to set a value using a {@link Time} or a {@link String} which can be formatted using
  * {@link Time#get(String)}.
  * @author Alex

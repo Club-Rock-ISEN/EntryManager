@@ -7,7 +7,7 @@ import javax.swing.SpinnerModel;
 import org.clubrockisen.common.Time;
 import org.clubrockisen.model.SpinnerTimeModel;
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.renderers.SpinnerTimeRenderer;
+import org.clubrockisen.view.renderers.SpinnerEditableRenderer;
 
 /**
  * A spinner for editing an time parameter.<br />
@@ -38,8 +38,8 @@ public class TimeSpinner extends Spinner {
 	 * @see org.clubrockisen.view.parameter.Spinner#getSpinnerEditor(javax.swing.JSpinner)
 	 */
 	@Override
-	protected JComponent getSpinnerEditor (final JSpinner spinner) {
-		return new SpinnerTimeRenderer(spinner);
+	protected JComponent getSpinnerEditor (final JSpinner targetSpinner) {
+		return new SpinnerEditableRenderer(targetSpinner);
 	}
 	
 }
