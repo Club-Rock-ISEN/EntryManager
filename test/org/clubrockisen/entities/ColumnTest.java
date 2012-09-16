@@ -2,6 +2,7 @@ package org.clubrockisen.entities;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -138,9 +139,9 @@ public class ColumnTest {
 		final Column newIdColumn = new Column(idColumn.getType(), idColumn.getName(), idColumn.isID());
 		final Column newOtherColumn = new Column(otherColumn.getType(), otherColumn.getName(), otherColumn.isID());
 		
-		assertTrue(!idColumn.equals(null));
+		assertFalse(idColumn.equals(null));
 		assertTrue(idColumn.equals(idColumn));
-		assertTrue(!idColumn.equals(new Object()));
+		assertFalse(idColumn.equals(new Object()));
 		
 		assertEquals(idColumn, newIdColumn);
 		assertEquals(otherColumn, newOtherColumn);

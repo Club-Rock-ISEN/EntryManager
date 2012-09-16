@@ -157,7 +157,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				//lg.info("found: " + daoMember.find(10000));
 				//final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
 				//daoMember.delete(m);
-				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
+				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barfï¿½ty").get(0);
 				//tmp.setEntries(tmp.getEntries()+1);
 				//tmp.setName("SUCCESS");
 				//daoMember.update(tmp);
@@ -280,7 +280,7 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(mainWindow,
-						SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
+						SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barfï¿½ty.\n"
 								+ SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().license()),
 								SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().title()),
 								JOptionPane.INFORMATION_MESSAGE);
@@ -484,7 +484,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nameField = new JLabel("Alex Barféty");
+		nameField = new JLabel("Alex Barfï¿½ty");
 		pane.add(nameField, c);
 		
 		c = new GridBagConstraints();
@@ -794,7 +794,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		revenueField = new JLabel("48 €");
+		revenueField = new JLabel("48 eur");
 		pane.add(revenueField, c);
 		
 		c = new GridBagConstraints();
@@ -807,7 +807,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		profitField = new JLabel("8 €");
+		profitField = new JLabel("8 eur");
 		pane.add(profitField, c);
 		
 		return pane;

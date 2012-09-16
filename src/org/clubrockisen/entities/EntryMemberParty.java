@@ -4,11 +4,13 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.AttributeComparator;
+
 /**
  * Class representing a entry of a {@link Member} to a {@link Party}.
  * @author Alex
  */
-public class EntryMemberParty extends Entity {
+public class EntryMemberParty extends Entity implements Cloneable {
 	/** Logger */
 	private static Logger					lg					= Logger.getLogger(EntryMemberParty.class.getName());
 	
@@ -204,6 +206,51 @@ public class EntryMemberParty extends Entity {
 	 */
 	public void setIdParty (final Integer idParty) {
 		this.idParty = idParty;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode () {
+		return AttributeComparator.hashCode(-1, new Object[] {idEntryMemberParty, idMember, idParty});
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals (final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof EntryMemberParty)) {
+			return false;
+		}
+		final EntryMemberParty other = (EntryMemberParty) obj;
+		final AttributeComparator comparator = new AttributeComparator();
+		comparator.add(idEntryMemberParty, other.idEntryMemberParty);
+		comparator.add(idMember, other.idMember);
+		comparator.add(idParty, other.idParty);
+		return comparator.areEquals();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.entities.Entity#clone()
+	 */
+	@Override
+	public EntryMemberParty clone () throws CloneNotSupportedException {
+		final EntryMemberParty clone =  (EntryMemberParty) super.clone();
+		clone.idEntryMemberParty = idEntryMemberParty;
+		clone.idMember = idMember;
+		clone.idParty = idParty;
+		return clone;
 	}
 	
 }

@@ -1,6 +1,9 @@
 package org.clubrockisen.entities;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -269,6 +272,88 @@ public class EntryMemberPartyTest {
 	public void testGenerateSearchAllQuerySQL () {
 		for (final EntryMemberParty entry : entries) {
 			assertEquals("SELECT * FROM entryMemberParty", entry.generateSearchAllQuerySQL());
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Entity#hashCode()}.
+	 */
+	@Test
+	public void testHashCode () {
+		for (final EntryMemberParty entry : entries) {
+			// Checking that all hash codes are different
+			for (final EntryMemberParty other : entries) {
+				if (entry != other) {
+					assertThat(entry.hashCode(), not(other.hashCode()));
+				}
+			}
+			try {
+				final EntryMemberParty clone = entry.clone();
+				assertEquals(entry.hashCode(), clone.hashCode());
+				clone.setIdEntryMemberParty(entry.getIdEntryMemberParty() + 1);
+				assertThat(entry.hashCode(), not(clone.hashCode()));
+				clone.setIdEntryMemberParty(entry.getIdEntryMemberParty());
+				clone.setIdMember(entry.getIdMember() + 1);
+				assertThat(entry.hashCode(), not(clone.hashCode()));
+				clone.setIdMember(entry.getIdMember());
+				clone.setIdParty(entry.getIdParty() + 1);
+				assertThat(entry.hashCode(), not(clone.hashCode()));
+			} catch (final CloneNotSupportedException e) {
+				fail(e.getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Entity#equals(Object)}.
+	 */
+	@Test
+	public void testEquals () {
+		for (final EntryMemberParty entry : entries) {
+			// Checking that all hash codes are different
+			for (final EntryMemberParty other : entries) {
+				if (entry != other) {
+					assertThat(entry, not(other));
+				} else {
+					assertEquals(entry, other);
+				}
+			}
+			// Checking clones
+			try {
+				final EntryMemberParty clone = entry.clone();
+				assertEquals(entry, clone);
+				clone.setIdEntryMemberParty(entry.getIdEntryMemberParty() + 1);
+				assertThat(entry, not(clone));
+				clone.setIdEntryMemberParty(entry.getIdEntryMemberParty());
+				clone.setIdMember(entry.getIdMember() + 1);
+				assertThat(entry, not(clone));
+				clone.setIdMember(entry.getIdMember());
+				clone.setIdParty(entry.getIdParty() + 1);
+				assertThat(entry, not(clone));
+			} catch (final CloneNotSupportedException e) {
+				fail(e.getMessage());
+			}
+			
+			// Other cases
+			assertThat(null, not(entry));
+			assertFalse(entry.equals(entries));
+		}
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.entities.Parameter#clone()}.
+	 */
+	@Test
+	public void testClone () {
+		try {
+			for (final EntryMemberParty entry : entries) {
+				final EntryMemberParty other = entry.clone();
+				assertEquals(entry.getIdEntryMemberParty(), other.getIdEntryMemberParty());
+				assertEquals(entry.getIdMember(), other.getIdMember());
+				assertEquals(entry.getIdParty(), other.getIdParty());
+			}
+		} catch (final CloneNotSupportedException e) {
+			fail(e.getMessage());
 		}
 	}
 }

@@ -13,12 +13,12 @@
 	<property name="data.dir" value="${basedir}/data" description="The data directory with the file needed by the application." />
 	<property name="lib.dir" value="${basedir}/lib" description="The library directory." />
 	<property name="doc.dir" value="${basedir}/doc" description="The javadoc directory." />
-    <property name="reports.dir" value="${basedir}/report" description="The reporting directory." />
 	<property name="target.dir" value="${basedir}/target/" description="The target directory for the generated executable files." />
 	<property name="target.lib.dir.name" value="lib" description="The name of the libraries directory in the target folder." />
 	<property name="target.data.dir.name" value="data" description="The name of the data directory in the target folder." />
 	<property name="launcher.name" value="crock.bat" description="The name of the launcher for the jar." />
 	<property name="launcher" value="${data.dir}/${launcher.name}" description="The launcher for the jar." />
+    <property name="reports.dir" value="${target.dir}/report" description="The reporting directory." />
 	<property name="archive.name" value="crock.zip" description="The archive name." />
 	<property name="main.class" value="org.clubrockisen.App" description="The entry point of the application." />
 
@@ -48,9 +48,9 @@
 		         ================================= -->
     <target name="cleanInstall" depends="clean" description="Clean all the files exect the archive.">
         <delete includeemptydirs="true" verbose="true">
+            <fileset dir="${reports.dir}" includes="**/*" />
 			<fileset dir="${target.dir}" includes="**/*" />
         	<fileset dir="${doc.dir}" includes="**/*" />
-            <fileset dir="${reports.dir}" includes="**/*" />
 		</delete>
     </target>
 	
@@ -165,9 +165,6 @@
 			<classpath>
 				<path refid="classpath" />
 				<path location="${bin.dir}" />
-			    <fileset dir="${lib.dir}">
-			        <include name="**/*.jar" />
-			    </fileset>
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="${reports.dir}">

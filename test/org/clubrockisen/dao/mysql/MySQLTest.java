@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ MySQLDAOFactoryTest.class, MySQLParameterDAOTest.class })
+@SuiteClasses({ MySQLDAOFactoryTest.class, MySQLParameterDAOTest.class, MySQLEntryMemberPartyDAOTest.class })
 public class MySQLTest {
 }

@@ -2,6 +2,7 @@ package org.clubrockisen.entities;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -312,16 +313,20 @@ public class ParameterTest {
 					assertThat(parameter.hashCode(), not(other.hashCode()));
 				}
 			}
-			final Parameter clone = new Parameter(parameter.getName(), parameter.getValue(), parameter.getType(), parameter.getComponentClass());
-			assertEquals(parameter.hashCode(), clone.hashCode());
-			clone.setType(parameter.getType() + "/");
-			assertThat(parameter.hashCode(), not(clone.hashCode()));
-			clone.setType(parameter.getType());
-			clone.setValue(parameter.getValue() + "./");
-			assertThat(parameter.hashCode(), not(clone.hashCode()));
-			clone.setValue(parameter.getValue());
-			clone.setComponentClass(parameter.getComponentClass() + ".field");
-			assertThat(parameter.hashCode(), not(clone.hashCode()));
+			try {
+				final Parameter clone = parameter.clone();
+				assertEquals(parameter.hashCode(), clone.hashCode());
+				clone.setType(parameter.getType() + "/");
+				assertThat(parameter.hashCode(), not(clone.hashCode()));
+				clone.setType(parameter.getType());
+				clone.setValue(parameter.getValue() + "./");
+				assertThat(parameter.hashCode(), not(clone.hashCode()));
+				clone.setValue(parameter.getValue());
+				clone.setComponentClass(parameter.getComponentClass() + ".field");
+				assertThat(parameter.hashCode(), not(clone.hashCode()));
+			} catch (final CloneNotSupportedException e) {
+				fail(e.getMessage());
+			}
 		}
 	}
 	
@@ -339,6 +344,7 @@ public class ParameterTest {
 					assertEquals(parameter, other);
 				}
 			}
+			// Checking clones
 			try {
 				final Parameter clone = parameter.clone();
 				assertEquals(parameter, clone);
@@ -353,6 +359,10 @@ public class ParameterTest {
 			} catch (final CloneNotSupportedException e) {
 				fail(e.getMessage());
 			}
+			
+			// Other cases
+			assertThat(null, not(parameter));
+			assertFalse(parameter.equals(parameters));
 		}
 	}
 	

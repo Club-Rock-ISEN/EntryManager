@@ -27,8 +27,11 @@ public final class Utils {
 	/** The services */
 	private static final ServiceFactory	SERVICES		= ServiceFactory.getImplementation();
 	
+	// Default constants used in GUI
 	/** Default insets to be used */
 	private static final Insets			DEFAULT_INSETS	= new Insets(5, 5, 5, 5);
+	/** Maximum length for a string in a dialog */
+	private static final int			LINE_MAX_LENGTH	= 65;
 	
 	/**
 	 * Constructor #1.<br />
@@ -51,7 +54,7 @@ public final class Utils {
 	 *        the name of the look and feel to set.
 	 */
 	public static void setLookAndFeel (final String lookAndFeelName) {
-		boolean lookAndFeelFound = false;
+		boolean lookAndFeelApplied = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine(laf.getName());
@@ -62,17 +65,17 @@ public final class Utils {
 					if (lg.isLoggable(Level.FINE)) {
 						lg.fine("Look and feel properly setted (" + laf.getName() + ").");
 					}
-					lookAndFeelFound = true;
+					lookAndFeelApplied = true;
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e) {
 					lg.warning("Could not set the look and feel " + laf.getName() + ". " +
 							e.getClass() + ", " + e.getMessage());
-					lookAndFeelFound = false;
+					lookAndFeelApplied = false;
 				}
 			}
 		}
 		// Applying changes to application
-		if (lookAndFeelFound) {
+		if (lookAndFeelApplied) {
 			for (final Frame frame : Frame.getFrames()) {
 				SwingUtilities.updateComponentTreeUI(frame);
 				frame.pack();
@@ -98,8 +101,51 @@ public final class Utils {
 	 */
 	public static void showMessageDialog (final Component parent, final AbstractDialog dialog,
 			final int type) {
-		JOptionPane.showMessageDialog(parent, SERVICES.getTranslator().get(dialog.message()),
-				SERVICES.getTranslator().get(dialog.title()), type);
+		final String message = multiLineHTML(SERVICES.getTranslator().get(dialog.message()));
+		JOptionPane.showMessageDialog(parent, message, SERVICES.getTranslator().get(dialog.title()), type);
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @return the string divided in several lines.
+	 */
+	public static String multiLine (final String input) {
+		// If input is shorter than the limit
+		if (input.trim().length() < LINE_MAX_LENGTH) {
+			return input.trim();
+		}
+		
+		// Other cases
+		final StringBuilder result = new StringBuilder();
+		String remaining = input;
+		while (remaining.length() > LINE_MAX_LENGTH) {
+			String nextLine = remaining.substring(0, LINE_MAX_LENGTH);
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Writing next line '" + nextLine + "'");
+			}
+			nextLine = nextLine.substring(0, nextLine.lastIndexOf(' '));
+			result.append(nextLine).append("<br />");
+			remaining = remaining.substring(nextLine.length()).trim();
+		}
+		result.append(remaining);
+		
+		return result.toString();
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @return the content spread on several lines (using <code>&lt;br /&gt;</code>) and between
+	 *         <code>&lt;html&gt;</code> tags.
+	 * @see #multiLine(String)
+	 */
+	public static String multiLineHTML (final String input) {
+		final StringBuilder result = new StringBuilder("<html>");
+		result.append(multiLine(input)).append("</html>");
+		return result.toString().replace("\n", "<br />");
 	}
 	
 	/**

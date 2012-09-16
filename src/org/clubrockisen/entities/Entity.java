@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * Represent an abstract entity of the database.<br />
  * @author Alex
  */
-public abstract class Entity implements Serializable, Cloneable {
+public abstract class Entity implements Serializable {
 	/** Logger */
 	private static Logger								lg					= Logger.getLogger(Entity.class.getName());
 	
@@ -56,6 +56,15 @@ public abstract class Entity implements Serializable, Cloneable {
 	 * @return the id of the object.
 	 */
 	public abstract String getID ();
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Entity clone () throws CloneNotSupportedException {
+		return (Entity) super.clone();
+	}
 	
 	/**
 	 * Return the id {@link Column} of the entity.

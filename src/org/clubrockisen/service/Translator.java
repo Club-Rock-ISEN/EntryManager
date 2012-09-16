@@ -816,8 +816,8 @@ public final class Translator implements ITranslator {
 				public abstract static class AbstractDialog {
 					
 					/**
-					 * Provide the key to the dialog, which allow to define the {@link #title()}
-					 * and {@link #message()} method at this level.
+					 * Provide the key to the dialog, which allow to define the {@link #title()} and
+					 * {@link #message()} method at this level.
 					 */
 					@Override
 					public abstract String toString ();
@@ -976,6 +976,45 @@ public final class Translator implements ITranslator {
 				 */
 				public NotPersistedMember notPersistedMember () {
 					return new NotPersistedMember(dialogKey);
+				}
+				
+				/**
+				 * The dialog to warn when a parameter is not persisted.
+				 * @author Alex
+				 */
+				public static final class NotPersistedParameter extends AbstractDialog {
+					/** The key to the not persisted parameter dialog */
+					private final String	notPersistedParameter;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the not persisted parameter dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private NotPersistedParameter (final String parentKey) {
+						super();
+						notPersistedParameter = parentKey + "." + "notPersistedParameter";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return notPersistedParameter;
+					}
+					
+				}
+				
+				/**
+				 * Access to the translations for the not persisted parameter.
+				 * @return the not persisted parameter dialog translations.
+				 */
+				public AbstractDialog notPersistedParameter () {
+					return new NotPersistedParameter(dialogKey);
 				}
 				
 			}

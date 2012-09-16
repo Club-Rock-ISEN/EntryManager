@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.AttributeComparator;
+
 /**
  * Class representing a column in a entity.<br />
  * It is defined by a name and a type. The column should be load once and for all to avoid unnecessary
@@ -128,12 +130,7 @@ public class Column implements Serializable {
 	 */
 	@Override
 	public int hashCode () {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (Boolean.valueOf(isID).hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+		return AttributeComparator.hashCode(new Object[] {name, type, isID});
 	}
 	
 	/*
@@ -152,24 +149,11 @@ public class Column implements Serializable {
 			return false;
 		}
 		final Column other = (Column) obj;
-		if (isID != other.isID) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (type == null) {
-			if (other.type != null) {
-				return false;
-			}
-		} else if (!type.equals(other.type)) {
-			return false;
-		}
-		return true;
+		final AttributeComparator comparator = new AttributeComparator();
+		comparator.add(type, other.type);
+		comparator.add(name, other.name);
+		comparator.add(isID, other.isID);
+		return comparator.areEquals();
 	}
 	
 }

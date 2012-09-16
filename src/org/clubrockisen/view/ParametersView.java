@@ -143,7 +143,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
 					Utils.showMessageDialog(getFrame(),
-							Translator.Key.GUI.dialog().notPersistedMember(),
+							Translator.Key.GUI.dialog().notPersistedParameter(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					getFrame().setVisible(false);

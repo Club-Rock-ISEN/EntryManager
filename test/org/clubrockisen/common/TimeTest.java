@@ -2,6 +2,7 @@ package org.clubrockisen.common;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -166,7 +167,7 @@ public class TimeTest {
 	public void testAfter () {
 		for (int index = 0; index < times.size() - 1; ++index) {
 			assertTrue(times.get(index + 1).after(times.get(index)));
-			assertTrue(!times.get(index).after(times.get(index + 1)));
+			assertFalse(times.get(index).after(times.get(index + 1)));
 		}
 		assertTrue(Time.get("16h1").after(Time.get("4h02")));
 	}
@@ -178,7 +179,7 @@ public class TimeTest {
 	public void testBefore () {
 		for (int index = 0; index < times.size() - 1; ++index) {
 			assertTrue(times.get(index).before(times.get(index + 1)));
-			assertTrue(!times.get(index + 1).before(times.get(index)));
+			assertFalse(times.get(index + 1).before(times.get(index)));
 		}
 		assertTrue(Time.get("2h08m").before(Time.get("4h02")));
 	}
@@ -230,8 +231,8 @@ public class TimeTest {
 			assertThat(new Time(time.getHours() + 1, time.getMinutes()), not(time));
 			assertEquals(time, new Time(time.getHours(), time.getMinutes()));
 			assertEquals(time, time);
-			assertTrue(!time.equals(null));
-			assertTrue(!time.equals(new Object()));
+			assertFalse(time.equals(null));
+			assertFalse(time.equals(new Object()));
 		}
 	}
 }

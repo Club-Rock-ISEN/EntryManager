@@ -2,6 +2,7 @@ package org.clubrockisen.dao.mysql;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -106,7 +107,7 @@ public class MySQLParameterDAOTest {
 		} catch (final CloneNotSupportedException e) {
 			fail(e.getMessage());
 		}
-		assertTrue(!parameterDAO.update(null));
+		assertFalse(parameterDAO.update(null));
 	}
 	
 	/**
@@ -116,7 +117,6 @@ public class MySQLParameterDAOTest {
 	public void testDelete () {
 		assertEquals(false, parameterDAO.delete(null));
 		assertEquals(false, parameterDAO.delete(new Parameter()));
-		// TODO
 	}
 	
 	/**

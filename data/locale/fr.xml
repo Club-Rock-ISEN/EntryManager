@@ -73,9 +73,12 @@
 	<!-- The error dialog for no members selected -->
 	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
 	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
-	<!-- The error dialog for no members selected -->
-	<entry key="gui.dialog.notPersistedMember.title">Erreur</entry>
-	<entry key="gui.dialog.notPersistedMember.message">L'enregistrement du membre a échoué.</entry>
+	<!-- The error dialog for failure to persist member -->
+	<entry key="gui.dialog.notPersistedMember.title">Erreur de persistance</entry>
+	<entry key="gui.dialog.notPersistedMember.message">Les modifications du membre n'ont pas pu être enregistrées,&lt;br /&gt;consultez les journaux pour des informations détaillées.</entry>
+	<!-- The error dialog for failure to persist parameter -->
+	<entry key="gui.dialog.notPersistedParameter.title">Erreur de persistance</entry>
+	<entry key="gui.dialog.notPersistedParameter.message">Les modifications des paramètres n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>
