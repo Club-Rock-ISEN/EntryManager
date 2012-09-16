@@ -62,7 +62,7 @@ public abstract class Entity implements Serializable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public Entity clone () throws CloneNotSupportedException {
+	protected Entity clone () throws CloneNotSupportedException {
 		return (Entity) super.clone();
 	}
 	

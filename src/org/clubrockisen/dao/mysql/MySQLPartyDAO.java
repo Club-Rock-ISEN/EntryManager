@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +66,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 		final Party newParty = new Party();
 		
 		newParty.setIdParty(result.getInt(columns.get(PartyColumn.ID).getName()));
-		newParty.setDate(result.getDate(columns.get(PartyColumn.DATE).getName()));
+		newParty.setDate(result.getDate(columns.get(PartyColumn.DATE).getName()).getTime());
 		newParty.setEntriesTotal(result.getInt(columns.get(PartyColumn.ENTRIES_TOTAL).getName()));
 		newParty.setEntriesFirstPart(result.getInt(columns.get(PartyColumn.ENTRIES_FIRST_PART).getName()));
 		newParty.setEntriesSecondPart(result.getInt(columns.get(PartyColumn.ENTRIES_SECOND_PART).getName()));
@@ -96,7 +97,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateInsertQuerySQL(false) + " ("
-					+ "'" + dateFormat.format(obj.getDate()) + "',"
+					+ "'" + dateFormat.format(new Date(obj.getDate())) + "',"
 					+ "'" + obj.getEntriesTotal() + "',"
 					+ "'" + obj.getEntriesFirstPart() + "',"
 					+ "'" + obj.getEntriesSecondPart() + "',"
@@ -140,7 +141,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
-					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(obj.getDate()) + "', " +
+					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(new Date(obj.getDate())) + "', " +
 					columns.get(PartyColumn.ENTRIES_TOTAL).getName() + " = '" + obj.getEntriesTotal() + "', " +
 					columns.get(PartyColumn.ENTRIES_FIRST_PART).getName() + " = '" + obj.getEntriesFirstPart() + "', " +
 					columns.get(PartyColumn.ENTRIES_SECOND_PART).getName() + " = '" + obj.getEntriesSecondPart() + "', " +

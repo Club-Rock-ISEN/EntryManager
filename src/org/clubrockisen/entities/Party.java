@@ -27,7 +27,7 @@ public class Party extends Entity {
 	/** The id of the party */
 	private Integer							idParty;
 	/** The date of the party */
-	private Date							date;
+	private Long							date;
 	/** The total entries of the party */
 	private Integer							entriesTotal;
 	/** The number of entries during the first part */
@@ -183,7 +183,7 @@ public class Party extends Entity {
 	 * @param profit
 	 *        the profit of the party.
 	 */
-	public Party (final Integer idParty, final Date date, final Integer entriesTotal,
+	public Party (final Integer idParty, final Long date, final Integer entriesTotal,
 			final Integer entriesFirstPart, final Integer entriesSecondPart,
 			final Integer entriesNewMembers, final Integer entriesFree, final Integer entriesMale,
 			final Integer entriesFemale, final Double revenue, final Double profit) {
@@ -215,7 +215,7 @@ public class Party extends Entity {
 	 * @param date
 	 *        the date of the party.
 	 */
-	public Party (final Date date) {
+	public Party (final Long date) {
 		this (null, date, null, null, null, null, null, null, null, null, null);
 	}
 	
@@ -239,16 +239,16 @@ public class Party extends Entity {
 	 * Return the date.
 	 * @return the date.
 	 */
-	public Date getDate () {
-		return date == null ? new Date() : date;
+	public Long getDate () {
+		return date == null ? 0 : date;
 	}
 	
 	/**
 	 * Set the date.
-	 * @param date the date to set.
+	 * @param l the date to set.
 	 */
-	public void setDate (final Date date) {
-		this.date = date;
+	public void setDate (final long l) {
+		this.date = l;
 	}
 	
 	/**
@@ -401,7 +401,7 @@ public class Party extends Entity {
 	 */
 	@Override
 	public String toString () { // TODO edit
-		return new SimpleDateFormat("EEEE d MMMM yyyy").format(getDate()) + " (id: " + idParty + ")";
+		return new SimpleDateFormat("EEEE d MMMM yyyy").format(new Date(getDate())) + " (id: " + idParty + ")";
 	}
 	
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +37,15 @@ public class PartyTest {
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
-		partyFromDate = new Party(today.getTime());
+		today.set(Calendar.MILLISECOND, 0);
+		partyFromDate = new Party(today.getTimeInMillis());
 		final Calendar yesterday = Calendar.getInstance();
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
 		yesterday.set(Calendar.MINUTE, 0);
 		yesterday.set(Calendar.SECOND, 0);
+		yesterday.set(Calendar.MILLISECOND, 0);
 		yesterday.add(Calendar.DAY_OF_MONTH, -1);
-		fullParty = new Party(2, yesterday.getTime(), 20, 18, 2, 4, 3, 8, 12, 68.0, -15.0);
+		fullParty = new Party(2, yesterday.getTimeInMillis(), 20, 18, 2, 4, 3, 8, 12, 68.0, -15.0);
 		
 		parties = new ArrayList<>(3);
 		parties.add(nullParty);
@@ -169,15 +170,17 @@ public class PartyTest {
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
+		today.set(Calendar.MILLISECOND, 0);
 		final Calendar yesterday = Calendar.getInstance();
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
 		yesterday.set(Calendar.MINUTE, 0);
 		yesterday.set(Calendar.SECOND, 0);
+		yesterday.set(Calendar.MILLISECOND, 0);
 		yesterday.add(Calendar.DAY_OF_MONTH, -1);
 		
-		assertEquals(new Date(), nullParty.getDate());
-		assertEquals(today.getTime(), partyFromDate.getDate());
-		assertEquals(yesterday.getTime(), fullParty.getDate());
+		assertEquals(0L, (long) nullParty.getDate());
+		assertEquals(today.getTimeInMillis(), (long) partyFromDate.getDate());
+		assertEquals(yesterday.getTimeInMillis(), (long) fullParty.getDate());
 	}
 	
 	/**
@@ -189,25 +192,28 @@ public class PartyTest {
 		beforeYesterday.set(Calendar.HOUR_OF_DAY, 0);
 		beforeYesterday.set(Calendar.MINUTE, 0);
 		beforeYesterday.set(Calendar.SECOND, 0);
+		beforeYesterday.set(Calendar.MILLISECOND, 0);
 		beforeYesterday.add(Calendar.DAY_OF_MONTH, -2);
-		nullParty.setDate(beforeYesterday.getTime());
+		nullParty.setDate(beforeYesterday.getTimeInMillis());
 		
 		final Calendar tomorrow = Calendar.getInstance();
 		tomorrow.set(Calendar.HOUR_OF_DAY, 0);
 		tomorrow.set(Calendar.MINUTE, 0);
 		tomorrow.set(Calendar.SECOND, 0);
 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-		partyFromDate.setDate(tomorrow.getTime());
+		tomorrow.set(Calendar.MILLISECOND, 0);
+		partyFromDate.setDate(tomorrow.getTimeInMillis());
 		final Calendar afterTomorrow = Calendar.getInstance();
 		afterTomorrow.set(Calendar.HOUR_OF_DAY, 0);
 		afterTomorrow.set(Calendar.MINUTE, 0);
 		afterTomorrow.set(Calendar.SECOND, 0);
+		afterTomorrow.set(Calendar.MILLISECOND, 0);
 		afterTomorrow.add(Calendar.DAY_OF_MONTH, 2);
-		fullParty.setDate(afterTomorrow.getTime());
+		fullParty.setDate(afterTomorrow.getTimeInMillis());
 		
-		assertEquals(beforeYesterday.getTime(), nullParty.getDate());
-		assertEquals(tomorrow.getTime(), partyFromDate.getDate());
-		assertEquals(afterTomorrow.getTime(), fullParty.getDate());
+		assertEquals(beforeYesterday.getTimeInMillis(), (long) nullParty.getDate());
+		assertEquals(tomorrow.getTimeInMillis(), (long) partyFromDate.getDate());
+		assertEquals(afterTomorrow.getTimeInMillis(), (long) fullParty.getDate());
 	}
 	
 	/**
