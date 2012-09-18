@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * This class is immutable.
  * @author Alex
  */
-public class Time implements Serializable, Comparable<Time>, Cloneable {
+public class Time implements Serializable, java.lang.Comparable<Time>, Cloneable {
 	/** Logger */
 	private static Logger		lg					= Logger.getLogger(Time.class.getName());
 	
