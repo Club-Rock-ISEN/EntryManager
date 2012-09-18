@@ -16,6 +16,7 @@
 	<property name="target.dir" value="${basedir}/target/" description="The target directory for the generated executable files." />
 	<property name="target.lib.dir.name" value="lib" description="The name of the libraries directory in the target folder." />
 	<property name="target.data.dir.name" value="data" description="The name of the data directory in the target folder." />
+    <property name="target.conf.dir.name" value="conf" description="The name of the configuration directory in the target folder." />
 	<property name="launcher.name" value="crock.bat" description="The name of the launcher for the jar." />
 	<property name="launcher" value="${data.dir}/${launcher.name}" description="The launcher for the jar." />
     <property name="reports.dir" value="${target.dir}/report" description="The reporting directory." />
@@ -103,6 +104,10 @@
 				includes="**/*"
 				excludes="**/${launcher.name}" />
 		</copy>
+	    <!-- Copying the configuration file and the logging properties -->
+	    <copy todir="${target.dir}/${target.conf.dir.name}">
+	        <fileset dir="${conf.dir}" includes="**/*" />
+	    </copy>
 		<!-- Finally, creating the jar -->
 		<jar destfile="${target.dir}/${ant.project.name}.jar" basedir="${bin.dir}">
 			<manifest>
@@ -132,6 +137,9 @@
           target: archive              
 		         ================================= -->
     <target name="archive" depends="jar" description="Gather and archive the executable and the required files.">
+        <delete includeemptydirs="true" verbose="true">
+            <fileset dir="${reports.dir}" includes="**/*" />
+		</delete>
         <zip destfile="${basedir}/${archive.name}">
         	<fileset dir="${target.dir}">
         		<include name="**/*" />
