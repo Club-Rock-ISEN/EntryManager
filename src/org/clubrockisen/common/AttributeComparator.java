@@ -15,8 +15,6 @@ public class AttributeComparator {
 	/** Logger */
 	private static Logger		lg					= Logger.getLogger(AttributeComparator.class.getName());
 	
-	/** Default prime number to use for hash code computation */
-	private static final int	PRIME_FOR_HASHCODE	= 31;
 	
 	/**
 	 * Represent a couple of attributes of the same type.
@@ -168,7 +166,7 @@ public class AttributeComparator {
 	 * @see #hashCode(int, int, Iterable)
 	 */
 	public static int hashCode (final int nullValue, final Iterable<Object> attributes) {
-		return hashCode(nullValue, PRIME_FOR_HASHCODE, attributes);
+		return hashCode(nullValue, Constants.PRIME_FOR_HASHCODE, attributes);
 	}
 	
 	/**

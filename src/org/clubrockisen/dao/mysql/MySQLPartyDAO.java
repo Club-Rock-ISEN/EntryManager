@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.NoIdException;
 import org.clubrockisen.entities.Party;
@@ -26,8 +27,8 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	
 	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
-	/** Date format used in the database TODO make configurable (or parameter) or better, used prepared statements */
-	private final SimpleDateFormat					dateFormat;
+	/** Date format used in the database */
+	private final SimpleDateFormat					dateFormat = new SimpleDateFormat(Constants.SQL_DATE_FORMAT);
 	/** Sample to be used by the super class */
 	private Party									partySample;
 	
@@ -44,7 +45,6 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
 		columns = new Party().getEntityColumns();
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
 	/* (non-Javadoc)

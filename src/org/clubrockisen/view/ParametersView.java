@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.service.Translator;
@@ -89,7 +90,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 		int yIndex = 0;
 		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.16,
 				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
-				Utils.getDefaultInsets(), 0, 0);
+				Constants.DEFAULT_INSETS, 0, 0);
 		
 		// Loop for parameters
 		for (final ParametersEnum parameter : ParametersEnum.values()) {

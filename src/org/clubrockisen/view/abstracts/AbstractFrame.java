@@ -26,15 +26,15 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	
 	// Services
 	/** Parameters manager */
-	private final transient IParametersManager	paramManager		= ServiceFactory.getImplementation().getParameterManager();
+	private final transient IParametersManager		paramManager		= ServiceFactory.getImplementation().getParameterManager();
 	/** Translator */
-	private final transient ITranslator			translator			= ServiceFactory.getImplementation().getTranslator();
+	private final transient ITranslator				translator			= ServiceFactory.getImplementation().getTranslator();
 	
 	// Miscellaneous
 	/** <code>true</code> when the window is ready (GUI built) */
 	private boolean									ready;
 	/** Reference to this */
-	private final AbstractFrame					frame;
+	private final AbstractFrame						frame;
 	
 	/**
 	 * Constructor #1.<br />

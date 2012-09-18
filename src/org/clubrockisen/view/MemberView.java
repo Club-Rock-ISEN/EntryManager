@@ -21,6 +21,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
@@ -108,7 +109,7 @@ public class MemberView extends AbstractFrame {
 		int yIndex = 0;
 		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.16,
 				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
-				Utils.getDefaultInsets(), 0, 0);
+				Constants.DEFAULT_INSETS, 0, 0);
 		
 		pane.add(new JLabel(getTranslator().getField(m, col.get(MemberColumn.NAME))), c);
 		
@@ -157,7 +158,7 @@ public class MemberView extends AbstractFrame {
 		creditField = new JSpinner(new SpinnerNumberModel(0.0,
 				Double.parseDouble(getParamManager().get(ParametersEnum.MIN_CREDIT).getValue()),
 				Double.parseDouble(getParamManager().get(ParametersEnum.MAX_CREDIT).getValue()),
-				0.01));
+				Constants.STEP_MONEY));
 		pane.add(creditField, c);
 		
 		c.gridy = ++yIndex;

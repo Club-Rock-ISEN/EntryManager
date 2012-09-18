@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 
-import org.clubrockisen.common.Time;
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.model.SpinnerTimeModel;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.renderers.SpinnerEditableRenderer;
@@ -30,7 +30,8 @@ public class TimeSpinner extends Spinner {
 	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
-		return new SpinnerTimeModel(Time.get("22:00"), Time.get("00:01"), Time.get("23:59"), Time.get("00:00"));
+		return new SpinnerTimeModel(Constants.TIME_MIN_SPINNER, Constants.TIME_STEP_SPINNER,
+				Constants.TIME_MAX_SPINNER, Constants.TIME_MIN_SPINNER);
 	}
 	
 	/*

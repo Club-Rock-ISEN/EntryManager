@@ -2,7 +2,6 @@ package org.clubrockisen.view;
 
 import java.awt.Component;
 import java.awt.Frame;
-import java.awt.Insets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +11,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -26,12 +26,6 @@ public final class Utils {
 	
 	/** The services */
 	private static final ServiceFactory	SERVICES		= ServiceFactory.getImplementation();
-	
-	// Default constants used in GUI
-	/** Default insets to be used */
-	private static final Insets			DEFAULT_INSETS	= new Insets(5, 5, 5, 5);
-	/** Maximum length for a string in a dialog */
-	private static final int			LINE_MAX_LENGTH	= 65;
 	
 	/**
 	 * Constructor #1.<br />
@@ -113,15 +107,15 @@ public final class Utils {
 	 */
 	public static String multiLine (final String input) {
 		// If input is shorter than the limit
-		if (input.trim().length() < LINE_MAX_LENGTH) {
+		if (input.trim().length() < Constants.LINE_MAX_LENGTH) {
 			return input.trim();
 		}
 		
 		// Other cases
 		final StringBuilder result = new StringBuilder();
 		String remaining = input;
-		while (remaining.length() > LINE_MAX_LENGTH) {
-			String nextLine = remaining.substring(0, LINE_MAX_LENGTH);
+		while (remaining.length() > Constants.LINE_MAX_LENGTH) {
+			String nextLine = remaining.substring(0, Constants.LINE_MAX_LENGTH);
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Writing next line '" + nextLine + "'");
 			}
@@ -146,14 +140,6 @@ public final class Utils {
 		final StringBuilder result = new StringBuilder("<html>");
 		result.append(multiLine(input)).append("</html>");
 		return result.toString().replace("\n", "<br />");
-	}
-	
-	/**
-	 * Return the default {@link Insets} to be used with most of the component of the application.
-	 * @return the default insets.
-	 */
-	public static Insets getDefaultInsets () {
-		return DEFAULT_INSETS;
 	}
 	
 }

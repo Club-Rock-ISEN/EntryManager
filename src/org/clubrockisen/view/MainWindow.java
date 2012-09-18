@@ -33,6 +33,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.MemberPanelController;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -51,8 +52,6 @@ public class MainWindow extends JFrame implements AbstractView {
 	/** Serial version UID */
 	private static final long			serialVersionUID	= 8512382872996144843L;
 	
-	/** The unicode for delta */
-	public static final String			DELTA				= "\u0394";
 	/** The services */
 	private static final ServiceFactory	SERVICES			= ServiceFactory.getImplementation();
 	
@@ -651,7 +650,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		deltaLabel = new JLabel(DELTA + " :");
+		deltaLabel = new JLabel(Constants.DELTA + " :");
 		pane.add(deltaLabel, c);
 		
 		c = new GridBagConstraints();

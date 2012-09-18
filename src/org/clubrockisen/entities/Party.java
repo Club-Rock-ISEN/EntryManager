@@ -6,6 +6,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Constants;
+
 /**
  * Class representing a party.
  * @author Alex
@@ -16,6 +18,8 @@ public class Party extends Entity {
 	
 	/** Serial Version UID */
 	private static final long				serialVersionUID	= 8268834443986169942L;
+	/** The date formatter for logging */
+	private final SimpleDateFormat			dateFormat			= new SimpleDateFormat(Constants.LOG_DATE_FORMAT);
 	
 	/** Map between the enumeration and the actual columns in the database */
 	private static Map<PartyColumn, Column>	columns;
@@ -400,8 +404,8 @@ public class Party extends Entity {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString () { // TODO edit
-		return new SimpleDateFormat("EEEE d MMMM yyyy").format(new Date(getDate())) + " (id: " + idParty + ")";
+	public String toString () {
+		return "Party of " + dateFormat.format(new Date(getDate())) + " (id: " + idParty + ")";
 	}
 	
 }

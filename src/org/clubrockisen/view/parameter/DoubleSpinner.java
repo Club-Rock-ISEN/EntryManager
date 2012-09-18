@@ -3,6 +3,7 @@ package org.clubrockisen.view.parameter;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 
 /**
@@ -25,7 +26,7 @@ public class DoubleSpinner extends Spinner {
 	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
-		return new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.01);
+		return new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.STEP_MONEY);
 	}
 	
 }
