@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.AttributeComparator;
+import org.clubrockisen.common.Auto;
 import org.clubrockisen.common.Comparable;
 
 /**
@@ -70,7 +71,7 @@ public class Column implements Serializable {
 	 * Return the type.
 	 * @return the type
 	 */
-	@Comparable(useForHashCode=true)
+	@Comparable
 	public Class<?> getType () {
 		return type;
 	}
@@ -88,7 +89,7 @@ public class Column implements Serializable {
 	 * Return the name.
 	 * @return the name.
 	 */
-	@Comparable(useForHashCode=true)
+	@Comparable
 	public String getName () {
 		return name;
 	}
@@ -106,7 +107,7 @@ public class Column implements Serializable {
 	 * Return the isID.
 	 * @return <code>true</code> if the column is an index of the table.
 	 */
-	@Comparable(useForHashCode=true)
+	@Comparable
 	public boolean isID () {
 		return isID;
 	}
@@ -154,7 +155,7 @@ public class Column implements Serializable {
 		}
 		final Column other = (Column) obj;
 		long begin = System.nanoTime();
-		final boolean auto = AttributeComparator.autoCompare(this, other);
+		final boolean auto = Auto.getInstance().compare(this, other);
 		lg.info("autoCompare in " + (System.nanoTime() - begin) + "ms = " + auto);
 		begin = System.nanoTime();
 		final AttributeComparator comparator = new AttributeComparator();

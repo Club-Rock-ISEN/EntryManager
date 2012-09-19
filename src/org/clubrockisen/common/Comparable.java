@@ -17,5 +17,5 @@ public @interface Comparable {
 	/**
 	 * <code>true</code> if the return value of the method should be used for hash code computation.
 	 */
-	boolean useForHashCode() default false;
+	boolean useForHashCode() default true;
 }

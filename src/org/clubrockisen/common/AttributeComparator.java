@@ -1,8 +1,5 @@
 package org.clubrockisen.common;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -136,88 +133,6 @@ public class AttributeComparator {
 			}
 		}
 		return true;
-	}
-	
-	/**
-	 * Compare two object using the return value of the methods marked as {@link Comparable}.
-	 * @param left
-	 *        the first object to compare.
-	 * @param right
-	 *        the right object to compare.
-	 * @param <T>
-	 *        the type of the objects to be compared
-	 * @return <code>true</code> if all the attributes marked {@link Comparable} are equals.
-	 */
-	public static <T> boolean autoCompare (final T left, final T right) {
-		// Basic cases
-		if (left == right) {
-			return true;
-		}
-		if (left == null || right == null) {
-			return false;
-		}
-		if (!left.getClass().equals(right.getClass())) {
-			return false;
-		}
-		
-		// Comparing attributes
-		final List<Object> leftValues = new ArrayList<>();
-		final List<Object> rightValues = new ArrayList<>();
-		
-		final Method[] methods = left.getClass().getMethods();
-		for (final Method method : methods) {
-			final Annotation annotation = method.getAnnotation(Comparable.class);
-			if (annotation != null && annotation instanceof Comparable) {
-				try { // TODO use map to remember methods for a given class Map<Class, Set<Method>>
-					if (lg.isLoggable(Level.FINE)) {
-						lg.fine("method: " + method.getName());
-					}
-					leftValues.add(method.invoke(left, (Object[]) null));
-					rightValues.add(method.invoke(right, (Object[]) null));
-				} catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					lg.warning("Could not add the value of the method " + method.getName() + " because "
-							+ e.getClass() + "; " + e.getMessage());
-				}
-			}
-		}
-		
-		for (int index = 0; index < leftValues.size(); ++index) {
-			if (!Attributes.areEquals(leftValues.get(index), rightValues.get(index))) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Compute the hash code of an object using the values of the methods marked {@link Comparable}
-	 * with the use for hash code parameter set at <code>true</code>.
-	 * @param obj
-	 *        the object used to compute the hash code.
-	 * @return the hash code for the specified object.
-	 */
-	public static int autoHashCode (final Object obj) {
-		int hashCode = 1;
-		final Method[] methods = obj.getClass().getMethods();
-		for (final Method method : methods) {
-			final Annotation annotation = method.getAnnotation(Comparable.class);
-			if (annotation != null && annotation instanceof Comparable) {
-				if (((Comparable) annotation).useForHashCode()) {
-					try { // TODO use map to remember methods for a given class Map<Class, Set<Method>>
-						if (lg.isLoggable(Level.FINE)) {
-							lg.fine("method: " + method.getName());
-						}
-						final Object res = method.invoke(obj, (Object[]) null);
-						hashCode = Constants.PRIME_FOR_HASHCODE * hashCode + (res == null ? 0 : res.hashCode());
-					} catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						lg.warning("Could not add the value of the method " + method.getName() + " because "
-								+ e.getClass() + "; " + e.getMessage());
-					}
-				}
-			}
-		}
-		return hashCode;
 	}
 	
 	/**
