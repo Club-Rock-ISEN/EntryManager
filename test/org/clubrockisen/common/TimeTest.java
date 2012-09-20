@@ -3,10 +3,8 @@ package org.clubrockisen.common;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,13 +139,9 @@ public class TimeTest {
 	 */
 	@Test
 	public void testCompareTo () {
-		try {
-			for (final Time time : times) {
-				assertEquals(0, time.compareTo((Time) time.clone()));
-				assertTrue(time.compareTo(null) > 0);
-			}
-		} catch (final CloneNotSupportedException e) {
-			fail(e.getMessage());
+		for (final Time time : times) {
+			assertEquals(0, time.compareTo(time));
+			assertTrue(time.compareTo(null) > 0);
 		}
 		
 		// The list is ordered so testing that is possible
@@ -182,23 +176,6 @@ public class TimeTest {
 			assertFalse(times.get(index + 1).before(times.get(index)));
 		}
 		assertTrue(Time.get("2h08m").before(Time.get("4h02")));
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.common.Time#clone()}.
-	 */
-	@Test
-	public void testClone () {
-		try {
-			for (final Time time : times) {
-				final Time clone = (Time) time.clone();
-				assertNotSame(time, clone);
-				assertEquals(time.getHours(), clone.getHours());
-				assertEquals(time.getMinutes(), clone.getMinutes());
-			}
-		} catch (final CloneNotSupportedException e) {
-			fail(e.getMessage());
-		}
 	}
 	
 	/**

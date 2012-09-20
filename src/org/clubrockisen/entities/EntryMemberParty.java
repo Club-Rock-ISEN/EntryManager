@@ -4,7 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.AttributeComparator;
+import org.clubrockisen.common.Auto;
+import org.clubrockisen.common.Comparable;
 
 /**
  * Class representing a entry of a {@link Member} to a {@link Party}.
@@ -161,6 +162,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idEntryMemberParty.
 	 * @return the attribute idEntryMemberParty.
 	 */
+	@Comparable
 	public Integer getIdEntryMemberParty () {
 		return idEntryMemberParty == null ? Integer.valueOf(-1) : idEntryMemberParty;
 	}
@@ -178,6 +180,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idMember.
 	 * @return the attribute idMember.
 	 */
+	@Comparable
 	public Integer getIdMember () {
 		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
@@ -195,6 +198,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idParty.
 	 * @return the attribute idParty.
 	 */
+	@Comparable
 	public Integer getIdParty () {
 		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
@@ -214,7 +218,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 */
 	@Override
 	public int hashCode () {
-		return AttributeComparator.hashCode(-1, new Object[] {idEntryMemberParty, idMember, idParty});
+		return Auto.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -223,21 +227,10 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 */
 	@Override
 	public boolean equals (final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
 		if (!(obj instanceof EntryMemberParty)) {
 			return false;
 		}
-		final EntryMemberParty other = (EntryMemberParty) obj;
-		final AttributeComparator comparator = new AttributeComparator();
-		comparator.add(idEntryMemberParty, other.idEntryMemberParty);
-		comparator.add(idMember, other.idMember);
-		comparator.add(idParty, other.idParty);
-		return comparator.areEquals();
+		return Auto.getInstance().compare(this, (EntryMemberParty) obj);
 	}
 	
 	/*

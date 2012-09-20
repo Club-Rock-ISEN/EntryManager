@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * TODO
+ * Class which automate hash code and comparison method on objects.
  * @author Alex
  */
 public final class Auto {

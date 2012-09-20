@@ -6,13 +6,15 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Auto;
+import org.clubrockisen.common.Comparable;
 import org.clubrockisen.common.Constants;
 
 /**
  * Class representing a party.
  * @author Alex
  */
-public class Party extends Entity {
+public class Party extends Entity implements Cloneable {
 	/** Logger */
 	private static Logger					lg					= Logger.getLogger(Party.class.getName());
 	
@@ -227,6 +229,7 @@ public class Party extends Entity {
 	 * Return the idParty.
 	 * @return the idParty.
 	 */
+	@Comparable
 	public Integer getIdParty () {
 		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
@@ -243,8 +246,9 @@ public class Party extends Entity {
 	 * Return the date.
 	 * @return the date.
 	 */
+	@Comparable
 	public Long getDate () {
-		return date == null ? 0 : date;
+		return date == null ? Integer.valueOf(0) : date;
 	}
 	
 	/**
@@ -259,6 +263,7 @@ public class Party extends Entity {
 	 * Return the entriesTotal.
 	 * @return the entriesTotal.
 	 */
+	@Comparable
 	public Integer getEntriesTotal () {
 		return entriesTotal == null ? Integer.valueOf(0) : entriesTotal;
 	}
@@ -275,6 +280,7 @@ public class Party extends Entity {
 	 * Return the entriesFirstPart.
 	 * @return the entriesFirstPart.
 	 */
+	@Comparable
 	public Integer getEntriesFirstPart () {
 		return entriesFirstPart == null ? Integer.valueOf(0) : entriesFirstPart;
 	}
@@ -291,6 +297,7 @@ public class Party extends Entity {
 	 * Return the entriesSecondPart.
 	 * @return the entriesSecondPart.
 	 */
+	@Comparable
 	public Integer getEntriesSecondPart () {
 		return entriesSecondPart == null ? Integer.valueOf(0) : entriesSecondPart;
 	}
@@ -307,6 +314,7 @@ public class Party extends Entity {
 	 * Return the entriesNewMembers.
 	 * @return the entriesNewMembers.
 	 */
+	@Comparable
 	public Integer getEntriesNewMembers () {
 		return entriesNewMembers == null ? Integer.valueOf(0) : entriesNewMembers;
 	}
@@ -323,6 +331,7 @@ public class Party extends Entity {
 	 * Return the entriesFree.
 	 * @return the entriesFree.
 	 */
+	@Comparable
 	public Integer getEntriesFree () {
 		return entriesFree == null ? Integer.valueOf(0) : entriesFree;
 	}
@@ -339,6 +348,7 @@ public class Party extends Entity {
 	 * Return the entriesMale.
 	 * @return the entriesMale.
 	 */
+	@Comparable
 	public Integer getEntriesMale () {
 		return entriesMale == null ? Integer.valueOf(0) : entriesMale;
 	}
@@ -355,6 +365,7 @@ public class Party extends Entity {
 	 * Return the entriesFemale.
 	 * @return the entriesFemale.
 	 */
+	@Comparable
 	public Integer getEntriesFemale () {
 		return entriesFemale == null ? Integer.valueOf(0) : entriesFemale;
 	}
@@ -371,6 +382,7 @@ public class Party extends Entity {
 	 * Return the revenue.
 	 * @return the revenue.
 	 */
+	@Comparable
 	public Double getRevenue () {
 		return revenue == null ? Double.valueOf(0.0) : revenue;
 	}
@@ -387,6 +399,7 @@ public class Party extends Entity {
 	 * Return the profit.
 	 * @return the profit.
 	 */
+	@Comparable
 	public Double getProfit () {
 		return profit == null ? Double.valueOf(0.0) : profit;
 	}
@@ -406,6 +419,48 @@ public class Party extends Entity {
 	@Override
 	public String toString () {
 		return "Party of " + dateFormat.format(new Date(getDate())) + " (id: " + idParty + ")";
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode () {
+		return Auto.getInstance().hashCode(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals (final Object obj) {
+		if (!(obj instanceof Party)) {
+			return false;
+		}
+		return Auto.getInstance().compare(this, (Party) obj);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.entities.Entity#clone()
+	 */
+	@Override
+	public Party clone () throws CloneNotSupportedException {
+		final Party clone = (Party) super.clone();
+		clone.idParty = idParty;
+		clone.date = date;
+		clone.entriesTotal = entriesTotal;
+		clone.entriesFirstPart = entriesFirstPart;
+		clone.entriesSecondPart = entriesSecondPart;
+		clone.entriesNewMembers = entriesNewMembers;
+		clone.entriesFree = entriesFree;
+		clone.entriesMale = entriesMale;
+		clone.entriesFemale = entriesFemale;
+		clone.revenue = revenue;
+		clone.profit = profit;
+		return clone;
 	}
 	
 }

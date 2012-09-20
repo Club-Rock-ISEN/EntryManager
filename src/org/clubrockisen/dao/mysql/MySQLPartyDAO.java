@@ -94,7 +94,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 		}
 		
 		Party newParty = null;
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateInsertQuerySQL(false) + " ("
 					+ "'" + dateFormat.format(new Date(obj.getDate())) + "',"
@@ -138,7 +138,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 			lg.fine("Updating the party with id = " + obj.getIdParty());
 		}
 		
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(new Date(obj.getDate())) + "', " +

@@ -4,7 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.AttributeComparator;
+import org.clubrockisen.common.Auto;
+import org.clubrockisen.common.Comparable;
 
 /**
  * Class representing a parameter of the application.<br />
@@ -176,6 +177,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the name.
 	 * @return the name.
 	 */
+	@Comparable
 	public String getName () {
 		return name == null ? "" : name;
 	}
@@ -184,6 +186,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the value.
 	 * @return the value.
 	 */
+	@Comparable
 	public String getValue () {
 		return value == null ? "" : value;
 	}
@@ -201,6 +204,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the type.
 	 * @return the type.
 	 */
+	@Comparable
 	public String getType () {
 		return type == null ? "" : type;
 	}
@@ -218,6 +222,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the attribute component.
 	 * @return the attribute component.
 	 */
+	@Comparable
 	public String getComponentClass () {
 		return componentClass == null ? "" : componentClass;
 	}
@@ -236,7 +241,7 @@ public class Parameter extends Entity implements Cloneable {
 	 */
 	@Override
 	public int hashCode () {
-		return AttributeComparator.hashCode(new Object[] {name, value, type, componentClass});
+		return Auto.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -245,22 +250,10 @@ public class Parameter extends Entity implements Cloneable {
 	 */
 	@Override
 	public boolean equals (final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
 		if (!(obj instanceof Parameter)) {
 			return false;
 		}
-		final Parameter other = (Parameter) obj;
-		final AttributeComparator comparator = new AttributeComparator();
-		comparator.add(name, other.name);
-		comparator.add(value, other.value);
-		comparator.add(type, other.type);
-		comparator.add(componentClass, other.componentClass);
-		return comparator.areEquals();
+		return Auto.getInstance().compare(this, (Parameter) obj);
 	}
 	
 	/*

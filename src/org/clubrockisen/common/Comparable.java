@@ -1,13 +1,12 @@
 package org.clubrockisen.common;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@link Annotation} which allows to tag a method as 'comparable' and thus be used in the generic
+ * Annotation which allows to tag a method as 'comparable' and thus be used in the generic
  * comparator.
  * @author Alex
  */

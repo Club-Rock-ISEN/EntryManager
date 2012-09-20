@@ -26,7 +26,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	private static Logger lg = Logger.getLogger(MySQLDAO.class.getName());
 	
 	/** The connection to the database */
-	protected final Connection	connection;
+	private final Connection	connection;
 	/** Name of the entity manipulated */
 	private final String		entityName;
 	
@@ -39,6 +39,14 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		super();
 		this.connection = connection;
 		this.entityName = getEntitySample().getEntityName();
+	}
+	
+	/**
+	 * Return the connection to the database.
+	 * @return the MySQL connection.
+	 */
+	protected Connection getConnection () {
+		return connection;
 	}
 	
 	/**

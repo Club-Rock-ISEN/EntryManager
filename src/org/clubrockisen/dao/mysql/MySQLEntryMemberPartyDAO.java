@@ -82,7 +82,7 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 		}
 		
 		EntryMemberParty newEntry = null;
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateInsertQuerySQL(false) + " ("
 					+ "'" + obj.getIdMember() + "',"
@@ -119,7 +119,7 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 			lg.fine("Updating the entry with id = " + obj.getIdEntryMemberParty());
 		}
 		
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(EntryColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +

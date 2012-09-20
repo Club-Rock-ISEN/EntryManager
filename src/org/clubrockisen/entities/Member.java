@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Auto;
+import org.clubrockisen.common.Comparable;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
@@ -11,7 +13,7 @@ import org.clubrockisen.entities.enums.Status;
  * Class representing a member of the association.
  * @author Alex
  */
-public class Member extends Entity {
+public class Member extends Entity implements Cloneable {
 	/** Logger */
 	private static Logger						lg					= Logger.getLogger(Member.class.getName());
 	
@@ -171,6 +173,7 @@ public class Member extends Entity {
 	 * Return the idMember.
 	 * @return the idMember
 	 */
+	@Comparable
 	public Integer getIdMember () {
 		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
@@ -188,6 +191,7 @@ public class Member extends Entity {
 	 * Return the name.
 	 * @return the name
 	 */
+	@Comparable
 	public String getName () {
 		return name == null ? "" : name;
 	}
@@ -205,6 +209,7 @@ public class Member extends Entity {
 	 * Return the gender.
 	 * @return the gender
 	 */
+	@Comparable
 	public Gender getGender () {
 		return gender == null ? Gender.getDefault() : gender;
 	}
@@ -222,6 +227,7 @@ public class Member extends Entity {
 	 * Return the entries.
 	 * @return the entries
 	 */
+	@Comparable
 	public Integer getEntries () {
 		return entries == null ? Integer.valueOf(0) : entries;
 	}
@@ -239,6 +245,7 @@ public class Member extends Entity {
 	 * Return the attribute nextFree.
 	 * @return the attribute nextFree.
 	 */
+	@Comparable
 	public Integer getNextFree () {
 		return nextFree == null ? Integer.valueOf(-1) : nextFree;
 	}
@@ -255,6 +262,7 @@ public class Member extends Entity {
 	 * Return the credit.
 	 * @return the credit
 	 */
+	@Comparable
 	public Double getCredit () {
 		return credit == null ? Double.valueOf(0.0) : credit;
 	}
@@ -272,6 +280,7 @@ public class Member extends Entity {
 	 * Return the status.
 	 * @return the status
 	 */
+	@Comparable
 	public Status getStatus () {
 		return status == null ? Status.getDefault() : status;
 	}
@@ -292,6 +301,44 @@ public class Member extends Entity {
 	@Override
 	public String toString () {
 		return name == null ? "" : name;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode () {
+		return Auto.getInstance().hashCode(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals (final Object obj) {
+		if (!(obj instanceof Member)) {
+			return false;
+		}
+		return Auto.getInstance().compare(this, (Member) obj);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.entities.Entity#clone()
+	 */
+	@Override
+	protected Entity clone () throws CloneNotSupportedException {
+		final Member clone =  (Member) super.clone();
+		clone.idMember = idMember;
+		clone.name = name;
+		clone.gender = gender;
+		clone.entries = entries;
+		clone.nextFree = nextFree;
+		clone.credit = credit;
+		clone.status = status;
+		return clone;
 	}
 	
 }

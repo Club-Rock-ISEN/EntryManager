@@ -93,7 +93,7 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 		if (obj == null) {
 			return false;
 		}
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(ParameterColumn.VALUE).getName() + " = '" + obj.getValue() + "', " +

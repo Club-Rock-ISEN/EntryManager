@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * This class is immutable.
  * @author Alex
  */
-public class Time implements Serializable, java.lang.Comparable<Time>, Cloneable {
+public class Time implements Serializable, java.lang.Comparable<Time> {
 	/** Logger */
 	private static Logger		lg					= Logger.getLogger(Time.class.getName());
 	
@@ -180,15 +180,6 @@ public class Time implements Serializable, java.lang.Comparable<Time>, Cloneable
 	 */
 	public boolean before (final Time time) {
 		return compareTo(time) < 0;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public Object clone () throws CloneNotSupportedException {
-		return new Time(hours, minutes);
 	}
 	
 	/*

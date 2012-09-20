@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.AttributeComparator;
 import org.clubrockisen.common.Auto;
 import org.clubrockisen.common.Comparable;
 
@@ -135,7 +134,7 @@ public class Column implements Serializable {
 	 */
 	@Override
 	public int hashCode () {
-		return AttributeComparator.hashCode(new Object[] {name, type, isID});
+		return Auto.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -144,27 +143,10 @@ public class Column implements Serializable {
 	 */
 	@Override
 	public boolean equals (final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
 		if (!(obj instanceof Column)) {
 			return false;
 		}
-		final Column other = (Column) obj;
-		long begin = System.nanoTime();
-		final boolean auto = Auto.getInstance().compare(this, other);
-		lg.info("autoCompare in " + (System.nanoTime() - begin) + "ms = " + auto);
-		begin = System.nanoTime();
-		final AttributeComparator comparator = new AttributeComparator();
-		comparator.add(type, other.type);
-		comparator.add(name, other.name);
-		comparator.add(isID, other.isID);
-		final boolean res = comparator.areEquals();
-		lg.info("compare in " + (System.nanoTime() - begin) + "ms = " + res);
-		return res;
+		return Auto.getInstance().compare(this, (Column) obj);
 	}
 	
 }

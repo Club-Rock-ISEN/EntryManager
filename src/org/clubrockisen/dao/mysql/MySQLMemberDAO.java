@@ -90,7 +90,7 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 		}
 		
 		Member newMember = null;
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateInsertQuerySQL(false) + " (" + "'" + obj.getName() + "',"
 					+ "'" + obj.getGender().getAbbreviation() + "',"
@@ -130,7 +130,7 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 			lg.fine("Updating the member with id = " + obj.getIdMember());
 		}
 		
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
 			final String query = obj.generateUpdateQuerySQL() +
 					columns.get(MemberColumn.NAME).getName() + " = '" + obj.getName() + "', " +
