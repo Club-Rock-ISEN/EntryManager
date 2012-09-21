@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +30,7 @@ import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.components.ValidateCancelPanel;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
 /**
@@ -39,34 +39,32 @@ import org.clubrockisen.view.renderers.CustomEnumRenderer;
  */
 public class MemberView extends AbstractFrame {
 	/** Logger */
-	private static Logger						lg					= Logger.getLogger(MemberView.class.getName());
+	private static Logger				lg					= Logger.getLogger(MemberView.class.getName());
 	
 	/** Serial Version UID */
-	private static final long					serialVersionUID	= 5754628770258165084L;
+	private static final long			serialVersionUID	= 5754628770258165084L;
 	
 	// Swing GUI elements
 	/** Field for the member's name */
-	private JTextField							nameField;
+	private JTextField					nameField;
 	/** Field for the member's {@link Gender} */
-	private JComboBox<Gender>					genderField;
+	private JComboBox<Gender>			genderField;
 	/** Field for the member's {@link Status} */
-	private JComboBox<Status>					statusField;
+	private JComboBox<Status>			statusField;
 	/** Field for the member's entries */
-	private JSpinner							entryNumberField;
+	private JSpinner					entryNumberField;
 	/** Field for the member's next free entry count down */
-	private JSpinner							nextFreeField;
+	private JSpinner					nextFreeField;
 	/** Field for the member's credit */
-	private JSpinner							creditField;
-	/** Button for validating changes on a member */
-	private JButton								validateButton;
-	/** Button for canceling changes on a member */
-	private JButton								cancelButton;
+	private JSpinner					creditField;
+	/** The validate / cancel panel */
+	private ValidateCancelPanel			validateCancelPanel;
 	
 	// Miscellaneous
 	/** Controller to use when view changes */
 	private transient MemberController	controller;
 	/** Instance of a member to easy entity method call */
-	private Member								m;
+	private Member						m;
 	
 	/**
 	 * Constructor #1.<br />
@@ -131,7 +129,7 @@ public class MemberView extends AbstractFrame {
 		yIndex = 0;
 		c.gridx = ++xIndex;
 		c.gridy = yIndex;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		nameField = new JTextField();
 		pane.add(nameField, c);
 		
@@ -163,13 +161,8 @@ public class MemberView extends AbstractFrame {
 		
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
-		c.gridwidth = 1;
-		cancelButton = new JButton(getTranslator().get(Translator.Key.MISC.cancel()));
-		pane.add(cancelButton, c);
-		
-		c.gridx = ++xIndex;
-		validateButton = new JButton(getTranslator().get(Translator.Key.MISC.ok()));
-		pane.add(validateButton, c);
+		validateCancelPanel = new ValidateCancelPanel(this);
+		pane.add(validateCancelPanel, c);
 		
 		return pane;
 	}
@@ -244,7 +237,7 @@ public class MemberView extends AbstractFrame {
 			}
 		});
 		
-		validateButton.addActionListener(new ActionListener() {
+		validateCancelPanel.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -260,16 +253,6 @@ public class MemberView extends AbstractFrame {
 			}
 		});
 		
-		cancelButton.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			@Override
-			public void actionPerformed (final ActionEvent e) {
-				getFrame().setVisible(false);
-			}
-		});
 	}
 	
 	/*

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +20,7 @@ import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.components.ValidateCancelPanel;
 import org.clubrockisen.view.parameter.ParameterChangeListener;
 import org.clubrockisen.view.parameter.ParameterComponent;
 import org.clubrockisen.view.parameter.ParameterComponentsManager;
@@ -37,13 +37,12 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	private static final long									serialVersionUID	= -685243639858300613L;
 	/** The reference to the parameter components manager */
 	private static ParameterComponentsManager					pcm					= ParameterComponentsManager.getInstance();
+	
 	// Swing GUI elements
 	/** The map with the component used to update the parameters */
 	private transient Map<ParametersEnum, ParameterComponent>	parametersComponents;
-	/** Button for validating changes on a member */
-	private JButton												validateButton;
-	/** Button for canceling changes on a member */
-	private JButton												cancelButton;
+	/** The validate / cancel panel */
+	private ValidateCancelPanel			validateCancelPanel;
 	
 	// Miscellaneous
 	/** The map with the controllers to warn */
@@ -99,7 +98,6 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			// Adding edit field
 			++xIndex;
 			c.gridx = xIndex;
-			c.gridwidth = 2;
 			final ParameterComponent comp = pcm.getNewComponent(parameter);
 			parametersComponents.put(parameter, comp);
 			pane.add(comp.getComponent(), c);
@@ -109,20 +107,14 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			++yIndex;
 			c.gridx = xIndex;
 			c.gridy = yIndex;
-			c.gridwidth = 1;
 		}
 		
 		// Buttons
 		c.gridx = ++xIndex;
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
-		c.gridwidth = 1;
-		cancelButton = new JButton(getTranslator().get(Translator.Key.MISC.cancel()));
-		pane.add(cancelButton, c);
-		
-		c.gridx = ++xIndex;
-		validateButton = new JButton(getTranslator().get(Translator.Key.MISC.ok()));
-		pane.add(validateButton, c);
+		validateCancelPanel = new ValidateCancelPanel(this);
+		pane.add(validateCancelPanel, c);
 		
 		return pane;
 	}
@@ -135,7 +127,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			component.installListener(this);
 		}
 		
-		validateButton.addActionListener(new ActionListener() {
+		validateCancelPanel.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -152,16 +144,6 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			}
 		});
 		
-		cancelButton.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
-			@Override
-			public void actionPerformed (final ActionEvent e) {
-				getFrame().setVisible(false);
-			}
-		});
 	}
 	
 	/*

@@ -1,0 +1,115 @@
+package org.clubrockisen.view.components;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.abstracts.ITranslator;
+import org.clubrockisen.service.abstracts.ServiceFactory;
+import org.clubrockisen.view.abstracts.AbstractFrame;
+
+/**
+ * Panel with a cancel and a validate button.<br />
+ * The action on cancel button will hide the parent frame.
+ * @author Alex
+ */
+public class ValidateCancelPanel extends JPanel implements ActionListener {
+	/** Logger */
+	private static Logger							lg	= Logger.getLogger(ValidateCancelPanel.class.getName());
+	
+	/** Serial version UID */
+	private static final long						serialVersionUID	= -1500794156358784997L;
+	
+	// Services
+	/** Translator */
+	private final transient ITranslator				translator			= ServiceFactory.getImplementation().getTranslator();
+	
+	// GUI Components
+	/** Button for validating changes on a member */
+	private final JButton							validateButton;
+	/** Button for canceling changes on a member */
+	private final JButton							cancelButton;
+	
+	// Miscellaneous
+	/** List of the listener for the panel */
+	private final transient List<ActionListener>	actionListeners;
+	/** The parent frame to be hidden on cancel */
+	private final AbstractFrame						parentFrame;
+	
+	/**
+	 * Constructor #1.<br />
+	 * @param frame
+	 *        the parent frame to be hidden on cancel.
+	 */
+	public ValidateCancelPanel (final AbstractFrame frame) {
+		super();
+		this.parentFrame = frame;
+		actionListeners = new ArrayList<>();
+		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
+		validateButton = new JButton(translator.get(Translator.Key.MISC.ok()));
+		
+		final Box hBox = new Box(BoxLayout.LINE_AXIS);
+		hBox.add(cancelButton);
+		hBox.add(validateButton);
+		this.add(hBox);
+	}
+	
+	/**
+	 * Add the listener to the panel.<br />
+	 * Note that only the action on the validate button will be forwarded to the listener.
+	 * @param listener
+	 *        the listener to be added.
+	 */
+	public void addActionListener (final ActionListener listener) {
+		if (actionListeners.isEmpty()) {
+			cancelButton.addActionListener(this);
+			validateButton.addActionListener(this);
+		}
+		actionListeners.add(listener);
+	}
+	
+	/**
+	 * Remove the listener from the panel.
+	 * @param listener
+	 *        the listener to be removed.
+	 */
+	public void removeActionListener (final ActionListener listener) {
+		actionListeners.remove(listener);
+		if (actionListeners.isEmpty()) {
+			cancelButton.removeActionListener(this);
+			validateButton.removeActionListener(this);
+		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed (final ActionEvent e) {
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Action on panel: " + e);
+		}
+		
+		if (e.getSource().equals(cancelButton)) {
+			parentFrame.setVisible(false);
+		} else if (e.getSource().equals(validateButton)) {
+			for (final ActionListener listener : actionListeners) {
+				listener.actionPerformed(e);
+			}
+		} else {
+			lg.warning("Unknown source of action for the event " + e.getSource());
+		}
+		
+	}
+	
+}

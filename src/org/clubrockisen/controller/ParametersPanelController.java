@@ -44,9 +44,7 @@ public class ParametersPanelController extends AbstractController {
 	 * Show the parameters panel.
 	 */
 	public void show () {
-		for (final ParameterControllerImpl controller : parametersControllers.values()) {
-			controller.reload();
-		}
+		reload();
 		parametersView.setVisible(true);
 	}
 	

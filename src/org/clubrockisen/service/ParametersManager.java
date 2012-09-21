@@ -71,6 +71,8 @@ public final class ParametersManager implements IParametersManager {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Parameter " + parameter.getName() + " updated successfully.");
 			}
+			// Replacing the value in the map, to be sure
+			parameters.put(ParametersEnum.fromValue(parameter.getName()), parameter);
 			return true;
 		}
 		lg.warning("Parameter " + parameter.getName() + " was not updated.");

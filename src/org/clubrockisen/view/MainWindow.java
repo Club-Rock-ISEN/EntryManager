@@ -156,7 +156,7 @@ public class MainWindow extends JFrame implements AbstractView {
 				//lg.info("found: " + daoMember.find(10000));
 				//final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
 				//daoMember.delete(m);
-				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barf�ty").get(0);
+				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
 				//tmp.setEntries(tmp.getEntries()+1);
 				//tmp.setName("SUCCESS");
 				//daoMember.update(tmp);
@@ -279,7 +279,7 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(mainWindow,
-						SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barf�ty.\n"
+						SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
 								+ SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().license()),
 								SERVICES.getTranslator().get(Translator.Key.GUI.dialog().about().title()),
 								JOptionPane.INFORMATION_MESSAGE);
@@ -483,7 +483,7 @@ public class MainWindow extends JFrame implements AbstractView {
 		c.anchor = GridBagConstraints.WEST;
 		c.fill = GridBagConstraints.NONE;
 		c.insets = defaultInsets;
-		nameField = new JLabel("Alex Barf�ty");
+		nameField = new JLabel("Alex Barféty");
 		pane.add(nameField, c);
 		
 		c = new GridBagConstraints();
