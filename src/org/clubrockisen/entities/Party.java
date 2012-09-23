@@ -14,7 +14,7 @@ import org.clubrockisen.common.Constants;
  * Class representing a party.
  * @author Alex
  */
-public class Party extends Entity implements Cloneable {
+public class Party extends Entity implements Cloneable, java.lang.Comparable<Party> {
 	/** Logger */
 	private static Logger					lg					= Logger.getLogger(Party.class.getName());
 	
@@ -461,6 +461,18 @@ public class Party extends Entity implements Cloneable {
 		clone.revenue = revenue;
 		clone.profit = profit;
 		return clone;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo (final Party o) {
+		if (o == null || o.date == null) {
+			return -1;
+		}
+		return (int) (date - o.date);
 	}
 	
 }

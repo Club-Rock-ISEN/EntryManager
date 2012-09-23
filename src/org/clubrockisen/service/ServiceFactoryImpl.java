@@ -35,7 +35,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		}
 		parameterManager = new ParametersManager(AbstractDAOFactory.getImplementation());
 		translator = Translator.getInstance();
-		entryManager = null;
+		entryManager = new EntryManager(AbstractDAOFactory.getImplementation());
 	}
 	
 	/* (non-Javadoc)
