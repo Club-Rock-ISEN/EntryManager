@@ -3,13 +3,21 @@
 <properties>
 	<!-- DAO factory to load -->
 	<entry key="configuration.dao">org.clubrockisen.dao.mysql.MySQLDAOFactory</entry>
+	<entry key="configuration.dao">org.clubrockisen.dao.h2.H2DAOFactory</entry>
 	<!-- Service factory to load -->
 	<entry key="configuration.service">org.clubrockisen.service.ServiceFactoryImpl</entry>
 	
 	<!-- Data base connection information -->
+	<!-- MySQL -->
+	<entry key="configuration.db.creationFile">data/database/creation.MySQL.sql</entry>
 	<entry key="configuration.db.url">jdbc:mysql://localhost/crock</entry>
 	<entry key="configuration.db.username">crock</entry>
 	<entry key="configuration.db.password">burgerking</entry>
+	<!-- H2
+	<entry key="configuration.db.creationFile">data/database/creation.H2.sql</entry>
+	<entry key="configuration.db.url">jdbc:h2:file:data/database/crock;IFEXISTS=TRUE</entry>
+	<entry key="configuration.db.username">crock</entry>
+	<entry key="configuration.db.password">burgerking</entry> -->
 	
 	<!-- Miscellaneous -->
 	<entry key="configuration.translationFile">./data/locale/fr.xml</entry>
