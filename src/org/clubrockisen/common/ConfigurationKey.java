@@ -72,6 +72,14 @@ public final class ConfigurationKey {
 		public String password () {
 			return dbKey + "." + "password";
 		}
+		
+		/**
+		 * The creation file for the database.
+		 * @return the key to the creation file.
+		 */
+		public String creationFile () {
+			return dbKey + "." + "creationFile";
+		}
 	}
 	
 	/** Attribute which holds the structure of the database configuration */

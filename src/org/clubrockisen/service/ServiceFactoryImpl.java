@@ -38,7 +38,8 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		entryManager = new EntryManager(AbstractDAOFactory.getImplementation());
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getParameterManager()
 	 */
 	@Override
@@ -46,7 +47,8 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		return parameterManager;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getTranslator()
 	 */
 	@Override
@@ -54,7 +56,8 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		return translator;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getEntryManager()
 	 */
 	@Override

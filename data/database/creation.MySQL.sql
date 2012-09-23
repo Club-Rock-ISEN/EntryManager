@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `party`			CASCADE;
 DROP TABLE IF EXISTS `entrymemberparty`	CASCADE;
 
 -- ============================================================
---	USER CREATION
+--	User creation
 -- ============================================================
 DROP USER `crock`@localhost;
 GRANT INSERT, SELECT, UPDATE, DELETE ON `crock`.* TO `crock`@localhost IDENTIFIED BY 'burgerking';
@@ -50,7 +50,7 @@ CREATE TABLE `crock`.`member` (
 -- ============================================================
 --	Table: PARTY
 -- ============================================================
-CREATE TABLE `crock`.`party`(
+CREATE TABLE `crock`.`party` (
 	`idParty`			INT(10) UNSIGNED NOT NULL AUTO_INCREMENT	COMMENT 'The id of the party.',
 	`date`				DATE NOT NULL								COMMENT 'The date of the party.',
 	`entriesTotal`		INT(4) UNSIGNED NOT NULL					COMMENT 'The total number of entries of the party.',
