@@ -37,7 +37,10 @@ import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.MemberPanelController;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.enums.Gender;
+import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractView;
@@ -152,14 +155,17 @@ public class MainWindow extends JFrame implements AbstractView {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				// TODO Auto-generated method stub
-				//final DAO<Member> daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
+				final DAO<Member> daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
 				//lg.info("found: " + daoMember.find(10000));
-				//final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
-				//daoMember.delete(m);
+				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
+				
 				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
-				//tmp.setEntries(tmp.getEntries()+1);
-				//tmp.setName("SUCCESS");
-				//daoMember.update(tmp);
+				m.setEntries(m.getEntries()+1);
+				m.setName("SUCCESS");
+				daoMember.update(m);
+				for (final Member member : daoMember.retrieveAll()) {
+					lg.info(member.toString());
+				}
 				//final Parameter laf = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL);
 				//laf.setValue("Nimbus");
 				//ParametersManager.getInstance().set(laf);

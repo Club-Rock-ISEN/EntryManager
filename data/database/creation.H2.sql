@@ -18,7 +18,7 @@ CREATE TABLE parameter (
 -- ============================================================
 CREATE TABLE member (
 	idMember	INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	name		VARCHAR(60) NOT NULL,
+	name		VARCHAR_IGNORECASE(60) NOT NULL,
 	gender		CHAR NOT NULL,
 	entries		INT(6) NOT NULL,
 	nextFree	INT(1) NOT NULL,

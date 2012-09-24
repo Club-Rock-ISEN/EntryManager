@@ -16,6 +16,10 @@ import org.clubrockisen.dao.Utils;
 import org.clubrockisen.dao.Utils.DBConnectionInfo;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO;
+import org.clubrockisen.dao.mysql.MySQLMemberDAO;
+import org.clubrockisen.dao.mysql.MySQLParameterDAO;
+import org.clubrockisen.dao.mysql.MySQLPartyDAO;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
@@ -73,10 +77,10 @@ public class H2DAOFactory extends AbstractDAOFactory {
 		connection = Utils.getConnection();
 		
 		// TODO DAOs
-		memberDao = null;
-		parameterDao = null;
-		partyDao = null;
-		entryMemberPartyDao = null;
+		memberDao = new MySQLMemberDAO(connection);
+		parameterDao = new MySQLParameterDAO(connection);
+		partyDao = new MySQLPartyDAO(connection);
+		entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
 	}
 	
 	/**
