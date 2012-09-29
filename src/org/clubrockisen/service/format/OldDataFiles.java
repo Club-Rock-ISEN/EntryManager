@@ -15,7 +15,7 @@ import org.clubrockisen.service.abstracts.Format;
  * <pre>﻿Name;mail;F/H;A/M;entries;next free;credit;?;?;§</pre>
  * @author Alex
  */
-public class OldDataFiles implements Format {
+public final class OldDataFiles implements Format {
 	/** Logger */
 	private static Logger			lg			= Logger.getLogger(OldDataFiles.class.getName());
 	

@@ -16,7 +16,7 @@ public interface Format {
 	 * The default implementation is just returning the string.
 	 * @author Alex
 	 */
-	public class Converter {
+	class Converter {
 		/** The field */
 		private final MemberColumn	field;
 		

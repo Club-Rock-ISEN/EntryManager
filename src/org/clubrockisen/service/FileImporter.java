@@ -22,7 +22,7 @@ public class FileImporter implements IFileImporter {
 	/** The member DAO */
 	private final DAO<Member>	memberDAO;
 	/** The set with the file format */
-	private HashSet<Format>		fileFormat;
+	private Set<Format>			fileFormat;
 	
 	/**
 	 * Constructor #1.<br />
