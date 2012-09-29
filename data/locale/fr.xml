@@ -22,6 +22,8 @@
 	<entry key="entity.party.entriesfree">Nombre de gratuits</entry>
 	<entry key="entity.party.entriesmale">Nombre d'hommes</entry>
 	<entry key="entity.party.entriesfemale">Nombre de femmes</entry>
+	<entry key="entity.party.revenue">Chiffre d'affaire</entry>
+	<entry key="entity.party.profit">Bénéfice</entry>
 	
 	<!-- Enumerations -->
 	<!-- Gender -->
@@ -33,6 +35,7 @@
 	<entry key="enum.status.office_member">Membre du bureau</entry>
 	<entry key="enum.status.veteran">Membre d'honneur</entry>
 	<!-- Parameters name -->
+	<entry key="enum.parametersenum">Paramètre</entry>
 	<entry key="enum.parametersenum.look_and_feel">Aspect graphique</entry>
 	<entry key="enum.parametersenum.time_limit">Heure de transition</entry>
 	<entry key="enum.parametersenum.entry_price_total">Prix total</entry>
@@ -53,6 +56,7 @@
 	<entry key="gui.menu.database">Base de données</entry>
 	<entry key="gui.menu.database.seeMembers">Voir tout les membres</entry>
 	<entry key="gui.menu.database.seeAttendees">Voir les personnes présentes</entry>
+	<entry key="gui.menu.database.importData">Importer des données</entry>
 	<entry key="gui.menu.database.exportData">Exporter des données</entry>
 	<entry key="gui.menu.member">Membre</entry>
 	<entry key="gui.menu.member.newMember">Nouveau membre</entry>

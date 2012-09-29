@@ -191,7 +191,7 @@ public final class Translator implements ITranslator {
 			}
 			
 			/**
-			 * The translations
+			 * The translations for the member entity.
 			 * @author Alex
 			 */
 			public static final class Member {
@@ -200,7 +200,7 @@ public final class Translator implements ITranslator {
 				
 				/**
 				 * Constructor #1.<br />
-				 * Build the menu structure.
+				 * Build the member structure.
 				 * @param parentKey
 				 *        the key from the parent category.
 				 */
@@ -265,6 +265,123 @@ public final class Translator implements ITranslator {
 			 */
 			public Member member () {
 				return new Member(entityKey);
+			}
+			
+			/**
+			 * The translations for the party entity.
+			 * @author Alex
+			 */
+			public static final class Party {
+				/** The key to the party structure */
+				private final String	partyKey;
+				
+				/**
+				 * Constructor #1.<br />
+				 * Build the party structure.
+				 * @param parentKey
+				 *        the key from the parent category.
+				 */
+				private Party (final String parentKey) {
+					super();
+					this.partyKey = parentKey + "." + "party";
+				}
+				
+				/*
+				 * (non-Javadoc)
+				 * @see java.lang.Object#toString()
+				 */
+				@Override
+				public String toString () {
+					return partyKey;
+				}
+				
+				/**
+				 * The party date.
+				 * @return the translation for the date field.
+				 */
+				public String date () {
+					return partyKey + "." + "date";
+				}
+				
+				/**
+				 * The total number of entries.
+				 * @return the translation for the total entries.
+				 */
+				public String entriesTotal () {
+					return partyKey + "." + "entriestotal";
+				}
+				
+				/**
+				 * The number of entries for the first part.
+				 * @return the translation for the first part entries.
+				 */
+				public String entriesFirstPart () {
+					return partyKey + "." + "entriesfirstpart";
+				}
+				
+				/**
+				 * The number of entries for the second part.
+				 * @return the translation for the second part entries.
+				 */
+				public String entriesSecondPart () {
+					return partyKey + "." + "entriessecondpart";
+				}
+				
+				/**
+				 * The number of entries for the new member.
+				 * @return the translation for the entries of new members.
+				 */
+				public String entriesNewMember () {
+					return partyKey + "." + "entriesnewmember";
+				}
+				
+				/**
+				 * The number of free entries.
+				 * @return the translation for the free entries.
+				 */
+				public String entriesFree () {
+					return partyKey + "." + "entriesfree";
+				}
+				
+				/**
+				 * The number of entries from males.
+				 * @return the translation for the male entries.
+				 */
+				public String entriesMale () {
+					return partyKey + "." + "entriesmale";
+				}
+				
+				/**
+				 * The number of entries from female.
+				 * @return the translation for the female entries.
+				 */
+				public String entriesFemale () {
+					return partyKey + "." + "entriesfemale";
+				}
+				
+				/**
+				 * The revenue of the party.
+				 * @return the translation for the revenue of the party.
+				 */
+				public String revenue () {
+					return partyKey + "." + "revenue";
+				}
+				
+				/**
+				 * The profit of the party.
+				 * @return the translation for the profit of the party.
+				 */
+				public String profit () {
+					return partyKey + "." + "profit";
+				}
+			}
+			
+			/**
+			 * Access to the party translations.
+			 * @return the party translations.
+			 */
+			public Party party () {
+				return new Party(entityKey);
 			}
 			
 		}
@@ -417,6 +534,107 @@ public final class Translator implements ITranslator {
 			 */
 			public Status status () {
 				return new Status(enumKey);
+			}
+			
+			/**
+			 * The translations for the parameters.
+			 * @author Alex
+			 */
+			public final static class Parameter {
+				/** The key to the gender structure */
+				private final String	parameterKey;
+				
+				/**
+				 * Constructor #1.<br />
+				 * @param parentKey
+				 *        the key from the parent category.
+				 */
+				private Parameter (final String parentKey) {
+					super();
+					this.parameterKey = parentKey + "." + "parameter";
+				}
+				
+				/*
+				 * (non-Javadoc)
+				 * @see java.lang.Object#toString()
+				 */
+				@Override
+				public String toString () {
+					return parameterKey;
+				}
+				
+				/**
+				 * The look and feel parameter.
+				 * @return the translation for the look and feel parameter.
+				 */
+				public String lookAndFeel () {
+					return parameterKey + "." + "look_and_feel";
+				}
+				
+				/**
+				 * The time limit parameter.
+				 * @return the translation for the time limit parameter.
+				 */
+				public String timeLimit () {
+					return parameterKey + "." + "time_limit";
+				}
+				
+				/**
+				 * The entry price total parameter.
+				 * @return the translation for the entry price total parameter.
+				 */
+				public String entryPriceTotal () {
+					return parameterKey + "." + "entry_price_total";
+				}
+				
+				/**
+				 * The entry price first price parameter.
+				 * @return the translation for the entry price first price parameter.
+				 */
+				public String entryPriceFirstPart () {
+					return parameterKey + "." + "entry_price_first_part";
+				}
+				
+				/**
+				 * The entry price second price parameter.
+				 * @return the translation for the entry price second price parameter.
+				 */
+				public String entryPriceSecondPart () {
+					return parameterKey + "." + "entry_price_second_part";
+				}
+				
+				/**
+				 * The free entry frequency parameter.
+				 * @return the translation for the free entry frequency parameter.
+				 */
+				public String freeEntryFrequency () {
+					return parameterKey + "." + "free_entry_frequency";
+				}
+				
+				/**
+				 * The minimum credit parameter.
+				 * @return the translation for the minimum credit parameter.
+				 */
+				public String minCredit () {
+					return parameterKey + "." + "min_credit";
+				}
+				
+				/**
+				 * The maximum credit parameter.
+				 * @return the translation for the maximum credit parameter.
+				 */
+				public String maxCredit () {
+					return parameterKey + "." + "max_credit";
+				}
+				
+			}
+			
+			/**
+			 * Access to the parameters translations.
+			 * @return the parameters translations.
+			 */
+			public Parameter parameter () {
+				return new Parameter(enumKey);
 			}
 			
 		}
@@ -589,6 +807,14 @@ public final class Translator implements ITranslator {
 					 */
 					public String seeAttendees () {
 						return databaseKey + "." + "seeAttendees";
+					}
+					
+					/**
+					 * The import data item.
+					 * @return the translation for the import data item.
+					 */
+					public String importData () {
+						return databaseKey + "." + "importData";
 					}
 					
 					/**
