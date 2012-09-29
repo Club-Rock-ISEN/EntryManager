@@ -11,7 +11,7 @@ import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
 /**
- * TODO
+ * Standard implementation of the services.<br />
  * @author Alex
  */
 public class ServiceFactoryImpl extends ServiceFactory {
