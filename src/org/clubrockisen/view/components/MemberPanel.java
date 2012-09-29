@@ -1,5 +1,6 @@
 package org.clubrockisen.view.components;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -67,9 +68,20 @@ public class MemberPanel extends JPanel implements AbstractView {
 	private final JSpinner						creditField;
 	
 	/**
-	 * Constructor #.<br />
+	 * Constructor #1.<br />
+	 * Build a non-editable member panel.
+	 * @see #MemberPanel(boolean)
 	 */
 	public MemberPanel () {
+		this(false);
+	}
+	
+	/**
+	 * Constructor #2.<br />
+	 * @param editable
+	 *        <code>true</code>
+	 */
+	public MemberPanel (final boolean editable) {
 		super(new GridBagLayout());
 		
 		final Map<? extends Enum<?>, Column> col = Member.getColumns();
@@ -129,6 +141,12 @@ public class MemberPanel extends JPanel implements AbstractView {
 				Double.parseDouble(paramManager.get(ParametersEnum.MAX_CREDIT).getValue()),
 				Constants.STEP_MONEY));
 		add(creditField, c);
+		
+		if (!editable) {
+			for (final Component component : getComponents()) {
+				component.setEnabled(false);
+			}
+		}
 	}
 	
 	

@@ -1,5 +1,6 @@
 package org.clubrockisen.view.components;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -59,6 +61,7 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 		
 		final Box hBox = new Box(BoxLayout.LINE_AXIS);
 		hBox.add(cancelButton);
+		hBox.add(Box.createRigidArea(new Dimension(Constants.DEFAULT_COMPONENT_GAP, 0)));
 		hBox.add(validateButton);
 		this.add(hBox);
 	}

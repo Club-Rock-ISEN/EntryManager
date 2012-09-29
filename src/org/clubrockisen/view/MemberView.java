@@ -58,8 +58,7 @@ public class MemberView extends AbstractFrame {
 	 */
 	@Override
 	protected void build () {
-		final Member m = new Member();
-		setTitle(getTranslator().get(m));
+		setTitle(getTranslator().get(new Member()));
 		setContentPane(buildMemberPanel());
 		setListeners();
 	}
@@ -71,9 +70,9 @@ public class MemberView extends AbstractFrame {
 	private JPanel buildMemberPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
 		final GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1, 0.5,
-				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.BOTH,
+				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				Constants.DEFAULT_INSETS, 0, 0);
-		memberPanel = new MemberPanel();
+		memberPanel = new MemberPanel(true);
 		validateCancelPanel = new ValidateCancelPanel(this);
 		
 		pane.add(memberPanel, c);
