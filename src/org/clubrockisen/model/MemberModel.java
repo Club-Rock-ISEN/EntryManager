@@ -31,6 +31,7 @@ public class MemberModel extends AbstractModel {
 	 * Default constructor.
 	 */
 	public MemberModel () {
+		super();
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
@@ -62,6 +63,22 @@ public class MemberModel extends AbstractModel {
 		return success;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
+	 */
+	@Override
+	public void reload () {
+		final int id = member.getIdMember();
+		newFlag = true;
+		if (id > 0) {
+			final Member m = daoMember.find(id);
+			initMember(m);
+		} else {
+			initDefault();
+		}
+	}
+
 	/**
 	 * Initialize model with default values.
 	 */
@@ -196,22 +213,6 @@ public class MemberModel extends AbstractModel {
 		final Status oldStatus = getStatus();
 		member.setStatus(status);
 		fireModelChange(MemberColumn.STATUS.getPropertyName(), oldStatus, status);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
-	 */
-	@Override
-	public void reload () {
-		final int id = member.getIdMember();
-		newFlag = true;
-		if (id > 0) {
-			final Member m = daoMember.find(id);
-			initMember(m);
-		} else {
-			initDefault();
-		}
 	}
 	
 }

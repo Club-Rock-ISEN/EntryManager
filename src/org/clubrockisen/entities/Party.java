@@ -253,10 +253,10 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	
 	/**
 	 * Set the date.
-	 * @param l the date to set.
+	 * @param date the date to set.
 	 */
-	public void setDate (final long l) {
-		this.date = l;
+	public void setDate (final Long date) {
+		this.date = date;
 	}
 	
 	/**

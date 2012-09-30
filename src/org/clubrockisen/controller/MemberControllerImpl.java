@@ -11,7 +11,7 @@ import org.clubrockisen.entities.enums.Status;
 
 /**
  * Basic implementation of a member controller.<br />
- * Avoid to duplicate code between controller which used members.
+ * Avoid to duplicate code between controller which use members.
  * @author Alex
  */
 public class MemberControllerImpl implements MemberController {

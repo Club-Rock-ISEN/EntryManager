@@ -540,7 +540,7 @@ public final class Translator implements ITranslator {
 			 * The translations for the parameters.
 			 * @author Alex
 			 */
-			public final static class Parameter {
+			public static final class Parameter {
 				/** The key to the gender structure */
 				private final String	parameterKey;
 				

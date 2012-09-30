@@ -49,6 +49,7 @@ public abstract class AbstractModel {
 	
 	/**
 	 * Notify listener that a property has been updated.
+	 * @param <T> the type of the property (avoid providing two different types to the method).
 	 * @param propertyName
 	 *        the name of the property.
 	 * @param oldValue
@@ -56,8 +57,8 @@ public abstract class AbstractModel {
 	 * @param newValue
 	 *        its new value.
 	 */
-	protected void fireModelChange (final String propertyName, final Object oldValue,
-			final Object newValue) {
+	protected <T> void fireModelChange (final String propertyName, final T oldValue,
+			final T newValue) {
 		observable.firePropertyChange(propertyName, oldValue, newValue);
 	}
 	
