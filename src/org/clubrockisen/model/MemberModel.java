@@ -47,7 +47,7 @@ public class MemberModel extends AbstractModel {
 	@Override
 	public boolean persist () {
 		boolean success = false;
-		if (member.getIdMember() != null) {
+		if (member.getIdMember() != null && member.getIdMember() != -1) {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Updating member " + member);
 			}
@@ -78,7 +78,7 @@ public class MemberModel extends AbstractModel {
 			initDefault();
 		}
 	}
-
+	
 	/**
 	 * Initialize model with default values.
 	 */

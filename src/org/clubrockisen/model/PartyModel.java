@@ -44,7 +44,7 @@ public class PartyModel extends AbstractModel {
 	@Override
 	public boolean persist () {
 		boolean success = false;
-		if (party.getIdParty() != null) {
+		if (party.getIdParty() != null && party.getIdParty() == -1) {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Updating party " + party);
 			}

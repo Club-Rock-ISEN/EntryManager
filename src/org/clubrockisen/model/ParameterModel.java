@@ -37,6 +37,27 @@ public class ParameterModel extends AbstractModel {
 		firstRefresh = false;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
+	 */
+	@Override
+	public boolean persist () {
+		return parametersManager.set(parameter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
+	 */
+	@Override
+	public void reload () {
+		final Parameter param = parametersManager.get(ParametersEnum.fromValue(parameter.getName()));
+		setComponentClass(param.getComponentClass());
+		setType(param.getType());
+		setValue(param.getValue());
+	}
+
 	/**
 	 * Return the name.
 	 * @return the name of the parameter.
@@ -119,26 +140,5 @@ public class ParameterModel extends AbstractModel {
 		final String oldType = parameter.getComponentClass();
 		parameter.setComponentClass(componentClass);
 		fireModelChange(ParameterColumn.COMPONENT_CLASS.getPropertyName(), oldType, componentClass);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
-	 */
-	@Override
-	public boolean persist () {
-		return parametersManager.set(parameter);
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
-	 */
-	@Override
-	public void reload () {
-		final Parameter param = parametersManager.get(ParametersEnum.fromValue(parameter.getName()));
-		setComponentClass(param.getComponentClass());
-		setType(param.getType());
-		setValue(param.getValue());
 	}
 }
