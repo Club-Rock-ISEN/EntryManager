@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -34,10 +35,14 @@ import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.abstracts.IFileImporter;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.components.MemberPanel;
 
 /**
  * The main window of the GUI.
@@ -50,18 +55,23 @@ public class MainWindow extends AbstractFrame {
 	private static final long			serialVersionUID	= 8512382872996144843L;
 	
 	// Attributes for the controls
+	/** Text field for searching members */
 	private JTextField					searchBox;
+	/** Member component */
+	private MemberPanel					memberComponent;
+	/** The list with the search results */
 	private JList<Member>				resultList;
-	private JButton							enterButton, updateButton, deleteButton;
-	private JLabel							nameField, genderField, statusField, entryNumberField,
+	private JButton						enterButton, updateButton, deleteButton;
+	private JLabel						nameField, genderField, statusField, entryNumberField,
 	nextFreeField, entryPartyTotalNumberField, entryPartyFirstPartNumberField,
 	entryPartySecondPartNumberField, newMemberNumberField, freeMemberNumberField,
 	maleNumberField, femaleNumberField, deltaField, revenueField, profitField;
 	
+	/** Model for the result list (TODO move out) */
 	private DefaultListModel<Member>	resultListModel;
 	
 	/** The panel for the member modifications */
-	private MemberPanelController memberUpdatePanel;
+	private MemberPanelController		memberUpdatePanel;
 	/** The panel for the parameters modifications */
 	private ParametersPanelController	parametersPanel;
 	
@@ -183,9 +193,29 @@ public class MainWindow extends AbstractFrame {
 				// TODO Auto-generated method stub
 			}
 		});
+		final JMenuItem importDataItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().database().importData()));
+		importDataItem.setAccelerator(KeyStroke.getKeyStroke("F9"));
+		importDataItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				final IFileImporter fileImporter = ServiceFactory.getImplementation().getFileImporter();
+				final JFileChooser chooser = new JFileChooser();
+				final int choice = chooser.showDialog(getFrame(), "Parse file");
+				if (choice != JFileChooser.APPROVE_OPTION) {
+					return;
+				}
+				if (fileImporter.parseFile(chooser.getSelectedFile().toPath(), fileImporter.getAvailableFormat().iterator().next())) {
+					JOptionPane.showConfirmDialog(getFrame(), "Success!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showConfirmDialog(getFrame(), "Failed!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		dataBaseMenu.add(seeMembersItem);
 		dataBaseMenu.add(seeAttendeesItem);
 		dataBaseMenu.addSeparator();
+		dataBaseMenu.add(importDataItem);
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
@@ -260,7 +290,7 @@ public class MainWindow extends AbstractFrame {
 		menuBar.add(dataBaseMenu);
 		menuBar.add(memberMenu);
 		menuBar.add(helpMenu);
-		this.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 	}
 	
 	/**
@@ -370,139 +400,10 @@ public class MainWindow extends AbstractFrame {
 	 * @return the panel.
 	 */
 	private JPanel buildMemberPanel () {
-		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder(getTranslator()
-				.get("app.mainWindow.groupBox.member")));
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel nameLabel = new JLabel(getTranslator().get("app.mainWindow.label.name"));
-		pane.add(nameLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel genderLabel = new JLabel(getTranslator().get("app.mainWindow.label.gender"));
-		pane.add(genderLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel statusLabel = new JLabel(getTranslator().get("app.mainWindow.label.status"));
-		pane.add(statusLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel entryNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.entryNumber"));
-		pane.add(entryNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel nextFreeLabel = new JLabel(getTranslator().get("app.mainWindow.label.nextFree"));
-		pane.add(nextFreeLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		nameField = new JLabel("Alex Barféty");
-		pane.add(nameField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		genderField = new JLabel("homme");
-		pane.add(genderField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		statusField = new JLabel("membre d'honneur");
-		pane.add(statusField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		entryNumberField = new JLabel("13");
-		pane.add(entryNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0.2;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		nextFreeField = new JLabel("5");
-		pane.add(nextFreeField, c);
+		final JPanel pane = new JPanel();
+		pane.setBorder(BorderFactory.createTitledBorder(getTranslator().get(new Member())));
+		memberComponent = new MemberPanel();
+		pane.add(memberComponent);
 		
 		return pane;
 	}
@@ -513,7 +414,7 @@ public class MainWindow extends AbstractFrame {
 	 */
 	private JPanel buildPartyPanel () {
 		final JPanel pane = new JPanel(new GridBagLayout());
-		pane.setBorder(BorderFactory.createTitledBorder(getTranslator().get("app.mainWindow.groupBox.party")));
+		pane.setBorder(BorderFactory.createTitledBorder(getTranslator().get(new Party())));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -804,7 +705,7 @@ public class MainWindow extends AbstractFrame {
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		// TODO Auto-generated method stub
-		
+		memberComponent.modelPropertyChange(evt);
 	}
 	
 }

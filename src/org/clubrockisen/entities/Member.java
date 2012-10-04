@@ -58,7 +58,7 @@ public class Member extends Entity implements Cloneable {
 	 */
 	public enum MemberColumn {
 		/** The member's id */
-		ID ("Id"),
+		ID ("IdMember"),
 		/** The member's name */
 		NAME ("Name"),
 		/** The member's gender */
@@ -237,7 +237,7 @@ public class Member extends Entity implements Cloneable {
 	 * @param entries
 	 *        the entries to set
 	 */
-	public void setEntries (final int entries) {
+	public void setEntries (final Integer entries) {
 		this.entries = entries;
 	}
 	
@@ -272,7 +272,7 @@ public class Member extends Entity implements Cloneable {
 	 * @param credit
 	 *        the credit to set
 	 */
-	public void setCredit (final double credit) {
+	public void setCredit (final Double credit) {
 		this.credit = credit;
 	}
 	
@@ -339,6 +339,19 @@ public class Member extends Entity implements Cloneable {
 		clone.credit = credit;
 		clone.status = status;
 		return clone;
+	}
+	
+	/**
+	 * Print all the fields of the member.<br />
+	 * @return a String containing all the field values.
+	 */
+	public String printDetails () {
+		return "name: " + name + "\t"
+				+ "gender: " + gender + "\t"
+				+ "entries: " + entries + "\t"
+				+ "nextFree: " + nextFree + "\t"
+				+ "credit: " + credit + "\t"
+				+ "status: " + status;
 	}
 	
 }

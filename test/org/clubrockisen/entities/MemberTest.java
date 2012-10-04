@@ -182,7 +182,7 @@ public class MemberTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.entities.Member#setEntries(int)}.
+	 * Test method for {@link org.clubrockisen.entities.Member#setEntries(Integer)}.
 	 */
 	@Test
 	public void testSetEntries () {
@@ -224,7 +224,7 @@ public class MemberTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.entities.Member#setCredit(double)}.
+	 * Test method for {@link org.clubrockisen.entities.Member#setCredit(Double)}.
 	 */
 	@Test
 	public void testSetCredit () {

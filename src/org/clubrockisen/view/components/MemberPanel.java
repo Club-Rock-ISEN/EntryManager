@@ -1,6 +1,5 @@
 package org.clubrockisen.view.components;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -89,7 +88,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 		int xIndex = 0;
 		int yIndex = 0;
 		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.16,
-				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
+				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.BOTH,
 				Constants.DEFAULT_INSETS, 0, 0);
 		
 		add(new JLabel(translator.getField(m, col.get(MemberColumn.NAME))), c);
@@ -143,9 +142,12 @@ public class MemberPanel extends JPanel implements AbstractView {
 		add(creditField, c);
 		
 		if (!editable) {
-			for (final Component component : getComponents()) {
-				component.setEnabled(false);
-			}
+			nameField.setEditable(false);
+			genderField.setEnabled(false);
+			statusField.setEnabled(false);
+			entryNumberField.setEnabled(false);
+			nextFreeField.setEnabled(false);
+			creditField.setEnabled(false);
 		}
 	}
 	

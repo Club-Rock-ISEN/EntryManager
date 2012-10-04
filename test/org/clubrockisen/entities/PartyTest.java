@@ -184,7 +184,7 @@ public class PartyTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.entities.Party#setDate(java.util.Date)}.
+	 * Test method for {@link org.clubrockisen.entities.Party#setDate(Long)}.
 	 */
 	@Test
 	public void testSetDate () {

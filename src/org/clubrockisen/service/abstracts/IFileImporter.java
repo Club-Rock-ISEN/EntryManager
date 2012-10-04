@@ -15,8 +15,9 @@ public interface IFileImporter {
 	 *        the file to parse.
 	 * @param format
 	 *        the format of the file.
+	 * @return <code>true</code> if the file was successfully parsed.
 	 */
-	void parseFile (Path file, Format format);
+	boolean parseFile (Path file, Format format);
 	
 	/**
 	 * Retrieve the formats supported by the implementation.

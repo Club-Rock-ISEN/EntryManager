@@ -248,7 +248,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 */
 	@Comparable
 	public Long getDate () {
-		return date == null ? Integer.valueOf(0) : date;
+		return date == null ? Long.valueOf(0) : date;
 	}
 	
 	/**

@@ -12,7 +12,10 @@ import org.clubrockisen.service.abstracts.Format;
 /**
  * Old file format.<br />
  * Sample:
- * <pre>﻿Name;mail;F/H;A/M;entries;next free;credit;?;?;§</pre>
+ * 
+ * <pre>
+ * ﻿Name;mail;F/H;A/M;entries;next free;credit;?;?;§
+ * </pre>
  * @author Alex
  */
 public final class OldDataFiles implements Format {
@@ -56,7 +59,7 @@ public final class OldDataFiles implements Format {
 			 */
 			@Override
 			public Status convert (final String data) {
-				if ("A".equalsIgnoreCase(data)) {
+				if ("M".equalsIgnoreCase(data)) {
 					return Status.VETERAN;
 				}
 				return Status.MEMBER;
@@ -130,4 +133,14 @@ public final class OldDataFiles implements Format {
 	public List<Converter> getFieldOrder () {
 		return fieldOrder;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString () {
+		return "Old member file";
+	}
+	
 }

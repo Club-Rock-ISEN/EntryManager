@@ -34,7 +34,7 @@ public interface Format {
 		 * Return the field filled by this data.
 		 * @return the field.
 		 */
-		MemberColumn getField () {
+		public MemberColumn getField () {
 			return field;
 		}
 		
