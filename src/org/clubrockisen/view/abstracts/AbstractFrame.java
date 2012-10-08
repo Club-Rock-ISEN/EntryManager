@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import org.clubrockisen.common.Configuration;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -25,6 +26,8 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	private static final long						serialVersionUID	= -3391832845968248721L;
 	
 	// Services
+	/** Configuration */
+	private final transient Configuration			configuration		= Configuration.getInstance();
 	/** Parameters manager */
 	private final transient IParametersManager		paramManager		= ServiceFactory.getImplementation().getParameterManager();
 	/** Translator */
@@ -116,6 +119,14 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 				frame.notifyAll();
 			}
 		}
+	}
+	
+	/**
+	 * Return the configuration of the application.
+	 * @return the configuration.
+	 */
+	public Configuration getConfig () {
+		return configuration;
 	}
 	
 	/**

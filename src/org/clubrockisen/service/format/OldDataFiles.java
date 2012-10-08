@@ -2,7 +2,6 @@ package org.clubrockisen.service.format;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
@@ -19,9 +18,6 @@ import org.clubrockisen.service.abstracts.Format;
  * @author Alex
  */
 public final class OldDataFiles implements Format {
-	/** Logger */
-	private static Logger			lg			= Logger.getLogger(OldDataFiles.class.getName());
-	
 	/** Unique instance of the class */
 	private static OldDataFiles		singleton	= new OldDataFiles();
 	

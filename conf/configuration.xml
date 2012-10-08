@@ -21,4 +21,5 @@
 	
 	<!-- Miscellaneous -->
 	<entry key="configuration.translationFile">./data/locale/fr.xml</entry>
+	<entry key="configuration.iconFile">./data/images/icon.png</entry>
 </properties>

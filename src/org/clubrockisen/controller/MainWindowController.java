@@ -1,15 +1,23 @@
 package org.clubrockisen.controller;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
+import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.model.PartyModel;
+import org.clubrockisen.service.abstracts.Format;
+import org.clubrockisen.service.abstracts.IFileImporter;
+import org.clubrockisen.service.abstracts.ServiceFactory;
+import org.clubrockisen.view.MainWindow;
 
 /**
  * Controller for the main window of the applications.
@@ -17,32 +25,68 @@ import org.clubrockisen.model.PartyModel;
  */
 public class MainWindowController extends AbstractController implements MemberController, PartyController {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(MainWindowController.class.getName());
+	private static Logger					lg	= Logger.getLogger(MainWindowController.class
+			.getName());
 	
+	// View
+	/** The main window */
+	private final MainWindow				mainWindow;
+	
+	// Models
 	/** The model for the member being displayed */
-	private final MemberModel		memberModel;
+	private final MemberModel				memberModel;
 	/** The model for the party being displayed */
-	private final PartyModel		partyModel;
+	private final PartyModel				partyModel;
+	
+	// Delegate controllers
 	/** The controller to delegate member's update */
-	private final MemberController	memberController;
+	private final MemberController			memberController;
 	/** The controller to delegate party's update */
-	private final PartyController	partyController;
+	private final PartyController			partyController;
+	
+	// Controllers for other panels
+	/** The panel for the member modifications */
+	private final MemberPanelController		memberUpdatePanel;
+	/** The panel for the parameters modifications */
+	private final ParametersPanelController	parametersPanel;
+	
+	// Reference to required services
+	/** The file importer */
+	private final IFileImporter				fileImporter;
 	
 	/**
 	 * Constructor #1.<br />
 	 */
 	public MainWindowController () {
 		super();
-		// mainWindow = new MainWindow(this);
+		// Other panels
+		memberUpdatePanel = new MemberPanelController();
+		parametersPanel = new ParametersPanelController();
+		// MVC initialization
+		mainWindow = new MainWindow(this);
 		memberModel = new MemberModel();
 		partyModel = new PartyModel();
 		memberController = new MemberControllerImpl(this);
 		partyController = new PartyControllerImp(this);
 		addModel(memberModel);
 		addModel(partyModel);
-		// addView(mainWindow);
+		addView(mainWindow);
+		// Set services
+		fileImporter = ServiceFactory.getImplementation().getFileImporter();
+		
+		// Waiting for the complete GUI generation
+		synchronized (mainWindow) {
+			try {
+				while (!mainWindow.isReady()) {
+					mainWindow.wait();
+				}
+			} catch (final InterruptedException e) {
+				lg.warning("Main thread interrupted: " + e.getMessage());
+			}
+		}
+		
 		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Main window controller initialized");
+			lg.info(this.getClass().getSimpleName() + " initialized");
 		}
 	}
 	
@@ -200,10 +244,27 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	@Override
 	public void dispose () {
-		// mainWindow.dispose();
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Exit program.");
+		}
+		// No need to call the dispose method on the main window: this is the origin of the call.
 		removeModel(memberModel);
 		removeModel(partyModel);
-		// removeView(mainWindow);
+		removeView(mainWindow);
+		memberUpdatePanel.dispose();
+		parametersPanel.dispose();
+		try {
+			AbstractDAOFactory.getImplementation().close();
+		} catch (final IOException ex) {
+			lg.warning("Error while closing DAO connection (" + ex.getMessage() + ")");
+		}
+	}
+	
+	/**
+	 * Show the main window.
+	 */
+	public void show () {
+		mainWindow.setVisible(true);
 	}
 	
 	/*
@@ -225,5 +286,41 @@ public class MainWindowController extends AbstractController implements MemberCo
 	public void reload () {
 		memberModel.reload();
 		partyModel.reload();
+	}
+	
+	/**
+	 * Show the member panel to create a new member.
+	 */
+	public void createMember () {
+		memberUpdatePanel.showMember(new Member());
+		memberModel.reload();
+	}
+	
+	/**
+	 * Show the parameters panel.
+	 */
+	public void showParameters () {
+		parametersPanel.show();
+	}
+	
+	/**
+	 * Import a file with member in the database.
+	 * @param file
+	 *        the file to import.
+	 * @param format
+	 *        the format of the file.
+	 * @return <code>true</code> if the file has correctly been imported.
+	 */
+	public boolean importFile (final Path file, final Format format) {
+		return fileImporter.parseFile(file, format);
+	}
+	
+	/**
+	 * Show the specified member.
+	 * @param member
+	 *        the member to show.
+	 */
+	public void showMember (final Member member) {
+		memberUpdatePanel.showMember(member);
 	}
 }

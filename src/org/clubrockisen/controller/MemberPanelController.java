@@ -36,8 +36,20 @@ public class MemberPanelController extends AbstractController implements MemberC
 		memberController = new MemberControllerImpl(this);
 		addModel(memberModel);
 		addView(memberView);
+		
+		// Waiting for the complete GUI generation
+		synchronized (memberView) {
+			try {
+				while (!memberView.isReady()) {
+					memberView.wait();
+				}
+			} catch (final InterruptedException e) {
+				lg.warning("Main thread interrupted: " + e.getMessage());
+			}
+		}
+		
 		if (lg.isLoggable(Level.INFO)) {
-			lg.info(this.getClass().getSimpleName() + " created");
+			lg.info(this.getClass().getSimpleName() + " initialized");
 		}
 	}
 	

@@ -25,8 +25,7 @@ import org.clubrockisen.entities.Member.MemberColumn;
  */
 public class SearchBoxKeyListener implements KeyListener {
 	/** Logger */
-	private static Logger					lg						= Logger.getLogger(SearchBoxKeyListener.class
-			.getName());
+	private static Logger					lg						= Logger.getLogger(SearchBoxKeyListener.class.getName());
 	
 	/** The text box being listened */
 	private final JTextField				textBox;

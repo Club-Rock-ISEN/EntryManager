@@ -117,4 +117,11 @@ public final class ConfigurationKey {
 		return rootKey + "." + "translationFile";
 	}
 	
+	/**
+	 * The path to the icon file.
+	 * @return the key to the icon.
+	 */
+	public String iconFile () {
+		return rootKey + "." + "iconFile";
+	}
 }

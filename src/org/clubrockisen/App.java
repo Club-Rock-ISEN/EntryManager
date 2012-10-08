@@ -8,10 +8,10 @@ import javax.swing.JOptionPane;
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.error.TopLevelError;
+import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.MainWindow;
 import org.clubrockisen.view.Utils;
 
 /**
@@ -63,18 +63,8 @@ public final class App {
 			
 			/** Loading GUI */
 			Utils.setLookAndFeel();
-			final MainWindow window = new MainWindow();
-			// Waiting for the window to build itself
-			synchronized (window) {
-				try {
-					while (!window.isReady()) {
-						window.wait();
-					}
-				} catch (final InterruptedException e) {
-					lg.warning("Main thread interrupted: " + e.getMessage());
-				}
-			}
-			window.setVisible(true);
+			final MainWindowController mainWindow = new MainWindowController();
+			mainWindow.show();
 			
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Club Rock ISEN application running.");

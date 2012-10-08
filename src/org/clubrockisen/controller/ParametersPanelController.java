@@ -35,6 +35,17 @@ public class ParametersPanelController extends AbstractController {
 		parametersView = new ParametersView(this);
 		addView(parametersView);
 		
+		// Waiting for the complete GUI generation
+		synchronized (parametersView) {
+			try {
+				while (!parametersView.isReady()) {
+					parametersView.wait();
+				}
+			} catch (final InterruptedException e) {
+				lg.warning("Main thread interrupted: " + e.getMessage());
+			}
+		}
+		
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine(this.getClass().getName() + " created");
 		}

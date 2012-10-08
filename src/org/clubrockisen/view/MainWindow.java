@@ -29,9 +29,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.controller.MemberPanelController;
-import org.clubrockisen.controller.ParametersPanelController;
+import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
@@ -39,8 +39,8 @@ import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator;
-import org.clubrockisen.service.abstracts.IFileImporter;
-import org.clubrockisen.service.abstracts.ServiceFactory;
+import org.clubrockisen.service.abstracts.Format;
+import org.clubrockisen.service.format.OldDataFiles;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
 
@@ -70,26 +70,26 @@ public class MainWindow extends AbstractFrame {
 	/** Model for the result list (TODO move out) */
 	private DefaultListModel<Member>	resultListModel;
 	
-	/** The panel for the member modifications */
-	private MemberPanelController		memberUpdatePanel;
-	/** The panel for the parameters modifications */
-	private ParametersPanelController	parametersPanel;
+	/** Controller of the main window */
+	private MainWindowController		controller;
 	
 	/**
 	 * Constructor #1.<br />
 	 * Unique constructor. Build the GUI of the application.
+	 * @param controller
+	 *        the controller of the view.
 	 */
-	public MainWindow () {
-		super();
+	public MainWindow (final MainWindowController controller) {
+		super(controller);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
 	 */
 	@Override
 	protected void preInit (final Object... parameters) {
-		memberUpdatePanel = new MemberPanelController();
-		parametersPanel = new ParametersPanelController();
+		controller = (MainWindowController) parameters[0];
 	}
 	
 	/*
@@ -100,8 +100,7 @@ public class MainWindow extends AbstractFrame {
 	protected void build () {
 		this.setTitle(getTranslator().get(Translator.Key.GUI.title()));
 		try {
-			// TODO parameterize
-			this.setIconImage(ImageIO.read(new File("./data/images/icon.png")));
+			this.setIconImage(ImageIO.read(new File(getConfig().get(ConfigurationKey.KEY.iconFile()))));
 		} catch (final IOException e) {
 			lg.warning("Could not load icon for main window.");
 		}
@@ -147,7 +146,7 @@ public class MainWindow extends AbstractFrame {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				parametersPanel.show();
+				controller.showParameters();
 			}
 		});
 		final JMenuItem quitItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().file().quit()));
@@ -199,13 +198,13 @@ public class MainWindow extends AbstractFrame {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				final IFileImporter fileImporter = ServiceFactory.getImplementation().getFileImporter();
 				final JFileChooser chooser = new JFileChooser();
-				final int choice = chooser.showDialog(getFrame(), "Parse file");
-				if (choice != JFileChooser.APPROVE_OPTION) {
+				if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
+					// Cancel action
 					return;
 				}
-				if (fileImporter.parseFile(chooser.getSelectedFile().toPath(), fileImporter.getAvailableFormat().iterator().next())) {
+				final Format format = OldDataFiles.getInstance(); // TODO update to allow format selection
+				if (controller.importFile(chooser.getSelectedFile().toPath(), format)) {
 					JOptionPane.showConfirmDialog(getFrame(), "Success!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showConfirmDialog(getFrame(), "Failed!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -226,7 +225,7 @@ public class MainWindow extends AbstractFrame {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				memberUpdatePanel.showMember(new Member());
+				controller.createMember();
 			}
 		});
 		final JMenuItem deleteMemberItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().member().deleteMember()));
@@ -249,7 +248,8 @@ public class MainWindow extends AbstractFrame {
 					Utils.showMessageDialog(MainWindow.this, Translator.Key.GUI.dialog()
 							.notSelectedMember(), JOptionPane.WARNING_MESSAGE);
 				} else {
-					memberUpdatePanel.showMember(resultList.getSelectedValue());
+					// TODO move result list model to controller?
+					controller.showMember(resultList.getSelectedValue());
 				}
 			}
 		});
@@ -685,22 +685,13 @@ public class MainWindow extends AbstractFrame {
 	 */
 	@Override
 	public void dispose () {
-		lg.info("Exit program.");
 		super.dispose();
-		memberUpdatePanel.dispose();
-		parametersPanel.dispose();
-		try {
-			AbstractDAOFactory.getImplementation().close();
-		} catch (final IOException ex) {
-			lg.warning("Error while closing DAO connection (" + ex.getMessage() + ")");
-		}
+		controller.dispose();
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent
-	 * )
+	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
 	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
