@@ -27,6 +27,9 @@ public final class Constants {
 	/** The date format used in log display */
 	public static final String	LOG_DATE_FORMAT			= "EEEE d MMMM yyyy";
 	
+	/** The date format used in the GUI */
+	public static final String	DISPLAYED_DATE_FORMAT	= LOG_DATE_FORMAT;
+	
 	/** The step between two possible values for the money */
 	public static final double	STEP_MONEY				= 0.01;
 	

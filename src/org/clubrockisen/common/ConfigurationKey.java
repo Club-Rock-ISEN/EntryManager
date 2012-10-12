@@ -124,4 +124,12 @@ public final class ConfigurationKey {
 	public String iconFile () {
 		return rootKey + "." + "iconFile";
 	}
+	
+	/**
+	 * The path to the help file.
+	 * @return the key to the help.
+	 */
+	public String helpFile () {
+		return rootKey + "." + "helpFile";
+	}
 }

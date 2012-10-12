@@ -18,6 +18,7 @@ import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.ValidateCancelPanel;
@@ -136,7 +137,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
 					Utils.showMessageDialog(getFrame(),
-							Translator.Key.GUI.dialog().notPersistedParameter(),
+							Key.GUI.dialog().notPersistedParameter(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					getFrame().setVisible(false);

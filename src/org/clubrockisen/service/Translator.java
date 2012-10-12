@@ -1239,10 +1239,85 @@ public final class Translator implements ITranslator {
 				 * Access to the translations for the not persisted parameter.
 				 * @return the not persisted parameter dialog translations.
 				 */
-				public AbstractDialog notPersistedParameter () {
+				public NotPersistedParameter notPersistedParameter () {
 					return new NotPersistedParameter(dialogKey);
 				}
 				
+				/**
+				 * The dialog to warn when a unparsable date is entered.
+				 * @author Alex
+				 */
+				public static final class UnparsableDate extends AbstractDialog {
+					/** The key to the unparsable date dialog */
+					private final String	unparsableDateKey;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the unparsable date dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private UnparsableDate (final String parentKey) {
+						super();
+						unparsableDateKey = parentKey + "." + "unparsableDate";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return unparsableDateKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the translations for the unparsable date dialog.
+				 * @return the unparsable date dialog translations.
+				 */
+				public UnparsableDate unparsableDate () {
+					return new UnparsableDate(dialogKey);
+				}
+				
+				/**
+				 * The dialog to warn that the help could not be displayed.
+				 * @author Alex
+				 */
+				public static final class HelpNotDisplayable extends AbstractDialog {
+					/** The key to the help not displayable dialog */
+					private final String	helpNotDisplayableKey;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the help not displayable dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private HelpNotDisplayable (final String parentKey) {
+						super();
+						helpNotDisplayableKey = parentKey + "." + "helpNotFound";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return helpNotDisplayableKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the translations for the help not displayable dialog.
+				 * @return the help not displayable dialog translations.
+				 */
+				public HelpNotDisplayable helpNotDisplayable () {
+					return new HelpNotDisplayable(dialogKey);
+				}
 			}
 			
 			/**

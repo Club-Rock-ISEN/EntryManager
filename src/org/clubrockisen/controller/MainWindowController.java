@@ -1,10 +1,14 @@
 package org.clubrockisen.controller;
 
+import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Configuration;
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
@@ -25,8 +29,7 @@ import org.clubrockisen.view.MainWindow;
  */
 public class MainWindowController extends AbstractController implements MemberController, PartyController {
 	/** Logger */
-	private static Logger					lg	= Logger.getLogger(MainWindowController.class
-			.getName());
+	private static Logger					lg				= Logger.getLogger(MainWindowController.class.getName());
 	
 	// View
 	/** The main window */
@@ -51,6 +54,10 @@ public class MainWindowController extends AbstractController implements MemberCo
 	private final ParametersPanelController	parametersPanel;
 	
 	// Reference to required services
+	/** The configuration */
+	private final Configuration				configuration	= Configuration.getInstance();
+	/** The configuration keys */
+	private final ConfigurationKey			keys			= ConfigurationKey.KEY;
 	/** The file importer */
 	private final IFileImporter				fileImporter;
 	
@@ -316,11 +323,44 @@ public class MainWindowController extends AbstractController implements MemberCo
 	}
 	
 	/**
+	 * Export a file with members in the database.
+	 * @param file
+	 *        the file to export.
+	 * @param format
+	 *        the format of the file.
+	 * @return <code>true</code> if the file has correctly been imported.
+	 */
+	public boolean exportFile (final Path file, final Format format) {
+		// TODO
+		return false;
+	}
+	
+	/**
 	 * Show the specified member.
 	 * @param member
 	 *        the member to show.
 	 */
 	public void showMember (final Member member) {
 		memberUpdatePanel.showMember(member);
+	}
+	
+	/**
+	 * Show the help of the program.
+	 * @return <code>true</code> if the help could be displayed.
+	 */
+	public boolean showHelp () {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				final Path helpFile = Paths.get(configuration.get(keys.helpFile()));
+				Desktop.getDesktop().browse(helpFile.toUri());
+			} catch (final IOException e) {
+				lg.warning("Could not display help (" + e.getClass() + "; " + e.getMessage() + ")");
+				return false;
+			}
+			return true;
+		}
+		// No desktop supported
+		lg.warning("Cannot show help, desktop not supported");
+		return false;
 	}
 }

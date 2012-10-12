@@ -78,7 +78,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 	/**
 	 * Constructor #2.<br />
 	 * @param editable
-	 *        <code>true</code>
+	 *        <code>true</code> if the fields should be editable.
 	 */
 	public MemberPanel (final boolean editable) {
 		super(new GridBagLayout());
@@ -87,7 +87,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 		final Member m = new Member();
 		int xIndex = 0;
 		int yIndex = 0;
-		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.16,
+		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.5, 0.16,
 				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.BOTH,
 				Constants.DEFAULT_INSETS, 0, 0);
 		
@@ -111,7 +111,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		yIndex = 0;
 		c.gridx = ++xIndex;
 		c.gridy = yIndex;
-		c.gridwidth = 1;
 		nameField = new JTextField();
 		add(nameField, c);
 		
@@ -154,9 +153,9 @@ public class MemberPanel extends JPanel implements AbstractView {
 	
 	/**
 	 * Add listeners to the components.<br />
-	 * The listener will warn the specified controller on a property change.
+	 * The listener will notify the specified controller on a property change.
 	 * @param controller
-	 *        the controller to change.
+	 *        the controller to notify.
 	 */
 	public void addListeners (final MemberController controller) {
 		nameField.addFocusListener(new FocusAdapter() {
@@ -234,8 +233,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Changing view (according to model): " + evt.getPropertyName() + " with value "
-					+ evt.getNewValue());
+			lg.fine("Changing view: " + evt.getPropertyName() + " with value " + evt.getNewValue());
 		}
 		
 		if (evt.getPropertyName().equals(MemberColumn.NAME.getPropertyName())) {

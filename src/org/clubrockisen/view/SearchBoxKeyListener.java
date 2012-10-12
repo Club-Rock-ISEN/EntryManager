@@ -1,7 +1,7 @@
 package org.clubrockisen.view;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,7 +23,7 @@ import org.clubrockisen.entities.Member.MemberColumn;
  * 
  * @author Alex
  */
-public class SearchBoxKeyListener implements KeyListener {
+public class SearchBoxKeyListener extends KeyAdapter {
 	/** Logger */
 	private static Logger					lg						= Logger.getLogger(SearchBoxKeyListener.class.getName());
 	
@@ -81,10 +81,6 @@ public class SearchBoxKeyListener implements KeyListener {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public void keyReleased (final KeyEvent e) {
 	}
 	
 	@Override

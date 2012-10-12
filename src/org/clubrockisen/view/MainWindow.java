@@ -6,16 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,7 +25,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
 
-import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -38,11 +33,12 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.service.format.OldDataFiles;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
+import org.clubrockisen.view.components.PartyPanel;
 
 /**
  * The main window of the GUI.
@@ -51,6 +47,7 @@ import org.clubrockisen.view.components.MemberPanel;
 public class MainWindow extends AbstractFrame {
 	/** Logger */
 	private static Logger				lg					= Logger.getLogger(MainWindow.class.getName());
+	
 	/** Serial version UID */
 	private static final long			serialVersionUID	= 8512382872996144843L;
 	
@@ -61,15 +58,19 @@ public class MainWindow extends AbstractFrame {
 	private MemberPanel					memberComponent;
 	/** The list with the search results */
 	private JList<Member>				resultList;
-	private JButton						enterButton, updateButton, deleteButton;
-	private JLabel						nameField, genderField, statusField, entryNumberField,
-	nextFreeField, entryPartyTotalNumberField, entryPartyFirstPartNumberField,
-	entryPartySecondPartNumberField, newMemberNumberField, freeMemberNumberField,
-	maleNumberField, femaleNumberField, deltaField, revenueField, profitField;
+	/** Button to enter the member */
+	private JButton						enterButton;
+	/** Button to update the member */
+	private JButton						updateButton;
+	/** Button to delete the member */
+	private JButton						deleteButton;
+	/** Party component */
+	private PartyPanel					partyComponent;
 	
 	/** Model for the result list (TODO move out) */
 	private DefaultListModel<Member>	resultListModel;
 	
+	// Miscellaneous
 	/** Controller of the main window */
 	private MainWindowController		controller;
 	
@@ -98,14 +99,9 @@ public class MainWindow extends AbstractFrame {
 	 */
 	@Override
 	protected void build () {
-		this.setTitle(getTranslator().get(Translator.Key.GUI.title()));
-		try {
-			this.setIconImage(ImageIO.read(new File(getConfig().get(ConfigurationKey.KEY.iconFile()))));
-		} catch (final IOException e) {
-			lg.warning("Could not load icon for main window.");
-		}
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		this.setResizable(true);
+		setTitle(getTranslator().get(Key.GUI.title()));
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setResizable(true);
 		buildMenus();
 		buildMainContainer();
 	}
@@ -116,8 +112,8 @@ public class MainWindow extends AbstractFrame {
 	private void buildMenus () {
 		final JMenuBar menuBar = new JMenuBar();
 		// File menu creation
-		final JMenu fileMenu = new JMenu(getTranslator().get(Translator.Key.GUI.menu().file().toString()));
-		final JMenuItem profitItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().file().profit()));
+		final JMenu fileMenu = new JMenu(getTranslator().get(Key.GUI.menu().file().toString()));
+		final JMenuItem profitItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().profit()));
 		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
 		profitItem.addActionListener(new ActionListener() {
 			
@@ -140,7 +136,7 @@ public class MainWindow extends AbstractFrame {
 				//ParametersManager.getInstance().set(laf);
 			}
 		});
-		final JMenuItem parametersItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().file().parameters()));
+		final JMenuItem parametersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().parameters()));
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
 			
@@ -149,7 +145,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showParameters();
 			}
 		});
-		final JMenuItem quitItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().file().quit()));
+		final JMenuItem quitItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().quit()));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
 			
@@ -164,8 +160,8 @@ public class MainWindow extends AbstractFrame {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		final JMenu dataBaseMenu = new JMenu(getTranslator().get(Translator.Key.GUI.menu().database().toString()));
-		final JMenuItem seeMembersItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().database().seeMembers()));
+		final JMenu dataBaseMenu = new JMenu(getTranslator().get(Key.GUI.menu().database().toString()));
+		final JMenuItem seeMembersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeMembers()));
 		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMembersItem.addActionListener(new ActionListener() {
 			
@@ -174,7 +170,7 @@ public class MainWindow extends AbstractFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		final JMenuItem seeAttendeesItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().database().seeAttendees()));
+		final JMenuItem seeAttendeesItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeAttendees()));
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
 			
@@ -183,16 +179,7 @@ public class MainWindow extends AbstractFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		final JMenuItem exportDataItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().database().exportData()));
-		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
-		exportDataItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
-			}
-		});
-		final JMenuItem importDataItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().database().importData()));
+		final JMenuItem importDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().importData()));
 		importDataItem.setAccelerator(KeyStroke.getKeyStroke("F9"));
 		importDataItem.addActionListener(new ActionListener() {
 			
@@ -211,6 +198,15 @@ public class MainWindow extends AbstractFrame {
 				}
 			}
 		});
+		final JMenuItem exportDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().exportData()));
+		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
+		exportDataItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				controller.exportFile(null, null);
+			}
+		});
 		dataBaseMenu.add(seeMembersItem);
 		dataBaseMenu.add(seeAttendeesItem);
 		dataBaseMenu.addSeparator();
@@ -218,8 +214,8 @@ public class MainWindow extends AbstractFrame {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		final JMenu memberMenu = new JMenu(getTranslator().get(Translator.Key.GUI.menu().member().toString()));
-		final JMenuItem newMemberItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().member().newMember()));
+		final JMenu memberMenu = new JMenu(getTranslator().get(Key.GUI.menu().member().toString()));
+		final JMenuItem newMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().newMember()));
 		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 		newMemberItem.addActionListener(new ActionListener() {
 			
@@ -228,7 +224,7 @@ public class MainWindow extends AbstractFrame {
 				controller.createMember();
 			}
 		});
-		final JMenuItem deleteMemberItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().member().deleteMember()));
+		final JMenuItem deleteMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().deleteMember()));
 		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
 		deleteMemberItem.addActionListener(new ActionListener() {
 			
@@ -237,7 +233,7 @@ public class MainWindow extends AbstractFrame {
 				// TODO Auto-generated method stub
 			}
 		});
-		final JMenuItem updateMemberItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().member().updateMember()));
+		final JMenuItem updateMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().updateMember()));
 		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
 		updateMemberItem.addActionListener(new ActionListener() {
 			
@@ -245,8 +241,9 @@ public class MainWindow extends AbstractFrame {
 			public void actionPerformed (final ActionEvent e) {
 				if (resultList.getSelectedValue() == null) {
 					lg.info("No member selected, cannot show update member window");
-					Utils.showMessageDialog(MainWindow.this, Translator.Key.GUI.dialog()
-							.notSelectedMember(), JOptionPane.WARNING_MESSAGE);
+					Utils.showMessageDialog(MainWindow.this,
+							Key.GUI.dialog().notSelectedMember(),
+							JOptionPane.WARNING_MESSAGE);
 				} else {
 					// TODO move result list model to controller?
 					controller.showMember(resultList.getSelectedValue());
@@ -258,26 +255,30 @@ public class MainWindow extends AbstractFrame {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		final JMenu helpMenu = new JMenu(getTranslator().get(Translator.Key.GUI.menu().help().toString()));
-		final JMenuItem helpItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().help().help()));
+		final JMenu helpMenu = new JMenu(getTranslator().get(Key.GUI.menu().help().toString()));
+		final JMenuItem helpItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().help()));
 		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		helpItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
+				if (!controller.showHelp()) {
+					Utils.showMessageDialog(getFrame(),
+							Key.GUI.dialog().helpNotDisplayable(),
+							JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
-		final JMenuItem aboutItem = new JMenuItem(getTranslator().get(Translator.Key.GUI.menu().help().about()));
+		final JMenuItem aboutItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().about()));
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(getFrame(),
-						getTranslator().get(Translator.Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
-								+ getTranslator().get(Translator.Key.GUI.dialog().about().license()),
-								getTranslator().get(Translator.Key.GUI.dialog().about().title()),
+						getTranslator().get(Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
+								+ getTranslator().get(Key.GUI.dialog().about().license()),
+								getTranslator().get(Key.GUI.dialog().about().title()),
 								JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -413,268 +414,10 @@ public class MainWindow extends AbstractFrame {
 	 * @return the panel.
 	 */
 	private JPanel buildPartyPanel () {
-		final JPanel pane = new JPanel(new GridBagLayout());
+		final JPanel pane = new JPanel();
 		pane.setBorder(BorderFactory.createTitledBorder(getTranslator().get(new Party())));
-		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel entryPartyTotalNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.entryPartyTotal"));
-		pane.add(entryPartyTotalNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel entryPartyFirstPartNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.entryPartyFirstPart"));
-		pane.add(entryPartyFirstPartNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel entryPartySecondPartNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.entryPartySecondPart"));
-		pane.add(entryPartySecondPartNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel newMemberNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.newMemberNumber"));
-		pane.add(newMemberNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel freeMemberNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.freeMemberNumber"));
-		pane.add(freeMemberNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel maleNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.maleNumber"));
-		pane.add(maleNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 6;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel femaleNumberLabel = new JLabel(getTranslator().get("app.mainWindow.label.femaleNumber"));
-		pane.add(femaleNumberLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 7;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel deltaLabel = new JLabel(Constants.DELTA + " :");
-		pane.add(deltaLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 8;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel revenueLabel = new JLabel(getTranslator().get("app.mainWindow.label.revenue"));
-		pane.add(revenueLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 9;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		final JLabel profitLabel = new JLabel(getTranslator().get("app.mainWindow.label.profit"));
-		pane.add(profitLabel, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		entryPartyTotalNumberField = new JLabel("12");
-		pane.add(entryPartyTotalNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		entryPartyFirstPartNumberField = new JLabel("0");
-		pane.add(entryPartyFirstPartNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		entryPartySecondPartNumberField = new JLabel("0");
-		pane.add(entryPartySecondPartNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		newMemberNumberField = new JLabel("3");
-		pane.add(newMemberNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		freeMemberNumberField = new JLabel("1");
-		pane.add(freeMemberNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 5;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		maleNumberField = new JLabel("4");
-		pane.add(maleNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 6;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		femaleNumberField = new JLabel("8");
-		pane.add(femaleNumberField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 7;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		deltaField = new JLabel("4");
-		pane.add(deltaField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 8;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		revenueField = new JLabel("48 eur");
-		pane.add(revenueField, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 9;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.1;
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		profitField = new JLabel("8 eur");
-		pane.add(profitField, c);
+		partyComponent = new PartyPanel();
+		pane.add(partyComponent);
 		
 		return pane;
 	}
@@ -695,8 +438,9 @@ public class MainWindow extends AbstractFrame {
 	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
 		memberComponent.modelPropertyChange(evt);
+		partyComponent.modelPropertyChange(evt);
+		
 	}
 	
 }

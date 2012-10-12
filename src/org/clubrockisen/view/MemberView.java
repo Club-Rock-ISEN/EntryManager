@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.entities.Member;
-import org.clubrockisen.service.Translator;
+import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.ValidateCancelPanel;
@@ -96,7 +96,8 @@ public class MemberView extends AbstractFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(getFrame(), Translator.Key.GUI.dialog().notPersistedMember(),
+					Utils.showMessageDialog(getFrame(),
+							Key.GUI.dialog().notPersistedMember(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					getFrame().setVisible(false);

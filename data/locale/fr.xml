@@ -18,7 +18,7 @@
 	<entry key="entity.party.entriestotal">Nombre d'entrées</entry>
 	<entry key="entity.party.entriesfirstpart">Entrée pour le cours</entry>
 	<entry key="entity.party.entriessecondpart">Entrées pour la soirée</entry>
-	<entry key="entity.party.entriesnewmember">Nombre de nouveaux</entry>
+	<entry key="entity.party.entriesnewmembers">Nombre de nouveaux</entry>
 	<entry key="entity.party.entriesfree">Nombre de gratuits</entry>
 	<entry key="entity.party.entriesmale">Nombre d'hommes</entry>
 	<entry key="entity.party.entriesfemale">Nombre de femmes</entry>
@@ -74,15 +74,21 @@
 	<entry key="gui.dialog.about.title">À propos</entry>
 	<entry key="gui.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
 	<entry key="gui.dialog.about.license">Distribué sous "Nouvelle Licence BSD".</entry>
-	<!-- The error dialog for no members selected -->
+	<!-- The dialog for no members selected -->
 	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
 	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
-	<!-- The error dialog for failure to persist member -->
+	<!-- The dialog for failure to persist member -->
 	<entry key="gui.dialog.notPersistedMember.title">Erreur de persistance</entry>
-	<entry key="gui.dialog.notPersistedMember.message">Les modifications du membre n'ont pas pu être enregistrées,&lt;br /&gt;consultez les journaux pour des informations détaillées.</entry>
-	<!-- The error dialog for failure to persist parameter -->
+	<entry key="gui.dialog.notPersistedMember.message">Les modifications du membre n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for failure to persist parameter -->
 	<entry key="gui.dialog.notPersistedParameter.title">Erreur de persistance</entry>
 	<entry key="gui.dialog.notPersistedParameter.message">Les modifications des paramètres n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for unparsable date -->
+	<entry key="gui.dialog.unparsableDate.title">Erreur de date</entry>
+	<entry key="gui.dialog.unparsableDate.message">La date n'a pas pu être analysée, la date précédente sera rétablie.</entry>
+	<!-- The dialog for help file not found -->
+	<entry key="gui.dialog.helpNotFound.title">Aide inaccessible</entry>
+	<entry key="gui.dialog.helpNotFound.message">Le fichier d'aide n'a pas pu être affiché, consultez les journaux pour des informations détaillées.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>
@@ -98,20 +104,4 @@
 	<entry key="app.mainWindow.button.enter">Entrée</entry>
 	<entry key="app.mainWindow.button.update">Modifier</entry>
 	<entry key="app.mainWindow.button.delete">Supprimer</entry>
-	<entry key="app.mainWindow.groupBox.member">Membre</entry>
-	<entry key="app.mainWindow.label.name">Nom :</entry>
-	<entry key="app.mainWindow.label.gender">Sexe :</entry>
-	<entry key="app.mainWindow.label.status">Statut :</entry>
-	<entry key="app.mainWindow.label.entryNumber">Nombre de visites :</entry>
-	<entry key="app.mainWindow.label.nextFree">Prochaine entrée gratuite :</entry>
-	<entry key="app.mainWindow.groupBox.party">Soirée</entry>
-	<entry key="app.mainWindow.label.entryPartyTotal">Nombre total d'entrées :</entry>
-	<entry key="app.mainWindow.label.entryPartyFirstPart">Avant 22h :</entry>
-	<entry key="app.mainWindow.label.entryPartySecondPart">Après 22h :</entry>
-	<entry key="app.mainWindow.label.newMemberNumber">Nombre de nouveaux :</entry>
-	<entry key="app.mainWindow.label.freeMemberNumber">Nombre de gratuits :</entry>
-	<entry key="app.mainWindow.label.maleNumber">Nombre d'hommes :</entry>
-	<entry key="app.mainWindow.label.femaleNumber">Nombre de femmes :</entry>
-	<entry key="app.mainWindow.label.revenue">Chiffre d'affaires :</entry>
-	<entry key="app.mainWindow.label.profit">Bénéfice :</entry>
 </properties>

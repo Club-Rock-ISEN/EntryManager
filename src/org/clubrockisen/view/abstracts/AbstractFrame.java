@@ -1,13 +1,18 @@
 package org.clubrockisen.view.abstracts;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.clubrockisen.common.Configuration;
+import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -24,6 +29,18 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	
 	/** Serial Version UID */
 	private static final long						serialVersionUID	= -3391832845968248721L;
+	
+	/** Icon for frames */
+	private static Image							icon = null;
+	/** Load icon */
+	static {
+		try {
+			icon = ImageIO.read(new File(Configuration.getInstance().get(ConfigurationKey.KEY.iconFile())));
+		} catch (final IOException e) {
+			lg.warning("Could not load icon, frame will be iconless (" + e.getClass() + "; " +
+					e.getMessage() + ")");
+		}
+	}
 	
 	// Services
 	/** Configuration */
@@ -75,19 +92,21 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	 * Build the user interface.<br />
 	 * Frame will be:
 	 * <ul>
+	 * <li>With the icon from the configuration file.</li>
 	 * <li>Not visible.</li>
-	 * <li>Centered.</li>
 	 * <li>Hidden on close.</li>
 	 * <li>Minimum size set to current size after packing the frame.</li>
+	 * <li>Centered.</li>
 	 * </ul>
 	 */
 	private void buildGUI () {
+		this.setIconImage(icon);
 		setVisible(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		setLocationRelativeTo(null);
 		build();
 		pack();
 		setMinimumSize(getSize());
+		setLocationRelativeTo(null);
 	}
 	
 	/**
