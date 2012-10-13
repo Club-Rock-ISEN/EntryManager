@@ -25,6 +25,7 @@
 	<entry key="entity.party.revenue">Chiffre d'affaire</entry>
 	<entry key="entity.party.profit">Bénéfice</entry>
 	
+	
 	<!-- Enumerations -->
 	<!-- Gender -->
 	<entry key="enum.gender.male">Homme</entry>
@@ -44,6 +45,7 @@
 	<entry key="enum.parametersenum.free_entry_frequency">Fréquence des entrées offertes</entry>
 	<entry key="enum.parametersenum.min_credit">Palier minimum pour le crédit aux adhérants</entry>
 	<entry key="enum.parametersenum.max_credit">Palier maximum pour le crédit aux adhérants</entry>
+	
 	
 	<!-- The user interface -->
 	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
@@ -89,6 +91,9 @@
 	<!-- The dialog for help file not found -->
 	<entry key="gui.dialog.helpNotFound.title">Aide inaccessible</entry>
 	<entry key="gui.dialog.helpNotFound.message">Le fichier d'aide n'a pas pu être affiché, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for the confirmation of member deletion -->
+	<entry key="gui.dialog.deleteMember.title">Confirmation de suppression</entry>
+	<entry key="gui.dialog.deleteMember.message">Êtes-vous sûr de vouloir supprimer définitivement ce membre ?</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

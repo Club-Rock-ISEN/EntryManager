@@ -139,7 +139,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem parametersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().parameters()));
 		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
 		parametersItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showParameters();
@@ -148,7 +151,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem quitItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().quit()));
 		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
 		quitItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				getFrame().dispose();
@@ -164,25 +170,34 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem seeMembersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeMembers()));
 		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
 		seeMembersItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
+				controller.showAllMembers();
 			}
 		});
 		final JMenuItem seeAttendeesItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeAttendees()));
 		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
 		seeAttendeesItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
+				controller.showAttendees();
 			}
 		});
 		final JMenuItem importDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().importData()));
 		importDataItem.setAccelerator(KeyStroke.getKeyStroke("F9"));
 		importDataItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				final JFileChooser chooser = new JFileChooser();
@@ -201,7 +216,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem exportDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().exportData()));
 		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
 		exportDataItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.exportFile(null, null);
@@ -218,7 +236,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem newMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().newMember()));
 		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
 		newMemberItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.createMember();
@@ -227,27 +248,27 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem deleteMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().deleteMember()));
 		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
 		deleteMemberItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
+				if (Utils.askConfirmation(getFrame(), Key.GUI.dialog().deleteMember())) {
+					controller.deleteMember(getSelectedMember());
+				}
 			}
 		});
 		final JMenuItem updateMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().updateMember()));
 		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
 		updateMemberItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				if (resultList.getSelectedValue() == null) {
-					lg.info("No member selected, cannot show update member window");
-					Utils.showMessageDialog(MainWindow.this,
-							Key.GUI.dialog().notSelectedMember(),
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					// TODO move result list model to controller?
-					controller.showMember(resultList.getSelectedValue());
-				}
+				controller.showMember(getSelectedMember());
 			}
 		});
 		memberMenu.add(newMemberItem);
@@ -259,7 +280,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem helpItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().help()));
 		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
 		helpItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.showHelp()) {
@@ -272,7 +296,10 @@ public class MainWindow extends AbstractFrame {
 		final JMenuItem aboutItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().about()));
 		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
 		aboutItem.addActionListener(new ActionListener() {
-			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				JOptionPane.showMessageDialog(getFrame(),
@@ -420,6 +447,22 @@ public class MainWindow extends AbstractFrame {
 		pane.add(partyComponent);
 		
 		return pane;
+	}
+	
+	/**
+	 * Return the selected member in the list.<br />
+	 * Show a warning dialog if none is selected.
+	 * @return the selected member or <code>null</code> if none is selected.
+	 */
+	private Member getSelectedMember () {
+		final Member member = resultList.getSelectedValue();
+		if (member == null) {
+			lg.info("No member selected.");
+			Utils.showMessageDialog(getFrame(),
+					Key.GUI.dialog().notSelectedMember(),
+					JOptionPane.WARNING_MESSAGE);
+		}
+		return member;
 	}
 	
 	/*

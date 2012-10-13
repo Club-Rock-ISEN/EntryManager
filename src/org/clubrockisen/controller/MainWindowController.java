@@ -341,7 +341,9 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 *        the member to show.
 	 */
 	public void showMember (final Member member) {
-		memberUpdatePanel.showMember(member);
+		if (member != null) {
+			memberUpdatePanel.showMember(member);
+		}
 	}
 	
 	/**
@@ -362,5 +364,30 @@ public class MainWindowController extends AbstractController implements MemberCo
 		// No desktop supported
 		lg.warning("Cannot show help, desktop not supported");
 		return false;
+	}
+	
+	/**
+	 * Show all the members in the database.
+	 */
+	public void showAllMembers () {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Show the attendees of the current party.
+	 */
+	public void showAttendees () {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Delete the member from the database.
+	 * @param member
+	 *        the member to delete.
+	 */
+	public void deleteMember (final Member member) {
+		if (member != null) {
+			// TODO Auto-generated method stub
+		}
 	}
 }

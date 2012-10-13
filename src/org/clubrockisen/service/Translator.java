@@ -1318,6 +1318,44 @@ public final class Translator implements ITranslator {
 				public HelpNotDisplayable helpNotDisplayable () {
 					return new HelpNotDisplayable(dialogKey);
 				}
+				
+				/**
+				 * The dialog to ask confirmation for member deletion.
+				 * @author Alex
+				 */
+				public static final class DeleteMember extends AbstractDialog {
+					/** The key to the delete member dialog */
+					private final String	deleteMember;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the delete member dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private DeleteMember (final String parentKey) {
+						super();
+						deleteMember = parentKey + "." + "deleteMember";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return deleteMember;
+					}
+					
+				}
+				
+				/**
+				 * Access to the translations for the confirm dialog on member deletion.
+				 * @return the delete member dialog translations.
+				 */
+				public DeleteMember deleteMember () {
+					return new DeleteMember(dialogKey);
+				}
 			}
 			
 			/**

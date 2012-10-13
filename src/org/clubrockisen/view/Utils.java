@@ -13,6 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
+import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
@@ -22,10 +23,12 @@ import org.clubrockisen.service.abstracts.ServiceFactory;
  */
 public final class Utils {
 	/** Logger */
-	private static Logger				lg				= Logger.getLogger(Utils.class.getName());
+	private static Logger				lg			= Logger.getLogger(Utils.class.getName());
 	
 	/** The services */
-	private static final ServiceFactory	SERVICES		= ServiceFactory.getImplementation();
+	private static final ServiceFactory	SERVICES	= ServiceFactory.getImplementation();
+	/** The translator */
+	private static final ITranslator	TRANSLATOR	= SERVICES.getTranslator();
 	
 	/**
 	 * Constructor #1.<br />
@@ -95,8 +98,8 @@ public final class Utils {
 	 */
 	public static void showMessageDialog (final Component parent, final AbstractDialog dialog,
 			final int type) {
-		final String message = multiLineHTML(SERVICES.getTranslator().get(dialog.message()));
-		JOptionPane.showMessageDialog(parent, message, SERVICES.getTranslator().get(dialog.title()), type);
+		final String message = multiLineHTML(TRANSLATOR.get(dialog.message()));
+		JOptionPane.showMessageDialog(parent, message, TRANSLATOR.get(dialog.title()), type);
 	}
 	
 	/**
@@ -116,8 +119,8 @@ public final class Utils {
 		String remaining = input;
 		while (remaining.length() > Constants.LINE_MAX_LENGTH) {
 			String nextLine = remaining.substring(0, Constants.LINE_MAX_LENGTH);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Writing next line '" + nextLine + "'");
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Writing next line '" + nextLine + "'");
 			}
 			nextLine = nextLine.substring(0, nextLine.lastIndexOf(' '));
 			result.append(nextLine).append("<br />");
@@ -140,6 +143,20 @@ public final class Utils {
 		final StringBuilder result = new StringBuilder("<html>");
 		result.append(multiLine(input)).append("</html>");
 		return result.toString().replace("\n", "<br />");
+	}
+	
+	/**
+	 * Show a confirmation dialog to the user.<br/>
+	 * 
+	 * @param parent the parent component.
+	 * @param dialog the dialog to display.
+	 * @return <code>true</code> if the use confirmed the dialog (clicked 'yes').
+	 */
+	public static boolean askConfirmation (final Component parent, final AbstractDialog dialog) {
+		final int choice = JOptionPane.showConfirmDialog(parent,
+				TRANSLATOR.get(dialog.message()), TRANSLATOR.get(dialog.title()),
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		return choice == JOptionPane.YES_OPTION;
 	}
 	
 }
