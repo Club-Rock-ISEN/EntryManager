@@ -51,22 +51,34 @@
 	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
 	
 	<!-- The menu of the main window -->
-	<entry key="gui.menu.file">Fichier</entry>
-	<entry key="gui.menu.file.profit">Bénéfices de la soirée</entry>
-	<entry key="gui.menu.file.parameters">Réglage des paramètres</entry>
-	<entry key="gui.menu.file.quit">Quitter</entry>
-	<entry key="gui.menu.database">Base de données</entry>
-	<entry key="gui.menu.database.seeMembers">Voir tout les membres</entry>
-	<entry key="gui.menu.database.seeAttendees">Voir les personnes présentes</entry>
-	<entry key="gui.menu.database.importData">Importer des données</entry>
-	<entry key="gui.menu.database.exportData">Exporter des données</entry>
-	<entry key="gui.menu.member">Membre</entry>
-	<entry key="gui.menu.member.newMember">Nouveau membre</entry>
-	<entry key="gui.menu.member.deleteMember">Supprimer membre</entry>
-	<entry key="gui.menu.member.updateMember">Modifier membre</entry>
-	<entry key="gui.menu.help">Aide</entry>
-	<entry key="gui.menu.help.help">Aide</entry>
-	<entry key="gui.menu.help.about">À propos</entry>
+	<entry key="gui.menu.file">#Fichier</entry>
+	<entry key="gui.menu.file.profit">#Bénéfices de la soirée</entry>
+	<entry key="gui.menu.file.profit.shortcut">F5</entry>
+	<entry key="gui.menu.file.parameters">Réglage des #paramètres</entry>
+	<entry key="gui.menu.file.parameters.shortcut">F4</entry>
+	<entry key="gui.menu.file.quit">#Quitter</entry>
+	<entry key="gui.menu.file.quit.shortcut">ctrl Q</entry>
+	<entry key="gui.menu.database">#Base de données</entry>
+	<entry key="gui.menu.database.seeMembers">Voir #tout les membres</entry>
+	<entry key="gui.menu.database.seeMembers.shortcut">ctrl A</entry>
+	<entry key="gui.menu.database.seeAttendees">Voir les personnes #présentes</entry>
+	<entry key="gui.menu.database.seeAttendees.shortcut">ctrl W</entry>
+	<entry key="gui.menu.database.importData">#Importer des données</entry>
+	<entry key="gui.menu.database.importData.shortcut">F2</entry>
+	<entry key="gui.menu.database.exportData">#Exporter des données</entry>
+	<entry key="gui.menu.database.exportData.shortcut">F3</entry>
+	<entry key="gui.menu.member">#Membre</entry>
+	<entry key="gui.menu.member.newMember">#Nouveau membre</entry>
+	<entry key="gui.menu.member.newMember.shortcut">ctrl N</entry>
+	<entry key="gui.menu.member.deleteMember">#Supprimer membre</entry>
+	<entry key="gui.menu.member.deleteMember.shortcut">ctrl D</entry>
+	<entry key="gui.menu.member.updateMember">#Modifier membre</entry>
+	<entry key="gui.menu.member.updateMember.shortcut">ctrl U</entry>
+	<entry key="gui.menu.help">#Aide</entry>
+	<entry key="gui.menu.help.help">#Aide</entry>
+	<entry key="gui.menu.help.help.shortcut">F1</entry>
+	<entry key="gui.menu.help.about">À #propos</entry>
+	<entry key="gui.menu.help.about.shortcut">ctrl F1</entry>
 	
 	<!-- The parameter manager -->
 	<entry key="gui.parameters.title">Paramètres</entry>

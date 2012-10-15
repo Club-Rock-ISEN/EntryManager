@@ -10,6 +10,15 @@ import org.clubrockisen.entities.Entity;
 public interface ITranslator {
 	
 	/**
+	 * Check if the translation is in the file.<br />
+	 * Use this method to avoid log useless information.
+	 * @param key
+	 *        the key to look for.
+	 * @return <code>true</code> if the key is loaded.
+	 */
+	boolean has (String key);
+	
+	/**
 	 * Get the translation of a specific key.
 	 * @param key
 	 *        the key to translate.

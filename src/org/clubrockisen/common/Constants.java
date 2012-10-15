@@ -54,4 +54,7 @@ public final class Constants {
 	/** Default insets to be used for GUI building */
 	public static final Insets	DEFAULT_INSETS			= new Insets(5, 5, 5, 5);
 	
+	/** Character used for mnemonics in menu bar */
+	public static final char	MNEMONIC_MARK			= '#';
+	
 }

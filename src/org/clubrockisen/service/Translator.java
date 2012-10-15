@@ -66,13 +66,21 @@ public final class Translator implements ITranslator {
 		return singleton;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.ITranslator#has(java.lang.String)
+	 */
+	@Override
+	public boolean has (final String key) {
+		return translations.containsKey(key);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.lang.String)
 	 */
 	@Override
 	public String get (final String key) {
-		if (!translations.containsKey(key)) {
+		if (!has(key)) {
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Cannot find translation for key " + key);
 			}
@@ -676,6 +684,58 @@ public final class Translator implements ITranslator {
 			}
 			
 			/**
+			 * Define an element that may also
+			 * @author Alex
+			 */
+			public static final class GUIElement {
+				/** The key to the property */
+				private final String propertyKey;
+				
+				/**
+				 * Constructor #.<br />
+				 * @param propertyKey the key of the property.
+				 */
+				public GUIElement (final String propertyKey) {
+					super();
+					this.propertyKey = propertyKey;
+				}
+				
+				/*
+				 * (non-Javadoc)
+				 * @see java.lang.Object#toString()
+				 */
+				@Override
+				public String toString () {
+					return propertyKey;
+				}
+				
+				/**
+				 * The text of the element.
+				 * @return the translation for the main text of the GUI element.
+				 */
+				public String getText () {
+					return toString();
+				}
+				
+				/**
+				 * The shortcut to use for quick call to the element.
+				 * @return the shortcut to use.
+				 */
+				public String getShortcut () {
+					return propertyKey + "." + "shortcut";
+				}
+				
+				/**
+				 * The tool tip to show on the element.
+				 * @return the tool tip to show on the element.
+				 */
+				public String getToolTip () {
+					return propertyKey + "." + "tooltip";
+				}
+				
+			}
+			
+			/**
 			 * The menu translation.
 			 * @author Alex
 			 */
@@ -735,24 +795,24 @@ public final class Translator implements ITranslator {
 					 * The profit item.
 					 * @return the translation for the profit item.
 					 */
-					public String profit () {
-						return fileKey + "." + "profit";
+					public GUIElement profit () {
+						return new GUIElement(fileKey + "." + "profit");
 					}
 					
 					/**
 					 * The parameters item.
 					 * @return the translation for the parameters item.
 					 */
-					public String parameters () {
-						return fileKey + "." + "parameters";
+					public GUIElement parameters () {
+						return new GUIElement(fileKey + "." + "parameters");
 					}
 					
 					/**
 					 * The quit item.
 					 * @return the translation for the quit item.
 					 */
-					public String quit () {
-						return fileKey + "." + "quit";
+					public GUIElement quit () {
+						return new GUIElement(fileKey + "." + "quit");
 					}
 					
 				}
@@ -797,32 +857,32 @@ public final class Translator implements ITranslator {
 					 * The see members item.
 					 * @return the translation for the see members item.
 					 */
-					public String seeMembers () {
-						return databaseKey + "." + "seeMembers";
+					public GUIElement seeMembers () {
+						return new GUIElement(databaseKey + "." + "seeMembers");
 					}
 					
 					/**
 					 * The see attendees item.
 					 * @return the translation for the see attendees item.
 					 */
-					public String seeAttendees () {
-						return databaseKey + "." + "seeAttendees";
+					public GUIElement seeAttendees () {
+						return new GUIElement(databaseKey + "." + "seeAttendees");
 					}
 					
 					/**
 					 * The import data item.
 					 * @return the translation for the import data item.
 					 */
-					public String importData () {
-						return databaseKey + "." + "importData";
+					public GUIElement importData () {
+						return new GUIElement(databaseKey + "." + "importData");
 					}
 					
 					/**
 					 * The export data item.
 					 * @return the translation for the export data item.
 					 */
-					public String exportData () {
-						return databaseKey + "." + "exportData";
+					public GUIElement exportData () {
+						return new GUIElement(databaseKey + "." + "exportData");
 					}
 					
 				}
@@ -867,24 +927,24 @@ public final class Translator implements ITranslator {
 					 * The new member item.
 					 * @return the translation for the new member item.
 					 */
-					public String newMember () {
-						return memberKey + "." + "newMember";
+					public GUIElement newMember () {
+						return new GUIElement(memberKey + "." + "newMember");
 					}
 					
 					/**
 					 * The delete member item.
 					 * @return the translation for the delete member item.
 					 */
-					public String deleteMember () {
-						return memberKey + "." + "deleteMember";
+					public GUIElement deleteMember () {
+						return new GUIElement(memberKey + "." + "deleteMember");
 					}
 					
 					/**
 					 * The update member item.
 					 * @return the translation for the update member item.
 					 */
-					public String updateMember () {
-						return memberKey + "." + "updateMember";
+					public GUIElement updateMember () {
+						return new GUIElement(memberKey + "." + "updateMember");
 					}
 					
 				}
@@ -929,16 +989,16 @@ public final class Translator implements ITranslator {
 					 * The help item.
 					 * @return the translation for the help item.
 					 */
-					public String help () {
-						return helpKey + "." + "help";
+					public GUIElement help () {
+						return new GUIElement(helpKey + "." + "help");
 					}
 					
 					/**
 					 * The about item.
 					 * @return the translation for the about item.
 					 */
-					public String about () {
-						return helpKey + "." + "about";
+					public GUIElement about () {
+						return new GUIElement(helpKey + "." + "about");
 					}
 					
 				}

@@ -2,10 +2,15 @@ package org.clubrockisen.view;
 
 import java.awt.Component;
 import java.awt.Frame;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -13,6 +18,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
+import org.clubrockisen.service.Translator.Key.Gui.GUIElement;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -36,6 +42,49 @@ public final class Utils {
 	 */
 	private Utils () {
 		super();
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @return the string divided in several lines.
+	 */
+	public static String multiLine (final String input) {
+		// If input is shorter than the limit
+		if (input.trim().length() < Constants.LINE_MAX_LENGTH) {
+			return input.trim();
+		}
+		
+		// Other cases
+		final StringBuilder result = new StringBuilder();
+		String remaining = input;
+		while (remaining.length() > Constants.LINE_MAX_LENGTH) {
+			String nextLine = remaining.substring(0, Constants.LINE_MAX_LENGTH);
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Writing next line '" + nextLine + "'");
+			}
+			nextLine = nextLine.substring(0, nextLine.lastIndexOf(' '));
+			result.append(nextLine).append("<br />");
+			remaining = remaining.substring(nextLine.length()).trim();
+		}
+		result.append(remaining);
+		
+		return result.toString();
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @return the content spread on several lines (using <code>&lt;br /&gt;</code>) and between
+	 *         <code>&lt;html&gt;</code> tags.
+	 * @see #multiLine(String)
+	 */
+	public static String multiLineHTML (final String input) {
+		final StringBuilder result = new StringBuilder("<html>");
+		result.append(multiLine(input)).append("</html>");
+		return result.toString().replace("\n", "<br />");
 	}
 	
 	/**
@@ -103,49 +152,6 @@ public final class Utils {
 	}
 	
 	/**
-	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
-	 * @param input
-	 *        the input string to be cut.
-	 * @return the string divided in several lines.
-	 */
-	public static String multiLine (final String input) {
-		// If input is shorter than the limit
-		if (input.trim().length() < Constants.LINE_MAX_LENGTH) {
-			return input.trim();
-		}
-		
-		// Other cases
-		final StringBuilder result = new StringBuilder();
-		String remaining = input;
-		while (remaining.length() > Constants.LINE_MAX_LENGTH) {
-			String nextLine = remaining.substring(0, Constants.LINE_MAX_LENGTH);
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Writing next line '" + nextLine + "'");
-			}
-			nextLine = nextLine.substring(0, nextLine.lastIndexOf(' '));
-			result.append(nextLine).append("<br />");
-			remaining = remaining.substring(nextLine.length()).trim();
-		}
-		result.append(remaining);
-		
-		return result.toString();
-	}
-	
-	/**
-	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
-	 * @param input
-	 *        the input string to be cut.
-	 * @return the content spread on several lines (using <code>&lt;br /&gt;</code>) and between
-	 *         <code>&lt;html&gt;</code> tags.
-	 * @see #multiLine(String)
-	 */
-	public static String multiLineHTML (final String input) {
-		final StringBuilder result = new StringBuilder("<html>");
-		result.append(multiLine(input)).append("</html>");
-		return result.toString().replace("\n", "<br />");
-	}
-	
-	/**
 	 * Show a confirmation dialog to the user.<br/>
 	 * 
 	 * @param parent the parent component.
@@ -157,6 +163,75 @@ public final class Utils {
 				TRANSLATOR.get(dialog.message()), TRANSLATOR.get(dialog.title()),
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return choice == JOptionPane.YES_OPTION;
+	}
+	
+	/**
+	 * Creates a {@link JMenuItem} based on the parameters provided.<br />
+	 * <ul>
+	 * <li>Set a mnemonic (using the character following the {@link Constants#MNEMONIC_MARK} defined).</li>
+	 * <li>Set the shortcut define in the translation file.</li>
+	 * <li>Set the listener specified.</li>
+	 * <li>Set the tool tip.</li>
+	 * </ul>
+	 * @param element
+	 *        the element to use to build the JMenuItem (use text and accelerator).
+	 * @param actionListener
+	 *        the listener to add on the menu item.
+	 * @return the menu item created.
+	 * @see #getMenu(String)
+	 */
+	public static JMenuItem getMenuItem (final GUIElement element, final ActionListener actionListener) {
+		final JMenuItem item = new JMenuItem();
+		
+		installMnemonics(item, element.getText());
+		
+		// Set shortcut
+		if (TRANSLATOR.has(element.getShortcut())) {
+			final String shortcut = TRANSLATOR.get(element.getShortcut());
+			item.setAccelerator(KeyStroke.getKeyStroke(shortcut));
+		}
+		// Set listener
+		if (actionListener != null) {
+			item.addActionListener(actionListener);
+		}
+		// Set tool tip
+		if (TRANSLATOR.has(element.getToolTip())) {
+			final String toolTip = TRANSLATOR.get(element.getToolTip());
+			item.setToolTipText(toolTip);
+		}
+		return item;
+	}
+	
+	/**
+	 * Creates a {@link JMenu} based on the text provided.<br />
+	 * 
+	 * @param element
+	 *        the translation key to use.
+	 * @return a menu parsed to retrieve the Mnemonic, if set.
+	 */
+	public static JMenu getMenu (final String element) {
+		final JMenu menu = new JMenu();
+		installMnemonics(menu, element);
+		return menu;
+	}
+	
+	/**
+	 * Install the text and the mnemonics on the specified menu component.<br />
+	 * @param menu
+	 *        the menu item to initialize.
+	 * @param key
+	 *        the translation key to use.
+	 */
+	private static void installMnemonics (final JMenuItem menu, final String key) {
+		String text = TRANSLATOR.get(key);
+		final int mnemonicIndex = text.indexOf(Constants.MNEMONIC_MARK);
+		if (mnemonicIndex > -1) {
+			text = text.substring(0, mnemonicIndex) + text.substring(mnemonicIndex + 1);
+			menu.setText(text);
+			menu.setMnemonic(KeyEvent.getExtendedKeyCodeForChar(text.charAt(mnemonicIndex)));
+		} else {
+			menu.setText(text);
+		}
 	}
 	
 }

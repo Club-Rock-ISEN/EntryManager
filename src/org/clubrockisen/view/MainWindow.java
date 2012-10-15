@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.WindowConstants;
@@ -112,10 +111,8 @@ public class MainWindow extends AbstractFrame {
 	private void buildMenus () {
 		final JMenuBar menuBar = new JMenuBar();
 		// File menu creation
-		final JMenu fileMenu = new JMenu(getTranslator().get(Key.GUI.menu().file().toString()));
-		final JMenuItem profitItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().profit()));
-		profitItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
-		profitItem.addActionListener(new ActionListener() {
+		final JMenu fileMenu = Utils.getMenu(Key.GUI.menu().file().toString());
+		final JMenuItem profitItem = Utils.getMenuItem(Key.GUI.menu().file().profit(), new ActionListener() {
 			
 			@Override
 			public void actionPerformed (final ActionEvent e) {
@@ -136,9 +133,7 @@ public class MainWindow extends AbstractFrame {
 				//ParametersManager.getInstance().set(laf);
 			}
 		});
-		final JMenuItem parametersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().parameters()));
-		parametersItem.setAccelerator(KeyStroke.getKeyStroke("F6"));
-		parametersItem.addActionListener(new ActionListener() {
+		final JMenuItem parametersItem = Utils.getMenuItem(Key.GUI.menu().file().parameters(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -148,9 +143,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showParameters();
 			}
 		});
-		final JMenuItem quitItem = new JMenuItem(getTranslator().get(Key.GUI.menu().file().quit()));
-		quitItem.setAccelerator(KeyStroke.getKeyStroke("alt F4"));
-		quitItem.addActionListener(new ActionListener() {
+		final JMenuItem quitItem = Utils.getMenuItem(Key.GUI.menu().file().quit(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -166,10 +159,8 @@ public class MainWindow extends AbstractFrame {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		final JMenu dataBaseMenu = new JMenu(getTranslator().get(Key.GUI.menu().database().toString()));
-		final JMenuItem seeMembersItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeMembers()));
-		seeMembersItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
-		seeMembersItem.addActionListener(new ActionListener() {
+		final JMenu dataBaseMenu = Utils.getMenu(Key.GUI.menu().database().toString());
+		final JMenuItem seeMembersItem = Utils.getMenuItem(Key.GUI.menu().database().seeMembers(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -179,9 +170,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showAllMembers();
 			}
 		});
-		final JMenuItem seeAttendeesItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().seeAttendees()));
-		seeAttendeesItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
-		seeAttendeesItem.addActionListener(new ActionListener() {
+		final JMenuItem seeAttendeesItem = Utils.getMenuItem(Key.GUI.menu().database().seeAttendees(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -191,9 +180,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showAttendees();
 			}
 		});
-		final JMenuItem importDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().importData()));
-		importDataItem.setAccelerator(KeyStroke.getKeyStroke("F9"));
-		importDataItem.addActionListener(new ActionListener() {
+		final JMenuItem importDataItem = Utils.getMenuItem(Key.GUI.menu().database().importData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -213,9 +200,7 @@ public class MainWindow extends AbstractFrame {
 				}
 			}
 		});
-		final JMenuItem exportDataItem = new JMenuItem(getTranslator().get(Key.GUI.menu().database().exportData()));
-		exportDataItem.setAccelerator(KeyStroke.getKeyStroke("F10"));
-		exportDataItem.addActionListener(new ActionListener() {
+		final JMenuItem exportDataItem = Utils.getMenuItem(Key.GUI.menu().database().exportData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -232,10 +217,8 @@ public class MainWindow extends AbstractFrame {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		final JMenu memberMenu = new JMenu(getTranslator().get(Key.GUI.menu().member().toString()));
-		final JMenuItem newMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().newMember()));
-		newMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
-		newMemberItem.addActionListener(new ActionListener() {
+		final JMenu memberMenu = Utils.getMenu(Key.GUI.menu().member().toString());
+		final JMenuItem newMemberItem = Utils.getMenuItem(Key.GUI.menu().member().newMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -245,9 +228,7 @@ public class MainWindow extends AbstractFrame {
 				controller.createMember();
 			}
 		});
-		final JMenuItem deleteMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().deleteMember()));
-		deleteMemberItem.setAccelerator(KeyStroke.getKeyStroke("shift DELETE"));
-		deleteMemberItem.addActionListener(new ActionListener() {
+		final JMenuItem deleteMemberItem = Utils.getMenuItem(Key.GUI.menu().member().deleteMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -259,9 +240,7 @@ public class MainWindow extends AbstractFrame {
 				}
 			}
 		});
-		final JMenuItem updateMemberItem = new JMenuItem(getTranslator().get(Key.GUI.menu().member().updateMember()));
-		updateMemberItem.setAccelerator(KeyStroke.getKeyStroke("ctrl U"));
-		updateMemberItem.addActionListener(new ActionListener() {
+		final JMenuItem updateMemberItem = Utils.getMenuItem(Key.GUI.menu().member().updateMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -276,10 +255,8 @@ public class MainWindow extends AbstractFrame {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		final JMenu helpMenu = new JMenu(getTranslator().get(Key.GUI.menu().help().toString()));
-		final JMenuItem helpItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().help()));
-		helpItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
-		helpItem.addActionListener(new ActionListener() {
+		final JMenu helpMenu = Utils.getMenu(Key.GUI.menu().help().toString());
+		final JMenuItem helpItem = Utils.getMenuItem(Key.GUI.menu().help().help(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -293,9 +270,7 @@ public class MainWindow extends AbstractFrame {
 				}
 			}
 		});
-		final JMenuItem aboutItem = new JMenuItem(getTranslator().get(Key.GUI.menu().help().about()));
-		aboutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F1"));
-		aboutItem.addActionListener(new ActionListener() {
+		final JMenuItem aboutItem = Utils.getMenuItem(Key.GUI.menu().help().about(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
