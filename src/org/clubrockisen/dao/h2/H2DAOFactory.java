@@ -28,12 +28,14 @@ import org.h2.engine.Constants;
 import org.h2.tools.RunScript;
 
 /**
- * TODO
+ * The factory for the H2 DAO classes.<br />
+ * A factory is only handling one DAO of each type and thus will not instantiate more DAOs than
+ * needed. However, if the factory is load several times, several DAOs will be created.
  * @author Alex
  */
 public class H2DAOFactory extends AbstractDAOFactory {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(H2DAOFactory.class.getName());
+	private static Logger				lg	= Logger.getLogger(H2DAOFactory.class.getName());
 	
 	/** Access to the configuration */
 	private final Configuration			config	= Configuration.getInstance();
