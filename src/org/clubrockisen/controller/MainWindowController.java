@@ -59,7 +59,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	/** The configuration keys */
 	private final ConfigurationKey			keys			= ConfigurationKey.KEY;
 	/** The file importer */
-	private final IFileImporter				fileImporter;
+	private final IFileImporter				fileImporter	= ServiceFactory.getImplementation().getFileImporter();
 	
 	/**
 	 * Constructor #1.<br />
@@ -78,8 +78,6 @@ public class MainWindowController extends AbstractController implements MemberCo
 		addModel(memberModel);
 		addModel(partyModel);
 		addView(mainWindow);
-		// Set services
-		fileImporter = ServiceFactory.getImplementation().getFileImporter();
 		
 		// Waiting for the complete GUI generation
 		synchronized (mainWindow) {
