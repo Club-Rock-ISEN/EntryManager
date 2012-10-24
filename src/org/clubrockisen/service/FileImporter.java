@@ -129,7 +129,7 @@ public class FileImporter implements IFileImporter {
 			final Object fieldValue = converter.convert(fields[i]);
 			final String methodName = "set" + converter.getField().getPropertyName();
 			try {
-				final Method method = Member.class.getMethod(methodName, new Class[] { fieldValue.getClass() });
+				final Method method = Member.class.getMethod(methodName, new Class<?>[] { fieldValue.getClass() });
 				method.invoke(member, fieldValue);
 			} catch (SecurityException | NoSuchMethodException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException e) {

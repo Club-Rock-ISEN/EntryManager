@@ -55,7 +55,11 @@ public final class ParameterComponentsManager {
 			try {
 				final String className = this.getClass().getPackage().getName() + "." +
 						parametersManager.get(parameter).getComponentClass();
-				components.put(parameter, (Class<? extends ParameterComponent>) Class.forName(className));
+				components.put(parameter, Class.forName(className).asSubclass(ParameterComponent.class));
+			} catch (final ClassCastException e) {
+				lg.warning("Class specified for parameter " + parameter.getName() + " is not a " +
+						"subclass of " + ParameterComponent.class + " (" + e.getClass() + "; " +
+						e.getMessage() + ")");
 			} catch (final ClassNotFoundException e) {
 				lg.warning("Parameter class not found for parameter " + parameter.getName() +
 						" (" + e.getClass() + "; " + e.getMessage() + ")");
