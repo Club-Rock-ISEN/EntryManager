@@ -47,7 +47,17 @@ public enum ParametersEnum {
 	/**
 	 * Maximum threshold for member credit.
 	 */
-	MAX_CREDIT ("maxCredit");
+	MAX_CREDIT ("maxCredit"),
+	
+	/**
+	 * Cost of a party, used to compute the profit.
+	 */
+	PARTY_COST ("partyCost"),
+	
+	/**
+	 * Char set of the imported/exported files.
+	 */
+	FILE_CHARSET ("fileCharset");
 	
 	/** The name of the parameter */
 	private String	name;

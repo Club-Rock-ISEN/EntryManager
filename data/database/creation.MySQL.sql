@@ -94,5 +94,7 @@ INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALU
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('entryPriceSecondPart', '3.0', 'Double', 'DoubleSpinner');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('minCredit', '-10.0', 'Double', 'DoubleSpinner');
 INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('maxCredit', '250.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('partyCost', '130.0', 'Double', 'DoubleSpinner');
+INSERT INTO `crock`.`parameter` (`name`, `value`, `type`, `componentClass`) VALUES ('fileCharset', 'UTF-8', 'String', 'CharsetComboBox');
 
 commit;

@@ -3,7 +3,9 @@ package org.clubrockisen.service;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,33 +15,40 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.service.abstracts.Format.Converter;
-import org.clubrockisen.service.abstracts.IFileImporter;
+import org.clubrockisen.service.abstracts.IFileManager;
+import org.clubrockisen.service.abstracts.IParametersManager;
+import org.clubrockisen.service.abstracts.ParametersEnum;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.service.format.OldDataFiles;
 
 
 /**
- * Implementation for the file importer.
+ * Implementation for the file manager.
  * @author Alex
  */
-public class FileImporter implements IFileImporter {
+public class FileManager implements IFileManager {
 	/** Logger */
-	private static Logger		lg	= Logger.getLogger(FileImporter.class.getName());
+	private static Logger				lg	= Logger.getLogger(FileManager.class.getName());
+	
+	/** The parameter manager */
+	private static IParametersManager	paramManager = ServiceFactory.getImplementation().getParameterManager();
 	
 	/** The member DAO */
-	private final DAO<Member>	memberDAO;
+	private final DAO<Member>			memberDAO;
 	/** The set with the file format */
-	private Set<Format>			fileFormats;
+	private Set<Format>					fileFormats;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param memberDAO
 	 *        the DAO for the members.
 	 */
-	public FileImporter (final DAO<Member> memberDAO) {
+	public FileManager (final DAO<Member> memberDAO) {
 		super();
 		this.memberDAO = memberDAO;
 		createFormat();
@@ -65,27 +74,13 @@ public class FileImporter implements IFileImporter {
 			return false;
 		}
 		try {
+			// Parse file
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Parsing of file " + file + " (size: " + Files.size(file) + ") in " + format);
 			}
-			final List<Member> membersToAdd = new ArrayList<>();
-			// TODO parametrize charset
-			final List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
-			for (final String line : lines) {
-				final String[] members = line.split(format.getMemberSeparator());
-				for (final String member : members) {
-					final Member memberToAdd = createMember(member, format);
-					if (memberToAdd != null) {
-						if (lg.isLoggable(Level.FINE)) {
-							lg.fine("Adding member " + memberToAdd.printDetails() + " from " + member);
-						}
-						membersToAdd.add(memberToAdd);
-					}
-				}
-			}
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Successfully parsed " + membersToAdd.size() + " members.");
-			}
+			final List<Member> membersToAdd = loadMembers(file, format);
+			
+			// Persist members
 			int membersPersisted = 0;
 			for (final Member member : membersToAdd) {
 				if (memberDAO.create(member) != null) {
@@ -94,6 +89,8 @@ public class FileImporter implements IFileImporter {
 					lg.warning("Error while creating member " + member);
 				}
 			}
+			
+			// Checking for errors.
 			if (membersPersisted != membersToAdd.size()) {
 				lg.warning("Error, could not create " + (membersToAdd.size() - membersPersisted)
 						+ " members.");
@@ -105,6 +102,48 @@ public class FileImporter implements IFileImporter {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Parse a file and load the members it contains.<br />
+	 * @param file
+	 *        the file to parse.
+	 * @param format
+	 *        the format of the file.
+	 * @return the list with the members extracted from the file specified.
+	 * @throws IOException
+	 *         if the file could not be read properly.
+	 */
+	private static List<Member> loadMembers (final Path file, final Format format)
+			throws IOException {
+		final List<Member> membersToAdd = new ArrayList<>();
+		// Retrieve charset to use
+		final String userCharSet = paramManager.get(ParametersEnum.FILE_CHARSET).getValue();
+		Charset charSet = null;
+		try {
+			charSet = Charset.forName(userCharSet);
+		} catch (final UnsupportedCharsetException | IllegalCharsetNameException e) {
+			lg.warning("Could not use charset " + userCharSet + ": " + e.getClass() + "; " + e.getMessage());
+			charSet = Constants.DEFAULT_CHARSET;
+		}
+		// Read lines in file
+		final List<String> lines = Files.readAllLines(file, charSet);
+		for (final String line : lines) {
+			final String[] members = line.split(format.getMemberSeparator());
+			for (final String member : members) {
+				final Member memberToAdd = createMember(member, format);
+				if (memberToAdd != null) {
+					if (lg.isLoggable(Level.FINE)) {
+						lg.fine("Adding member " + memberToAdd.printDetails() + " from " + member);
+					}
+					membersToAdd.add(memberToAdd);
+				}
+			}
+		}
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Successfully parsed " + membersToAdd.size() + " members.");
+		}
+		return membersToAdd;
 	}
 	
 	/**
@@ -144,7 +183,7 @@ public class FileImporter implements IFileImporter {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IFileImporter#getAvailableFormat()
+	 * @see org.clubrockisen.service.abstracts.IFileManager#getAvailableFormat()
 	 */
 	@Override
 	public Set<Format> getAvailableFormat () {

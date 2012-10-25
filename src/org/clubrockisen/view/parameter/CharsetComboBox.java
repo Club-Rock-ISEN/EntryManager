@@ -2,33 +2,31 @@ package org.clubrockisen.view.parameter;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.charset.Charset;
 import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.renderers.LafRenderer;
 
 /**
- * A combo box for editing an look and feel parameter.<br />
+ * Combo box for the charset available.
  * @author Alex
  */
-public class LAFComboBox extends ParameterComponent {
+public class CharsetComboBox extends ParameterComponent {
 	/** Logger */
-	private static Logger				lg	= Logger.getLogger(LAFComboBox.class.getName());
+	private static Logger		lg	= Logger.getLogger(CharsetComboBox.class.getName());
 	
-	/** Combo box for Look and Feel */
-	private JComboBox<LookAndFeelInfo>	comboBox;
+	/** Combo box for the file charset available */
+	private JComboBox<String>	comboBox;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param parameter
 	 *        the parameter displayed.
 	 */
-	public LAFComboBox (final ParametersEnum parameter) {
+	public CharsetComboBox (final ParametersEnum parameter) {
 		super(parameter);
 	}
 	
@@ -39,9 +37,7 @@ public class LAFComboBox extends ParameterComponent {
 	@Override
 	public JComponent getComponent () {
 		if (comboBox == null) {
-			comboBox = new JComboBox<>(UIManager.getInstalledLookAndFeels());
-			comboBox.setRenderer(new LafRenderer());
-			// TODO add listener on user action
+			comboBox = new JComboBox<>(Charset.availableCharsets().keySet().toArray(new String[0]));
 		}
 		return comboBox;
 	}
@@ -77,7 +73,7 @@ public class LAFComboBox extends ParameterComponent {
 	 */
 	@Override
 	public String getValue () {
-		return comboBox == null ? null : ((LookAndFeelInfo) comboBox.getSelectedItem()).getName();
+		return comboBox == null ? null : (String) comboBox.getSelectedItem();
 	}
 	
 	/*
@@ -91,16 +87,16 @@ public class LAFComboBox extends ParameterComponent {
 			return;
 		}
 		
-		// TODO exception on not found LAF?
+		// TODO exception on not found char set?
 		boolean found = false;
-		for (int lafIndex = 0; lafIndex < comboBox.getItemCount() && !found; lafIndex++) {
-			if (comboBox.getItemAt(lafIndex).getName().equals(value)) {
-				comboBox.setSelectedIndex(lafIndex);
+		for (int charsetIndex = 0; charsetIndex < comboBox.getItemCount() && !found; charsetIndex++) {
+			if (comboBox.getItemAt(charsetIndex).equals(value)) {
+				comboBox.setSelectedIndex(charsetIndex);
 				found = true;
 			}
 		}
 		if (!found) {
-			lg.warning("Look and feel not found: " + value);
+			lg.warning("Charset not found: " + value);
 		}
 	}
 }

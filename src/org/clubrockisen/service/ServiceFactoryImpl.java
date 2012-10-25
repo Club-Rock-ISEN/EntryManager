@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.service.abstracts.IEntryManager;
-import org.clubrockisen.service.abstracts.IFileImporter;
+import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -25,7 +25,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 	/** The entry manager */
 	private final IEntryManager			entryManager;
 	/** The file importer */
-	private final IFileImporter			fileImporter;
+	private final IFileManager			fileManager;
 	
 	/**
 	 * Constructor #1.<br />
@@ -39,7 +39,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		parameterManager = new ParametersManager(AbstractDAOFactory.getImplementation());
 		translator = Translator.getInstance();
 		entryManager = new EntryManager(AbstractDAOFactory.getImplementation());
-		fileImporter = new FileImporter(AbstractDAOFactory.getImplementation().getMemberDAO());
+		fileManager = new FileManager(AbstractDAOFactory.getImplementation().getMemberDAO());
 	}
 	
 	/*
@@ -71,11 +71,11 @@ public class ServiceFactoryImpl extends ServiceFactory {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getFileImporter()
+	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getFileManager()
 	 */
 	@Override
-	public IFileImporter getFileImporter () {
-		return fileImporter;
+	public IFileManager getFileManager () {
+		return fileManager;
 	}
 	
 }

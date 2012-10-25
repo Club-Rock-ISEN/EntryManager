@@ -57,8 +57,8 @@ public abstract class ServiceFactory {
 	public abstract IEntryManager getEntryManager ();
 	
 	/**
-	 * Return the file importer to use
-	 * @return the file importer.
+	 * Return the file manager to use
+	 * @return the file manager.
 	 */
-	public abstract IFileImporter getFileImporter ();
+	public abstract IFileManager getFileManager ();
 }

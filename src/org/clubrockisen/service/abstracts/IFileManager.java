@@ -4,10 +4,11 @@ import java.nio.file.Path;
 import java.util.Set;
 
 /**
- * Interface defining a file importer which allows to import old members in the database.
+ * Interface defining a file manager which allows to import and export old members
+ * in the database.
  * @author Alex
  */
-public interface IFileImporter {
+public interface IFileManager {
 	
 	/**
 	 * Parse a given file for members.

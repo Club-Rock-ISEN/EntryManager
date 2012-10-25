@@ -1,6 +1,8 @@
 package org.clubrockisen.common;
 
 import java.awt.Insets;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Various constant being used in the application.<br />
@@ -56,5 +58,8 @@ public final class Constants {
 	
 	/** Character used for mnemonics in menu bar */
 	public static final char	MNEMONIC_MARK			= '#';
+	
+	/** The default char set to use */
+	public static final Charset	DEFAULT_CHARSET			= StandardCharsets.UTF_8;
 	
 }

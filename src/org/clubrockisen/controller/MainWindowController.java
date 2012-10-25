@@ -19,7 +19,7 @@ import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.model.PartyModel;
 import org.clubrockisen.service.abstracts.Format;
-import org.clubrockisen.service.abstracts.IFileImporter;
+import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
 
@@ -59,7 +59,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	/** The configuration keys */
 	private final ConfigurationKey			keys			= ConfigurationKey.KEY;
 	/** The file importer */
-	private final IFileImporter				fileImporter	= ServiceFactory.getImplementation().getFileImporter();
+	private final IFileManager				fileManager		= ServiceFactory.getImplementation().getFileManager();
 	
 	/**
 	 * Constructor #1.<br />
@@ -317,7 +317,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 * @return <code>true</code> if the file has correctly been imported.
 	 */
 	public boolean importFile (final Path file, final Format format) {
-		return fileImporter.parseFile(file, format);
+		return fileManager.parseFile(file, format);
 	}
 	
 	/**

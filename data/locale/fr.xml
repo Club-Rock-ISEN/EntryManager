@@ -45,6 +45,8 @@
 	<entry key="enum.parametersenum.free_entry_frequency">Fréquence des entrées offertes</entry>
 	<entry key="enum.parametersenum.min_credit">Palier minimum pour le crédit aux adhérants</entry>
 	<entry key="enum.parametersenum.max_credit">Palier maximum pour le crédit aux adhérants</entry>
+	<entry key="enum.parametersenum.party_cost">Coût fixe par soirée</entry>
+	<entry key="enum.parametersenum.file_charset">Codage de caractère du fichier importé/exporté</entry>
 	
 	
 	<!-- The user interface -->

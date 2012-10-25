@@ -43,7 +43,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	/** The map with the component used to update the parameters */
 	private transient Map<ParametersEnum, ParameterComponent>	parametersComponents;
 	/** The validate / cancel panel */
-	private ValidateCancelPanel			validateCancelPanel;
+	private ValidateCancelPanel									validateCancelPanel;
 	
 	// Miscellaneous
 	/** The map with the controllers to warn */
