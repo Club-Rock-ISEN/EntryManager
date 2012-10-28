@@ -113,6 +113,9 @@
 	<!-- The dialog for a failed file import -->
 	<entry key="gui.dialog.fileImportFailed.title">Erreur dans l'import de fichier</entry>
 	<entry key="gui.dialog.fileImportFailed.message">Le fichier '%0' n'a pas pu être importé, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for choosing the import format -->
+	<entry key="gui.dialog.chooseFormat.title">Choix du format</entry>
+	<entry key="gui.dialog.chooseFormat.message">Choisissez ci-dessous le format du fichier à importer.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

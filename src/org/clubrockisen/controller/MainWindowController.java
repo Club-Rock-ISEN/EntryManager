@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -306,6 +307,14 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	public void showParameters () {
 		parametersPanel.show();
+	}
+	
+	/**
+	 * Retrieve the available file format from the file manager.
+	 * @return a collection with the format available.
+	 */
+	public Collection<Format> getAvailableFormat () {
+		return fileManager.getAvailableFormat();
 	}
 	
 	/**

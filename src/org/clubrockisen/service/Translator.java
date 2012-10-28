@@ -1190,7 +1190,7 @@ public final class Translator implements ITranslator {
 					
 					/*
 					 * (non-Javadoc)
-					 * @see java.lang.Object#toString()
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 					 */
 					@Override
 					public String toString () {
@@ -1544,14 +1544,14 @@ public final class Translator implements ITranslator {
 				 * @author Alex
 				 */
 				public static final class FileImportFailed extends AbstractDialog implements Parametrable {
-					/** The key to the file import successful dialog */
+					/** The key to the file import failed dialog */
 					private final String	fileImportFailedKey;
 					/** Array with the parameters */
 					private final Object[]	parameters;
 					
 					/**
 					 * Constructor #1.<br />
-					 * Build the file import successful dialog structure.
+					 * Build the file import failed dialog structure.
 					 * @param parentKey
 					 *        the key from the parent category.
 					 * @param fileName
@@ -1583,13 +1583,50 @@ public final class Translator implements ITranslator {
 				}
 				
 				/**
-				 * Access to the file import successful dialog.
+				 * Access to the file import failed dialog.
 				 * @param fileName
 				 *        the name of the file imported.
-				 * @return the file import successful dialog.
+				 * @return the file import failed dialog.
 				 */
 				public FileImportFailed fileImportFailed (final String fileName) {
 					return new FileImportFailed(dialogKey, fileName);
+				}
+				
+				/**
+				 * Structure of the choose format dialog.
+				 * @author Alex
+				 */
+				public static final class ChooseFormat extends AbstractDialog {
+					/** The key to the choose format dialog */
+					private final String	chooseFormaKey;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the help not displayable dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 */
+					private ChooseFormat (final String parentKey) {
+						super();
+						chooseFormaKey = parentKey + "." + "chooseFormat";
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return chooseFormaKey;
+					}
+				}
+				
+				/**
+				 * Access to the choose format dialog.
+				 * @return the choose format dialog.
+				 */
+				public ChooseFormat chooseFormat () {
+					return new ChooseFormat(dialogKey);
 				}
 			}
 			

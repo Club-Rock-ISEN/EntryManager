@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,6 +135,22 @@ public final class Utils {
 	}
 	
 	/**
+	 * Return the message of a dialog with the parameters included, if the message contained some.
+	 * @param dialog
+	 *        the dialog to use.
+	 * @return the message to display.
+	 */
+	private static String getMessage (final AbstractDialog dialog) {
+		String message;
+		if (Parametrable.class.isInstance(dialog)) {
+			message = TRANSLATOR.get(dialog.message(), ((Parametrable) dialog).getParameters());
+		} else {
+			message = TRANSLATOR.get(dialog.message());
+		}
+		return message;
+	}
+
+	/**
 	 * Show the dialog with translation picked from the dialog specified.
 	 * @param parent
 	 *        the parent window (may be <code>null</code>).
@@ -153,22 +170,6 @@ public final class Utils {
 	}
 	
 	/**
-	 * Return the message of a dialog with the parameters included, if the message contained some.
-	 * @param dialog
-	 *        the dialog to use.
-	 * @return the message to display.
-	 */
-	private static String getMessage (final AbstractDialog dialog) {
-		String message;
-		if (Parametrable.class.isInstance(dialog)) {
-			message = TRANSLATOR.get(dialog.message(), ((Parametrable) dialog).getParameters());
-		} else {
-			message = TRANSLATOR.get(dialog.message());
-		}
-		return message;
-	}
-	
-	/**
 	 * Show a confirmation dialog to the user.<br/>
 	 * @param parent
 	 *        the parent component.
@@ -180,6 +181,27 @@ public final class Utils {
 		final int choice = JOptionPane.showConfirmDialog(parent, multiLineHTML(getMessage(dialog)),
 				TRANSLATOR.get(dialog.title()), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return choice == JOptionPane.YES_OPTION;
+	}
+	
+	/**
+	 * @param <T>
+	 *        the type of element the dialog offers.
+	 * @param parent
+	 *        the parent component.
+	 * @param dialog
+	 *        the dialog to display.
+	 * @param elements
+	 *        the elements to display in the list.
+	 * @return the selected element, or <code>null</code> if user canceled.
+	 */
+	public static <T> T askChoice (final Component parent, final AbstractDialog dialog, final Collection<T> elements) {
+		final T choice = (T) JOptionPane.showInputDialog(parent, multiLineHTML(getMessage(dialog)),
+				TRANSLATOR.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
+				elements.toArray(), elements.iterator().next());
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("The user has choose " + choice);
+		}
+		return choice;
 	}
 	
 	/**

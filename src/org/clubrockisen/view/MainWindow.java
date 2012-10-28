@@ -35,7 +35,6 @@ import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Format;
-import org.clubrockisen.service.format.OldDataFiles;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
@@ -188,12 +187,17 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
+				final Format format = Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(),
+						controller.getAvailableFormat());
+				if (format == null) {
+					// No format chosen, chancel action
+					return;
+				}
 				final JFileChooser chooser = new JFileChooser();
 				if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
 					// Cancel action
 					return;
 				}
-				final Format format = OldDataFiles.getInstance(); // TODO update to allow format selection
 				final Path file = chooser.getSelectedFile().toPath();
 				final Integer importedMember = controller.importFile(file, format);
 				if (importedMember != null) {

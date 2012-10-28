@@ -9,6 +9,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class FileManager implements IFileManager {
 	/** The member DAO */
 	private final DAO<Member>			memberDAO;
 	/** The set with the file format */
-	private Set<Format>					fileFormats;
+	private final Set<Format>			fileFormats;
 	
 	/**
 	 * Constructor #1.<br />
@@ -47,15 +48,26 @@ public class FileManager implements IFileManager {
 	public FileManager (final DAO<Member> memberDAO) {
 		super();
 		this.memberDAO = memberDAO;
-		createFormat();
+		fileFormats = Collections.unmodifiableSet(createFormat());
 	}
 	
 	/**
 	 * Create and load available file format.
+	 * @return a set with the available format.
 	 */
-	private void createFormat () {
-		this.fileFormats = new HashSet<>();
+	private static Set<Format> createFormat () {
+		final Set<Format> fileFormats = new HashSet<>();
 		fileFormats.add(OldDataFiles.getInstance());
+		return fileFormats;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.IFileManager#getAvailableFormat()
+	 */
+	@Override
+	public Set<Format> getAvailableFormat () {
+		return fileFormats;
 	}
 	
 	/*
@@ -176,17 +188,5 @@ public class FileManager implements IFileManager {
 		}
 		
 		return member;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IFileManager#getAvailableFormat()
-	 */
-	@Override
-	public Set<Format> getAvailableFormat () {
-		if (fileFormats == null) {
-			createFormat();
-		}
-		return fileFormats;
 	}
 }
