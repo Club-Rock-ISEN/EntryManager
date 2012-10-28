@@ -59,7 +59,13 @@ public final class Constants {
 	/** Character used for mnemonics in menu bar */
 	public static final char	MNEMONIC_MARK			= '#';
 	
+	/** Character used for parameters in translations */
+	public static final char	PARAMETER_PREFIX		= '%';
+	
 	/** The default char set to use */
 	public static final Charset	DEFAULT_CHARSET			= StandardCharsets.UTF_8;
+	
+	/** The name of the author to display */
+	public static final String	AUTHOR_NAME				= "Alex Barféty";
 	
 }

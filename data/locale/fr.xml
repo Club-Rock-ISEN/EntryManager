@@ -88,8 +88,7 @@
 	<!-- Dialogs displayed -->
 	<!-- The about dialog -->
 	<entry key="gui.dialog.about.title">À propos</entry>
-	<entry key="gui.dialog.about.author">Programme créé en 2012 pour le Club Rock ISEN par </entry>
-	<entry key="gui.dialog.about.license">Distribué sous "Nouvelle Licence BSD".</entry>
+	<entry key="gui.dialog.about.message">Programme créé en 2012 pour le Club Rock ISEN par %0. Distribué sous "Nouvelle Licence BSD".</entry>
 	<!-- The dialog for no members selected -->
 	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
 	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
@@ -101,13 +100,19 @@
 	<entry key="gui.dialog.notPersistedParameter.message">Les modifications des paramètres n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
 	<!-- The dialog for unparsable date -->
 	<entry key="gui.dialog.unparsableDate.title">Erreur de date</entry>
-	<entry key="gui.dialog.unparsableDate.message">La date n'a pas pu être analysée, la date précédente sera rétablie.</entry>
+	<entry key="gui.dialog.unparsableDate.message">La date '%0' n'a pas pu être analysée, la date précédente sera rétablie.</entry>
 	<!-- The dialog for help file not found -->
 	<entry key="gui.dialog.helpNotFound.title">Aide inaccessible</entry>
 	<entry key="gui.dialog.helpNotFound.message">Le fichier d'aide n'a pas pu être affiché, consultez les journaux pour des informations détaillées.</entry>
 	<!-- The dialog for the confirmation of member deletion -->
 	<entry key="gui.dialog.deleteMember.title">Confirmation de suppression</entry>
-	<entry key="gui.dialog.deleteMember.message">Êtes-vous sûr de vouloir supprimer définitivement ce membre ?</entry>
+	<entry key="gui.dialog.deleteMember.message">Êtes-vous sûr de vouloir supprimer définitivement le membre '%0' ?</entry>
+	<!-- The dialog for a successful file import -->
+	<entry key="gui.dialog.fileImportSucceed.title">Fichier importé</entry>
+	<entry key="gui.dialog.fileImportSucceed.message">Le fichier '%0' a été importé avec succès : %1 membres importés dans la base de données.</entry>
+	<!-- The dialog for a failed file import -->
+	<entry key="gui.dialog.fileImportFailed.title">Erreur dans l'import de fichier</entry>
+	<entry key="gui.dialog.fileImportFailed.message">Le fichier '%0' n'a pas pu être importé, consultez les journaux pour des informations détaillées.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

@@ -16,9 +16,9 @@ public interface IFileManager {
 	 *        the file to parse.
 	 * @param format
 	 *        the format of the file.
-	 * @return <code>true</code> if the file was successfully parsed.
+	 * @return the number of members imported or <code>null</code> if the file could not be parsed.
 	 */
-	boolean parseFile (Path file, Format format);
+	Integer parseFile (Path file, Format format);
 	
 	/**
 	 * Retrieve the formats supported by the implementation.

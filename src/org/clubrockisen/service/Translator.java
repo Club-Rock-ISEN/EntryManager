@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Entity;
 import org.clubrockisen.service.abstracts.ITranslator;
@@ -88,6 +89,31 @@ public final class Translator implements ITranslator {
 		}
 		
 		return translations.getProperty(key);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.lang.String, java.lang.Object[])
+	 */
+	@Override
+	public String get (final String key, final Object... parameters) {
+		String translation = get(key);
+		// Case with no parameters or no translation found
+		if (key.equals(translation) || parameters == null || parameters.length == 0) {
+			return translation;
+		}
+		
+		for (int indexParameter = 0; indexParameter < parameters.length; ++indexParameter) {
+			final Object parameter = parameters[indexParameter];
+			final String strToReplace = "" + Constants.PARAMETER_PREFIX + indexParameter;
+			if (translation.indexOf(strToReplace) == -1) {
+				lg.warning("Parameter '" + parameter + "' cannot be put into the translation, '" +
+						strToReplace + "' was not found.");
+				continue;
+			}
+			translation = translation.replace(strToReplace, parameter.toString());
+		}
+		
+		return translation;
 	}
 	
 	/*
@@ -171,6 +197,18 @@ public final class Translator implements ITranslator {
 		 */
 		private Key () {
 			super();
+		}
+		
+		/**
+		 * Interface for configurable translations keys.
+		 * @author Alex
+		 */
+		public interface Parametrable {
+			/**
+			 * Return the parameters to use when building the translation of the key.
+			 * @return the parameters to use.
+			 */
+			Object[] getParameters ();
 		}
 		
 		/**
@@ -1129,19 +1167,25 @@ public final class Translator implements ITranslator {
 				 * The about dialog translations.
 				 * @author Alex
 				 */
-				public static final class About {
+				public static final class About extends AbstractDialog implements Parametrable {
 					/** The key to the about dialog */
 					private final String	aboutKey;
+					/** Array with the parameters to use */
+					private final Object[]	parameters;
 					
 					/**
 					 * Constructor #1.<br />
 					 * Build the about dialog structure.
 					 * @param parentKey
 					 *        the key from the parent category.
+					 * @param author
+					 *        the author of the application.
 					 */
-					private About (final String parentKey) {
+					private About (final String parentKey, final String author) {
 						super();
 						aboutKey = parentKey + "." + "about";
+						parameters = new Object[1];
+						parameters[0] = author;
 					}
 					
 					/*
@@ -1153,37 +1197,24 @@ public final class Translator implements ITranslator {
 						return aboutKey;
 					}
 					
-					/**
-					 * The title of the dialog.
-					 * @return the translation of the title of the dialog.
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
 					 */
-					public String title () {
-						return aboutKey + "." + "title";
+					@Override
+					public Object[] getParameters () {
+						return parameters;
 					}
 					
-					/**
-					 * The author of the application.
-					 * @return the translation of the author introduction string.
-					 */
-					public String author () {
-						return aboutKey + "." + "author";
-					}
-					
-					/**
-					 * The license of the application.
-					 * @return the translation of the license applicable to the application.
-					 */
-					public String license () {
-						return aboutKey + "." + "license";
-					}
 				}
 				
 				/**
 				 * Access to the translations for the about dialog.
+				 * @param author
+				 *        the author of the application.
 				 * @return the about dialog translations.
 				 */
-				public About about () {
-					return new About(dialogKey);
+				public About about (final String author) {
+					return new About(dialogKey, author);
 				}
 				
 				/**
@@ -1307,19 +1338,25 @@ public final class Translator implements ITranslator {
 				 * The dialog to warn when a unparsable date is entered.
 				 * @author Alex
 				 */
-				public static final class UnparsableDate extends AbstractDialog {
+				public static final class UnparsableDate extends AbstractDialog implements Parametrable {
 					/** The key to the unparsable date dialog */
 					private final String	unparsableDateKey;
+					/** Array with the parameters to use */
+					private final Object[]	parameters;
 					
 					/**
 					 * Constructor #1.<br />
 					 * Build the unparsable date dialog structure.
 					 * @param parentKey
 					 *        the key from the parent category.
+					 * @param date
+					 *        the date which could not be parsed.
 					 */
-					private UnparsableDate (final String parentKey) {
+					private UnparsableDate (final String parentKey, final String date) {
 						super();
 						unparsableDateKey = parentKey + "." + "unparsableDate";
+						parameters = new Object[1];
+						parameters[0] = date;
 					}
 					
 					/*
@@ -1331,14 +1368,24 @@ public final class Translator implements ITranslator {
 						return unparsableDateKey;
 					}
 					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
 				}
 				
 				/**
 				 * Access to the translations for the unparsable date dialog.
+				 * @param date
+				 *        the date which could not be parsed.
 				 * @return the unparsable date dialog translations.
 				 */
-				public UnparsableDate unparsableDate () {
-					return new UnparsableDate(dialogKey);
+				public UnparsableDate unparsableDate (final String date) {
+					return new UnparsableDate(dialogKey, date);
 				}
 				
 				/**
@@ -1383,19 +1430,25 @@ public final class Translator implements ITranslator {
 				 * The dialog to ask confirmation for member deletion.
 				 * @author Alex
 				 */
-				public static final class DeleteMember extends AbstractDialog {
+				public static final class DeleteMember extends AbstractDialog implements Parametrable {
 					/** The key to the delete member dialog */
-					private final String	deleteMember;
+					private final String	deleteMemberKey;
+					/** The array with the parameters */
+					private final Object[]	parameters;
 					
 					/**
 					 * Constructor #1.<br />
 					 * Build the delete member dialog structure.
 					 * @param parentKey
 					 *        the key from the parent category.
+					 * @param memberName
+					 *        the name of the member to delete.
 					 */
-					private DeleteMember (final String parentKey) {
+					private DeleteMember (final String parentKey, final String memberName) {
 						super();
-						deleteMember = parentKey + "." + "deleteMember";
+						deleteMemberKey = parentKey + "." + "deleteMember";
+						parameters = new Object[1];
+						parameters[0] = memberName;
 					}
 					
 					/*
@@ -1404,17 +1457,139 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public String toString () {
-						return deleteMember;
+						return deleteMemberKey;
+					}
+					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
 					}
 					
 				}
 				
 				/**
 				 * Access to the translations for the confirm dialog on member deletion.
+				 * @param memberName
+				 *        the name of the member to delete.
 				 * @return the delete member dialog translations.
 				 */
-				public DeleteMember deleteMember () {
-					return new DeleteMember(dialogKey);
+				public DeleteMember deleteMember (final String memberName) {
+					return new DeleteMember(dialogKey, memberName);
+				}
+				
+				/**
+				 * The dialog to confirm the success of file import.
+				 * @author Alex
+				 */
+				public static final class FileImportSuccessful extends AbstractDialog implements Parametrable {
+					/** The key to the file import successful dialog */
+					private final String	fileImportSuccessfulKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the file import successful dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param fileName
+					 *        the name of the file imported.
+					 * @param membersImported
+					 *        the number of members correctly imported
+					 */
+					private FileImportSuccessful (final String parentKey, final String fileName, final int membersImported) {
+						super();
+						fileImportSuccessfulKey = parentKey + "." + "fileImportSucceed";
+						parameters = new Object[2];
+						parameters[0] = fileName;
+						parameters[1] = membersImported;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return fileImportSuccessfulKey;
+					}
+					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+				}
+				
+				/**
+				 * Access to the file import successful dialog.
+				 * @param fileName
+				 *        the name of the file imported.
+				 * @param memberImported
+				 *        the number of member successfully imported.
+				 * @return the file import successful dialog.
+				 */
+				public FileImportSuccessful fileImportSuccessful (final String fileName, final int memberImported) {
+					return new FileImportSuccessful(dialogKey, fileName, memberImported);
+				}
+				
+				/**
+				 * The dialog of file import failed.
+				 * @author Alex
+				 */
+				public static final class FileImportFailed extends AbstractDialog implements Parametrable {
+					/** The key to the file import successful dialog */
+					private final String	fileImportFailedKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the file import successful dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param fileName
+					 *        the name of the file imported.
+					 */
+					private FileImportFailed (final String parentKey, final String fileName) {
+						super();
+						fileImportFailedKey = parentKey + "." + "fileImportFailed";
+						parameters = new Object[1];
+						parameters[0] = fileName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return fileImportFailedKey;
+					}
+					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+				}
+				
+				/**
+				 * Access to the file import successful dialog.
+				 * @param fileName
+				 *        the name of the file imported.
+				 * @return the file import successful dialog.
+				 */
+				public FileImportFailed fileImportFailed (final String fileName) {
+					return new FileImportFailed(dialogKey, fileName);
 				}
 			}
 			

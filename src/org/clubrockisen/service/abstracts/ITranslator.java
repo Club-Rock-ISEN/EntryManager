@@ -27,6 +27,16 @@ public interface ITranslator {
 	String get (String key);
 	
 	/**
+	 * Get the translation of a specific key.
+	 * @param key
+	 *        the key to translate.
+	 * @param parameters
+	 *        the parameters to use to build the translation.
+	 * @return the translation of the key from the specified locale file.
+	 */
+	String get (String key, Object... parameters);
+	
+	/**
 	 * Get the translation of a specific key and append the field value separator.
 	 * @param key
 	 *        the key to translate.

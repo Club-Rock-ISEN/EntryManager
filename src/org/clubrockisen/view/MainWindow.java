@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -40,7 +41,7 @@ import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
 
 /**
- * The main window of the GUI.
+ * The main window of the application.<br />
  * @author Alex
  */
 public class MainWindow extends AbstractFrame {
@@ -193,10 +194,14 @@ public class MainWindow extends AbstractFrame {
 					return;
 				}
 				final Format format = OldDataFiles.getInstance(); // TODO update to allow format selection
-				if (controller.importFile(chooser.getSelectedFile().toPath(), format)) {
-					JOptionPane.showConfirmDialog(getFrame(), "Success!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				final Path file = chooser.getSelectedFile().toPath();
+				final Integer importedMember = controller.importFile(file, format);
+				if (importedMember != null) {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
+							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showConfirmDialog(getFrame(), "Failed!", "File parsed", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportFailed(file.toString()),
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -235,7 +240,7 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				if (Utils.askConfirmation(getFrame(), Key.GUI.dialog().deleteMember())) {
+				if (Utils.askConfirmation(getFrame(), Key.GUI.dialog().deleteMember(getSelectedMember().getName()))) {
 					controller.deleteMember(getSelectedMember());
 				}
 			}
@@ -277,11 +282,8 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				JOptionPane.showMessageDialog(getFrame(),
-						getTranslator().get(Key.GUI.dialog().about().author()) + " Alex Barféty.\n"
-								+ getTranslator().get(Key.GUI.dialog().about().license()),
-								getTranslator().get(Key.GUI.dialog().about().title()),
-								JOptionPane.INFORMATION_MESSAGE);
+				Utils.showMessageDialog(getFrame(), Key.GUI.dialog().about(Constants.AUTHOR_NAME),
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		helpMenu.add(helpItem);

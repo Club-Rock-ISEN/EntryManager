@@ -316,7 +316,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 *        the format of the file.
 	 * @return <code>true</code> if the file has correctly been imported.
 	 */
-	public boolean importFile (final Path file, final Format format) {
+	public Integer importFile (final Path file, final Format format) {
 		return fileManager.parseFile(file, format);
 	}
 	

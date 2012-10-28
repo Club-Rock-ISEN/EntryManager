@@ -19,6 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.Translator.Key.Gui.GUIElement;
+import org.clubrockisen.service.Translator.Key.Parametrable;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -147,21 +148,37 @@ public final class Utils {
 	 */
 	public static void showMessageDialog (final Component parent, final AbstractDialog dialog,
 			final int type) {
-		final String message = multiLineHTML(TRANSLATOR.get(dialog.message()));
-		JOptionPane.showMessageDialog(parent, message, TRANSLATOR.get(dialog.title()), type);
+		JOptionPane.showMessageDialog(parent, multiLineHTML(getMessage(dialog)),
+				TRANSLATOR.get(dialog.title()), type);
+	}
+	
+	/**
+	 * Return the message of a dialog with the parameters included, if the message contained some.
+	 * @param dialog
+	 *        the dialog to use.
+	 * @return the message to display.
+	 */
+	private static String getMessage (final AbstractDialog dialog) {
+		String message;
+		if (Parametrable.class.isInstance(dialog)) {
+			message = TRANSLATOR.get(dialog.message(), ((Parametrable) dialog).getParameters());
+		} else {
+			message = TRANSLATOR.get(dialog.message());
+		}
+		return message;
 	}
 	
 	/**
 	 * Show a confirmation dialog to the user.<br/>
-	 * 
-	 * @param parent the parent component.
-	 * @param dialog the dialog to display.
+	 * @param parent
+	 *        the parent component.
+	 * @param dialog
+	 *        the dialog to display.
 	 * @return <code>true</code> if the use confirmed the dialog (clicked 'yes').
 	 */
 	public static boolean askConfirmation (final Component parent, final AbstractDialog dialog) {
-		final int choice = JOptionPane.showConfirmDialog(parent,
-				TRANSLATOR.get(dialog.message()), TRANSLATOR.get(dialog.title()),
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		final int choice = JOptionPane.showConfirmDialog(parent, multiLineHTML(getMessage(dialog)),
+				TRANSLATOR.get(dialog.title()), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return choice == JOptionPane.YES_OPTION;
 	}
 	

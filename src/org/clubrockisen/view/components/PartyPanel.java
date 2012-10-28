@@ -208,7 +208,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 					lg.warning("Invalid date format, revert changes (" + e.getClass() + "; "
 							+ e.getMessage() + ")");
 					Utils.showMessageDialog(PartyPanel.this,
-							Key.GUI.dialog().unparsableDate(),
+							Key.GUI.dialog().unparsableDate(dateField.getText()),
 							JOptionPane.WARNING_MESSAGE);
 					dateField.setText(oldValue);
 				}

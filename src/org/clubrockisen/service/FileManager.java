@@ -21,7 +21,6 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.service.abstracts.Format.Converter;
 import org.clubrockisen.service.abstracts.IFileManager;
-import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.service.format.OldDataFiles;
@@ -34,9 +33,6 @@ import org.clubrockisen.service.format.OldDataFiles;
 public class FileManager implements IFileManager {
 	/** Logger */
 	private static Logger				lg	= Logger.getLogger(FileManager.class.getName());
-	
-	/** The parameter manager */
-	private static IParametersManager	paramManager = ServiceFactory.getImplementation().getParameterManager();
 	
 	/** The member DAO */
 	private final DAO<Member>			memberDAO;
@@ -68,11 +64,13 @@ public class FileManager implements IFileManager {
 	 * org.clubrockisen.service.abstracts.Format)
 	 */
 	@Override
-	public boolean parseFile (final Path file, final Format format) {
+	public Integer parseFile (final Path file, final Format format) {
 		if (file == null || !Files.exists(file) || !Files.isReadable(file)) {
 			lg.warning("Cannot parse file " + file + " because it does not exists or cannot be read.");
-			return false;
+			return null;
 		}
+		
+		int membersPersisted = 0;
 		try {
 			// Parse file
 			if (lg.isLoggable(Level.INFO)) {
@@ -81,7 +79,6 @@ public class FileManager implements IFileManager {
 			final List<Member> membersToAdd = loadMembers(file, format);
 			
 			// Persist members
-			int membersPersisted = 0;
 			for (final Member member : membersToAdd) {
 				if (memberDAO.create(member) != null) {
 					membersPersisted++;
@@ -99,9 +96,9 @@ public class FileManager implements IFileManager {
 			}
 		} catch (final IOException e) {
 			lg.warning("Failed to parse file " + file + ", " + e.getClass() + "; " + e.getMessage());
-			return false;
+			return null;
 		}
-		return true;
+		return membersPersisted;
 	}
 	
 	/**
@@ -118,7 +115,7 @@ public class FileManager implements IFileManager {
 			throws IOException {
 		final List<Member> membersToAdd = new ArrayList<>();
 		// Retrieve charset to use
-		final String userCharSet = paramManager.get(ParametersEnum.FILE_CHARSET).getValue();
+		final String userCharSet = ServiceFactory.getImplementation().getParameterManager().get(ParametersEnum.FILE_CHARSET).getValue();
 		Charset charSet = null;
 		try {
 			charSet = Charset.forName(userCharSet);
