@@ -18,16 +18,17 @@ import java.util.logging.Logger;
  */
 public final class Auto {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(Auto.class.getName());
+	private static Logger						lg			= Logger.getLogger(Auto.class.getName());
 	
 	/** Unique instance of the class */
-	private static Auto singleton = new Auto();
+	private static Auto							singleton	= new Auto();
 	
 	/** Method for equals per class */
-	private final Map<Class<?>, Set<Method>> equalsMethods;
+	private final Map<Class<?>, Set<Method>>	equalsMethods;
 	/** Method for hash code per class */
-	private final Map<Class<?>, Set<Method>> hashCodeMethods;
-	
+	private final Map<Class<?>, Set<Method>>	hashCodeMethods;
+	/** Comparator for the equals method */
+	private final AttributeComparator			comparator;
 	
 	/**
 	 * Constructor #1.<br />
@@ -35,6 +36,7 @@ public final class Auto {
 	 */
 	private Auto () {
 		super();
+		comparator = new AttributeComparator();
 		equalsMethods = new HashMap<>();
 		hashCodeMethods = new HashMap<>();
 	}
@@ -121,7 +123,7 @@ public final class Auto {
 		}
 		
 		// Retrieving attributes
-		final AttributeComparator comparator = new AttributeComparator();
+		comparator.clear();
 		for (final Method method : getEqualsMethods(left.getClass())) {
 			try {
 				comparator.add(method.invoke(left, (Object[]) null), method.invoke(right, (Object[]) null));

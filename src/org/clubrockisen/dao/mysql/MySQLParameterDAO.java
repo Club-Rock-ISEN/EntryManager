@@ -32,7 +32,7 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 	 */
 	public MySQLParameterDAO(final Connection connection) {
 		super(connection);
-		lg.fine("New " + this.getClass().getCanonicalName() + ".");
+		lg.fine("New " + this.getClass().getCanonicalName());
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).
 		columns = getEntitySample().getEntityColumns();

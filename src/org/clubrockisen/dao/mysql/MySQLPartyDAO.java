@@ -40,7 +40,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	public MySQLPartyDAO (final Connection connection) {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("New " + this.getClass().getCanonicalName() + ".");
+			lg.fine("New " + this.getClass().getCanonicalName());
 		}
 		// Initialize the columns (call to the constructor is required
 		// to ensure the columns are created).

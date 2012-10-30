@@ -81,7 +81,7 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Parsing time " + time);
 		}
-		final String[] hms = time.split("[^0-9]");
+		final String[] hms = time.split(Constants.NON_DECIMAL_CHARACTER);
 		boolean first = true;
 		int hours = 0;
 		int minutes = 0;
@@ -104,6 +104,7 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 	 * Return the attribute hours.
 	 * @return the attribute hours.
 	 */
+	@Comparable
 	public int getHours () {
 		return hours;
 	}
@@ -112,6 +113,7 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 	 * Return the attribute minutes.
 	 * @return the attribute minutes.
 	 */
+	@Comparable
 	public int getMinutes () {
 		return minutes;
 	}
@@ -191,12 +193,12 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 		String h = Integer.toString(hours);
 		String m = Integer.toString(minutes);
 		if (h.length() < 2) {
-			h = "0" + h;
+			h = Integer.valueOf(0) + h;
 		}
 		if (m.length() < 2) {
-			m = "0" + m;
+			m = Integer.valueOf(0) + m;
 		}
-		return h + ":" + m;
+		return h + Constants.TIME_SEPARATOR + m;
 	}
 	
 	/*
@@ -205,11 +207,7 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 	 */
 	@Override
 	public int hashCode () {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + hours;
-		result = prime * result + minutes;
-		return result;
+		return Auto.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -218,22 +216,9 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 	 */
 	@Override
 	public boolean equals (final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
 		if (!(obj instanceof Time)) {
 			return false;
 		}
-		final Time other = (Time) obj;
-		if (hours != other.hours) {
-			return false;
-		}
-		if (minutes != other.minutes) {
-			return false;
-		}
-		return true;
+		return Auto.getInstance().compare(this, (Time) obj);
 	}
 }

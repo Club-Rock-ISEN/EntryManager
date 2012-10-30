@@ -66,8 +66,8 @@ public final class Utils {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Writing next line '" + nextLine + "'");
 			}
-			nextLine = nextLine.substring(0, nextLine.lastIndexOf(' '));
-			result.append(nextLine).append("<br />");
+			nextLine = nextLine.substring(0, nextLine.lastIndexOf(Constants.SPACE));
+			result.append(nextLine).append(Constants.NEW_LINE);
 			remaining = remaining.substring(nextLine.length()).trim();
 		}
 		result.append(remaining);
@@ -84,9 +84,9 @@ public final class Utils {
 	 * @see #multiLine(String)
 	 */
 	public static String multiLineHTML (final String input) {
-		final StringBuilder result = new StringBuilder("<html>");
-		result.append(multiLine(input)).append("</html>");
-		return result.toString().replace("\n", "<br />");
+		final StringBuilder result = new StringBuilder(Constants.HTML_HTML_START);
+		result.append(multiLine(input)).append(Constants.HTML_HTML_END);
+		return result.toString().replace("" + Constants.NEW_LINE, Constants.HTML_NEW_LINE);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public final class Utils {
 		}
 		return message;
 	}
-
+	
 	/**
 	 * Show the dialog with translation picked from the dialog specified.
 	 * @param parent

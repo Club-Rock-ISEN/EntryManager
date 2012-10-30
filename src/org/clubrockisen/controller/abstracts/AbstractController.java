@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.model.abstracts.AbstractModel;
 import org.clubrockisen.view.abstracts.AbstractView;
 
@@ -100,7 +101,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	public void setModelProperty (final String propertyName, final Object newValue) {
 		for (final AbstractModel model : registeredModels) {
 			try {
-				final Method method = model.getClass().getMethod("set" + propertyName,
+				final Method method = model.getClass().getMethod(Constants.SETTER_PREFIX + propertyName,
 						new Class<?>[] { newValue.getClass() });
 				method.invoke(model, newValue);
 			} catch (SecurityException | IllegalAccessException | IllegalArgumentException

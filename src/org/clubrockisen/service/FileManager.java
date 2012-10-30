@@ -175,7 +175,7 @@ public class FileManager implements IFileManager {
 			}
 			// Getting the value of the current field and building the setter name
 			final Object fieldValue = converter.convert(fields[i]);
-			final String methodName = "set" + converter.getField().getPropertyName();
+			final String methodName = Constants.SETTER_PREFIX + converter.getField().getPropertyName();
 			try {
 				final Method method = Member.class.getMethod(methodName, new Class<?>[] { fieldValue.getClass() });
 				method.invoke(member, fieldValue);

@@ -128,9 +128,6 @@ public class MainWindow extends AbstractFrame {
 				for (final Member member : daoMember.retrieveAll()) {
 					lg.info(member.toString());
 				}
-				//final Parameter laf = ParametersManager.getInstance().get(ParametersEnum.LOOK_AND_FEEL);
-				//laf.setValue("Nimbus");
-				//ParametersManager.getInstance().set(laf);
 			}
 		});
 		final JMenuItem parametersItem = Utils.getMenuItem(Key.GUI.menu().file().parameters(), new ActionListener() {
