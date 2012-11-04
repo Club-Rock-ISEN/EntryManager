@@ -137,7 +137,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 		creditField = new JSpinner(new SpinnerNumberModel(0.0,
 				Double.parseDouble(paramManager.get(ParametersEnum.MIN_CREDIT).getValue()),
 				Double.parseDouble(paramManager.get(ParametersEnum.MAX_CREDIT).getValue()),
-				Constants.STEP_MONEY));
+				Constants.MONEY_STEP_SPINNER));
 		add(creditField, c);
 		
 		if (!editable) {

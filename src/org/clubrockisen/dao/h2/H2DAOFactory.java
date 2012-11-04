@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.Utils;
 import org.clubrockisen.dao.Utils.DBConnectionInfo;
@@ -24,7 +25,6 @@ import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
-import org.h2.engine.Constants;
 import org.h2.tools.RunScript;
 
 /**
@@ -64,9 +64,9 @@ public class H2DAOFactory extends AbstractDAOFactory {
 			try {
 				dbFile = getDBFile(dbInfos, false);
 				if (lg.isLoggable(Level.INFO)) {
-					lg.info("URL connection: " + (Constants.START_URL + dbFile));
+					lg.info("URL connection: " + (org.h2.engine.Constants.START_URL + dbFile));
 				}
-				RunScript.execute(Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
+				RunScript.execute(org.h2.engine.Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
 						config.get(keys.db().creationFile()), null, true);
 			} catch (final SQLException e) {
 				lg.warning("Error while initilization of H2 database (" + e.getClass() + "; " +
@@ -95,9 +95,9 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	 */
 	private static Path getDBFile (final DBConnectionInfo dbInfos, final boolean suffix) {
 		// Creating database if file does not exists. jdbc:h2:file:data/database/crock.db
-		String file = dbInfos.getUrl().substring(Constants.START_URL.length());
-		if (file.startsWith("file:")) {
-			file = file.substring("file:".length());
+		String file = dbInfos.getUrl().substring(org.h2.engine.Constants.START_URL.length());
+		if (file.startsWith(Constants.FILE_URI_PREFIX)) {
+			file = file.substring(Constants.FILE_URI_PREFIX.length());
 		}
 		// Removing parameters
 		final int delimiter = file.lastIndexOf(';');
@@ -107,7 +107,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 		
 		// Adding the extension if required
 		if (suffix) {
-			file += Constants.SUFFIX_PAGE_FILE;
+			file += org.h2.engine.Constants.SUFFIX_PAGE_FILE;
 		}
 		
 		if (lg.isLoggable(Level.FINE)) {

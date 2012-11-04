@@ -26,7 +26,7 @@ public class DoubleSpinner extends Spinner {
 	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
-		return new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.STEP_MONEY);
+		return new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.MONEY_STEP_SPINNER);
 	}
 	
 }

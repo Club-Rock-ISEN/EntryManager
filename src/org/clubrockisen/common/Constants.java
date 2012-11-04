@@ -22,32 +22,9 @@ public final class Constants {
 		super();
 	}
 	
-	/** Default prime number to use for hash code computation */
-	public static final int		PRIME_FOR_HASHCODE		= 31;
-	
-	/** The date format use to persist dates in a SQL data base */
-	public static final String	SQL_DATE_FORMAT			= "yyyy-MM-dd";
-	
-	/** The date format used in log display */
-	public static final String	LOG_DATE_FORMAT			= "EEEE d MMMM yyyy";
-	
-	/** The date format used in the GUI */
-	public static final String	DISPLAYED_DATE_FORMAT	= LOG_DATE_FORMAT;
-	
-	/** The step between two possible values for the money */
-	public static final double	STEP_MONEY				= 0.01;
-	
-	/** Minimum value for time spinner */
-	public static final Time	TIME_MIN_SPINNER		= new Time();
-	
-	/** Maximum value for time spinner */
-	public static final Time	TIME_MAX_SPINNER		= new Time(23, 59);
-	
-	/** Step for time spinner */
-	public static final Time	TIME_STEP_SPINNER		= new Time(0, 1);
-	
+	// GUI constants
 	/** The string for displaying the Greek delta (Δ) */
-	public static final String	DELTA					= "\u0394";
+	public static final char	DELTA					= '\u0394';
 	
 	/** Maximum length for a string in a dialog */
 	public static final int		LINE_MAX_LENGTH			= 65;
@@ -58,18 +35,19 @@ public final class Constants {
 	/** Default insets to be used for GUI building */
 	public static final Insets	DEFAULT_INSETS			= new Insets(5, 5, 5, 5);
 	
-	/** The name of the author to display */
-	public static final String	AUTHOR_NAME				= "Alex Barféty";
-	
 	/** The separator between hours and minutes */
 	public static final String	TIME_SEPARATOR			= ":";
 	
-	/** The regex pattern that matches any non decimal character */
-	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
+	/** Character used for mnemonics in menu bar */
+	public static final char	MNEMONIC_MARK			= '#';
 	
-	/** The common prefix for attribute setters in classes */
-	public static final String	SETTER_PREFIX			= "set";
+	/** Character used for parameters in translations */
+	public static final char	PARAMETER_PREFIX		= '%';
 	
+	/** The date format used in the GUI */
+	public static final String	DISPLAYED_DATE_FORMAT	= "EEEE d MMMM yyyy";
+	
+	// String and text related constants
 	/** The HTML tag for a new HTML document */
 	public static final String	HTML_HTML_START			= "<" + Tag.HTML + ">";
 	
@@ -85,13 +63,43 @@ public final class Constants {
 	/** The space character */
 	public static final char	SPACE					= ' ';
 	
-	/** Character used for mnemonics in menu bar */
-	public static final char	MNEMONIC_MARK			= '#';
-	
-	/** Character used for parameters in translations */
-	public static final char	PARAMETER_PREFIX		= '%';
-	
 	/** The default char set to use */
 	public static final Charset	DEFAULT_CHARSET			= StandardCharsets.UTF_8;
+	
+	// Spinner bounds and step constants
+	/** The step between two possible values for the money */
+	public static final double	MONEY_STEP_SPINNER		= 0.01;
+	
+	/** Minimum value for time spinner */
+	public static final Time	TIME_MIN_SPINNER		= new Time();
+	
+	/** Maximum value for time spinner */
+	public static final Time	TIME_MAX_SPINNER		= new Time(23, 59);
+	
+	/** Step for time spinner */
+	public static final Time	TIME_STEP_SPINNER		= new Time(0, 1);
+	
+	// Developper's constants
+	/** The date format used in log display */
+	public static final String	LOG_DATE_FORMAT			= DISPLAYED_DATE_FORMAT;
+	
+	/** The name of the author to display */
+	public static final String	AUTHOR_NAME				= "Alex Barféty";
+	
+	/** The date format use to persist dates in a SQL data base */
+	public static final String	SQL_DATE_FORMAT			= "yyyy-MM-dd";
+	
+	// Miscellaneous constants
+	/** The file prefix used in URIs */
+	public static final String	FILE_URI_PREFIX			= "file:";
+	
+	/** Default prime number to use for hash code computation */
+	public static final int		PRIME_FOR_HASHCODE		= 31;
+	
+	/** The regex pattern that matches any non decimal character */
+	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
+	
+	/** The common prefix for attribute setters in classes */
+	public static final String	SETTER_PREFIX			= "set";
 	
 }

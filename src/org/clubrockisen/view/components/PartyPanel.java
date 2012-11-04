@@ -65,6 +65,8 @@ public class PartyPanel extends JPanel implements AbstractView {
 	private final JSpinner					entriesMaleField;
 	/** Field for the party's female entry number */
 	private final JSpinner					entriesFemaleField;
+	/** Field of the difference between male and female members */
+	private final JSpinner					deltaValue;
 	/** Field for the party's revenue */
 	private final JSpinner					revenueField;
 	/** Field for the party's profit */
@@ -124,6 +126,9 @@ public class PartyPanel extends JPanel implements AbstractView {
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.ENTRIES_FEMALE))), c);
 		
 		c.gridy = ++yIndex;
+		add(new JLabel(Constants.DELTA + translator.get(Key.MISC.fieldValueSeparator())), c);
+		
+		c.gridy = ++yIndex;
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.REVENUE))), c);
 		
 		c.gridy = ++yIndex;
@@ -164,13 +169,18 @@ public class PartyPanel extends JPanel implements AbstractView {
 		add(entriesFemaleField, c);
 		
 		c.gridy = ++yIndex;
+		deltaValue = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+		deltaValue.setEnabled(false);
+		add(deltaValue, c);
+		
+		c.gridy = ++yIndex;
 		// Note: revenue can only be positive, this is the raw income.
-		revenueField = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Integer.MAX_VALUE, Constants.STEP_MONEY));
+		revenueField = new JSpinner(new SpinnerNumberModel(0.0, 0.0, Integer.MAX_VALUE, Constants.MONEY_STEP_SPINNER));
 		add(revenueField, c);
 		
 		c.gridy = ++yIndex;
 		// Note: profit may be negative, this is the revenue minus the charges.
-		profitField = new JSpinner(new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.STEP_MONEY));
+		profitField = new JSpinner(new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.MONEY_STEP_SPINNER));
 		add(profitField, c);
 		
 		if (!editable) {
@@ -339,8 +349,10 @@ public class PartyPanel extends JPanel implements AbstractView {
 			entriesFreeField.setValue(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_MALE.getPropertyName())) {
 			entriesMaleField.setValue(evt.getNewValue());
+			updateDelta();
 		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FEMALE.getPropertyName())) {
 			entriesFemaleField.setValue(evt.getNewValue());
+			updateDelta();
 		} else if (evt.getPropertyName().equals(PartyColumn.REVENUE.getPropertyName())) {
 			revenueField.setValue(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(PartyColumn.PROFIT.getPropertyName())) {
@@ -348,5 +360,15 @@ public class PartyPanel extends JPanel implements AbstractView {
 		} else if (lg.isLoggable(Level.INFO)) {
 			lg.info("Property event not managed:" + evt.getPropertyName());
 		}
+	}
+	
+	/**
+	 * Update the delta field using the value of male and female entries.
+	 */
+	private void updateDelta () {
+		final int male = (int) entriesMaleField.getValue();
+		final int female = (int) entriesFemaleField.getValue();
+		
+		deltaValue.setValue(female - male);
 	}
 }
