@@ -86,8 +86,8 @@ public final class Constants {
 	/** The name of the author to display */
 	public static final String	AUTHOR_NAME				= "Alex Barféty";
 	
-	/** The date format use to persist dates in a SQL data base */
-	public static final String	SQL_DATE_FORMAT			= "yyyy-MM-dd";
+	/** The date format use to persist dates in a the data base */
+	public static final String	STORED_DATE_FORMAT		= "yyyy-MM-dd";
 	
 	// Miscellaneous constants
 	/** The file prefix used in URIs */

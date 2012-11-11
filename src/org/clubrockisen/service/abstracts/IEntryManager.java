@@ -13,6 +13,13 @@ import org.clubrockisen.entities.Party;
 public interface IEntryManager {
 	
 	/**
+	 * Retrieve the party for the current day.<br />
+	 * If the party does not exist, creates it.
+	 * @return the party of the day.
+	 */
+	Party getCurrentParty ();
+	
+	/**
 	 * Add an entry for the specified member for the party specified.
 	 * @param member
 	 *        the member to enter.

@@ -28,7 +28,7 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
 	/** Date format used in the database */
-	private final SimpleDateFormat					dateFormat = new SimpleDateFormat(Constants.SQL_DATE_FORMAT);
+	private final SimpleDateFormat					dateFormat = new SimpleDateFormat(Constants.STORED_DATE_FORMAT);
 	/** Sample to be used by the super class */
 	private Party									partySample;
 	

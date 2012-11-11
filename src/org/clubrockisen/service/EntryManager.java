@@ -1,5 +1,7 @@
 package org.clubrockisen.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,12 +10,14 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
+import org.clubrockisen.entities.Party.PartyColumn;
 import org.clubrockisen.service.abstracts.IEntryManager;
 
 /**
@@ -41,6 +45,17 @@ public class EntryManager implements IEntryManager {
 		memberDAO = daoFactory.getMemberDAO();
 		partyDAO = daoFactory.getPartyDAO();
 		entryDAO = daoFactory.getEntryMemberPartyDAO();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.IEntryManager#getCurrentParty()
+	 */
+	@Override
+	public Party getCurrentParty () {
+		final SimpleDateFormat storedDateFormat = new SimpleDateFormat(Constants.STORED_DATE_FORMAT);
+		partyDAO.search(Party.getColumns().get(PartyColumn.DATE), storedDateFormat.format(new Date(System.currentTimeMillis())));
+		
+		return null;
 	}
 	
 	/*

@@ -20,6 +20,7 @@ import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.model.PartyModel;
 import org.clubrockisen.service.abstracts.Format;
+import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
@@ -61,6 +62,8 @@ public class MainWindowController extends AbstractController implements MemberCo
 	private final ConfigurationKey			keys			= ConfigurationKey.KEY;
 	/** The file importer */
 	private final IFileManager				fileManager		= ServiceFactory.getImplementation().getFileManager();
+	/** The entry manager */
+	private final IEntryManager				entryManager	= ServiceFactory.getImplementation().getEntryManager();
 	
 	/**
 	 * Constructor #1.<br />
@@ -74,6 +77,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 		mainWindow = new MainWindow(this);
 		memberModel = new MemberModel();
 		partyModel = new PartyModel();
+		// TODO partyModel.initParty(entryManager.getCurrentParty());
 		memberController = new MemberControllerImpl(this);
 		partyController = new PartyControllerImp(this);
 		addModel(memberModel);

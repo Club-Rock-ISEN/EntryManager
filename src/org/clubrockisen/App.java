@@ -36,20 +36,22 @@ public final class App {
 	private App (final String[] args) {
 		super();
 		
-		/** Loading configuration file from arguments */
+		// Loading configuration file from arguments
 		if (args.length > 0) {
 			Configuration.setFile(args[0]);
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Loading configuration file from program command line " + args[0]);
 			}
 		}
-		/** Pre-loading configuration and translator. */
+		// Pre-loading configuration and translator.
 		config = Configuration.getInstance();
 		Translator.getInstance();
 	}
 	
 	/**
-	 * Launch the application.
+	 * Launch the application.<br />
+	 * Load the DAO configured and the services of the application.
+	 * Then, load the GUI show it once it is fully loaded.
 	 */
 	private void launch () {
 		if (lg.isLoggable(Level.INFO)) {
@@ -57,21 +59,21 @@ public final class App {
 		}
 		
 		try {
-			/** Loading DAO factory and services */
+			// Loading DAO factory and services
 			AbstractDAOFactory.createFactory(config.get(KEYS.daoFactory()));
 			ServiceFactory.createFactory(config.get(KEYS.serviceFactory()));
 			
-			/** Loading GUI */
+			// Loading GUI
 			Utils.setLookAndFeel();
 			final MainWindowController mainWindow = new MainWindowController();
 			mainWindow.show();
-			
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Club Rock ISEN application running.");
 			}
 		} catch (final TopLevelError e) {
 			lg.severe("Cannot run application: " + e.getClass() + "; details: " + e.getMessage());
 			lg.severe("Caused by " + e.getCause());
+			// Cannot use the method in view.Utils because the translator may not be loaded
 			JOptionPane.showMessageDialog(null, e.getMessage(),
 					"Severe error - Application will not run", JOptionPane.ERROR_MESSAGE);
 		}
