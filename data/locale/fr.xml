@@ -85,6 +85,10 @@
 	<!-- The parameter manager -->
 	<entry key="gui.parameters.title">Paramètres</entry>
 	
+	<!-- The buttons of the GUI -->
+	<entry key="gui.buttons.enter">Entrée</entry>
+	<entry key="gui.buttons.update">Modifier</entry>
+	
 	<!-- Dialogs displayed -->
 	<!-- The about dialog -->
 	<entry key="gui.dialog.about.title">À propos</entry>
@@ -128,7 +132,4 @@
 	
 	<!-- Old translations -->
 	<entry key="app.mainWindow.groupBox.searchResult">Résultats de recherche</entry>
-	<entry key="app.mainWindow.button.enter">Entrée</entry>
-	<entry key="app.mainWindow.button.update">Modifier</entry>
-	<entry key="app.mainWindow.button.delete">Supprimer</entry>
 </properties>

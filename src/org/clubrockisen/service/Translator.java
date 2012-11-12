@@ -1106,6 +1106,60 @@ public final class Translator implements ITranslator {
 			}
 			
 			/**
+			 * The buttons translations.
+			 * @author Alex
+			 */
+			public static final class Buttons {
+				/** The key to the buttons translations */
+				private final String	buttonsKey;
+				
+				/**
+				 * Constructor #1.<br />
+				 * Build the buttons structure.
+				 * @param parentKey
+				 *        the key from the parent category.
+				 */
+				public Buttons (final String parentKey) {
+					super();
+					buttonsKey = parentKey + "." + "buttons";
+				}
+				
+				/**
+				 * The enter button.
+				 * @return the text of the enter button.
+				 */
+				public String enter () {
+					return buttonsKey + "." + "enter";
+				}
+				
+				/**
+				 * The update button.
+				 * @return the text of the update button.
+				 */
+				public String update () {
+					return buttonsKey + "." + "update";
+				}
+				
+				/*
+				 * (non-Javadoc)
+				 * @see java.lang.Object#toString()
+				 */
+				@Override
+				public String toString () {
+					return buttonsKey;
+				}
+				
+			}
+			
+			/**
+			 * Access to the translations for the buttons.
+			 * @return the buttons translation.
+			 */
+			public Buttons buttons () {
+				return new Buttons(guiKey);
+			}
+			
+			/**
 			 * The dialog translations.
 			 * @author Alex
 			 */

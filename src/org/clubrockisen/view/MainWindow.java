@@ -308,67 +308,18 @@ public class MainWindow extends AbstractFrame {
 		final Container panel = getContentPane();
 		panel.setLayout(new GridBagLayout());
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = Constants.DEFAULT_INSETS;
+		int xIndex = 0;
+		int yIndex = 0;
+		final GridBagConstraints c = new GridBagConstraints(xIndex, yIndex, 1, 1, 0.33, 0.0,
+				GridBagConstraints.BASELINE_TRAILING, GridBagConstraints.HORIZONTAL,
+				Constants.DEFAULT_INSETS, 0, 0);
 		searchBox = new JTextField();
-		searchBox.addKeyListener(new KeyAdapter() { // TODO externalize?
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
-			 */
-			@Override
-			public void keyTyped (final KeyEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					/*
-					 * (non-Javadoc)
-					 * @see java.lang.Runnable#run()
-					 */
-					@Override
-					public void run () {
-						controller.changeSearch(searchBox.getText());
-					}
-				});
-			}
-			
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
-			 */
-			@Override
-			public void keyPressed (final KeyEvent e) {
-				if (e.getKeyCode() == Constants.CHANGE_FOCUS_KEY_TRIGGER) {
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run () {
-							if (lg.isLoggable(Level.FINE)) {
-								lg.fine("Down arrow pressed, passing focus to list.");
-							}
-							resultList.setSelectedIndex(0);
-							resultList.requestFocusInWindow();
-						}
-					});
-				}
-			}
-			
-		});
+		searchBox.addKeyListener(new SearchKeyListener());
 		panel.add(searchBox, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
+		c.gridy = ++yIndex;
 		c.gridheight = GridBagConstraints.REMAINDER;
-		c.weightx = 0.33;
-		c.weighty = 1.0;
 		c.fill = GridBagConstraints.BOTH;
-		c.insets = Constants.DEFAULT_INSETS;
 		resultList = new JList<>();
 		final JScrollPane scrollPane = new JScrollPane(resultList);
 		scrollPane.setBorder(BorderFactory.createTitledBorder(getTranslator()
@@ -388,51 +339,27 @@ public class MainWindow extends AbstractFrame {
 		});
 		panel.add(scrollPane, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0;
+		yIndex = 0;
+		c.gridx = ++xIndex;
+		c.gridy = yIndex;
 		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		enterButton = new JButton(getTranslator().get("app.mainWindow.button.enter"));
+		enterButton = new JButton(getTranslator().get(Key.GUI.buttons().enter()));
 		panel.add(enterButton, c);
 		
-		c = new GridBagConstraints();
-		c.gridx = 2;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		updateButton = new JButton(getTranslator().get("app.mainWindow.button.update"));
+		c.gridx = ++xIndex;
+		updateButton = new JButton(getTranslator().get(Key.GUI.buttons().update()));
 		panel.add(updateButton, c);
 		
-		c = new GridBagConstraints();
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 3;
 		c.gridheight = GridBagConstraints.REMAINDER;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
 		c.fill = GridBagConstraints.VERTICAL;
-		c.insets = Constants.DEFAULT_INSETS;
 		final JPanel memberPanel = buildMemberPanel();
 		panel.add(memberPanel, c);
 		
-		c = new GridBagConstraints();
 		c.gridx = 4;
 		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = GridBagConstraints.REMAINDER;
-		c.weightx = 0.33;
-		c.weighty = 1.0;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.insets = Constants.DEFAULT_INSETS;
 		final JPanel partyPanel = buildPartyPanel();
 		panel.add(partyPanel, c);
 	}
@@ -503,6 +430,47 @@ public class MainWindow extends AbstractFrame {
 		}
 		if (evt.getPropertyName().equals(MainWindowController.MEMBER_LIST)) {
 			resultList.setModel((ListModel<Member>) evt.getNewValue());
+		}
+	}
+	
+	/**
+	 * Key listener to be used on the search field.<br />
+	 * Updates the search term, and change the focus to the list when the key specified is set.
+	 * @author Alex
+	 */
+	private final class SearchKeyListener extends KeyAdapter {
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyTyped (final KeyEvent e) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run () {
+					controller.changeSearch(searchBox.getText());
+				}
+			});
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyPressed (final KeyEvent e) {
+			if (e.getKeyCode() == Constants.CHANGE_FOCUS_KEY_TRIGGER) {
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run () {
+						if (lg.isLoggable(Level.FINE)) {
+							lg.fine("Down arrow pressed, passing focus to list.");
+						}
+						resultList.setSelectedIndex(0);
+						resultList.requestFocusInWindow();
+					}
+				});
+			}
 		}
 	}
 	
