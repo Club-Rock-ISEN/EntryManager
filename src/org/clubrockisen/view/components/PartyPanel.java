@@ -358,7 +358,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 		} else if (evt.getPropertyName().equals(PartyColumn.PROFIT.getPropertyName())) {
 			profitField.setValue(evt.getNewValue());
 		} else if (lg.isLoggable(Level.INFO)) {
-			lg.info("Property event not managed:" + evt.getPropertyName());
+			lg.info("Property event not managed: " + evt.getPropertyName());
 		}
 	}
 	

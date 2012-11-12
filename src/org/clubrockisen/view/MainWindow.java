@@ -5,8 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -23,7 +27,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.MainWindowController;
@@ -33,6 +40,8 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.model.MemberListModel;
+import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.view.abstracts.AbstractFrame;
@@ -61,12 +70,9 @@ public class MainWindow extends AbstractFrame {
 	private JButton						enterButton;
 	/** Button to update the member */
 	private JButton						updateButton;
-	/** Button to delete the member */
-	private JButton						deleteButton;
 	/** Party component */
 	private PartyPanel					partyComponent;
-	
-	/** Model for the result list (TODO move out) */
+	/** Model for the list (TODO move to controller / model?)*/
 	private DefaultListModel<Member>	resultListModel;
 	
 	// Miscellaneous
@@ -316,6 +322,46 @@ public class MainWindow extends AbstractFrame {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = Constants.DEFAULT_INSETS;
 		searchBox = new JTextField();
+		searchBox.addKeyListener(new KeyAdapter() { // TODO externalize?
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyTyped (final KeyEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					/*
+					 * (non-Javadoc)
+					 * @see java.lang.Runnable#run()
+					 */
+					@Override
+					public void run () {
+						controller.changeSearch(searchBox.getText());
+					}
+				});
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyPressed (final KeyEvent e) {
+				if (e.getKeyCode() == Constants.CHANGE_FOCUS_KEY_TRIGGER) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run () {
+							if (lg.isLoggable(Level.FINE)) {
+								lg.fine("Down arrow pressed, passing focus to list.");
+							}
+							resultList.setSelectedIndex(0);
+							resultList.requestFocusInWindow();
+						}
+					});
+				}
+			}
+			
+		});
 		panel.add(searchBox, c);
 		
 		c = new GridBagConstraints();
@@ -335,10 +381,17 @@ public class MainWindow extends AbstractFrame {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		resultList.addListSelectionListener(new ListSelectionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+			 */
+			@Override
+			public void valueChanged (final ListSelectionEvent e) {
+				controller.initMember(resultList.getSelectedValue());
+			}
+		});
 		panel.add(scrollPane, c);
-		
-		searchBox.addKeyListener(new SearchBoxKeyListener(searchBox, resultList, resultListModel,
-				AbstractDAOFactory.getImplementation().getMemberDAO()));
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
@@ -363,18 +416,6 @@ public class MainWindow extends AbstractFrame {
 		c.insets = Constants.DEFAULT_INSETS;
 		updateButton = new JButton(getTranslator().get("app.mainWindow.button.update"));
 		panel.add(updateButton, c);
-		
-		c = new GridBagConstraints();
-		c.gridx = 3;
-		c.gridy = 0;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.weightx = 0.33;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = Constants.DEFAULT_INSETS;
-		deleteButton = new JButton(getTranslator().get("app.mainWindow.button.delete"));
-		panel.add(deleteButton, c);
 		
 		c = new GridBagConstraints();
 		c.gridx = 1;
@@ -461,7 +502,16 @@ public class MainWindow extends AbstractFrame {
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		memberComponent.modelPropertyChange(evt);
 		partyComponent.modelPropertyChange(evt);
-		
+		if (evt.getPropertyName().equals(SearchModel.SEARCH)) {
+			searchBox.setText(evt.getNewValue().toString());
+			controller.updateSearchResult();
+		}
+		if (evt.getPropertyName().equals(MemberListModel.MEMBER_LIST)) {
+			resultListModel.clear();
+			for (final Member member : (List<Member>) evt.getNewValue()) {
+				resultListModel.addElement(member);
+			}
+		}
 	}
 	
 }

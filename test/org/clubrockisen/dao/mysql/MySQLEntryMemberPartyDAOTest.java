@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
@@ -25,7 +25,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/** The factory */
 	private static MySQLDAOFactory			factory;
 	/** Backup for the entries */
-	private static List<EntryMemberParty>	entriesBackup;
+	private static Set<EntryMemberParty>	entriesBackup;
 	/** The DAO for the entries */
 	private MySQLEntryMemberPartyDAO		entriesDAO;
 	

@@ -4,9 +4,13 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
 
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKey;
@@ -14,11 +18,15 @@ import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
+import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.model.MemberListModel;
 import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.model.PartyModel;
+import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IFileManager;
@@ -42,6 +50,10 @@ public class MainWindowController extends AbstractController implements MemberCo
 	private final MemberModel				memberModel;
 	/** The model for the party being displayed */
 	private final PartyModel				partyModel;
+	/** The model for the search field */
+	private final SearchModel				searchModel;
+	/** The model for the member list */
+	private final MemberListModel			memberListModel;
 	
 	// Delegate controllers
 	/** The controller to delegate member's update */
@@ -77,11 +89,15 @@ public class MainWindowController extends AbstractController implements MemberCo
 		mainWindow = new MainWindow(this);
 		memberModel = new MemberModel();
 		partyModel = new PartyModel();
+		searchModel = new SearchModel();
+		memberListModel = new MemberListModel();
 		// TODO partyModel.initParty(entryManager.getCurrentParty());
 		memberController = new MemberControllerImpl(this);
 		partyController = new PartyControllerImp(this);
 		addModel(memberModel);
 		addModel(partyModel);
+		addModel(searchModel);
+		addModel(memberListModel);
 		addView(mainWindow);
 		
 		// Waiting for the complete GUI generation
@@ -248,6 +264,47 @@ public class MainWindowController extends AbstractController implements MemberCo
 		memberController.changeStatus(newStatus);
 	}
 	
+	/**
+	 * Initialize the model with the given member.<br />
+	 * The member will be reloaded from the database.
+	 * @param member
+	 *        the member to display.
+	 */
+	public void initMember (final Member member) {
+		memberModel.initMember(member);
+		memberModel.reload();
+	}
+	/**
+	 * Change the search string in the controller.
+	 * @param newSearch
+	 *        the new search string.
+	 */
+	public void changeSearch (final String newSearch) {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Changing the search field to '" + newSearch + "'");
+		}
+		setModelProperty(SearchModel.SEARCH, newSearch);
+	}
+	
+	/**
+	 * Update the member list with the result of the search.
+	 */
+	public void updateSearchResult () {
+		SwingUtilities.invokeLater(new Runnable() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.lang.Runnable#run()
+			 */
+			@Override
+			public void run () {
+				final DAO<Member> memberDAO = AbstractDAOFactory.getImplementation().getMemberDAO();
+				lg.info("searching for '" + searchModel.getSearch() + "'");
+				final List<Member> members = new ArrayList<>(memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
+						searchModel.getSearch()));
+				memberListModel.setMemberList(members);
+			}
+		});
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()

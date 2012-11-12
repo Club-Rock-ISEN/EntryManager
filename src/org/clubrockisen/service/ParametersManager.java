@@ -1,8 +1,8 @@
 package org.clubrockisen.service;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +21,6 @@ import org.clubrockisen.service.abstracts.ParametersEnum;
 public final class ParametersManager implements IParametersManager {
 	/** Logger */
 	private static Logger					lg			= Logger.getLogger(ParametersManager.class.getName());
-	
 	
 	/** The access to the parameters */
 	private final DAO<Parameter>			dao;
@@ -43,7 +42,7 @@ public final class ParametersManager implements IParametersManager {
 		}
 		this.dao = daoFactory.getParameterDAO();
 		parameters = new EnumMap<>(ParametersEnum.class);
-		final List<Parameter> dbParameters = dao.retrieveAll();
+		final Set<Parameter> dbParameters = dao.retrieveAll();
 		
 		for (final Parameter parameter : dbParameters) {
 			parameters.put(ParametersEnum.fromValue(parameter.getName()), parameter);

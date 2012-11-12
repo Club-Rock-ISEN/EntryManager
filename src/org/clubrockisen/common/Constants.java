@@ -1,6 +1,7 @@
 package org.clubrockisen.common;
 
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -46,6 +47,9 @@ public final class Constants {
 	
 	/** The date format used in the GUI */
 	public static final String	DISPLAYED_DATE_FORMAT	= "EEEE d MMMM yyyy";
+	
+	/** The key to use for changing the focus from the search to the results */
+	public static final int	CHANGE_FOCUS_KEY_TRIGGER	= KeyEvent.VK_DOWN;
 	
 	// String and text related constants
 	/** The HTML tag for a new HTML document */

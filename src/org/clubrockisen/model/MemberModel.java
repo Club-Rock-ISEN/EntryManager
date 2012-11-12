@@ -92,6 +92,10 @@ public class MemberModel extends AbstractModel {
 	 *        the member to use.
 	 */
 	public void initMember (final Member memberToUse) {
+		if (memberToUse == null) {
+			initDefault(); // FIXME do something else!
+			return;
+		}
 		member.setIdMember(memberToUse.getIdMember());
 		setName(memberToUse.getName());
 		setGender(memberToUse.getGender());

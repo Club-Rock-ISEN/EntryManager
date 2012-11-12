@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
@@ -27,7 +27,7 @@ public class MySQLParameterDAOTest {
 	/** The factory */
 	private static MySQLDAOFactory	factory;
 	/** Backup for the parameters */
-	private static List<Parameter>	parametersBackup;
+	private static Set<Parameter>	parametersBackup;
 	/** The DAO for the parameters */
 	private MySQLParameterDAO		parameterDAO;
 	
@@ -93,7 +93,7 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testUpdate () {
-		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		final Set<Parameter> parameters = parameterDAO.retrieveAll();
 		try {
 			for (final Parameter parameter : parameters) {
 				final Parameter backup = parameter.clone();
@@ -124,7 +124,7 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testRetrieveAll () {
-		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		final Set<Parameter> parameters = parameterDAO.retrieveAll();
 		for (final Parameter parameter : parameters) {
 			assertNotNull(parameter.getName());
 			assertNotNull(parameter.getType());
@@ -138,9 +138,9 @@ public class MySQLParameterDAOTest {
 	 */
 	@Test
 	public void testSearch () {
-		final List<Parameter> parameters = parameterDAO.retrieveAll();
+		final Set<Parameter> parameters = parameterDAO.retrieveAll();
 		for (final Parameter parameter : parameters) {
-			assertEquals(parameter, parameterDAO.search(Parameter.getColumns().get(ParameterColumn.NAME), parameter.getName()).get(0));
+			assertEquals(parameter, parameterDAO.search(Parameter.getColumns().get(ParameterColumn.NAME), parameter.getName()).iterator().next());
 		}
 		assertEquals(parameters, parameterDAO.search(null, null));
 	}

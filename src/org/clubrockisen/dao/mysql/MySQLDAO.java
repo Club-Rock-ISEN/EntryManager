@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,8 +128,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 * @see org.clubrockisen.dao.abstracts.DAO#retrieveAll()
 	 */
 	@Override
-	public List<T> retrieveAll () {
-		final List<T> allEntities = new ArrayList<>();
+	public Set<T> retrieveAll () {
+		final Set<T> allEntities = new HashSet<>();
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Retrieving all " + entityName);
 		}
@@ -169,7 +169,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 * @see org.clubrockisen.dao.abstracts.DAO#search(org.clubrockisen.entities.Column, java.lang.String)
 	 */
 	@Override
-	public List<T> search (final Column field, final String value) {
+	public Set<T> search (final Column field, final String value) {
 		if (field == null || value == null) {
 			return retrieveAll();
 		}
@@ -178,7 +178,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Searching " + entityName + " with " + field.getName() + " = " + value);
 		}
 		
-		final List<T> entities = new ArrayList<>();
+		final Set<T> entities = new HashSet<>();
 		try (final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 				ResultSet.CONCUR_READ_ONLY)) {
 			String query = getEntitySample().generateSearchAllQuerySQL() + " WHERE " + field.getName();
