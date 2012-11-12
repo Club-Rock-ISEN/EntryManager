@@ -1,15 +1,16 @@
 package org.clubrockisen.controller;
 
 import java.awt.Desktop;
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
 import org.clubrockisen.common.Configuration;
@@ -23,7 +24,6 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.model.MemberListModel;
 import org.clubrockisen.model.MemberModel;
 import org.clubrockisen.model.PartyModel;
 import org.clubrockisen.model.SearchModel;
@@ -41,6 +41,9 @@ public class MainWindowController extends AbstractController implements MemberCo
 	/** Logger */
 	private static Logger					lg				= Logger.getLogger(MainWindowController.class.getName());
 	
+	/** String name for the property of the event on the member list */
+	public static final String				MEMBER_LIST		= "MemberList";
+	
 	// View
 	/** The main window */
 	private final MainWindow				mainWindow;
@@ -53,7 +56,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	/** The model for the search field */
 	private final SearchModel				searchModel;
 	/** The model for the member list */
-	private final MemberListModel			memberListModel;
+	private DefaultListModel<Member>		memberListModel;
 	
 	// Delegate controllers
 	/** The controller to delegate member's update */
@@ -90,14 +93,13 @@ public class MainWindowController extends AbstractController implements MemberCo
 		memberModel = new MemberModel();
 		partyModel = new PartyModel();
 		searchModel = new SearchModel();
-		memberListModel = new MemberListModel();
+		memberListModel = new DefaultListModel<>();
 		// TODO partyModel.initParty(entryManager.getCurrentParty());
 		memberController = new MemberControllerImpl(this);
 		partyController = new PartyControllerImp(this);
 		addModel(memberModel);
 		addModel(partyModel);
 		addModel(searchModel);
-		addModel(memberListModel);
 		addView(mainWindow);
 		
 		// Waiting for the complete GUI generation
@@ -298,10 +300,19 @@ public class MainWindowController extends AbstractController implements MemberCo
 			@Override
 			public void run () {
 				final DAO<Member> memberDAO = AbstractDAOFactory.getImplementation().getMemberDAO();
-				lg.info("searching for '" + searchModel.getSearch() + "'");
-				final List<Member> members = new ArrayList<>(memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
-						searchModel.getSearch()));
-				memberListModel.setMemberList(members);
+				if (lg.isLoggable(Level.INFO)) {
+					lg.info("searching for '" + searchModel.getSearch() + "'");
+				}
+				final Set<Member> members = memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
+						searchModel.getSearch());
+				
+				final DefaultListModel<Member> newMemberListModel = new DefaultListModel<>();
+				for (final Member member : members) {
+					newMemberListModel.addElement(member);
+				}
+				
+				propertyChange(new PropertyChangeEvent(this, MEMBER_LIST, memberListModel, newMemberListModel));
+				memberListModel = newMemberListModel;
 			}
 		});
 	}

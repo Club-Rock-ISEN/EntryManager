@@ -9,12 +9,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -25,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
@@ -40,7 +39,6 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.model.MemberListModel;
 import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Format;
@@ -72,8 +70,6 @@ public class MainWindow extends AbstractFrame {
 	private JButton						updateButton;
 	/** Party component */
 	private PartyPanel					partyComponent;
-	/** Model for the list (TODO move to controller / model?)*/
-	private DefaultListModel<Member>	resultListModel;
 	
 	// Miscellaneous
 	/** Controller of the main window */
@@ -373,8 +369,7 @@ public class MainWindow extends AbstractFrame {
 		c.weighty = 1.0;
 		c.fill = GridBagConstraints.BOTH;
 		c.insets = Constants.DEFAULT_INSETS;
-		resultListModel = new DefaultListModel<>();
-		resultList = new JList<>(resultListModel);
+		resultList = new JList<>();
 		final JScrollPane scrollPane = new JScrollPane(resultList);
 		scrollPane.setBorder(BorderFactory.createTitledBorder(getTranslator()
 				.get("app.mainWindow.groupBox.searchResult")));
@@ -506,11 +501,8 @@ public class MainWindow extends AbstractFrame {
 			searchBox.setText(evt.getNewValue().toString());
 			controller.updateSearchResult();
 		}
-		if (evt.getPropertyName().equals(MemberListModel.MEMBER_LIST)) {
-			resultListModel.clear();
-			for (final Member member : (List<Member>) evt.getNewValue()) {
-				resultListModel.addElement(member);
-			}
+		if (evt.getPropertyName().equals(MainWindowController.MEMBER_LIST)) {
+			resultList.setModel((ListModel<Member>) evt.getNewValue());
 		}
 	}
 	
