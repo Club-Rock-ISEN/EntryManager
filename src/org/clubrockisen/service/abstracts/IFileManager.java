@@ -25,4 +25,14 @@ public interface IFileManager {
 	 * @return the formats supported.
 	 */
 	Set<Format> getAvailableFormat ();
+	
+	/**
+	 * Export the members in a file.
+	 * @param file
+	 *        the target file which will be created and contain the members.
+	 * @param format
+	 *        the format of the file to create.
+	 * @return <code>true</code> if the file was successfully created.
+	 */
+	boolean exportFile (Path file, Format format);
 }

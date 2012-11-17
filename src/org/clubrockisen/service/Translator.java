@@ -67,7 +67,8 @@ public final class Translator implements ITranslator {
 		return singleton;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#has(java.lang.String)
 	 */
 	@Override
@@ -91,7 +92,29 @@ public final class Translator implements ITranslator {
 		return translations.getProperty(key);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.util.Set)
+	@Override
+	public <T extends Collection<?>> T get (final T keys) {
+		try {
+			final T translatedKeys = (T) keys.getClass().newInstance();
+			for (final Object key : keys) {
+				Object newObj = key.getClass().newInstance();
+				
+				translatedKeys.add(newObj);
+			}
+			return translatedKeys;
+		} catch (InstantiationException | IllegalAccessException e) {
+			lg.warning("Could not instantiate a collection of type " + keys.getClass().getSimpleName()
+					+ ", " + e.getClass() + ", " + e.getMessage() + ")");
+			return keys;
+		}
+	}
+	 */
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.lang.String, java.lang.Object[])
 	 */
 	@Override
@@ -687,6 +710,34 @@ public final class Translator implements ITranslator {
 		
 		/** Access to the enumeration translations */
 		public static final Enum	ENUM	= new Enum();
+		
+		/**
+		 * The formats translation
+		 * @author Alex
+		 */
+		public static final class Formats {
+			/** The key to the format structure */
+			private final String	formatsKey	= "formats";
+			
+			/**
+			 * Constructor #1.<br />
+			 * Build the formats structure.
+			 */
+			private Formats () {
+				super();
+			}
+			
+			/**
+			 * The old file format.
+			 * @return the translation for the old file format.
+			 */
+			public String oldFileFormat () {
+				return formatsKey + "." + "oldFileFormat";
+			}
+		}
+		
+		/** Access to the formats translations */
+		public static final Formats	FORMATS	= new Formats();
 		
 		/**
 		 * The GUI related translations
@@ -1681,6 +1732,114 @@ public final class Translator implements ITranslator {
 				 */
 				public ChooseFormat chooseFormat () {
 					return new ChooseFormat(dialogKey);
+				}
+				
+				
+				/**
+				 * The dialog to confirm the success of file export.
+				 * @author Alex
+				 */
+				public static final class FileExportSuccessful extends AbstractDialog implements Parametrable {
+					/** The key to the file export successful dialog */
+					private final String	fileExportSuccessfulKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the file export successful dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param fileName
+					 *        the name of the file exported.
+					 */
+					private FileExportSuccessful (final String parentKey, final String fileName) {
+						super();
+						fileExportSuccessfulKey = parentKey + "." + "fileExportSucceed";
+						parameters = new Object[1];
+						parameters[0] = fileName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return fileExportSuccessfulKey;
+					}
+					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+				}
+				
+				/**
+				 * Access to the file export successful dialog.
+				 * @param fileName
+				 *        the name of the file imported.
+				 * @return the file export successful dialog.
+				 */
+				public FileExportSuccessful fileExportSuccessful (final String fileName) {
+					return new FileExportSuccessful(dialogKey, fileName);
+				}
+				
+				/**
+				 * The dialog of file export failed.
+				 * @author Alex
+				 */
+				public static final class FileExportFailed extends AbstractDialog implements Parametrable {
+					/** The key to the file export failed dialog */
+					private final String	fileExportFailedKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * Build the file export failed dialog structure.
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param fileName
+					 *        the name of the file exported.
+					 */
+					private FileExportFailed (final String parentKey, final String fileName) {
+						super();
+						fileExportFailedKey = parentKey + "." + "fileExportFailed";
+						parameters = new Object[1];
+						parameters[0] = fileName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return fileExportFailedKey;
+					}
+					
+					/* (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+				}
+				
+				/**
+				 * Access to the file export failed dialog.
+				 * @param fileName
+				 *        the name of the file exported.
+				 * @return the file export failed dialog.
+				 */
+				public FileExportFailed fileExportFailed (final String fileName) {
+					return new FileExportFailed(dialogKey, fileName);
 				}
 			}
 			

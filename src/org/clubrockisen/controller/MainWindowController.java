@@ -410,8 +410,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 * @return <code>true</code> if the file has correctly been imported.
 	 */
 	public boolean exportFile (final Path file, final Format format) {
-		// TODO
-		return false;
+		return fileManager.exportFile(file, format);
 	}
 	
 	/**

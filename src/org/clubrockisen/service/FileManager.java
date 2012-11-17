@@ -1,5 +1,6 @@
 package org.clubrockisen.service;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,8 +20,8 @@ import java.util.logging.Logger;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.service.abstracts.Converter;
 import org.clubrockisen.service.abstracts.Format;
-import org.clubrockisen.service.abstracts.Format.Converter;
 import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -59,6 +60,30 @@ public class FileManager implements IFileManager {
 		final Set<Format> fileFormats = new HashSet<>();
 		fileFormats.add(OldDataFiles.getInstance());
 		return fileFormats;
+	}
+	
+	/**
+	 * Retrieve and load the charset specified in the parameter by the user.<br />
+	 * If the charset is invalid, or not supported, the default charset is loaded (specified in
+	 * {@link Constants}).
+	 * @return the {@link Charset} to use.
+	 */
+	private static Charset getCharset () {
+		Charset charSet;
+		// Retrieve charset to use
+		final String userCharset = ServiceFactory.getImplementation().getParameterManager()
+				.get(ParametersEnum.FILE_CHARSET).getValue();
+		try {
+			charSet = Charset.forName(userCharset);
+		} catch (final UnsupportedCharsetException | IllegalCharsetNameException e) {
+			lg.warning("Could not use charset " + userCharset + " (default will be used): " +
+					e.getClass() + "; " + e.getMessage());
+			charSet = Constants.DEFAULT_CHARSET;
+		}
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Using charset " + charSet.name());
+		}
+		return charSet;
 	}
 	
 	/*
@@ -113,6 +138,48 @@ public class FileManager implements IFileManager {
 		return membersPersisted;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.IFileManager#exportFile(java.nio.file.Path,
+	 * org.clubrockisen.service.abstracts.Format)
+	 */
+	@Override
+	public boolean exportFile (final Path file, final Format format) {
+		if (file == null || Files.isDirectory(file)) { // Avoid deleting a lot of data
+			lg.warning("Could not export file " + file  + " because it is a directory or the " +
+					"file specified was null.");
+			return false;
+		}
+		
+		// Deleting file before writing, to be safe
+		try {
+			if (Files.exists(file)) {
+				lg.warning("File " + file + "already exists, it will be deleted.");
+				Files.delete(file);
+			}
+		} catch (final IOException e) {
+			lg.warning("Error while deleting file " + file + ", (" + e.getClass() + "; " + e.getMessage());
+			return false;
+		}
+		
+		try (BufferedWriter writer = Files.newBufferedWriter(file, getCharset())) {
+			for (final Member member : memberDAO.retrieveAll()) {
+				final String memberString = createMember(member, format);
+				if (memberString != null) {
+					writer.write(memberString);
+					writer.write(format.getMemberSeparator());
+				} else {
+					lg.warning("Could not write member " + member);
+				}
+			}
+		} catch (final IOException e) {
+			lg.warning("Error while writing members in file " + file + ", " +
+					e.getClass() + "; " + e.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Parse a file and load the members it contains.<br />
 	 * @param file
@@ -126,17 +193,9 @@ public class FileManager implements IFileManager {
 	private static List<Member> loadMembers (final Path file, final Format format)
 			throws IOException {
 		final List<Member> membersToAdd = new ArrayList<>();
-		// Retrieve charset to use
-		final String userCharSet = ServiceFactory.getImplementation().getParameterManager().get(ParametersEnum.FILE_CHARSET).getValue();
-		Charset charSet = null;
-		try {
-			charSet = Charset.forName(userCharSet);
-		} catch (final UnsupportedCharsetException | IllegalCharsetNameException e) {
-			lg.warning("Could not use charset " + userCharSet + ": " + e.getClass() + "; " + e.getMessage());
-			charSet = Constants.DEFAULT_CHARSET;
-		}
+		
 		// Read lines in file
-		final List<String> lines = Files.readAllLines(file, charSet);
+		final List<String> lines = Files.readAllLines(file, getCharset());
 		for (final String line : lines) {
 			final String[] members = line.split(format.getMemberSeparator());
 			for (final String member : members) {
@@ -158,9 +217,9 @@ public class FileManager implements IFileManager {
 	/**
 	 * Create a member from the string data provided using the format specified.
 	 * @param data
-	 *        the data to read
+	 *        the data to read.
 	 * @param format
-	 *        the format to use
+	 *        the format to use.
 	 * @return the new member or <code>null</code> if parsing failed.
 	 */
 	private static Member createMember (final String data, final Format format) {
@@ -174,7 +233,7 @@ public class FileManager implements IFileManager {
 				continue;
 			}
 			// Getting the value of the current field and building the setter name
-			final Object fieldValue = converter.convert(fields[i]);
+			final Object fieldValue = converter.read(fields[i]);
 			final String methodName = Constants.SETTER_PREFIX + converter.getField().getPropertyName();
 			try {
 				final Method method = Member.class.getMethod(methodName, new Class<?>[] { fieldValue.getClass() });
@@ -188,5 +247,38 @@ public class FileManager implements IFileManager {
 		}
 		
 		return member;
+	}
+	
+	/**
+	 * Create the string data that represent the member specified.
+	 * @param member
+	 *        the member to write as a string, in the format specified.
+	 * @param format
+	 *        the format to use.
+	 * @return the new member or <code>null</code> if parsing failed.
+	 */
+	private static String createMember (final Member member, final Format format) {
+		final StringBuilder strRepresentation = new StringBuilder();
+		
+		for (final Converter converter : format.getFieldOrder()) {
+			if (converter != null) {
+				final Object data;
+				final String methodName = Constants.GETTER_PREFIX + converter.getField().getPropertyName();
+				try {
+					final Method method = Member.class.getMethod(methodName);
+					data = method.invoke(member);
+				} catch (SecurityException | NoSuchMethodException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException e) {
+					lg.warning("Error while calling method " + methodName + " in member class (" +
+							e.getClass() + "; " + e.getMessage() + ")");
+					return null;
+				}
+				
+				strRepresentation.append(converter.write(data));
+			}
+			strRepresentation.append(format.getFieldSeparator());
+		}
+		
+		return strRepresentation.toString();
 	}
 }

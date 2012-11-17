@@ -215,7 +215,25 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				controller.exportFile(null, null);
+				final Format format = Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(),
+						controller.getAvailableFormat());
+				if (format == null) {
+					// No format chosen, chancel action
+					return;
+				}
+				final JFileChooser chooser = new JFileChooser();
+				if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
+					// Cancel action
+					return;
+				}
+				final Path file = chooser.getSelectedFile().toPath();
+				if (controller.exportFile(file, format)) {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportSuccessful(file.toString()),
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportFailed(file.toString()),
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		dataBaseMenu.add(seeMembersItem);

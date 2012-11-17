@@ -49,6 +49,10 @@
 	<entry key="enum.parametersenum.file_charset">Codage de caractère du fichier importé/exporté</entry>
 	
 	
+	<!-- File formats -->
+	<entry key="formats.oldFileFormat">Ancien format de données</entry>
+	
+	
 	<!-- The user interface -->
 	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
 	
@@ -119,7 +123,13 @@
 	<entry key="gui.dialog.fileImportFailed.message">Le fichier '%0' n'a pas pu être importé, consultez les journaux pour des informations détaillées.</entry>
 	<!-- The dialog for choosing the import format -->
 	<entry key="gui.dialog.chooseFormat.title">Choix du format</entry>
-	<entry key="gui.dialog.chooseFormat.message">Choisissez ci-dessous le format du fichier à importer.</entry>
+	<entry key="gui.dialog.chooseFormat.message">Choisissez ci-dessous le format du fichier :</entry>
+	<!-- The dialog for a successful file import -->
+	<entry key="gui.dialog.fileExportSucceed.title">Fichier exporté</entry>
+	<entry key="gui.dialog.fileExportSucceed.message">Le fichier '%0' a été exporté avec succès.</entry>
+	<!-- The dialog for a failed file import -->
+	<entry key="gui.dialog.fileExportFailed.title">Erreur dans l'export de fichier</entry>
+	<entry key="gui.dialog.fileExportFailed.message">Le fichier '%0' n'a pas pu être exporté, consultez les journaux pour des informations détaillées.</entry>
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

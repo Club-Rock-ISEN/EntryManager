@@ -27,6 +27,14 @@ public interface ITranslator {
 	String get (String key);
 	
 	/**
+	 * Get the translation of a collection of keys.
+	 * @param keys
+	 *        the collection of keys to translate.
+	 * @return the translated collection.
+	<T extends Collection<?>> T get (final T keys);
+	 */
+	
+	/**
 	 * Get the translation of a specific key.
 	 * @param key
 	 *        the key to translate.

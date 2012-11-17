@@ -103,6 +103,9 @@ public final class Constants {
 	/** The regex pattern that matches any non decimal character */
 	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
 	
+	/** The common prefix for attribute getters in classes */
+	public static final String	GETTER_PREFIX			= "get";
+	
 	/** The common prefix for attribute setters in classes */
 	public static final String	SETTER_PREFIX			= "set";
 	

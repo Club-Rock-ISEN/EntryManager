@@ -6,7 +6,10 @@ import java.util.List;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.service.Translator.Key;
+import org.clubrockisen.service.abstracts.Converter;
 import org.clubrockisen.service.abstracts.Format;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 
 /**
  * Old file format.<br />
@@ -33,32 +36,53 @@ public final class OldDataFiles implements Format {
 		fieldOrder.add(new Converter(MemberColumn.NAME));
 		fieldOrder.add(null);
 		fieldOrder.add(new Converter(MemberColumn.GENDER) {
-			
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
 			 */
 			@Override
-			public Gender convert (final String data) {
+			public Gender read (final String data) {
 				if ("H".equalsIgnoreCase(data)) {
 					return Gender.MALE;
 				}
 				return Gender.FEMALE;
 			}
 			
+			/*
+			 * (non-Javadoc)
+			 * @see org.clubrockisen.service.abstracts.Converter#write(java.lang.Object)
+			 */
+			@Override
+			public String write (final Object field) {
+				if (Gender.MALE.equals(field)) {
+					return "H";
+				}
+				return "F";
+			}
 		});
 		fieldOrder.add(new Converter(MemberColumn.STATUS) {
-			
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
 			 */
 			@Override
-			public Status convert (final String data) {
+			public Status read (final String data) {
 				if ("M".equalsIgnoreCase(data)) {
 					return Status.VETERAN;
 				}
 				return Status.MEMBER;
+			}
+			
+			/*
+			 * (non-Javadoc)
+			 * @see org.clubrockisen.service.abstracts.Converter#write(java.lang.Object)
+			 */
+			@Override
+			public String write (final Object field) {
+				if (Status.VETERAN.equals(field)) {
+					return "M";
+				}
+				return "A";
 			}
 		});
 		fieldOrder.add(new Converter(MemberColumn.ENTRIES) {
@@ -67,7 +91,7 @@ public final class OldDataFiles implements Format {
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
 			 */
 			@Override
-			public Integer convert (final String data) {
+			public Integer read (final String data) {
 				return Integer.valueOf(data);
 			}
 		});
@@ -77,7 +101,7 @@ public final class OldDataFiles implements Format {
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
 			 */
 			@Override
-			public Integer convert (final String data) {
+			public Integer read (final String data) {
 				return Integer.valueOf(data);
 			}
 		});
@@ -87,7 +111,7 @@ public final class OldDataFiles implements Format {
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
 			 */
 			@Override
-			public Double convert (final String data) {
+			public Double read (final String data) {
 				return Double.valueOf(data);
 			}
 		});
@@ -136,7 +160,7 @@ public final class OldDataFiles implements Format {
 	 */
 	@Override
 	public String toString () {
-		return "Old member file";
+		return ServiceFactory.getImplementation().getTranslator().get(Key.FORMATS.oldFileFormat());
 	}
 	
 }
