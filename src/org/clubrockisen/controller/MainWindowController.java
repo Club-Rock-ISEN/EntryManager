@@ -94,7 +94,6 @@ public class MainWindowController extends AbstractController implements MemberCo
 		partyModel = new PartyModel();
 		searchModel = new SearchModel();
 		memberListModel = new DefaultListModel<>();
-		// TODO partyModel.initParty(entryManager.getCurrentParty());
 		memberController = new MemberControllerImpl(this);
 		partyController = new PartyControllerImp(this);
 		addModel(memberModel);
@@ -112,6 +111,9 @@ public class MainWindowController extends AbstractController implements MemberCo
 				lg.warning("Main thread interrupted: " + e.getMessage());
 			}
 		}
+		
+		// Load the party from the database into the model (which propagate to the view).
+		partyModel.initParty(entryManager.getCurrentParty());
 		
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info(this.getClass().getSimpleName() + " initialized");
