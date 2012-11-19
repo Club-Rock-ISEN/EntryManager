@@ -186,25 +186,17 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				final Format format = Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(),
-						controller.getAvailableFormat());
-				if (format == null) {
-					// No format chosen, chancel action
-					return;
-				}
-				final JFileChooser chooser = new JFileChooser();
-				if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
-					// Cancel action
-					return;
-				}
-				final Path file = chooser.getSelectedFile().toPath();
-				final Integer importedMember = controller.importFile(file, format);
-				if (importedMember != null) {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportFailed(file.toString()),
-							JOptionPane.ERROR_MESSAGE);
+				Format format;
+				Path file;
+				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
+					final Integer importedMember = controller.importFile(file, format);
+					if (importedMember != null) {
+						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportFailed(file.toString()),
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -215,24 +207,16 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				final Format format = Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(),
-						controller.getAvailableFormat());
-				if (format == null) {
-					// No format chosen, chancel action
-					return;
-				}
-				final JFileChooser chooser = new JFileChooser();
-				if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
-					// Cancel action
-					return;
-				}
-				final Path file = chooser.getSelectedFile().toPath();
-				if (controller.exportFile(file, format)) {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportSuccessful(file.toString()),
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportFailed(file.toString()),
-							JOptionPane.ERROR_MESSAGE);
+				Format format;
+				Path file;
+				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
+					if (controller.exportFile(file, format)) {
+						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportSuccessful(file.toString()),
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportFailed(file.toString()),
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -422,6 +406,29 @@ public class MainWindow extends AbstractFrame {
 					JOptionPane.WARNING_MESSAGE);
 		}
 		return member;
+	}
+	
+	/**
+	 * Ask the user for a file format and returns it.<br />
+	 * <code>null</code> if the user canceled the action.
+	 * @return the {@link Format} selected.
+	 */
+	private Format getFileFormat () {
+		return Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(), controller.getAvailableFormat());
+	}
+	
+	/**
+	 * Ask the user for a file and return its {@link Path}.<br />
+	 * <code>null</code> if the user canceled the action.
+	 * @return the path of the file selected.
+	 */
+	private Path getFilePath () {
+		final JFileChooser chooser = new JFileChooser();
+		if (chooser.showOpenDialog(getFrame()) != JFileChooser.APPROVE_OPTION) {
+			// Cancel action
+			return null;
+		}
+		return chooser.getSelectedFile().toPath();
 	}
 	
 	/*
