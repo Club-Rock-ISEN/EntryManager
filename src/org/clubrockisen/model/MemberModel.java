@@ -106,6 +106,14 @@ public class MemberModel extends AbstractModel {
 	}
 	
 	/**
+	 * Return the member id.
+	 * @return the id of the member.
+	 */
+	public Integer getMemberId () {
+		return newFlag ? null : member.getIdMember();
+	}
+	
+	/**
 	 * Return the name.
 	 * @return the name
 	 */

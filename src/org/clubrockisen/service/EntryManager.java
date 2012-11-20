@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
+import org.clubrockisen.common.Time;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.EntryMemberParty;
@@ -17,7 +18,9 @@ import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
+import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.service.abstracts.IEntryManager;
+import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
@@ -99,8 +102,42 @@ public class EntryManager implements IEntryManager {
 	 */
 	@Override
 	public boolean entry (final int memberId, final int partyId) {
-		// TODO Auto-generated method stub
-		return false;
+		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
+		final Member member = memberDAO.find(memberId);
+		final Party party = partyDAO.find(partyId);
+		
+		// Update member
+		member.setEntries(member.getEntries() + 1);
+		if (member.getNextFree() != 1) { // Back to user
+			member.setNextFree(member.getNextFree() - 1);
+		} else {
+			member.setNextFree(Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()));
+			party.setEntriesFree(party.getEntriesFree() + 1);
+		}
+		
+		// Update party
+		party.setEntriesTotal(party.getEntriesTotal() + 1);
+		if (Gender.FEMALE.equals(member.getGender())) {
+			party.setEntriesFemale(party.getEntriesFemale() + 1);
+		} else {
+			party.setEntriesMale(party.getEntriesMale() + 1);
+		}
+		
+		if (Time.getCurrent().before(Time.get(parametersManager.get(ParametersEnum.TIME_LIMIT).getValue()))) {
+			party.setEntriesFirstPart(party.getEntriesFirstPart() + 1);
+		} else {
+			party.setEntriesSecondPart(party.getEntriesSecondPart() + 1);
+		}
+		
+		// TODO prices !
+		
+		// Create the entry which links both entities
+		final EntryMemberParty entry = new EntryMemberParty(member, party);
+		boolean successful = (entryDAO.create(entry) != null);
+		// And commit modifications to member and party
+		successful &= memberDAO.update(member);
+		successful &= partyDAO.update(party);
+		return successful;
 	}
 	
 	/*

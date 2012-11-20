@@ -324,8 +324,7 @@ public class MainWindow extends AbstractFrame {
 		c.fill = GridBagConstraints.BOTH;
 		resultList = new JList<>();
 		final JScrollPane scrollPane = new JScrollPane(resultList);
-		scrollPane.setBorder(BorderFactory.createTitledBorder(getTranslator()
-				.get("app.mainWindow.groupBox.searchResult")));
+		scrollPane.setBorder(BorderFactory.createTitledBorder(getTranslator().get("app.mainWindow.groupBox.searchResult")));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -346,6 +345,18 @@ public class MainWindow extends AbstractFrame {
 		c.gridy = yIndex;
 		c.fill = GridBagConstraints.NONE;
 		enterButton = new JButton(getTranslator().get(Key.GUI.buttons().enter()));
+		enterButton.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				// TODO check for free entry
+				controller.enter(getSelectedMember());
+				// TODO notify user of result
+			}
+		});
 		panel.add(enterButton, c);
 		
 		c.gridx = ++xIndex;

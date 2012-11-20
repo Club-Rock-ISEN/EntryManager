@@ -159,6 +159,18 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	}
 	
 	/**
+	 * Constructor #4.<br />
+	 * Build a entry based on a member and on a party.
+	 * @param member
+	 *        the member.
+	 * @param party
+	 *        the party.
+	 */
+	public EntryMemberParty (final Member member, final Party party) {
+		this(null, member, party);
+	}
+	
+	/**
 	 * Return the attribute idEntryMemberParty.
 	 * @return the attribute idEntryMemberParty.
 	 */

@@ -1,6 +1,9 @@
 package org.clubrockisen.common;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,12 +16,12 @@ import java.util.logging.Logger;
  */
 public class Time implements Serializable, java.lang.Comparable<Time> {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(Time.class.getName());
+	private static Logger		lg							= Logger.getLogger(Time.class.getName());
 	
 	/** Serial Version UID */
-	private static final long	serialVersionUID	= -8846707527438298774L;
+	private static final long	serialVersionUID			= -8846707527438298774L;
 	/** Number of minutes per hour */
-	private static final int	MINUTES_PER_HOURS	= 60;
+	private static final int	MINUTES_PER_HOURS			= 60;
 	
 	/** The number of hours */
 	private final int			hours;
@@ -70,6 +73,27 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 	}
 	
 	/**
+	 * Constructor #4.<br />
+	 * @param timeStamp the number of seconds since January 1st, 1970.
+	 */
+	public Time (final long timeStamp) {
+		this(new Date(timeStamp));
+	}
+	
+	/**
+	 * Constructor #5.<br />
+	 * Build the time from the date.
+	 * @param date
+	 *        the date to use.
+	 */
+	public Time (final Date date) {
+		final Calendar cal = Calendar.getInstance(Locale.FRANCE);
+		cal.setTime(date);
+		hours = cal.get(Calendar.HOUR);
+		minutes = cal.get(Calendar.MINUTE);
+	}
+	
+	/**
 	 * Build a time based on a string.<br />
 	 * The time format must be hours minutes seconds (in that order) separated using any
 	 * non-numerical character.<br />
@@ -98,6 +122,14 @@ public class Time implements Serializable, java.lang.Comparable<Time> {
 			}
 		}
 		return new Time(hours, minutes);
+	}
+	
+	/**
+	 * Return the current time.
+	 * @return a {@link Time} object matching the current time.
+	 */
+	public static Time getCurrent () {
+		return new Time(System.currentTimeMillis());
 	}
 	
 	/**

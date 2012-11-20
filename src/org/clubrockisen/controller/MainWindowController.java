@@ -470,4 +470,20 @@ public class MainWindowController extends AbstractController implements MemberCo
 			// TODO Auto-generated method stub
 		}
 	}
+	
+	/**
+	 * Enter the specified member at the current party.
+	 * @param member
+	 *        the member.
+	 * @return <code>true</code> if the entry was successfully recorded.
+	 */
+	public boolean enter (final Member member) {
+		if (member != null) {
+			final boolean success = entryManager.entry(member.getIdMember(), partyModel.getPartyId());
+			reload();
+			return success;
+		}
+		lg.warning("cannot enter null member");
+		return false;
+	}
 }

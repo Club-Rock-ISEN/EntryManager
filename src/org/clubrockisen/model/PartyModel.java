@@ -104,6 +104,14 @@ public class PartyModel extends AbstractModel {
 	}
 	
 	/**
+	 * Return the party id.
+	 * @return the id of the party.
+	 */
+	public Integer getPartyId () {
+		return newFlag ? null : party.getIdParty();
+	}
+	
+	/**
 	 * Return the date.
 	 * @return the date.
 	 */

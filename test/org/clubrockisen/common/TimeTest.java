@@ -7,7 +7,9 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -82,6 +84,18 @@ public class TimeTest {
 		assertEquals(timeNoon, Time.get("12"));
 		assertEquals(timeAfterNoon, Time.get("16h08m"));
 		assertEquals(timeNight, Time.get("21.54"));
+	}
+	
+	/**
+	 * Test method for {@link org.clubrockisen.common.Time#getCurrent()}.
+	 */
+	@Test
+	public void testGetCurrent () {
+		final Time time = Time.getCurrent();
+		final Calendar cal = Calendar.getInstance(Locale.FRANCE);
+		assertEquals(cal.get(Calendar.MINUTE), time.getMinutes());
+		assertEquals(cal.get(Calendar.HOUR), time.getHours());
+		System.out.println(time);
 	}
 	
 	/**
