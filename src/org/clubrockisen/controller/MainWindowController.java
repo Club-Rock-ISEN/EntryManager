@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.Set;
+import java.util.Comparator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -301,18 +303,27 @@ public class MainWindowController extends AbstractController implements MemberCo
 			 */
 			@Override
 			public void run () {
-				final DAO<Member> memberDAO = AbstractDAOFactory.getImplementation().getMemberDAO();
-				if (lg.isLoggable(Level.INFO)) {
-					lg.info("searching for '" + searchModel.getSearch() + "'");
-				}
-				final Set<Member> members = memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
-						searchModel.getSearch());
-				
 				final DefaultListModel<Member> newMemberListModel = new DefaultListModel<>();
-				for (final Member member : members) {
-					newMemberListModel.addElement(member);
+				if (!searchModel.getSearch().isEmpty()) {
+					final DAO<Member> memberDAO = AbstractDAOFactory.getImplementation().getMemberDAO();
+					if (lg.isLoggable(Level.INFO)) {
+						lg.info("searching for '" + searchModel.getSearch() + "'");
+					}
+					final SortedSet<Member> members = new TreeSet<>(new Comparator<Member>() {
+						@Override
+						public int compare (final Member o1, final Member o2) {
+							// TODO externalize?
+							return o1.getName().compareToIgnoreCase(o2.getName());
+						}
+					});
+					
+					members.addAll(memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
+							searchModel.getSearch()));
+					for (final Member member : members) {
+						newMemberListModel.addElement(member);
+					}
+					
 				}
-				
 				propertyChange(new PropertyChangeEvent(this, MEMBER_LIST, memberListModel, newMemberListModel));
 				memberListModel = newMemberListModel;
 			}
@@ -481,6 +492,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 		if (member != null) {
 			final boolean success = entryManager.entry(member.getIdMember(), partyModel.getPartyId());
 			reload();
+			changeSearch("");
 			return success;
 		}
 		lg.warning("cannot enter null member");

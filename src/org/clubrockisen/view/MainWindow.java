@@ -338,6 +338,29 @@ public class MainWindow extends AbstractFrame {
 				controller.initMember(resultList.getSelectedValue());
 			}
 		});
+		resultList.addKeyListener(new KeyAdapter() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyPressed (final KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case Constants.ENTER_MEMBER_KEY_TRIGGER:
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run () {
+								enterButton.doClick();
+							}
+						});
+						break;
+					case Constants.LIST_TO_SEARCH_KEY_TRIGGER:
+						searchBox.requestFocusInWindow();
+						break;
+				}
+			}
+			
+		});
 		panel.add(scrollPane, c);
 		
 		yIndex = 0;
@@ -355,6 +378,7 @@ public class MainWindow extends AbstractFrame {
 				// TODO check for free entry
 				controller.enter(getSelectedMember());
 				// TODO notify user of result
+				searchBox.requestFocusInWindow();
 			}
 		});
 		panel.add(enterButton, c);
@@ -495,19 +519,30 @@ public class MainWindow extends AbstractFrame {
 		 */
 		@Override
 		public void keyPressed (final KeyEvent e) {
-			if (e.getKeyCode() == Constants.CHANGE_FOCUS_KEY_TRIGGER) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run () {
-						if (lg.isLoggable(Level.FINE)) {
-							lg.fine("Down arrow pressed, passing focus to list.");
+			switch (e.getKeyCode()) {
+				case Constants.SEARCH_TO_LIST_KEY_TRIGGER:
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run () {
+							if (lg.isLoggable(Level.FINE)) {
+								lg.fine("Passing focus to list.");
+							}
+							resultList.setSelectedIndex(0);
+							resultList.requestFocusInWindow();
 						}
-						resultList.setSelectedIndex(0);
-						resultList.requestFocusInWindow();
-					}
-				});
+					});
+					break;
+				case Constants.ENTER_MEMBER_KEY_TRIGGER:
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run () {
+							resultList.setSelectedIndex(0);
+							enterButton.doClick();
+						}
+					});
+					break;
 			}
+			
 		}
 	}
-	
 }

@@ -49,7 +49,13 @@ public final class Constants {
 	public static final String	DISPLAYED_DATE_FORMAT	= "EEEE d MMMM yyyy";
 	
 	/** The key to use for changing the focus from the search to the results */
-	public static final int	CHANGE_FOCUS_KEY_TRIGGER	= KeyEvent.VK_DOWN;
+	public static final int	SEARCH_TO_LIST_KEY_TRIGGER	= KeyEvent.VK_DOWN;
+	
+	/** The key to use for entering the member in the party */
+	public static final int	ENTER_MEMBER_KEY_TRIGGER	= KeyEvent.VK_ENTER;
+	
+	/** The key to use for changing the focus from the results to the search */
+	public static final int	LIST_TO_SEARCH_KEY_TRIGGER	= KeyEvent.VK_UP;
 	
 	// String and text related constants
 	/** The HTML tag for a new HTML document */
