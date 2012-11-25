@@ -33,12 +33,8 @@ import javax.swing.event.ListSelectionListener;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.MainWindowController;
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
-import org.clubrockisen.entities.enums.Gender;
-import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Format;
@@ -114,24 +110,6 @@ public class MainWindow extends AbstractFrame {
 		final JMenuBar menuBar = new JMenuBar();
 		// File menu creation
 		final JMenu fileMenu = Utils.getMenu(Key.GUI.menu().file().toString());
-		final JMenuItem profitItem = Utils.getMenuItem(Key.GUI.menu().file().profit(), new ActionListener() {
-			
-			@Override
-			public void actionPerformed (final ActionEvent e) {
-				// TODO Auto-generated method stub
-				final DAO<Member> daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
-				//lg.info("found: " + daoMember.find(10000));
-				final Member m = daoMember.create(new Member(null, "TESTTT", Gender.FEMALE, 4, 2, 0.0, Status.MEMBER));
-				
-				//final Member tmp = daoMember.search(Member.getColumns().get(MemberColumn.NAME), "Barféty").get(0);
-				m.setEntries(m.getEntries()+1);
-				m.setName("SUCCESS");
-				daoMember.update(m);
-				for (final Member member : daoMember.retrieveAll()) {
-					lg.info(member.toString());
-				}
-			}
-		});
 		final JMenuItem parametersItem = Utils.getMenuItem(Key.GUI.menu().file().parameters(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
@@ -152,7 +130,6 @@ public class MainWindow extends AbstractFrame {
 				getFrame().dispose();
 			}
 		});
-		fileMenu.add(profitItem);
 		fileMenu.add(parametersItem);
 		fileMenu.addSeparator();
 		fileMenu.add(quitItem);
@@ -355,7 +332,15 @@ public class MainWindow extends AbstractFrame {
 						});
 						break;
 					case Constants.LIST_TO_SEARCH_KEY_TRIGGER:
-						searchBox.requestFocusInWindow();
+						if (resultList.getSelectedIndex() == 0) {
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run () {
+									resultList.clearSelection();
+									searchBox.requestFocusInWindow();
+								}
+							});
+						}
 						break;
 				}
 			}
@@ -375,16 +360,45 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				// TODO check for free entry
-				controller.enter(getSelectedMember());
-				// TODO notify user of result
-				searchBox.requestFocusInWindow();
+				final Member member = getSelectedMember();
+				if (member == null) {
+					return;
+				}
+				// TODO notify any price
+				if (member.getNextFree() == 1) {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().freeEntry(member.getName()),
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				if (controller.enter(member)) {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().memberEntry(member.getName()),
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().memberEntryFailed(member.getName()),
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run () {
+						searchBox.requestFocusInWindow();
+					}
+				});
 			}
 		});
 		panel.add(enterButton, c);
 		
 		c.gridx = ++xIndex;
 		updateButton = new JButton(getTranslator().get(Key.GUI.buttons().update()));
+		updateButton.addActionListener(new ActionListener() {
+			/*
+			 * (non-Javadoc)
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
+			@Override
+			public void actionPerformed (final ActionEvent e) {
+				controller.showMember(getSelectedMember());
+			}
+		});
 		panel.add(updateButton, c);
 		
 		c.gridx = 1;

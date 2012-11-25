@@ -58,8 +58,6 @@
 	
 	<!-- The menu of the main window -->
 	<entry key="gui.menu.file">#Fichier</entry>
-	<entry key="gui.menu.file.profit">#Bénéfices de la soirée</entry>
-	<entry key="gui.menu.file.profit.shortcut">F5</entry>
 	<entry key="gui.menu.file.parameters">Réglage des #paramètres</entry>
 	<entry key="gui.menu.file.parameters.shortcut">F4</entry>
 	<entry key="gui.menu.file.quit">#Quitter</entry>
@@ -130,6 +128,16 @@
 	<!-- The dialog for a failed file import -->
 	<entry key="gui.dialog.fileExportFailed.title">Erreur dans l'export de fichier</entry>
 	<entry key="gui.dialog.fileExportFailed.message">Le fichier '%0' n'a pas pu être exporté, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for a free entrance -->
+	<entry key="gui.dialog.freeEntry.title">Entrée gratuite</entry>
+	<entry key="gui.dialog.freeEntry.message">%0 a une entrée gratuite ce soir !</entry>
+	<!-- The dialog for a free entrance -->
+	<entry key="gui.dialog.memberEntry.title">Entrée validée</entry>
+	<entry key="gui.dialog.memberEntry.message">L'entrée de %0 a été validée.</entry>
+	<!-- The dialog for a free entrance -->
+	<entry key="gui.dialog.memberEntryFailed.title">Entrée invalidée</entry>
+	<entry key="gui.dialog.memberEntryFailed.message">L'entrée de %0 n'a pas pu être validée, consultez les journaux pour des informations détaillées.</entry>
+	
 	
 	<!-- Miscellaneous -->
 	<entry key="misc.fieldValueSeparator"> :</entry>

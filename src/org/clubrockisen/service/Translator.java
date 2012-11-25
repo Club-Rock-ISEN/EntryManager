@@ -781,8 +781,9 @@ public final class Translator implements ITranslator {
 				private final String propertyKey;
 				
 				/**
-				 * Constructor #.<br />
-				 * @param propertyKey the key of the property.
+				 * Constructor #1.<br />
+				 * @param propertyKey
+				 *        the key of the property.
 				 */
 				public GUIElement (final String propertyKey) {
 					super();
@@ -878,14 +879,6 @@ public final class Translator implements ITranslator {
 					@Override
 					public String toString () {
 						return fileKey;
-					}
-					
-					/**
-					 * The profit item.
-					 * @return the translation for the profit item.
-					 */
-					public GUIElement profit () {
-						return new GUIElement(fileKey + "." + "profit");
 					}
 					
 					/**
@@ -1823,7 +1816,8 @@ public final class Translator implements ITranslator {
 						return fileExportFailedKey;
 					}
 					
-					/* (non-Javadoc)
+					/*
+					 * (non-Javadoc)
 					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
 					 */
 					@Override
@@ -1840,6 +1834,171 @@ public final class Translator implements ITranslator {
 				 */
 				public FileExportFailed fileExportFailed (final String fileName) {
 					return new FileExportFailed(dialogKey, fileName);
+				}
+				
+				/**
+				 * The dialog for free entrances.
+				 * @author Alex
+				 */
+				public static final class FreeEntry extends AbstractDialog implements Parametrable {
+					/** The key to the free entry dialog */
+					private final String	freeEntryKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param memberName
+					 *        the name of the member.
+					 */
+					public FreeEntry (final String parentKey, final String memberName) {
+						super();
+						freeEntryKey = parentKey + "." + "freeEntry";
+						parameters = new Object[1];
+						parameters[0] = memberName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return freeEntryKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the free entry dialog.
+				 * @param memberName
+				 *        the name of the member whose entry is free.
+				 * @return the free entry dialog.
+				 */
+				public FreeEntry freeEntry (final String memberName) {
+					return new FreeEntry (dialogKey, memberName);
+				}
+				
+				/**
+				 * The dialog for member entry.
+				 * @author Alex
+				 */
+				public static final class MemberEntry extends AbstractDialog implements Parametrable {
+					/** The key to the member entry dialog */
+					private final String	memberEntryKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param memberName
+					 *        the name of the member.
+					 */
+					public MemberEntry (final String parentKey, final String memberName) {
+						super();
+						memberEntryKey = parentKey + "." + "memberEntry";
+						parameters = new Object[1];
+						parameters[0] = memberName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return memberEntryKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the member entry dialog.
+				 * @param memberName
+				 *        the name of the member whose entry is free.
+				 * @return the member entry dialog.
+				 */
+				public MemberEntry memberEntry (final String memberName) {
+					return new MemberEntry (dialogKey, memberName);
+				}
+				
+				/**
+				 * The dialog for member entry failed.
+				 * @author Alex
+				 */
+				public static final class MemberEntryFailed extends AbstractDialog implements Parametrable {
+					/** The key to the member entry failed dialog */
+					private final String	memberEntryFailedKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param memberName
+					 *        the name of the member.
+					 */
+					public MemberEntryFailed (final String parentKey, final String memberName) {
+						super();
+						memberEntryFailedKey = parentKey + "." + "memberEntryFailed";
+						parameters = new Object[1];
+						parameters[0] = memberName;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return memberEntryFailedKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the member entry failed dialog.
+				 * @param memberName
+				 *        the name of the member whose entry is free.
+				 * @return the member entry failed dialog.
+				 */
+				public MemberEntryFailed memberEntryFailed (final String memberName) {
+					return new MemberEntryFailed (dialogKey, memberName);
 				}
 			}
 			

@@ -75,10 +75,13 @@ public class EntryManager implements IEntryManager {
 			return result.iterator().next();
 		}
 		
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Today's party was not found, creating new one.");
+		}
 		// Creating today's party
 		final Party party = new Party(System.currentTimeMillis());
 		final String strPartyCost = ServiceFactory.getImplementation().getParameterManager().get(ParametersEnum.PARTY_COST).getValue();
-		party.setRevenue(-1 * Double.parseDouble(strPartyCost));
+		party.setProfit(-1 * Double.parseDouble(strPartyCost));
 		
 		return partyDAO.create(party);
 	}
@@ -105,14 +108,16 @@ public class EntryManager implements IEntryManager {
 		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
 		final Member member = memberDAO.find(memberId);
 		final Party party = partyDAO.find(partyId);
+		double price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_TOTAL).getValue());
 		
 		// Update member
 		member.setEntries(member.getEntries() + 1);
-		if (member.getNextFree() != 1) { // Back to user
+		if (member.getNextFree() != 1) {
 			member.setNextFree(member.getNextFree() - 1);
 		} else {
 			member.setNextFree(Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()));
 			party.setEntriesFree(party.getEntriesFree() + 1);
+			price = 0.0;
 		}
 		
 		// Update party
@@ -122,14 +127,19 @@ public class EntryManager implements IEntryManager {
 		} else {
 			party.setEntriesMale(party.getEntriesMale() + 1);
 		}
-		
 		if (Time.getCurrent().before(Time.get(parametersManager.get(ParametersEnum.TIME_LIMIT).getValue()))) {
 			party.setEntriesFirstPart(party.getEntriesFirstPart() + 1);
 		} else {
 			party.setEntriesSecondPart(party.getEntriesSecondPart() + 1);
+			if (price != 0.0) {
+				price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_SECOND_PART).getValue());
+			}
 		}
-		
-		// TODO prices !
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Price for member " + member.getName() + ":" + price);
+		}
+		party.setRevenue(party.getRevenue() + price);
+		party.setProfit(party.getProfit() + price);
 		
 		// Create the entry which links both entities
 		final EntryMemberParty entry = new EntryMemberParty(member, party);

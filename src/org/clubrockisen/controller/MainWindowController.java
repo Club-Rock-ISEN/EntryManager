@@ -311,9 +311,9 @@ public class MainWindowController extends AbstractController implements MemberCo
 					}
 					final SortedSet<Member> members = new TreeSet<>(new Comparator<Member>() {
 						@Override
-						public int compare (final Member o1, final Member o2) {
+						public int compare (final Member m1, final Member m2) {
 							// TODO externalize?
-							return o1.getName().compareToIgnoreCase(o2.getName());
+							return m1.getName().compareToIgnoreCase(m2.getName());
 						}
 					});
 					
@@ -322,7 +322,6 @@ public class MainWindowController extends AbstractController implements MemberCo
 					for (final Member member : members) {
 						newMemberListModel.addElement(member);
 					}
-					
 				}
 				propertyChange(new PropertyChangeEvent(this, MEMBER_LIST, memberListModel, newMemberListModel));
 				memberListModel = newMemberListModel;
