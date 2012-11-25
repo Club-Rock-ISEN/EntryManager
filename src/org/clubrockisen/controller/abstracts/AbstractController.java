@@ -111,8 +111,10 @@ public abstract class AbstractController implements PropertyChangeListener {
 						+ e.getMessage() + ")");
 			} catch (final NoSuchMethodException e) {
 				// This is a "normal" exception (model does not have the property to update)
-				lg.info("Model " + model.getClass().getSimpleName() + " has no setter for " +
-						"property " + propertyName + " (" + e.getMessage() + ")");
+				if (lg.isLoggable(Level.FINE)) {
+					lg.fine("Model " + model.getClass().getSimpleName() + " has no setter for " +
+							"property " + propertyName + " (" + e.getMessage() + ")");
+				}
 			}
 		}
 	}

@@ -248,8 +248,8 @@ public class MemberPanel extends JPanel implements AbstractView {
 			creditField.setValue(evt.getNewValue());
 		} else if (evt.getPropertyName().equals(MemberColumn.STATUS.getPropertyName())) {
 			statusField.setSelectedItem(evt.getNewValue());
-		} else if (lg.isLoggable(Level.INFO)) {
-			lg.info("Property event not managed: " + evt.getPropertyName());
+		} else if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Property event not managed: " + evt.getPropertyName());
 		}
 	}
 }

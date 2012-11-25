@@ -102,8 +102,12 @@ public class FileManager implements IFileManager {
 	 */
 	@Override
 	public Integer parseFile (final Path file, final Format format) {
-		if (file == null || !Files.exists(file) || !Files.isReadable(file)) {
-			lg.warning("Cannot parse file " + file + " because it does not exists or cannot be read.");
+		if (file == null || !Files.exists(file)) {
+			lg.warning("Cannot parse file " + file + " because it does not exists.");
+			return null;
+		}
+		if (!Files.isReadable(file)) {
+			lg.warning("Cannot parse file " + file + " because it cannot be read.");
 			return null;
 		}
 		
