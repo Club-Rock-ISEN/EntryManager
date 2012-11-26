@@ -130,11 +130,14 @@
 	<entry key="gui.dialog.fileExportFailed.message">Le fichier '%0' n'a pas pu être exporté, consultez les journaux pour des informations détaillées.</entry>
 	<!-- The dialog for a free entrance -->
 	<entry key="gui.dialog.freeEntry.title">Entrée gratuite</entry>
-	<entry key="gui.dialog.freeEntry.message">%0 a une entrée gratuite ce soir !</entry>
-	<!-- The dialog for a free entrance -->
+	<entry key="gui.dialog.freeEntry.message">%0 a une entrée gratuite ce soir ! Confirmer l'entrée ?</entry>
+	<!-- The dialog for showing the entry price -->
+	<entry key="gui.dialog.entryPrice.title">Entrée payante</entry>
+	<entry key="gui.dialog.entryPrice.message">%0 doit payer %1 ce soir. Confirmer l'entrée ?</entry>
+	<!-- The dialog for confirming a member entry -->
 	<entry key="gui.dialog.memberEntry.title">Entrée validée</entry>
 	<entry key="gui.dialog.memberEntry.message">L'entrée de %0 a été validée.</entry>
-	<!-- The dialog for a free entrance -->
+	<!-- The dialog for a failed entry -->
 	<entry key="gui.dialog.memberEntryFailed.title">Entrée invalidée</entry>
 	<entry key="gui.dialog.memberEntryFailed.message">L'entrée de %0 n'a pas pu être validée, consultez les journaux pour des informations détaillées.</entry>
 	

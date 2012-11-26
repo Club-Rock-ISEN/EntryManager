@@ -37,6 +37,7 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.Translator.Key;
+import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
@@ -364,11 +365,22 @@ public class MainWindow extends AbstractFrame {
 				if (member == null) {
 					return;
 				}
-				// TODO notify any price
-				if (member.getNextFree() == 1) {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().freeEntry(member.getName()),
-							JOptionPane.INFORMATION_MESSAGE);
+				final double price = controller.getPrice(member);
+				AbstractDialog dialog;
+				if (price == 0.0) {
+					dialog = Key.GUI.dialog().freeEntry(member.getName());
+				} else {
+					dialog = Key.GUI.dialog().entryPrice(member.getName(), price);
 				}
+				
+				// Entry canceled
+				if (!Utils.askConfirmation(getFrame(), dialog)) {
+					if (lg.isLoggable(Level.INFO)) {
+						lg.info("User canceled member entry.");
+					}
+					return;
+				}
+				
 				if (controller.enter(member)) {
 					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().memberEntry(member.getName()),
 							JOptionPane.INFORMATION_MESSAGE);

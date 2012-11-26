@@ -24,6 +24,7 @@ import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
+import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.model.MemberModel;
@@ -461,6 +462,11 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	public void showAllMembers () {
 		// TODO Auto-generated method stub
+		if (lg.isLoggable(Level.INFO)) {
+			for (final Party party : entryManager.getParties(9443)) {
+				lg.info(party.toString());
+			}
+		}
 	}
 	
 	/**
@@ -468,6 +474,11 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	public void showAttendees () {
 		// TODO Auto-generated method stub
+		if (lg.isLoggable(Level.INFO)) {
+			for (final Member member : entryManager.getMembers(entryManager.getCurrentParty())) {
+				lg.info(member.printDetails());
+			}
+		}
 	}
 	
 	/**
@@ -496,5 +507,15 @@ public class MainWindowController extends AbstractController implements MemberCo
 		}
 		lg.warning("cannot enter null member");
 		return false;
+	}
+	
+	/**
+	 * Computes the price the member has to pay to enter tonight's party.
+	 * @param member
+	 *        the member.
+	 * @return the fee the member has to pay.
+	 */
+	public double getPrice (final Member member) {
+		return member != null ? entryManager.getPrice(member) : 0.0;
 	}
 }

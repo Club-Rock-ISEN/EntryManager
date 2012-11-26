@@ -1892,6 +1892,66 @@ public final class Translator implements ITranslator {
 				}
 				
 				/**
+				 * The dialog for entry price.
+				 * @author Alex
+				 */
+				public static final class EntryPrice extends AbstractDialog implements Parametrable {
+					/** The key to the entry price dialog */
+					private final String	entryPriceKey;
+					/** Array with the parameters */
+					private final Object[]	parameters;
+					
+					/**
+					 * Constructor #1.<br />
+					 * @param parentKey
+					 *        the key from the parent category.
+					 * @param memberName
+					 *        the name of the member.
+					 * @param price
+					 *        the price the member has to pay.
+					 */
+					public EntryPrice (final String parentKey, final String memberName, final double price) {
+						super();
+						entryPriceKey = parentKey + "." + "entryPrice";
+						parameters = new Object[2];
+						parameters[0] = memberName;
+						parameters[1] = price;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
+					 */
+					@Override
+					public Object[] getParameters () {
+						return parameters;
+					}
+					
+					/*
+					 * (non-Javadoc)
+					 * @see
+					 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
+					 */
+					@Override
+					public String toString () {
+						return entryPriceKey;
+					}
+					
+				}
+				
+				/**
+				 * Access to the entry price dialog.
+				 * @param memberName
+				 *        the name of the member whose entry is free.
+				 * @param price
+				 *        the price the member has to pay.
+				 * @return the entry price dialog.
+				 */
+				public EntryPrice entryPrice (final String memberName, final double price) {
+					return new EntryPrice (dialogKey, memberName, price);
+				}
+				
+				/**
 				 * The dialog for member entry.
 				 * @author Alex
 				 */

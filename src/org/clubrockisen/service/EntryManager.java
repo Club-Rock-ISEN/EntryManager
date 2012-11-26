@@ -19,6 +19,7 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 import org.clubrockisen.entities.enums.Gender;
+import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
@@ -88,6 +89,40 @@ public class EntryManager implements IEntryManager {
 	
 	/*
 	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.service.abstracts.IEntryManager#getPrice(org.clubrockisen.entities.Member)
+	 */
+	@Override
+	public double getPrice (final Member member) {
+		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
+		double price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_TOTAL).getValue());
+		
+		if (!Status.MEMBER.equals(member.getStatus())) {
+			price = 0.0;
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Free entry because the member is a special member (" + member.getStatus() + ")");
+			}
+		} else if (member.getNextFree() > 1) {
+			price = 0.0;
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Free entry");
+			}
+		} else if (Time.getCurrent().after(Time.get(parametersManager.get(ParametersEnum.TIME_LIMIT).getValue()))) {
+			price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_SECOND_PART).getValue());
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Price after the limit for the member");
+			}
+		}
+		
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Price to pay for " + member.toString() + ": " + price);
+		}
+		
+		return price;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.IEntryManager#entry(org.clubrockisen.entities.Member,
 	 * org.clubrockisen.entities.Party)
 	 */
@@ -108,16 +143,15 @@ public class EntryManager implements IEntryManager {
 		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
 		final Member member = memberDAO.find(memberId);
 		final Party party = partyDAO.find(partyId);
-		double price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_TOTAL).getValue());
+		final double price = getPrice(member);
 		
 		// Update member
 		member.setEntries(member.getEntries() + 1);
-		if (member.getNextFree() != 1) {
+		if (member.getNextFree() > 1) {
 			member.setNextFree(member.getNextFree() - 1);
 		} else {
 			member.setNextFree(Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()));
 			party.setEntriesFree(party.getEntriesFree() + 1);
-			price = 0.0;
 		}
 		
 		// Update party
@@ -131,12 +165,6 @@ public class EntryManager implements IEntryManager {
 			party.setEntriesFirstPart(party.getEntriesFirstPart() + 1);
 		} else {
 			party.setEntriesSecondPart(party.getEntriesSecondPart() + 1);
-			if (price != 0.0) {
-				price = Double.valueOf(parametersManager.get(ParametersEnum.ENTRY_PRICE_SECOND_PART).getValue());
-			}
-		}
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Price for member " + member.getName() + ":" + price);
 		}
 		party.setRevenue(party.getRevenue() + price);
 		party.setProfit(party.getProfit() + price);

@@ -20,6 +20,14 @@ public interface IEntryManager {
 	Party getCurrentParty ();
 	
 	/**
+	 * Computes the price the member has to pay to enter tonight's party.
+	 * @param member
+	 *        the member.
+	 * @return the fee the member has to pay.
+	 */
+	double getPrice (Member member);
+	
+	/**
 	 * Add an entry for the specified member for the party specified.
 	 * @param member
 	 *        the member to enter.
