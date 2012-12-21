@@ -1300,7 +1300,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 				}
@@ -1471,7 +1471,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 				}
@@ -1563,7 +1563,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 				}
@@ -1620,7 +1620,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 				}
@@ -1676,7 +1676,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 				}
 				
@@ -1767,7 +1767,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 				}
@@ -1822,7 +1822,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 				}
 				
@@ -1866,7 +1866,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 					/*
@@ -1924,7 +1924,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 					/*
@@ -1981,7 +1981,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 					/*
@@ -2036,7 +2036,7 @@ public final class Translator implements ITranslator {
 					 */
 					@Override
 					public Object[] getParameters () {
-						return parameters;
+						return parameters.clone();
 					}
 					
 					/*

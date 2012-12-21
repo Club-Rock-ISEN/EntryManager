@@ -197,7 +197,7 @@ public final class Utils {
 	public static <T> T askChoice (final Component parent, final AbstractDialog dialog, final Collection<T> elements) {
 		final T choice = (T) JOptionPane.showInputDialog(parent, multiLineHTML(getMessage(dialog)),
 				TRANSLATOR.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
-				elements.toArray(), elements.iterator().next());
+				elements.toArray(new Object[0]), elements.iterator().next());
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("The user has choose " + choice);
 		}

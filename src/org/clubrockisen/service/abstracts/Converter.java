@@ -26,7 +26,7 @@ public class Converter {
 	 * Return the field filled by this data.
 	 * @return the field.
 	 */
-	final public MemberColumn getField () {
+	public final MemberColumn getField () {
 		return field;
 	}
 	

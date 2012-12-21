@@ -343,6 +343,9 @@ public class MainWindow extends AbstractFrame {
 							});
 						}
 						break;
+					default:
+						// Do nothing
+						break;
 				}
 			}
 			
@@ -566,6 +569,9 @@ public class MainWindow extends AbstractFrame {
 							enterButton.doClick();
 						}
 					});
+					break;
+				default:
+					// Do nothing
 					break;
 			}
 			
