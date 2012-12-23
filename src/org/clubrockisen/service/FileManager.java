@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Member;
+import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.service.abstracts.Converter;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.service.abstracts.IFileManager;
@@ -232,7 +233,7 @@ public class FileManager implements IFileManager {
 		final String[] fields = data.split(format.getFieldSeparator());
 		
 		for (int i = 0; i < fields.length; i++) {
-			final Converter converter = format.getFieldOrder().get(i);
+			final Converter<MemberColumn> converter = format.getFieldOrder().get(i);
 			if (converter == null) {
 				continue;
 			}
@@ -264,7 +265,7 @@ public class FileManager implements IFileManager {
 	private static String createMember (final Member member, final Format format) {
 		final StringBuilder strRepresentation = new StringBuilder();
 		
-		for (final Converter converter : format.getFieldOrder()) {
+		for (final Converter<MemberColumn> converter : format.getFieldOrder()) {
 			if (converter != null) {
 				final Object data;
 				final String methodName = Constants.GETTER_PREFIX + converter.getField().getPropertyName();

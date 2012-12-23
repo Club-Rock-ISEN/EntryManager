@@ -56,7 +56,7 @@ public class Member extends Entity implements Cloneable {
 	 * Enumeration for the column of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum MemberColumn {
+	public enum MemberColumn implements Property {
 		/** The member's id */
 		ID ("IdMember"),
 		/** The member's name */
@@ -85,10 +85,7 @@ public class Member extends Entity implements Cloneable {
 			this.propertyName = propertyName;
 		}
 		
-		/**
-		 * Return the name of the attribute in the class.
-		 * @return the name of the property.
-		 */
+		@Override
 		public String getPropertyName () {
 			return propertyName;
 		}

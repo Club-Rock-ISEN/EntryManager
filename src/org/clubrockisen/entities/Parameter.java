@@ -47,7 +47,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum ParameterColumn {
+	public enum ParameterColumn implements Property {
 		/** The parameter's name */
 		NAME("Name"),
 		/** The parameter's value */
@@ -70,10 +70,7 @@ public class Parameter extends Entity implements Cloneable {
 			this.propertyName = propertyName;
 		}
 		
-		/**
-		 * Return the name of the attribute in the class.
-		 * @return the name of the property.
-		 */
+		@Override
 		public String getPropertyName () {
 			return propertyName;
 			

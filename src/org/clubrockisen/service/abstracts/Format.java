@@ -2,6 +2,8 @@ package org.clubrockisen.service.abstracts;
 
 import java.util.List;
 
+import org.clubrockisen.entities.Member.MemberColumn;
+
 
 /**
  * Interface defining a file format for storing members.
@@ -26,6 +28,6 @@ public interface Format {
 	 * Use <code>null</code> for unused column in the current file format.
 	 * @return the list ordered with the column definition.
 	 */
-	List<Converter> getFieldOrder ();
+	List<Converter<MemberColumn>> getFieldOrder ();
 	
 }

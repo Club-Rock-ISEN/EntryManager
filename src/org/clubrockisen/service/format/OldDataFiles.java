@@ -22,10 +22,10 @@ import org.clubrockisen.service.abstracts.ServiceFactory;
  */
 public final class OldDataFiles implements Format {
 	/** Unique instance of the class */
-	private static OldDataFiles		singleton	= new OldDataFiles();
+	private static OldDataFiles					singleton	= new OldDataFiles();
 	
 	/** The list with the field order */
-	private final List<Converter>	fieldOrder;
+	private final List<Converter<MemberColumn>>	fieldOrder;
 	
 	/**
 	 * Constructor #1.<br />
@@ -33,9 +33,9 @@ public final class OldDataFiles implements Format {
 	private OldDataFiles () {
 		super();
 		fieldOrder = new ArrayList<>();
-		fieldOrder.add(new Converter(MemberColumn.NAME));
+		fieldOrder.add(new Converter<>(MemberColumn.NAME));
 		fieldOrder.add(null);
-		fieldOrder.add(new Converter(MemberColumn.GENDER) {
+		fieldOrder.add(new Converter<MemberColumn>(MemberColumn.GENDER) {
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
@@ -60,7 +60,7 @@ public final class OldDataFiles implements Format {
 				return "F";
 			}
 		});
-		fieldOrder.add(new Converter(MemberColumn.STATUS) {
+		fieldOrder.add(new Converter<MemberColumn>(MemberColumn.STATUS) {
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
@@ -85,7 +85,7 @@ public final class OldDataFiles implements Format {
 				return "A";
 			}
 		});
-		fieldOrder.add(new Converter(MemberColumn.ENTRIES) {
+		fieldOrder.add(new Converter<MemberColumn>(MemberColumn.ENTRIES) {
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
@@ -95,7 +95,7 @@ public final class OldDataFiles implements Format {
 				return Integer.valueOf(data);
 			}
 		});
-		fieldOrder.add(new Converter(MemberColumn.NEXT_FREE) {
+		fieldOrder.add(new Converter<MemberColumn>(MemberColumn.NEXT_FREE) {
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
@@ -105,7 +105,7 @@ public final class OldDataFiles implements Format {
 				return Integer.valueOf(data);
 			}
 		});
-		fieldOrder.add(new Converter(MemberColumn.CREDIT) {
+		fieldOrder.add(new Converter<MemberColumn>(MemberColumn.CREDIT) {
 			/*
 			 * (non-Javadoc)
 			 * @see org.clubrockisen.service.abstracts.Format.Converter#convert(java.lang.String)
@@ -150,7 +150,7 @@ public final class OldDataFiles implements Format {
 	 * @see org.clubrockisen.service.abstracts.Format#getFieldOrder()
 	 */
 	@Override
-	public List<Converter> getFieldOrder () {
+	public List<Converter<MemberColumn>> getFieldOrder () {
 		return fieldOrder;
 	}
 	

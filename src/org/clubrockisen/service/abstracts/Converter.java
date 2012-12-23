@@ -1,23 +1,25 @@
 package org.clubrockisen.service.abstracts;
 
-import org.clubrockisen.entities.Member.MemberColumn;
+import org.clubrockisen.entities.Property;
+
 
 /**
  * Class to read and write a String (from the current format) into an object which will be used
  * to fill the member.<br />
  * The default implementation is just returning the string.
  * @author Alex
+ * @param <T> The property this converter may convert.
  */
-public class Converter {
+public class Converter<T extends Property> {
 	/** The field */
-	private final MemberColumn	field;
+	private final T	field;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param field
 	 *        the field of the converter.
 	 */
-	public Converter (final MemberColumn field) {
+	public Converter (final T field) {
 		super();
 		this.field = field;
 	}
@@ -26,7 +28,7 @@ public class Converter {
 	 * Return the field filled by this data.
 	 * @return the field.
 	 */
-	public final MemberColumn getField () {
+	public final T getField () {
 		return field;
 	}
 	
@@ -44,7 +46,7 @@ public class Converter {
 	 * Write the current field and write its textual representation in a string.
 	 * @param fieldValue
 	 *        the field of the object.
-	 * @return the string to write
+	 * @return the string to write.
 	 */
 	public String write (final Object fieldValue) {
 		return fieldValue.toString();

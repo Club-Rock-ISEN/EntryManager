@@ -66,7 +66,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum PartyColumn {
+	public enum PartyColumn implements Property {
 		/** The party's id */
 		ID ("IdParty"),
 		/** The party's date */
@@ -103,10 +103,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 			this.propertyName = propertyName;
 		}
 		
-		/**
-		 * Return the name of the attribute in the class.
-		 * @return the name of the property.
-		 */
+		@Override
 		public String getPropertyName () {
 			return propertyName;
 		}
