@@ -171,7 +171,7 @@ public class FileManager implements IFileManager {
 				final String memberString = createMember(member, format);
 				if (memberString != null) {
 					writer.write(memberString);
-					writer.write(format.getMemberSeparator());
+					writer.write(format.getEntitySeparator());
 				} else {
 					lg.warning("Could not write member " + member);
 				}
@@ -202,7 +202,7 @@ public class FileManager implements IFileManager {
 		// Read lines in file
 		final List<String> lines = Files.readAllLines(file, getCharset());
 		for (final String line : lines) {
-			final String[] members = line.split(format.getMemberSeparator());
+			final String[] members = line.split(format.getEntitySeparator());
 			for (final String member : members) {
 				final Member memberToAdd = createMember(member, format);
 				if (memberToAdd != null) {

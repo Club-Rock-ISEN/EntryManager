@@ -132,7 +132,7 @@ public final class OldDataFiles implements Format {
 	 * @see org.clubrockisen.service.abstracts.Format#getMemberSeparator()
 	 */
 	@Override
-	public String getMemberSeparator () {
+	public String getEntitySeparator () {
 		return "§";
 	}
 	

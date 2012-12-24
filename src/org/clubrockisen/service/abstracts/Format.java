@@ -6,19 +6,19 @@ import org.clubrockisen.entities.Member.MemberColumn;
 
 
 /**
- * Interface defining a file format for storing members.
+ * Interface defining a file format for storing entities.
  * @author Alex
  */
 public interface Format {
 	
 	/**
-	 * Retrieve the string which separates two definitions of members.
+	 * Retrieve the string which separates two definitions of entities.
 	 * @return the separator.
 	 */
-	String getMemberSeparator ();
+	String getEntitySeparator ();
 	
 	/**
-	 * Retrieve the string which separates two fields in the definition of a member.
+	 * Retrieve the string which separates two fields in the definition of an entity.
 	 * @return the separator.
 	 */
 	String getFieldSeparator ();
