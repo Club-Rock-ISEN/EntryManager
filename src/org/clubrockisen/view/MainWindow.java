@@ -366,8 +366,20 @@ public class MainWindow extends AbstractFrame {
 			public void actionPerformed (final ActionEvent e) {
 				final Member member = getSelectedMember();
 				if (member == null) {
+					if (lg.isLoggable(Level.INFO)) {
+						lg.info("No member selected.");
+					}
 					return;
 				}
+				
+				if (!controller.canEnter(member)) {
+					if (lg.isLoggable(Level.INFO)) {
+						lg.info("Member is already in the party, canceling current entry.");
+					}
+					// TODO add dialog
+					return;
+				}
+				
 				final double price = controller.getPrice(member);
 				AbstractDialog dialog;
 				if (price == 0.0) {

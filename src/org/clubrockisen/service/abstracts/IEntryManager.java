@@ -131,4 +131,24 @@ public interface IEntryManager {
 	 */
 	Set<Member> getMembers (int partyId);
 	
+	/**
+	 * Check if the member can enter the current party.<br />
+	 * Will return <code>false</code> if the member is already in the party.
+	 * @param member
+	 *        the member to check.
+	 * @return <code>true</code> if the member may enter the party, <code>false</code> if the user
+	 *         is already in the party.
+	 */
+	boolean canEnter (Member member);
+	
+	/**
+	 * Check if the member can enter the current party.<br />
+	 * Will return <code>false</code> if the member is already in the party.
+	 * @param memberId
+	 *        the id of the member to check.
+	 * @return <code>true</code> if the member may enter the party, <code>false</code> if the user
+	 *         is already in the party.
+	 */
+	boolean canEnter (int memberId);
+	
 }

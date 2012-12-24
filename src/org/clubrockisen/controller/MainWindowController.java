@@ -518,4 +518,16 @@ public class MainWindowController extends AbstractController implements MemberCo
 	public double getPrice (final Member member) {
 		return member != null ? entryManager.getPrice(member) : 0.0;
 	}
+	
+	/**
+	 * Check if the member can enter the current party.<br />
+	 * Will return <code>false</code> if the member is already in the party.
+	 * @param member
+	 *        the member to check.
+	 * @return <code>true</code> if the member may enter the party, <code>false</code> if the user
+	 *         is already in the party.
+	 */
+	public boolean canEnter (final Member member) {
+		return entryManager.canEnter(member);
+	}
 }

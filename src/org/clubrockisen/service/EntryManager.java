@@ -317,4 +317,24 @@ public class EntryManager implements IEntryManager {
 		
 		return members;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.service.abstracts.IEntryManager#canEnter(org.clubrockisen.entities.Member)
+	 */
+	@Override
+	public boolean canEnter (final Member member) {
+		return canEnter(member.getIdMember());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.IEntryManager#canEnter(int)
+	 */
+	@Override
+	public boolean canEnter (final int memberId) {
+		return !getMembers(getCurrentParty()).contains(memberDAO.find(memberId));
+	}
+	
 }
