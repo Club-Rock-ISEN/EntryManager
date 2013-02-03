@@ -108,7 +108,7 @@ public final class Utils {
 					lg.info("Successfully connected to database " + dbInfos.getUrl());
 				}
 			} else {
-				throw new SQLException("Database connection not valid.");
+				throw new SQLException("Database connection not validated.");
 			}
 		} catch (final SQLException e) {
 			lg.severe("Failed to create the connection to the database " + e.getMessage());
