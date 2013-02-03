@@ -6,10 +6,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.clubrockisen.service.abstracts.ParametersEnum;
+import org.clubrockisen.view.Utils;
 import org.clubrockisen.view.renderers.LafRenderer;
 
 /**
@@ -41,7 +43,6 @@ public class LAFComboBox extends ParameterComponent {
 		if (comboBox == null) {
 			comboBox = new JComboBox<>(UIManager.getInstalledLookAndFeels());
 			comboBox.setRenderer(new LafRenderer());
-			// TODO add listener on user action
 		}
 		return comboBox;
 	}
@@ -67,6 +68,16 @@ public class LAFComboBox extends ParameterComponent {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				listener.parameterChangeValue(getParameter(), getValue());
+				SwingUtilities.invokeLater(new Runnable() {
+					/*
+					 * (non-Javadoc)
+					 * @see java.lang.Runnable#run()
+					 */
+					@Override
+					public void run () {
+						Utils.setLookAndFeel(getValue());
+					}
+				});
 			}
 		});
 	}
