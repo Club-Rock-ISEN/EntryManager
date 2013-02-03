@@ -1,6 +1,5 @@
 package org.clubrockisen.view.renderers;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -8,6 +7,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
+
+import org.clubrockisen.common.Constants;
 
 /**
  * This renderer highlight a defined set of strings.<br />
@@ -45,11 +46,12 @@ public class CharsetRenderer extends CustomTextRenderer<String> {
 				isSelected, cellHasFocus);
 		
 		if (toHighlight.contains(component.getText()) && !isSelected) {
-			component.setBackground(new Color(169, 46, 34));//UIManager.getColor("nimbusRed")); FIXME
+			component.setBackground(Constants.HIGHLIGHT_COLOR);
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Highlighting " + component.getText());
 			}
 		}
+		
 		return component;
 	}
 	
