@@ -2,6 +2,7 @@ package org.clubrockisen.entities;
 
 import static org.junit.Assert.assertEquals;
 
+import org.clubrockisen.dao.NoIdException;
 import org.junit.Test;
 
 /**
@@ -16,7 +17,7 @@ public class NoIdExceptionTest {
 	private final NoIdException	memberException = new NoIdException(Member.class);
 	
 	/**
-	 * Test method for {@link org.clubrockisen.entities.NoIdException#getEntityClass()}.
+	 * Test method for {@link org.clubrockisen.dao.NoIdException#getEntityClass()}.
 	 */
 	@Test
 	public void testGetEntityClass () {

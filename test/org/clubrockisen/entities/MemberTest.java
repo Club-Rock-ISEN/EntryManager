@@ -1,7 +1,6 @@
 package org.clubrockisen.entities;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,105 +265,4 @@ public class MemberTest {
 		assertEquals("crock", fullMember.toString());
 	}
 	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#getIDColumn()}.
-	 */
-	@Test
-	public void testGetIDColumn () {
-		try {
-			for (final Member member : members) {
-				final Column column = member.getIDColumn();
-				
-				assertEquals("idMember", column.getName());
-				assertEquals(Integer.class, column.getType());
-				assertEquals(true, column.isID());
-			}
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateInsertQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateInsertQuerySQL () {
-		for (final Member member : members) {
-			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
-					member.generateInsertQuerySQL());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateInsertQuerySQL(boolean)}.
-	 */
-	@Test
-	public void testGenerateInsertQuerySQLBoolean () {
-		for (final Member member : members) {
-			assertEquals("INSERT INTO member(`idMember`,`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
-					member.generateInsertQuerySQL(true));
-			assertEquals("INSERT INTO member(`name`,`gender`,`entries`,`nextFree`,`credit`,`status`) VALUES ",
-					member.generateInsertQuerySQL(false));
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateDeleteQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateDeleteQuerySQL () {
-		try {
-			assertEquals("DELETE FROM member WHERE idMember = -1", nullMember.generateDeleteQuerySQL());
-			assertEquals("DELETE FROM member WHERE idMember = 8", fullMember.generateDeleteQuerySQL());
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateUpdateQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateUpdateQuerySQL () {
-		for (final Member member : members) {
-			assertEquals("UPDATE member SET ", member.generateUpdateQuerySQL());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateWhereIDQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateWhereIDQuerySQL () {
-		try {
-			assertEquals(" WHERE idMember = -1", nullMember.generateWhereIDQuerySQL());
-			assertEquals(" WHERE idMember = 8", fullMember.generateWhereIDQuerySQL());
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for
-	 * {@link org.clubrockisen.entities.Entity#generateWhereIDQuerySQL(java.lang.Object)}.
-	 */
-	@Test
-	public void testGenerateWhereIDQuerySQLObject () {
-		try {
-			assertEquals(" WHERE idMember = 24", nullMember.generateWhereIDQuerySQL(24));
-			assertEquals(" WHERE idMember = 88", fullMember.generateWhereIDQuerySQL(88));
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateSearchAllQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateSearchAllQuerySQL () {
-		for (final Member member : members) {
-			assertEquals("SELECT * FROM member", member.generateSearchAllQuerySQL());
-		}
-	}
 }

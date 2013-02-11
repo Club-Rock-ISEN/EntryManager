@@ -7,8 +7,9 @@ import java.sql.Statement;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.NoIdException;
+import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
-import org.clubrockisen.entities.NoIdException;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 
@@ -95,11 +96,11 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 		}
 		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = obj.generateUpdateQuerySQL() +
+			final String query = QueryGenerator.update(obj) +
 					columns.get(ParameterColumn.VALUE).getName() + " = '" + obj.getValue() + "', " +
 					columns.get(ParameterColumn.TYPE).getName() + " = '" + obj.getType() + "', " +
 					columns.get(ParameterColumn.COMPONENT_CLASS).getName() + " = '" + obj.getComponentClass() + "'" +
-					obj.generateWhereIDQuerySQL();
+					QueryGenerator.whereID(obj);
 			lg.info(query);
 			statement.executeUpdate(query);
 		} catch (final SQLException | NoIdException e) {

@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.NoIdException;
+import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
-import org.clubrockisen.entities.NoIdException;
 
 /**
  * Class used to manipulating the entries of the members in the database.<br />
@@ -84,7 +85,7 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 		EntryMemberParty newEntry = null;
 		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = obj.generateInsertQuerySQL(false) + " ("
+			final String query = QueryGenerator.insert(obj, false) + " ("
 					+ "'" + obj.getIdMember() + "',"
 					+ "'" + obj.getIdParty() + "');";
 			if (lg.isLoggable(Level.INFO)) {
@@ -121,10 +122,10 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 		
 		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = obj.generateUpdateQuerySQL() +
+			final String query = QueryGenerator.update(obj) +
 					columns.get(EntryColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
 					columns.get(EntryColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
-					obj.generateWhereIDQuerySQL();
+					QueryGenerator.whereID(obj);
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info(query);
 			}

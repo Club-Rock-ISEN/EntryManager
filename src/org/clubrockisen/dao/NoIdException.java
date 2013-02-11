@@ -1,4 +1,7 @@
-package org.clubrockisen.entities;
+package org.clubrockisen.dao;
+
+import org.clubrockisen.entities.Column;
+import org.clubrockisen.entities.Entity;
 
 /**
  * Exception thrown when no Id column where found in an entity.

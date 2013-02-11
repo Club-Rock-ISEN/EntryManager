@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.dao.NoIdException;
+import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
-import org.clubrockisen.entities.NoIdException;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
@@ -90,9 +91,11 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 		}
 		
 		Member newMember = null;
+		
 		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = obj.generateInsertQuerySQL(false) + " (" + "'" + obj.getName() + "',"
+			final String query = QueryGenerator.insert(obj, false) + " ("
+					+ "'" + QueryGenerator.escapeSpecialChars(obj.getName()) + "',"
 					+ "'" + obj.getGender().getAbbreviation() + "',"
 					+ "'" + obj.getEntries() + "',"
 					+ "'" + obj.getNextFree() + "',"
@@ -132,14 +135,14 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 		
 		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = obj.generateUpdateQuerySQL() +
-					columns.get(MemberColumn.NAME).getName() + " = '" + obj.getName() + "', " +
+			final String query = QueryGenerator.update(obj) +
+					columns.get(MemberColumn.NAME).getName() + " = '" + QueryGenerator.escapeSpecialChars(obj.getName()) + "', " +
 					columns.get(MemberColumn.GENDER).getName() + " = '" + obj.getGender().getAbbreviation() + "', " +
 					columns.get(MemberColumn.ENTRIES).getName() + " = '" + obj.getEntries() + "', " +
 					columns.get(MemberColumn.NEXT_FREE).getName() + " = '" + obj.getNextFree() + "', " +
 					columns.get(MemberColumn.CREDIT).getName() + " = '" + obj.getCredit() + "', " +
 					columns.get(MemberColumn.STATUS).getName() + " = '" + obj.getStatus().getName() + "'" +
-					obj.generateWhereIDQuerySQL();
+					QueryGenerator.whereID(obj);
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info(query);
 			}

@@ -1,7 +1,6 @@
 package org.clubrockisen.entities;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -430,112 +429,5 @@ public class PartyTest {
 		assertEquals(-12.80, nullParty.getProfit(), 0.01);
 		assertEquals(18.64, partyFromDate.getProfit(), 0.01);
 		assertEquals(8.12, fullParty.getProfit(), 0.01);
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#getIDColumn()}.
-	 */
-	@Test
-	public void testGetIDColumn () {
-		try {
-			for (final Party party : parties) {
-				final Column column = party.getIDColumn();
-				
-				assertEquals("idParty", column.getName());
-				assertEquals(Integer.class, column.getType());
-				assertEquals(true, column.isID());
-			}
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateInsertQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateInsertQuerySQL () {
-		for (final Party party : parties) {
-			assertEquals("INSERT INTO party(`idParty`,`date`,`entriesTotal`,`entriesFirstPart`," +
-					"`entriesSecondPart`,`entriesNewMembers`,`entriesFree`,`entriesMale`," +
-					"`entriesFemale`,`revenue`,`profit`) VALUES ", party.generateInsertQuerySQL());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateInsertQuerySQL(boolean)}.
-	 */
-	@Test
-	public void testGenerateInsertQuerySQLBoolean () {
-		for (final Party party : parties) {
-			assertEquals("INSERT INTO party(`idParty`,`date`,`entriesTotal`,`entriesFirstPart`," +
-					"`entriesSecondPart`,`entriesNewMembers`,`entriesFree`,`entriesMale`," +
-					"`entriesFemale`,`revenue`,`profit`) VALUES ", party.generateInsertQuerySQL(true));
-			assertEquals("INSERT INTO party(`date`,`entriesTotal`,`entriesFirstPart`," +
-					"`entriesSecondPart`,`entriesNewMembers`,`entriesFree`,`entriesMale`," +
-					"`entriesFemale`,`revenue`,`profit`) VALUES ", party.generateInsertQuerySQL(false));
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateDeleteQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateDeleteQuerySQL () {
-		try {
-			assertEquals("DELETE FROM party WHERE idParty = -1", nullParty.generateDeleteQuerySQL());
-			assertEquals("DELETE FROM party WHERE idParty = -1", partyFromDate.generateDeleteQuerySQL());
-			assertEquals("DELETE FROM party WHERE idParty = 2", fullParty.generateDeleteQuerySQL());
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateUpdateQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateUpdateQuerySQL () {
-		for (final Party party : parties) {
-			assertEquals("UPDATE party SET ", party.generateUpdateQuerySQL());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateWhereIDQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateWhereIDQuerySQL () {
-		try {
-			assertEquals(" WHERE idParty = -1", nullParty.generateWhereIDQuerySQL());
-			assertEquals(" WHERE idParty = -1", partyFromDate.generateWhereIDQuerySQL());
-			assertEquals(" WHERE idParty = 2", fullParty.generateWhereIDQuerySQL());
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateWhereIDQuerySQL(java.lang.Object)}.
-	 */
-	@Test
-	public void testGenerateWhereIDQuerySQLObject () {
-		try {
-			assertEquals(" WHERE idParty = 12", nullParty.generateWhereIDQuerySQL(12));
-			assertEquals(" WHERE idParty = 8", nullParty.generateWhereIDQuerySQL(8));
-			assertEquals(" WHERE idParty = 42", nullParty.generateWhereIDQuerySQL(42));
-		} catch (final NoIdException e) {
-			fail(e.getMessage());
-		}
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.entities.Entity#generateSearchAllQuerySQL()}.
-	 */
-	@Test
-	public void testGenerateSearchAllQuerySQL () {
-		for (final Party party : parties) {
-			assertEquals("SELECT * FROM party", party.generateSearchAllQuerySQL());
-		}
 	}
 }
