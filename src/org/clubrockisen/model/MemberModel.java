@@ -100,6 +100,7 @@ public class MemberModel extends AbstractModel {
 		setName(memberToUse.getName());
 		setGender(memberToUse.getGender());
 		setEntries(memberToUse.getEntries());
+		setNextFree(memberToUse.getNextFree());
 		setCredit(memberToUse.getCredit());
 		setStatus(memberToUse.getStatus());
 		newFlag = false;
