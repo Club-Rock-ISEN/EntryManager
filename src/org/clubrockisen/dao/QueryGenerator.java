@@ -62,7 +62,6 @@ public final class QueryGenerator {
 	 */
 	public static String escapeSpecialChars (final String string) {
 		String escapedString = string.replace("'", "''");
-		lg.info(escapedString);
 		escapedString = escapedString.replace("\"", "\\\"");
 		return escapedString;
 	}
