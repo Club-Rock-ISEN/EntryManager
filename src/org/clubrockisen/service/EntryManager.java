@@ -102,7 +102,7 @@ public class EntryManager implements IEntryManager {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Free entry because the member is a special member (" + member.getStatus() + ")");
 			}
-		} else if (member.getNextFree() > 1) {
+		} else if (member.getNextFree() == 1) {
 			price = 0.0;
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Free entry");
@@ -140,6 +140,10 @@ public class EntryManager implements IEntryManager {
 	 */
 	@Override
 	public boolean entry (final int memberId, final int partyId) {
+		if (!canEnter(memberId)) {
+			lg.warning("The member " + memberId + " cannot enter the party " + partyId + " (already in).");
+			return false;
+		}
 		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
 		final Member member = memberDAO.find(memberId);
 		final Party party = partyDAO.find(partyId);
@@ -152,6 +156,10 @@ public class EntryManager implements IEntryManager {
 		} else {
 			member.setNextFree(Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()));
 			party.setEntriesFree(party.getEntriesFree() + 1);
+		}
+		
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Next free entry: " + member.getNextFree());
 		}
 		
 		// Update party
@@ -199,7 +207,7 @@ public class EntryManager implements IEntryManager {
 	@Override
 	public boolean cancelEntry (final int memberId, final int partyId) {
 		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Cancel entry method no yet implemented.");
 	}
 	
 	/*
@@ -325,6 +333,9 @@ public class EntryManager implements IEntryManager {
 	 */
 	@Override
 	public boolean canEnter (final Member member) {
+		if (member == null) {
+			return false;
+		}
 		return canEnter(member.getIdMember());
 	}
 	
@@ -335,6 +346,29 @@ public class EntryManager implements IEntryManager {
 	@Override
 	public boolean canEnter (final int memberId) {
 		return !getMembers(getCurrentParty()).contains(memberDAO.find(memberId));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.clubrockisen.service.abstracts.IEntryManager#canEnter(org.clubrockisen.entities.Member,
+	 * org.clubrockisen.entities.Party)
+	 */
+	@Override
+	public boolean canEnter (final Member member, final Party party) {
+		if (member == null || party == null) {
+			return false;
+		}
+		return canEnter(member.getIdMember(), party.getIdParty());
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.service.abstracts.IEntryManager#canEnter(int, int)
+	 */
+	@Override
+	public boolean canEnter (final int memberId, final int partyId) {
+		return !getMembers(partyId).contains(memberDAO.find(memberId));
 	}
 	
 }
