@@ -104,11 +104,12 @@ public final class Utils {
 			final DBConnectionInfo dbInfos = Utils.getConnectionInfo();
 			connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword());
 			if (connection.isValid(0)) {
+				connection.setAutoCommit(true);
 				if (lg.isLoggable(Level.INFO)) {
 					lg.info("Successfully connected to database " + dbInfos.getUrl());
 				}
 			} else {
-				throw new SQLException("Database connection not validated.");
+				throw new SQLException("Database connection invalid.");
 			}
 		} catch (final SQLException e) {
 			lg.severe("Failed to create the connection to the database " + e.getMessage());
