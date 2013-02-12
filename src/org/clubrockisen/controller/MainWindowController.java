@@ -383,7 +383,16 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 * Show the member panel to create a new member.
 	 */
 	public void createMember () {
-		memberUpdatePanel.showMember(new Member());
+		createMember(null);
+	}
+	
+	/**
+	 * Show the member panel to create a new member with a base name.
+	 * @param name
+	 *        the name of the member.
+	 */
+	public void createMember (final String name) {
+		memberUpdatePanel.showMember(new Member(name));
 		memberModel.reload();
 	}
 	

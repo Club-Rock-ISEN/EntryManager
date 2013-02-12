@@ -155,10 +155,20 @@ public class Member extends Entity implements Cloneable {
 	
 	/**
 	 * Constructor #2.<br />
-	 * Default constructor
+	 * Default constructor.
 	 */
 	public Member () {
 		this(null, null, Gender.getDefault(), null, null, null, Status.getDefault());
+	}
+	
+	/**
+	 * Constructor #3.<br />
+	 * Build a member with a given name.
+	 * @param name
+	 *        the name of the member.
+	 */
+	public Member (final String name) {
+		this(null, name, Gender.getDefault(), null, null, null, Status.getDefault());
 	}
 	
 	@Override

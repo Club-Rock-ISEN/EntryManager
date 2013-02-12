@@ -577,8 +577,12 @@ public class MainWindow extends AbstractFrame {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
 						public void run () {
-							resultList.setSelectedIndex(0);
-							enterButton.doClick();
+							if (resultList.getModel().getSize() > 0) {
+								resultList.setSelectedIndex(0);
+								enterButton.doClick();
+							} else {
+								controller.createMember(searchBox.getText());
+							}
 						}
 					});
 					break;
