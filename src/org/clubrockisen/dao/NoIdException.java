@@ -1,6 +1,5 @@
 package org.clubrockisen.dao;
 
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Entity;
 
 /**
@@ -25,7 +24,7 @@ public class NoIdException extends Exception {
 	/**
 	 * Constructor #2.<br />
 	 * @param entityClass
-	 *        the class which do not own a {@link Column} which is marked as an Id.
+	 *        the class which do not own a column which is marked as an Id.
 	 */
 	public NoIdException (final Class<? extends Entity> entityClass) {
 		super("Could not find id column in entity " + entityClass.getSimpleName());
