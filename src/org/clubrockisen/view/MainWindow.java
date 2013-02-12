@@ -313,7 +313,7 @@ public class MainWindow extends AbstractFrame {
 			 */
 			@Override
 			public void valueChanged (final ListSelectionEvent e) {
-				controller.initMember(resultList.getSelectedValue());
+				controller.initMember(resultList.getSelectedValue() == null ? new Member() : resultList.getSelectedValue());
 			}
 		});
 		resultList.addKeyListener(new KeyAdapter() {
