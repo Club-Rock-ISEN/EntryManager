@@ -49,6 +49,9 @@ public final class Constants {
 	/** Character used for parameters in translations */
 	public static final char	PARAMETER_PREFIX			= '%';
 	
+	/** Character used to include a translation into an other one */
+	public static final char	INCLUDE_PREFIX				= '§';
+	
 	/** The date format used in the GUI */
 	public static final String	DISPLAYED_DATE_FORMAT		= "EEEE d MMMM yyyy";
 	

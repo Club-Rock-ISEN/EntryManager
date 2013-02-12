@@ -89,7 +89,25 @@ public final class Translator implements ITranslator {
 			return key;
 		}
 		
-		return translations.getProperty(key);
+		String translation = translations.getProperty(key);
+		
+		// Replace other translations included in the current one
+		while (translation.contains("" + Constants.INCLUDE_PREFIX)) {
+			// Isolate the string to replace, from the Constants.INCLUDE_PREFIX to the next space
+			final int location = translation.indexOf(Constants.INCLUDE_PREFIX);
+			final int endLocation = translation.substring(location).indexOf(Constants.SPACE) + location;
+			final String strToReplace;
+			if (endLocation == -1) {
+				// End of string case
+				strToReplace = translation.substring(location);
+			} else {
+				strToReplace = translation.substring(location, endLocation);
+			}
+			// Replace the prefix + key with the translation of the key (hence the substring)
+			translation = translation.replace(strToReplace, get(strToReplace.substring(1)));
+		}
+		
+		return translation;
 	}
 	
 	/*
@@ -125,6 +143,7 @@ public final class Translator implements ITranslator {
 			return translation;
 		}
 		
+		// Replace parameters
 		for (int indexParameter = 0; indexParameter < parameters.length; ++indexParameter) {
 			final Object parameter = parameters[indexParameter];
 			final String strToReplace = "" + Constants.PARAMETER_PREFIX + indexParameter;

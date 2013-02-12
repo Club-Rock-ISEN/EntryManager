@@ -133,7 +133,7 @@
 	<entry key="gui.dialog.freeEntry.message">%0 a une entrée gratuite ce soir ! Confirmer l'entrée ?</entry>
 	<!-- The dialog for showing the entry price -->
 	<entry key="gui.dialog.entryPrice.title">Entrée payante</entry>
-	<entry key="gui.dialog.entryPrice.message">%0 doit payer %1 ce soir. Confirmer l'entrée ?</entry>
+	<entry key="gui.dialog.entryPrice.message">%0 doit payer %1 §misc.currencySymbol ce soir. Confirmer l'entrée ?</entry>
 	<!-- The dialog for confirming a member entry -->
 	<entry key="gui.dialog.memberEntry.title">Entrée validée</entry>
 	<entry key="gui.dialog.memberEntry.message">L'entrée de %0 a été validée.</entry>
