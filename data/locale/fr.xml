@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!-- Strings used in the application. -->
+<properties>
+	
+	<!-- Entities -->
+	<!-- Member -->
+	<entry key="entity.member">Membre</entry>
+	<entry key="entity.member.name">Nom</entry>
+	<entry key="entity.member.gender">Sexe</entry>
+	<entry key="entity.member.entries">Nombre d'entrée</entry>
+	<entry key="entity.member.nextfree">Prochaine entrée gratuite</entry>
+	<entry key="entity.member.credit">Crédit</entry>
+	<entry key="entity.member.status">Statut</entry>
+	<!-- Party -->
+	<entry key="entity.party">Soirée</entry>
+	<entry key="entity.party.date">Date</entry>
+	<entry key="entity.party.entriestotal">Nombre d'entrées</entry>
+	<entry key="entity.party.entriesfirstpart">Entrée pour le cours</entry>
+	<entry key="entity.party.entriessecondpart">Entrées pour la soirée</entry>
+	<entry key="entity.party.entriesnewmembers">Nombre de nouveaux</entry>
+	<entry key="entity.party.entriesfree">Nombre de gratuits</entry>
+	<entry key="entity.party.entriesmale">Nombre d'hommes</entry>
+	<entry key="entity.party.entriesfemale">Nombre de femmes</entry>
+	<entry key="entity.party.revenue">Chiffre d'affaire</entry>
+	<entry key="entity.party.profit">Bénéfice</entry>
+	
+	
+	<!-- Enumerations -->
+	<!-- Gender -->
+	<entry key="enum.gender.male">Homme</entry>
+	<entry key="enum.gender.female">Femme</entry>
+	<!-- Status -->
+	<entry key="enum.status.member">Membre</entry>
+	<entry key="enum.status.helper_member">Adhérant</entry>
+	<entry key="enum.status.office_member">Membre du bureau</entry>
+	<entry key="enum.status.veteran">Membre d'honneur</entry>
+	<!-- Parameters name -->
+	<entry key="enum.parametersenum">Paramètre</entry>
+	<entry key="enum.parametersenum.look_and_feel">Aspect graphique</entry>
+	<entry key="enum.parametersenum.time_limit">Heure de transition</entry>
+	<entry key="enum.parametersenum.entry_price_total">Prix total</entry>
+	<entry key="enum.parametersenum.entry_price_first_part">Prix de la première partie</entry>
+	<entry key="enum.parametersenum.entry_price_second_part">Prix de la seconde partie</entry>
+	<entry key="enum.parametersenum.free_entry_frequency">Fréquence des entrées offertes</entry>
+	<entry key="enum.parametersenum.min_credit">Palier minimum pour le crédit aux adhérants</entry>
+	<entry key="enum.parametersenum.max_credit">Palier maximum pour le crédit aux adhérants</entry>
+	<entry key="enum.parametersenum.party_cost">Coût fixe par soirée</entry>
+	<entry key="enum.parametersenum.file_charset">Codage de caractère du fichier importé/exporté</entry>
+	
+	
+	<!-- File formats -->
+	<entry key="formats.oldFileFormat">Ancien format de données</entry>
+	
+	
+	<!-- The user interface -->
+	<entry key="gui.title">Club Rock ISEN - Gestionnaire des entrées</entry>
+	
+	<!-- The menu of the main window -->
+	<entry key="gui.menu.file">#Fichier</entry>
+	<entry key="gui.menu.file.parameters">Réglage des #paramètres</entry>
+	<entry key="gui.menu.file.parameters.shortcut">F4</entry>
+	<entry key="gui.menu.file.quit">#Quitter</entry>
+	<entry key="gui.menu.file.quit.shortcut">ctrl Q</entry>
+	<entry key="gui.menu.database">#Base de données</entry>
+	<entry key="gui.menu.database.seeMembers">Voir #tout les membres</entry>
+	<entry key="gui.menu.database.seeMembers.shortcut">ctrl A</entry>
+	<entry key="gui.menu.database.seeAttendees">Voir les personnes #présentes</entry>
+	<entry key="gui.menu.database.seeAttendees.shortcut">ctrl W</entry>
+	<entry key="gui.menu.database.importData">#Importer des données</entry>
+	<entry key="gui.menu.database.importData.shortcut">F2</entry>
+	<entry key="gui.menu.database.exportData">#Exporter des données</entry>
+	<entry key="gui.menu.database.exportData.shortcut">F3</entry>
+	<entry key="gui.menu.member">#Membre</entry>
+	<entry key="gui.menu.member.newMember">#Nouveau membre</entry>
+	<entry key="gui.menu.member.newMember.shortcut">ctrl N</entry>
+	<entry key="gui.menu.member.deleteMember">#Supprimer membre</entry>
+	<entry key="gui.menu.member.deleteMember.shortcut">ctrl D</entry>
+	<entry key="gui.menu.member.updateMember">#Modifier membre</entry>
+	<entry key="gui.menu.member.updateMember.shortcut">ctrl U</entry>
+	<entry key="gui.menu.help">#Aide</entry>
+	<entry key="gui.menu.help.help">#Aide</entry>
+	<entry key="gui.menu.help.help.shortcut">F1</entry>
+	<entry key="gui.menu.help.about">À #propos</entry>
+	<entry key="gui.menu.help.about.shortcut">ctrl F1</entry>
+	
+	<!-- The parameter manager -->
+	<entry key="gui.parameters.title">Paramètres</entry>
+	
+	<!-- The buttons of the GUI -->
+	<entry key="gui.buttons.enter">Entrée</entry>
+	<entry key="gui.buttons.update">Modifier</entry>
+	
+	<!-- Dialogs displayed -->
+	<!-- The about dialog -->
+	<entry key="gui.dialog.about.title">À propos</entry>
+	<entry key="gui.dialog.about.message">Programme créé en 2012 pour le Club Rock ISEN par %0. Distribué sous "Nouvelle Licence BSD".</entry>
+	<!-- The dialog for no members selected -->
+	<entry key="gui.dialog.notSelectedMember.title">Avertissement</entry>
+	<entry key="gui.dialog.notSelectedMember.message">Pas de membre sélectionné.</entry>
+	<!-- The dialog for failure to persist member -->
+	<entry key="gui.dialog.notPersistedMember.title">Erreur de persistance</entry>
+	<entry key="gui.dialog.notPersistedMember.message">Les modifications du membre n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for failure to persist parameter -->
+	<entry key="gui.dialog.notPersistedParameter.title">Erreur de persistance</entry>
+	<entry key="gui.dialog.notPersistedParameter.message">Les modifications des paramètres n'ont pas pu être enregistrées, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for unparsable date -->
+	<entry key="gui.dialog.unparsableDate.title">Erreur de date</entry>
+	<entry key="gui.dialog.unparsableDate.message">La date '%0' n'a pas pu être analysée, la date précédente sera rétablie.</entry>
+	<!-- The dialog for help file not found -->
+	<entry key="gui.dialog.helpNotFound.title">Aide inaccessible</entry>
+	<entry key="gui.dialog.helpNotFound.message">Le fichier d'aide n'a pas pu être affiché, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for the confirmation of member deletion -->
+	<entry key="gui.dialog.deleteMember.title">Confirmation de suppression</entry>
+	<entry key="gui.dialog.deleteMember.message">Êtes-vous sûr de vouloir supprimer définitivement le membre '%0' ?</entry>
+	<!-- The dialog for a successful file import -->
+	<entry key="gui.dialog.fileImportSucceed.title">Fichier importé</entry>
+	<entry key="gui.dialog.fileImportSucceed.message">Le fichier '%0' a été importé avec succès : %1 membres importés dans la base de données.</entry>
+	<!-- The dialog for a failed file import -->
+	<entry key="gui.dialog.fileImportFailed.title">Erreur dans l'import de fichier</entry>
+	<entry key="gui.dialog.fileImportFailed.message">Le fichier '%0' n'a pas pu être importé, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for choosing the import format -->
+	<entry key="gui.dialog.chooseFormat.title">Choix du format</entry>
+	<entry key="gui.dialog.chooseFormat.message">Choisissez ci-dessous le format du fichier :</entry>
+	<!-- The dialog for a successful file import -->
+	<entry key="gui.dialog.fileExportSucceed.title">Fichier exporté</entry>
+	<entry key="gui.dialog.fileExportSucceed.message">Le fichier '%0' a été exporté avec succès.</entry>
+	<!-- The dialog for a failed file import -->
+	<entry key="gui.dialog.fileExportFailed.title">Erreur dans l'export de fichier</entry>
+	<entry key="gui.dialog.fileExportFailed.message">Le fichier '%0' n'a pas pu être exporté, consultez les journaux pour des informations détaillées.</entry>
+	<!-- The dialog for a free entrance -->
+	<entry key="gui.dialog.freeEntry.title">Entrée gratuite</entry>
+	<entry key="gui.dialog.freeEntry.message">%0 a une entrée gratuite ce soir ! Confirmer l'entrée ?</entry>
+	<!-- The dialog for showing the entry price -->
+	<entry key="gui.dialog.entryPrice.title">Entrée payante</entry>
+	<entry key="gui.dialog.entryPrice.message">%0 doit payer %1 §misc.currencySymbol ce soir. Confirmer l'entrée ?</entry>
+	<!-- The dialog for confirming a member entry -->
+	<entry key="gui.dialog.memberEntry.title">Entrée validée</entry>
+	<entry key="gui.dialog.memberEntry.message">L'entrée de %0 a été validée.</entry>
+	<!-- The dialog for a failed entry -->
+	<entry key="gui.dialog.memberEntryFailed.title">Entrée invalidée</entry>
+	<entry key="gui.dialog.memberEntryFailed.message">L'entrée de %0 n'a pas pu être validée, consultez les journaux pour des informations détaillées.</entry>
+	
+	
+	<!-- Miscellaneous -->
+	<entry key="misc.fieldValueSeparator"> :</entry>
+	<entry key="misc.currencySymbol">€</entry>
+	<entry key="misc.pluralLetter">s</entry>
+	<entry key="misc.ok">OK</entry>
+	<entry key="misc.cancel">Annuler</entry>
+	<entry key="misc.apply">Appliquer</entry>
+	
+	
+	<!-- Old translations -->
+	<entry key="app.mainWindow.groupBox.searchResult">Résultats de recherche</entry>
+</properties>
