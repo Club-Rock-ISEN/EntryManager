@@ -30,8 +30,12 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 	/**
 	 * Constructor #1.<br />
 	 * @param connection the connection to the database.
+	 * @throws SQLException
+	 *         The prepared statements could not be created.
+	 * @throws NoIdException
+	 *         The {@link Parameter} has no ID column.
 	 */
-	public MySQLParameterDAO(final Connection connection) {
+	public MySQLParameterDAO(final Connection connection) throws SQLException, NoIdException {
 		super(connection);
 		lg.fine("New " + this.getClass().getCanonicalName());
 		// Initialize the columns (call to the constructor is required

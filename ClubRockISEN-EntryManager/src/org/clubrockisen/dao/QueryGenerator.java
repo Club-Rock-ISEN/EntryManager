@@ -120,7 +120,22 @@ public final class QueryGenerator {
 	 *         if the query could not be generated.
 	 */
 	public static String delete (final Entity object) throws NoIdException {
-		return "DELETE FROM " + object.getEntityName() + whereID(object);
+		return delete(object, false);
+	}
+	
+	/**
+	 * Generates a string with the delete statement for a SQL database.<br />
+	 * <code>DELETE FROM entity WHERE idColumn = value</code>
+	 * @param object
+	 *        the object which represent the entity.
+	 * @param preparedStatement
+	 *        <code>true</code> if the query is for a prepared statement.
+	 * @return the query which delete an object from the table.
+	 * @throws NoIdException
+	 *         if the query could not be generated.
+	 */
+	public static String delete (final Entity object, final boolean preparedStatement) throws NoIdException {
+		return "DELETE FROM " + object.getEntityName() + whereID(object, preparedStatement ? null : object.getID());
 	}
 	
 	/**
@@ -148,7 +163,8 @@ public final class QueryGenerator {
 	
 	/**
 	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
-	 * <code> WHERE idColumn = value</code>
+	 * <code> WHERE idColumn = value</code><br />
+	 * If the id is <code>null</code>, then a query for a prepared statement is generated (with <code>?</code>).
 	 * @param object
 	 *        the object which represent the entity.
 	 * @param id
@@ -159,7 +175,9 @@ public final class QueryGenerator {
 	 */
 	public static String whereID (final Entity object, final Object id) throws NoIdException {
 		String fieldValue = " = ";
-		if (getIDColumn(object).getType().getSuperclass().equals(Number.class)) {
+		if (id == null) {
+			fieldValue += "?";
+		} else if (getIDColumn(object).getType().getSuperclass().equals(Number.class)) {
 			fieldValue += escapeSpecialChars(id.toString());
 		} else {
 			fieldValue += "'" + escapeSpecialChars(id.toString()) + "'";

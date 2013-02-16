@@ -1,6 +1,7 @@
 package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,22 +25,40 @@ import org.clubrockisen.entities.Entity;
  */
 public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	/** Logger */
-	private static Logger lg = Logger.getLogger(MySQLDAO.class.getName());
+	private static Logger			lg	= Logger.getLogger(MySQLDAO.class.getName());
 	
 	/** The connection to the database */
-	private final Connection	connection;
+	private final Connection		connection;
 	/** Name of the entity manipulated */
-	private final String		entityName;
+	private final String			entityName;
+	
+	// Prepared statements
+	/** Prepared statement for the read operation */
+	private final PreparedStatement	find;
+	/** Prepared statement for the delete operation */
+	private final PreparedStatement	delete;
+	/** Prepared statement for the search all operation */
+	private final PreparedStatement	searchAll;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param connection
-	 *            the connection to the database.
+	 *        the connection to the database.
+	 * @throws SQLException
+	 *         The prepared statements could not be created.
+	 * @throws NoIdException
+	 *         The {@link Entity} has no ID column.
 	 */
-	public MySQLDAO (final Connection connection) {
+	public MySQLDAO (final Connection connection) throws SQLException, NoIdException {
 		super();
 		this.connection = connection;
 		this.entityName = getEntitySample().getEntityName();
+		
+		// Create prepared statements
+		find = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()) +
+				QueryGenerator.whereID(getEntitySample(), null));
+		delete = connection.prepareStatement(QueryGenerator.delete(getEntitySample(), true));
+		searchAll = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()));
 	}
 	
 	/**
@@ -79,21 +98,18 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Finding the " + entityName + " with id = " + id);
 		}
+		
 		try (final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 				ResultSet.CONCUR_READ_ONLY)) {
-			final String query = QueryGenerator.searchAll(getEntitySample()) +
-					QueryGenerator.whereID(getEntitySample(), id);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			try (final ResultSet result = statement.executeQuery(query)) {
+			find.setInt(1, id);
+			try (final ResultSet result = find.executeQuery()) {
 				if (result.first()) {
 					entity = createEntityFromResult(result);
 				} else if (lg.isLoggable(Level.INFO)) {
 					lg.info("Could not retrieve " + entityName + " with id = " + id);
 				}
 			}
-		} catch (final SQLException | NoIdException e) {
+		} catch (final SQLException e) {
 			lg.warning("Could not find " + entityName + ": " + e.getMessage());
 			return null;
 		}
@@ -111,14 +127,10 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Deleting " + entityName + " " + obj);
 		}
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.delete(obj);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query);
-		} catch (final SQLException | NoIdException e) {
+		try {
+			delete.setObject(1, obj.getID());
+			delete.execute();
+		} catch (final SQLException e) {
 			lg.warning("Could not delete " + entityName + ": " + e.getMessage());
 			return false;
 		}
@@ -141,13 +153,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			timeBefore = System.currentTimeMillis();
 		}
 		
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-				ResultSet.CONCUR_READ_ONLY)) {
-			final String query = QueryGenerator.searchAll(getEntitySample());
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			try (final ResultSet result = statement.executeQuery(query)) {
+		try {
+			try (final ResultSet result = searchAll.executeQuery()) {
 				while (result.next()) {
 					allEntities.add(createEntityFromResult(result));
 				}

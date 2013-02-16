@@ -13,6 +13,7 @@ import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKey;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
+import org.clubrockisen.dao.NoIdException;
 import org.clubrockisen.dao.Utils;
 import org.clubrockisen.dao.Utils.DBConnectionInfo;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -77,12 +78,15 @@ public class H2DAOFactory extends AbstractDAOFactory {
 		}
 		
 		connection = Utils.getConnection();
-		
-		// TODO DAOs
-		memberDao = new MySQLMemberDAO(connection);
-		parameterDao = new MySQLParameterDAO(connection);
-		partyDao = new MySQLPartyDAO(connection);
-		entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
+		// Instantiating all DAOs once to avoid multiple DAOs
+		try {
+			memberDao = new MySQLMemberDAO(connection);
+			parameterDao = new MySQLParameterDAO(connection);
+			partyDao = new MySQLPartyDAO(connection);
+			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
+		} catch (SQLException | NoIdException e) {
+			throw new SQLConfigurationError("Error while initializing H2 DAOs.", e);
+		}
 	}
 	
 	/**

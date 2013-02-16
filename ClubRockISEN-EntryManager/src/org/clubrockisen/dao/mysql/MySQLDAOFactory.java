@@ -2,9 +2,12 @@ package org.clubrockisen.dao.mysql;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.error.SQLConfigurationError;
+import org.clubrockisen.dao.NoIdException;
 import org.clubrockisen.dao.Utils;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
@@ -44,11 +47,16 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Creating DAOs");
 		}
+		
 		// Instantiating all DAOs once to avoid multiple DAOs
-		memberDao = new MySQLMemberDAO(connection);
-		parameterDao = new MySQLParameterDAO(connection);
-		partyDao = new MySQLPartyDAO(connection);
-		entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
+		try {
+			memberDao = new MySQLMemberDAO(connection);
+			parameterDao = new MySQLParameterDAO(connection);
+			partyDao = new MySQLPartyDAO(connection);
+			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
+		} catch (SQLException | NoIdException e) {
+			throw new SQLConfigurationError("Error while initializing MySQL DAOs.", e);
+		}
 	}
 	
 	/* (non-Javadoc)

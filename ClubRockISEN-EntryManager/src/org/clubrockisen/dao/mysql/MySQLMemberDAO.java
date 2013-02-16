@@ -34,8 +34,12 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 	 * Constructor #1.<br />
 	 * @param connection
 	 *            the connection to the database.
+	 * @throws SQLException
+	 *         The prepared statements could not be created.
+	 * @throws NoIdException
+	 *         The {@link Member} has no ID column.
 	 */
-	public MySQLMemberDAO(final Connection connection) {
+	public MySQLMemberDAO(final Connection connection) throws SQLException, NoIdException {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("New " + this.getClass().getCanonicalName());

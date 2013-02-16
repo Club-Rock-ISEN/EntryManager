@@ -14,6 +14,7 @@ import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.NoIdException;
 import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
+import org.clubrockisen.entities.Entity;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 
@@ -37,8 +38,12 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	 * Constructor #1.
 	 * @param connection
 	 *        the connection to the database.
+	 * @throws SQLException
+	 *         The prepared statements could not be created.
+	 * @throws NoIdException
+	 *         The {@link Entity} has no ID column.
 	 */
-	public MySQLPartyDAO (final Connection connection) {
+	public MySQLPartyDAO (final Connection connection) throws SQLException, NoIdException {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("New " + this.getClass().getCanonicalName());

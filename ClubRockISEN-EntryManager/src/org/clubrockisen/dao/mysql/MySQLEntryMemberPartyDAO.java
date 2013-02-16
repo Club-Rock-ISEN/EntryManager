@@ -32,8 +32,12 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 	 * Constructor #1.<br />
 	 * @param connection
 	 *        the connection to the database.
+	 * @throws SQLException
+	 *         The prepared statements could not be created.
+	 * @throws NoIdException
+	 *         The {@link EntryMemberParty} has no ID column.
 	 */
-	public MySQLEntryMemberPartyDAO (final Connection connection) {
+	public MySQLEntryMemberPartyDAO (final Connection connection) throws SQLException, NoIdException {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("New " + this.getClass().getCanonicalName());
