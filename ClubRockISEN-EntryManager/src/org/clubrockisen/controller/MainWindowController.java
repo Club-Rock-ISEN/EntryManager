@@ -497,7 +497,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	public void deleteMember (final Member member) {
 		if (member != null) {
-			// TODO Auto-generated method stub
+			AbstractDAOFactory.getImplementation().getMemberDAO().delete(member);
 		}
 	}
 	
