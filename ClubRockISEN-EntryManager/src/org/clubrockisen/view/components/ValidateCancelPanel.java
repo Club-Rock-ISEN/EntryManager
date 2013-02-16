@@ -15,8 +15,6 @@ import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.Translator;
-import org.clubrockisen.service.abstracts.ITranslator;
-import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 
 /**
@@ -30,10 +28,6 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	
 	/** Serial version UID */
 	private static final long						serialVersionUID	= -1500794156358784997L;
-	
-	// Services
-	/** Translator */
-	private final transient ITranslator				translator			= ServiceFactory.getImplementation().getTranslator();
 	
 	// GUI Components
 	/** Button for validating changes on a member */
@@ -54,16 +48,21 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	 */
 	public ValidateCancelPanel (final AbstractFrame frame) {
 		super();
+		// Initialization
 		this.parentFrame = frame;
 		actionListeners = new ArrayList<>();
-		cancelButton = new JButton(translator.get(Translator.Key.MISC.cancel()));
-		validateButton = new JButton(translator.get(Translator.Key.MISC.ok()));
+		cancelButton = new JButton(frame.getTranslator().get(Translator.Key.MISC.cancel()));
+		validateButton = new JButton(frame.getTranslator().get(Translator.Key.MISC.ok()));
 		
+		// Creating layout, and adding buttons
 		final Box hBox = new Box(BoxLayout.LINE_AXIS);
 		hBox.add(cancelButton);
 		hBox.add(Box.createRigidArea(new Dimension(Constants.DEFAULT_COMPONENT_GAP, 0)));
 		hBox.add(validateButton);
 		this.add(hBox);
+		
+		// Adding listener
+		cancelButton.addActionListener(this);
 	}
 	
 	/**
@@ -74,7 +73,6 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	 */
 	public void addActionListener (final ActionListener listener) {
 		if (actionListeners.isEmpty()) {
-			cancelButton.addActionListener(this);
 			validateButton.addActionListener(this);
 		}
 		actionListeners.add(listener);
@@ -88,7 +86,6 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	public void removeActionListener (final ActionListener listener) {
 		actionListeners.remove(listener);
 		if (actionListeners.isEmpty()) {
-			cancelButton.removeActionListener(this);
 			validateButton.removeActionListener(this);
 		}
 	}
@@ -112,7 +109,6 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 		} else {
 			lg.warning("Unknown source of action for the event " + e.getSource());
 		}
-		
 	}
 	
 }
