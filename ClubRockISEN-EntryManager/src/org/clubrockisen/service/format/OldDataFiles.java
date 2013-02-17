@@ -9,7 +9,6 @@ import org.clubrockisen.entities.enums.Status;
 import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.Converter;
 import org.clubrockisen.service.abstracts.Format;
-import org.clubrockisen.service.abstracts.ServiceFactory;
 
 /**
  * Old file format.<br />
@@ -160,7 +159,7 @@ public final class OldDataFiles implements Format {
 	 */
 	@Override
 	public String toString () {
-		return ServiceFactory.getImplementation().getTranslator().get(Key.FORMATS.oldFileFormat());
+		return Key.FORMATS.oldFileFormat();
 	}
 	
 }

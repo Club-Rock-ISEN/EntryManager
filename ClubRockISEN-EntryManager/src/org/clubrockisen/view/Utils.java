@@ -5,6 +5,8 @@ import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -184,6 +186,9 @@ public final class Utils {
 	}
 	
 	/**
+	 * Ask the user to choose an element from a list.<br />
+	 * The elements of the list will be translated using their {@link Object#toString()} method.<br />
+	 * The collection provided should not contain identical object or identical text translations.
 	 * @param <T>
 	 *        the type of element the dialog offers.
 	 * @param parent
@@ -195,13 +200,19 @@ public final class Utils {
 	 * @return the selected element, or <code>null</code> if user canceled.
 	 */
 	public static <T> T askChoice (final Component parent, final AbstractDialog dialog, final Collection<T> elements) {
-		final T choice = (T) JOptionPane.showInputDialog(parent, multiLineHTML(getMessage(dialog)),
+		final Map<String, T> translationMap = new LinkedHashMap<>(elements.size());
+		for (final T t : elements) {
+			translationMap.put(TRANSLATOR.get(t.toString()), t);
+		}
+		
+		final String choice = (String) JOptionPane.showInputDialog(parent, multiLineHTML(getMessage(dialog)),
 				TRANSLATOR.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
-				elements.toArray(new Object[0]), elements.iterator().next());
+				translationMap.keySet().toArray(new Object[0]), translationMap.keySet().iterator().next());
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("The user has choose " + choice);
 		}
-		return choice;
+		
+		return translationMap.get(choice);
 	}
 	
 	/**
