@@ -8,14 +8,14 @@ import java.util.logging.Logger;
  * Should be accessed using {@link #KEY}.
  * @author Alex
  */
-public final class ConfigurationKey {
+public final class ConfigurationKeys {
 	/** Logger */
-	private static Logger					lg		= Logger.getLogger(ConfigurationKey.class.getName());
+	private static Logger					lg		= Logger.getLogger(ConfigurationKeys.class.getName());
 	
 	/** The path to the configuration file */
 	public static final String				FILE	= "conf/configuration.xml";
 	/** The access to the configuration key structure */
-	public static final ConfigurationKey	KEY		= new ConfigurationKey();
+	public static final ConfigurationKeys	KEY		= new ConfigurationKeys();
 	
 	/** The root key */
 	private final String					rootKey	= "configuration";
@@ -25,7 +25,7 @@ public final class ConfigurationKey {
 	 * Unique default and private constructor. Allow access to the configuration key only through
 	 * {@link #KEY}.
 	 */
-	private ConfigurationKey () {
+	private ConfigurationKeys () {
 		super();
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Creating the configuration key structure.");

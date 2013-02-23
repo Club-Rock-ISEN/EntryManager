@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.SQLConfigurationError;
 
 /**
@@ -21,7 +21,7 @@ public final class Utils {
 	/** Access to the configuration */
 	private static final Configuration		CONFIG	= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS	= ConfigurationKey.KEY;
+	private static final ConfigurationKeys	KEYS	= ConfigurationKeys.KEY;
 	
 	/**
 	 * Constructor #1.<br />

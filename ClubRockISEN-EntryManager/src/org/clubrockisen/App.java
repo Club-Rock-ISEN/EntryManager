@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.TopLevelError;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -25,7 +25,7 @@ public final class App {
 	/** Access to the configuration */
 	private final Configuration				config;
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS	= ConfigurationKey.KEY;
+	private static final ConfigurationKeys	KEYS	= ConfigurationKeys.KEY;
 	
 	/**
 	 * Constructor #1.<br />

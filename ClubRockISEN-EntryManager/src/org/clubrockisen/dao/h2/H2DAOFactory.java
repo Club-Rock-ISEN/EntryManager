@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.NoIdException;
@@ -41,7 +41,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	/** Access to the configuration */
 	private final Configuration			config	= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private final ConfigurationKey		keys	= ConfigurationKey.KEY;
+	private final ConfigurationKeys		keys	= ConfigurationKeys.KEY;
 	/** The connection to the database */
 	private final Connection			connection;
 	/** The member DAO */
@@ -50,7 +50,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	private final DAO<Parameter>		parameterDao;
 	/** The party DAO */
 	private final DAO<Party>			partyDao;
-	/** The party DAO */
+	/** The entry member party DAO */
 	private final DAO<EntryMemberParty>	entryMemberPartyDao;
 	
 	/**

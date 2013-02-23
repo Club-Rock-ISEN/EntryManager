@@ -20,7 +20,7 @@ public class ConfigurationTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass () {
-		Configuration.setFile(ConfigurationKey.FILE);
+		Configuration.setFile(ConfigurationKeys.FILE);
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class ConfigurationTest {
 	 */
 	@Before
 	public void setUp () {
-		Configuration.setFile(ConfigurationKey.FILE);
+		Configuration.setFile(ConfigurationKeys.FILE);
 		config = Configuration.getInstance();
 	}
 	
@@ -38,7 +38,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSetFile () {
 		Configuration.setFile("test/wrongConf.xml");
-		assertNotNull(config.get(ConfigurationKey.KEY.daoFactory()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.daoFactory()));
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSetNullFile () {
 		Configuration.setFile(null);
-		assertNotNull(config.get(ConfigurationKey.KEY.daoFactory()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.daoFactory()));
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSetFakeFile () {
 		Configuration.setFile("fesffms,m");
-		assertNull(config.get(ConfigurationKey.KEY.daoFactory()));
+		assertNull(config.get(ConfigurationKeys.KEY.daoFactory()));
 	}
 	
 	/**
@@ -67,14 +67,14 @@ public class ConfigurationTest {
 	@Test
 	public void testGet () {
 		// Test all configurations
-		assertNotNull(config.get(ConfigurationKey.KEY.daoFactory()));
-		assertNotNull(config.get(ConfigurationKey.KEY.serviceFactory()));
-		assertNotNull(config.get(ConfigurationKey.KEY.translationFile()));
-		assertNotNull(config.get(ConfigurationKey.KEY.db().url()));
-		assertNotNull(config.get(ConfigurationKey.KEY.db().username()));
-		assertNotNull(config.get(ConfigurationKey.KEY.db().password()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.daoFactory()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.serviceFactory()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.translationFile()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.db().url()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.db().username()));
+		assertNotNull(config.get(ConfigurationKeys.KEY.db().password()));
 		
 		// Test a fake key
-		assertNull(config.get(ConfigurationKey.FILE));
+		assertNull(config.get(ConfigurationKeys.FILE));
 	}
 }

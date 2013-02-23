@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  * Class to be used when accessing to the configuration file.<br />
- * To retrieve the properties, use the {@link ConfigurationKey} class which defines the key
+ * To retrieve the properties, use the {@link ConfigurationKeys} class which defines the key
  * structure of the document.<br />
  * To retrieve a property, the method {@link #get(String)} should be used.
  * @author Alex
@@ -21,7 +21,7 @@ public final class Configuration {
 	/** Unique instance of the class */
 	private static Configuration	singleton = new Configuration();
 	/** The configuration file to load */
-	private static String			configurationFile = ConfigurationKey.FILE;
+	private static String			configurationFile = ConfigurationKeys.FILE;
 	
 	/** The configuration properties */
 	private final Properties		configuration;
@@ -66,8 +66,8 @@ public final class Configuration {
 		// Load the properties
 		try {
 			configuration.clear();
-			configuration.loadFromXML(new FileInputStream( configurationFile != null ?
-					configurationFile : ConfigurationKey.FILE));
+			configuration.loadFromXML(new FileInputStream(configurationFile != null ?
+					configurationFile : ConfigurationKeys.FILE));
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Properties successfully loaded:");
 				for (final Entry<Object, Object> currentProp : configuration.entrySet()) {

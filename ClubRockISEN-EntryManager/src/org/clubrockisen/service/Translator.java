@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKey;
 import org.clubrockisen.entities.Column;
@@ -29,7 +29,7 @@ public final class Translator implements ITranslator {
 	/** Access to the configuration */
 	private final Configuration				config		= Configuration.getInstance();
 	/** Access to the key structure of the configuration */
-	private static final ConfigurationKey	KEYS		= ConfigurationKey.KEY;
+	private static final ConfigurationKeys	KEYS		= ConfigurationKeys.KEY;
 	
 	// Translations
 	/** Unique instance of the class */

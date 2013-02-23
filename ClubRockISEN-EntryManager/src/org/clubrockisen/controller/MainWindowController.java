@@ -16,7 +16,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
@@ -77,7 +77,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	/** The configuration */
 	private final Configuration				configuration	= Configuration.getInstance();
 	/** The configuration keys */
-	private final ConfigurationKey			keys			= ConfigurationKey.KEY;
+	private final ConfigurationKeys			keys			= ConfigurationKeys.KEY;
 	/** The file importer */
 	private final IFileManager				fileManager		= ServiceFactory.getImplementation().getFileManager();
 	/** The entry manager */

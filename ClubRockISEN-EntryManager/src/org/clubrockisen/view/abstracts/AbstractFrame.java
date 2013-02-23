@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKey;
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -35,7 +35,7 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	/** Load icon */
 	static {
 		try {
-			icon = ImageIO.read(new File(Configuration.getInstance().get(ConfigurationKey.KEY.iconFile())));
+			icon = ImageIO.read(new File(Configuration.getInstance().get(ConfigurationKeys.KEY.iconFile())));
 		} catch (final IOException e) {
 			lg.warning("Could not load icon, frame will be iconless (" + e.getClass() + "; " +
 					e.getMessage() + ")");
