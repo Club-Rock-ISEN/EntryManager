@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Entity;
 import org.clubrockisen.service.abstracts.ITranslator;
@@ -164,7 +164,7 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String getField (final String key) {
-		return get(key) + get(TranslationKey.MISC.fieldValueSeparator());
+		return get(key) + get(TranslationKeys.MISC.fieldValueSeparator());
 	}
 	
 	/*
@@ -173,7 +173,7 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String get (final Enum<?> key) {
-		return get(TranslationKey.ENUM.toString() + "."
+		return get(TranslationKeys.ENUM.toString() + "."
 				+ key.getClass().getSimpleName().toLowerCase(Locale.ENGLISH) + "."
 				+ key.name().toLowerCase(Locale.ENGLISH));
 	}
@@ -184,7 +184,7 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String getField (final Enum<?> key) {
-		return get(key) + get(TranslationKey.MISC.fieldValueSeparator());
+		return get(key) + get(TranslationKeys.MISC.fieldValueSeparator());
 	}
 	
 	/*
@@ -213,7 +213,7 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String get (final Entity entity, final Column column) {
-		return get(TranslationKey.ENTITY.toString() + "." + entity.getEntityName().toLowerCase(Locale.ENGLISH)
+		return get(TranslationKeys.ENTITY.toString() + "." + entity.getEntityName().toLowerCase(Locale.ENGLISH)
 				+ (column == null ? "" : "." + column.getName().toLowerCase(Locale.ENGLISH)));
 	}
 	
@@ -225,6 +225,6 @@ public final class Translator implements ITranslator {
 	 */
 	@Override
 	public String getField (final Entity entity, final Column column) {
-		return get(entity, column) + get(TranslationKey.MISC.fieldValueSeparator());
+		return get(entity, column) + get(TranslationKeys.MISC.fieldValueSeparator());
 	}
 }

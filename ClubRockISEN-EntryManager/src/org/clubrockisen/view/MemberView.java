@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.view.abstracts.AbstractFrame;
@@ -97,7 +97,7 @@ public class MemberView extends AbstractFrame {
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
 					Utils.showMessageDialog(getFrame(),
-							TranslationKey.GUI.dialog().notPersistedMember(),
+							TranslationKeys.GUI.dialog().notPersistedMember(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					getFrame().setVisible(false);

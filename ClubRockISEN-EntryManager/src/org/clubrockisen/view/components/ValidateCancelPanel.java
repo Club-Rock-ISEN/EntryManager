@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 
 /**
@@ -51,8 +51,8 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 		// Initialization
 		this.parentFrame = frame;
 		actionListeners = new ArrayList<>();
-		cancelButton = new JButton(frame.getTranslator().get(TranslationKey.MISC.cancel()));
-		validateButton = new JButton(frame.getTranslator().get(TranslationKey.MISC.ok()));
+		cancelButton = new JButton(frame.getTranslator().get(TranslationKeys.MISC.cancel()));
+		validateButton = new JButton(frame.getTranslator().get(TranslationKeys.MISC.ok()));
 		
 		// Creating layout, and adding buttons
 		final Box hBox = new Box(BoxLayout.LINE_AXIS);

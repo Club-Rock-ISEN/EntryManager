@@ -3,7 +3,7 @@ package org.clubrockisen.service.format;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
@@ -159,7 +159,7 @@ public final class OldDataFiles implements Format {
 	 */
 	@Override
 	public String toString () {
-		return TranslationKey.FORMATS.oldFileFormat();
+		return TranslationKeys.FORMATS.oldFileFormat();
 	}
 	
 }

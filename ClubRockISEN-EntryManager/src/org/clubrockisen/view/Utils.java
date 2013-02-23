@@ -20,9 +20,9 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKey.Gui.Dialog.AbstractDialog;
-import org.clubrockisen.common.TranslationKey.Gui.GUIElement;
-import org.clubrockisen.common.TranslationKey.Parametrable;
+import org.clubrockisen.common.TranslationKeys.Gui.Dialog.AbstractDialog;
+import org.clubrockisen.common.TranslationKeys.Gui.GUIElement;
+import org.clubrockisen.common.TranslationKeys.Parametrable;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;

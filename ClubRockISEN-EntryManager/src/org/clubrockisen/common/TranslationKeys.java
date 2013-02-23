@@ -4,12 +4,12 @@ package org.clubrockisen.common;
  * The Translation file key structure.
  * @author Alex
  */
-public final class TranslationKey {
+public final class TranslationKeys {
 	/**
 	 * Constructor #1.<br />
 	 * Build the key structure.
 	 */
-	private TranslationKey () {
+	private TranslationKeys () {
 		super();
 	}
 	
@@ -247,7 +247,7 @@ public final class TranslationKey {
 	}
 	
 	/** Access to the entity translations */
-	public static final TranslationKey.Entity	ENTITY	= new Entity();
+	public static final TranslationKeys.Entity	ENTITY	= new Entity();
 	
 	/**
 	 * The translations for the enumerations.
@@ -500,7 +500,7 @@ public final class TranslationKey {
 	}
 	
 	/** Access to the enumeration translations */
-	public static final TranslationKey.Enum	ENUM	= new Enum();
+	public static final TranslationKeys.Enum	ENUM	= new Enum();
 	
 	/**
 	 * The formats translation
@@ -528,7 +528,7 @@ public final class TranslationKey {
 	}
 	
 	/** Access to the formats translations */
-	public static final TranslationKey.Formats	FORMATS	= new Formats();
+	public static final TranslationKeys.Formats	FORMATS	= new Formats();
 	
 	/**
 	 * The GUI related translations
@@ -1864,7 +1864,7 @@ public final class TranslationKey {
 	}
 	
 	/** Access to the GUI related translations. */
-	public static final TranslationKey.Gui	GUI	= new Gui();
+	public static final TranslationKeys.Gui	GUI	= new Gui();
 	
 	/**
 	 * The miscellaneous translations.
@@ -1941,5 +1941,5 @@ public final class TranslationKey {
 	}
 	
 	/** Access to the miscellaneous translations. */
-	public static final TranslationKey.Misc	MISC	= new Misc();
+	public static final TranslationKeys.Misc	MISC	= new Misc();
 }

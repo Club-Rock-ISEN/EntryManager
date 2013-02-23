@@ -22,7 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
@@ -126,7 +126,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.ENTRIES_FEMALE))), c);
 		
 		c.gridy = ++yIndex;
-		add(new JLabel(Constants.DELTA + translator.get(TranslationKey.MISC.fieldValueSeparator())), c);
+		add(new JLabel(Constants.DELTA + translator.get(TranslationKeys.MISC.fieldValueSeparator())), c);
 		
 		c.gridy = ++yIndex;
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.REVENUE))), c);
@@ -218,7 +218,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 					lg.warning("Invalid date format, revert changes (" + e.getClass() + "; "
 							+ e.getMessage() + ")");
 					Utils.showMessageDialog(PartyPanel.this,
-							TranslationKey.GUI.dialog().unparsableDate(dateField.getText()),
+							TranslationKeys.GUI.dialog().unparsableDate(dateField.getText()),
 							JOptionPane.WARNING_MESSAGE);
 					dateField.setText(oldValue);
 				}
