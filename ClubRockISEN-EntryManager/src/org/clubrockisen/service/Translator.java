@@ -33,7 +33,7 @@ public final class Translator implements ITranslator {
 	
 	// Translations
 	/** Unique instance of the class */
-	private static Translator				singleton	= new Translator();
+	private static final Translator			singleton	= new Translator();
 	/** The map between the keys and their translation */
 	private final Properties				translations;
 	
