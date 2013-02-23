@@ -32,12 +32,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.clubrockisen.common.Constants;
+import org.clubrockisen.common.TranslationKey;
+import org.clubrockisen.common.TranslationKey.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.model.SearchModel;
-import org.clubrockisen.service.Translator.Key;
-import org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.MemberPanel;
@@ -97,7 +97,7 @@ public class MainWindow extends AbstractFrame {
 	 */
 	@Override
 	protected void build () {
-		setTitle(getTranslator().get(Key.GUI.title()));
+		setTitle(getTranslator().get(TranslationKey.GUI.title()));
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setResizable(true);
 		buildMenus();
@@ -110,8 +110,8 @@ public class MainWindow extends AbstractFrame {
 	private void buildMenus () {
 		final JMenuBar menuBar = new JMenuBar();
 		// File menu creation
-		final JMenu fileMenu = Utils.getMenu(Key.GUI.menu().file().toString());
-		final JMenuItem parametersItem = Utils.getMenuItem(Key.GUI.menu().file().parameters(), new ActionListener() {
+		final JMenu fileMenu = Utils.getMenu(TranslationKey.GUI.menu().file().toString());
+		final JMenuItem parametersItem = Utils.getMenuItem(TranslationKey.GUI.menu().file().parameters(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -121,7 +121,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showParameters();
 			}
 		});
-		final JMenuItem quitItem = Utils.getMenuItem(Key.GUI.menu().file().quit(), new ActionListener() {
+		final JMenuItem quitItem = Utils.getMenuItem(TranslationKey.GUI.menu().file().quit(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -136,8 +136,8 @@ public class MainWindow extends AbstractFrame {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		final JMenu dataBaseMenu = Utils.getMenu(Key.GUI.menu().database().toString());
-		final JMenuItem seeMembersItem = Utils.getMenuItem(Key.GUI.menu().database().seeMembers(), new ActionListener() {
+		final JMenu dataBaseMenu = Utils.getMenu(TranslationKey.GUI.menu().database().toString());
+		final JMenuItem seeMembersItem = Utils.getMenuItem(TranslationKey.GUI.menu().database().seeMembers(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -147,7 +147,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showAllMembers();
 			}
 		});
-		final JMenuItem seeAttendeesItem = Utils.getMenuItem(Key.GUI.menu().database().seeAttendees(), new ActionListener() {
+		final JMenuItem seeAttendeesItem = Utils.getMenuItem(TranslationKey.GUI.menu().database().seeAttendees(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -157,7 +157,7 @@ public class MainWindow extends AbstractFrame {
 				controller.showAttendees();
 			}
 		});
-		final JMenuItem importDataItem = Utils.getMenuItem(Key.GUI.menu().database().importData(), new ActionListener() {
+		final JMenuItem importDataItem = Utils.getMenuItem(TranslationKey.GUI.menu().database().importData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -169,16 +169,16 @@ public class MainWindow extends AbstractFrame {
 				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
 					final Integer importedMember = controller.importFile(file, format);
 					if (importedMember != null) {
-						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
+						Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileImportFailed(file.toString()),
+						Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().fileImportFailed(file.toString()),
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
-		final JMenuItem exportDataItem = Utils.getMenuItem(Key.GUI.menu().database().exportData(), new ActionListener() {
+		final JMenuItem exportDataItem = Utils.getMenuItem(TranslationKey.GUI.menu().database().exportData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -189,10 +189,10 @@ public class MainWindow extends AbstractFrame {
 				Path file;
 				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
 					if (controller.exportFile(file, format)) {
-						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportSuccessful(file.toString()),
+						Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().fileExportSuccessful(file.toString()),
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						Utils.showMessageDialog(getFrame(), Key.GUI.dialog().fileExportFailed(file.toString()),
+						Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().fileExportFailed(file.toString()),
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
@@ -205,8 +205,8 @@ public class MainWindow extends AbstractFrame {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		final JMenu memberMenu = Utils.getMenu(Key.GUI.menu().member().toString());
-		final JMenuItem newMemberItem = Utils.getMenuItem(Key.GUI.menu().member().newMember(), new ActionListener() {
+		final JMenu memberMenu = Utils.getMenu(TranslationKey.GUI.menu().member().toString());
+		final JMenuItem newMemberItem = Utils.getMenuItem(TranslationKey.GUI.menu().member().newMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -216,19 +216,19 @@ public class MainWindow extends AbstractFrame {
 				controller.createMember();
 			}
 		});
-		final JMenuItem deleteMemberItem = Utils.getMenuItem(Key.GUI.menu().member().deleteMember(), new ActionListener() {
+		final JMenuItem deleteMemberItem = Utils.getMenuItem(TranslationKey.GUI.menu().member().deleteMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				if (Utils.askConfirmation(getFrame(), Key.GUI.dialog().deleteMember(getSelectedMember().getName()))) {
+				if (Utils.askConfirmation(getFrame(), TranslationKey.GUI.dialog().deleteMember(getSelectedMember().getName()))) {
 					controller.deleteMember(getSelectedMember());
 				}
 			}
 		});
-		final JMenuItem updateMemberItem = Utils.getMenuItem(Key.GUI.menu().member().updateMember(), new ActionListener() {
+		final JMenuItem updateMemberItem = Utils.getMenuItem(TranslationKey.GUI.menu().member().updateMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -243,8 +243,8 @@ public class MainWindow extends AbstractFrame {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		final JMenu helpMenu = Utils.getMenu(Key.GUI.menu().help().toString());
-		final JMenuItem helpItem = Utils.getMenuItem(Key.GUI.menu().help().help(), new ActionListener() {
+		final JMenu helpMenu = Utils.getMenu(TranslationKey.GUI.menu().help().toString());
+		final JMenuItem helpItem = Utils.getMenuItem(TranslationKey.GUI.menu().help().help(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -253,19 +253,19 @@ public class MainWindow extends AbstractFrame {
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.showHelp()) {
 					Utils.showMessageDialog(getFrame(),
-							Key.GUI.dialog().helpNotDisplayable(),
+							TranslationKey.GUI.dialog().helpNotDisplayable(),
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
-		final JMenuItem aboutItem = Utils.getMenuItem(Key.GUI.menu().help().about(), new ActionListener() {
+		final JMenuItem aboutItem = Utils.getMenuItem(TranslationKey.GUI.menu().help().about(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				Utils.showMessageDialog(getFrame(), Key.GUI.dialog().about(Constants.AUTHOR_NAME),
+				Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().about(Constants.AUTHOR_NAME),
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -356,7 +356,7 @@ public class MainWindow extends AbstractFrame {
 		c.gridx = ++xIndex;
 		c.gridy = yIndex;
 		c.fill = GridBagConstraints.NONE;
-		enterButton = new JButton(getTranslator().get(Key.GUI.buttons().enter()));
+		enterButton = new JButton(getTranslator().get(TranslationKey.GUI.buttons().enter()));
 		enterButton.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)
@@ -383,9 +383,9 @@ public class MainWindow extends AbstractFrame {
 				final double price = controller.getPrice(member);
 				AbstractDialog dialog;
 				if (price == 0.0) {
-					dialog = Key.GUI.dialog().freeEntry(member.getName());
+					dialog = TranslationKey.GUI.dialog().freeEntry(member.getName());
 				} else {
-					dialog = Key.GUI.dialog().entryPrice(member.getName(), price);
+					dialog = TranslationKey.GUI.dialog().entryPrice(member.getName(), price);
 				}
 				
 				// Entry canceled
@@ -397,10 +397,10 @@ public class MainWindow extends AbstractFrame {
 				}
 				
 				if (controller.enter(member)) {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().memberEntry(member.getName()),
+					Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().memberEntry(member.getName()),
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					Utils.showMessageDialog(getFrame(), Key.GUI.dialog().memberEntryFailed(member.getName()),
+					Utils.showMessageDialog(getFrame(), TranslationKey.GUI.dialog().memberEntryFailed(member.getName()),
 							JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -415,7 +415,7 @@ public class MainWindow extends AbstractFrame {
 		panel.add(enterButton, c);
 		
 		c.gridx = ++xIndex;
-		updateButton = new JButton(getTranslator().get(Key.GUI.buttons().update()));
+		updateButton = new JButton(getTranslator().get(TranslationKey.GUI.buttons().update()));
 		updateButton.addActionListener(new ActionListener() {
 			/*
 			 * (non-Javadoc)
@@ -478,7 +478,7 @@ public class MainWindow extends AbstractFrame {
 		if (member == null) {
 			lg.info("No member selected.");
 			Utils.showMessageDialog(getFrame(),
-					Key.GUI.dialog().notSelectedMember(),
+					TranslationKey.GUI.dialog().notSelectedMember(),
 					JOptionPane.WARNING_MESSAGE);
 		}
 		return member;
@@ -490,7 +490,7 @@ public class MainWindow extends AbstractFrame {
 	 * @return the {@link Format} selected.
 	 */
 	private Format getFileFormat () {
-		return Utils.askChoice(getFrame(), Key.GUI.dialog().chooseFormat(), controller.getAvailableFormat());
+		return Utils.askChoice(getFrame(), TranslationKey.GUI.dialog().chooseFormat(), controller.getAvailableFormat());
 	}
 	
 	/**

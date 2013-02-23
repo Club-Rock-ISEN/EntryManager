@@ -22,11 +22,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.clubrockisen.common.Constants;
+import org.clubrockisen.common.TranslationKey;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
-import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
@@ -126,7 +126,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.ENTRIES_FEMALE))), c);
 		
 		c.gridy = ++yIndex;
-		add(new JLabel(Constants.DELTA + translator.get(Key.MISC.fieldValueSeparator())), c);
+		add(new JLabel(Constants.DELTA + translator.get(TranslationKey.MISC.fieldValueSeparator())), c);
 		
 		c.gridy = ++yIndex;
 		add(new JLabel(translator.getField(p, col.get(PartyColumn.REVENUE))), c);
@@ -218,7 +218,7 @@ public class PartyPanel extends JPanel implements AbstractView {
 					lg.warning("Invalid date format, revert changes (" + e.getClass() + "; "
 							+ e.getMessage() + ")");
 					Utils.showMessageDialog(PartyPanel.this,
-							Key.GUI.dialog().unparsableDate(dateField.getText()),
+							TranslationKey.GUI.dialog().unparsableDate(dateField.getText()),
 							JOptionPane.WARNING_MESSAGE);
 					dateField.setText(oldValue);
 				}

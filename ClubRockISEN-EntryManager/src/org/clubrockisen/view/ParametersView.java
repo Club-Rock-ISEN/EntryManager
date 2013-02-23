@@ -15,10 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
+import org.clubrockisen.common.TranslationKey;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
-import org.clubrockisen.service.Translator;
-import org.clubrockisen.service.Translator.Key;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 import org.clubrockisen.view.components.ValidateCancelPanel;
@@ -74,7 +73,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	 */
 	@Override
 	protected void build () {
-		setTitle(getTranslator().get(Translator.Key.GUI.parameters().title()));
+		setTitle(getTranslator().get(TranslationKey.GUI.parameters().title()));
 		setContentPane(buildParametersPanel());
 		setListeners();
 	}
@@ -137,7 +136,7 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
 					Utils.showMessageDialog(getFrame(),
-							Key.GUI.dialog().notPersistedParameter(),
+							TranslationKey.GUI.dialog().notPersistedParameter(),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					getFrame().setVisible(false);
