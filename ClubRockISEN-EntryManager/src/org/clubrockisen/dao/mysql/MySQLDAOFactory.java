@@ -34,7 +34,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	private final DAO<Parameter>		parameterDao;
 	/** The party DAO */
 	private final DAO<Party>			partyDao;
-	/** The party DAO */
+	/** The entry DAO */
 	private final DAO<EntryMemberParty>	entryMemberPartyDao;
 	
 	/**
