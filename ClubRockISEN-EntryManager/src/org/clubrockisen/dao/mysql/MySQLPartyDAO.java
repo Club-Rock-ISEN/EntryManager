@@ -1,6 +1,7 @@
 package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -87,47 +88,23 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public Party create (final Party obj) {
-		if (obj == null) {
-			return null;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Creating the party " + obj.getDate());
-		}
-		
-		Party newParty = null;
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.insert(obj, false) + " ("
-					+ "'" + dateFormat.format(new Date(obj.getDate())) + "',"
-					+ "'" + obj.getEntriesTotal() + "',"
-					+ "'" + obj.getEntriesFirstPart() + "',"
-					+ "'" + obj.getEntriesSecondPart() + "',"
-					+ "'" + obj.getEntriesNewMembers() + "',"
-					+ "'" + obj.getEntriesFree() + "',"
-					+ "'" + obj.getEntriesMale() + "',"
-					+ "'" + obj.getEntriesFemale() + "',"
-					+ "'" + obj.getRevenue() + "',"
-					+ "'" + obj.getProfit() + "');";
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			try (final ResultSet resultSet = statement.getGeneratedKeys()) {
-				if (resultSet.next()) {
-					newParty = find(resultSet.getInt(1));
-				} else {
-					throw new SQLException("Could not retrieve last inserted id.");
-				}
-			}
-		} catch (final SQLException e) {
-			lg.warning("Exception while creating a party: " + e.getMessage());
-			return null;
-		}
-		return newParty;
+	protected void fillInsertStatement (final PreparedStatement statement, final Party obj)
+			throws SQLException {
+		int index = 1;
+		statement.setDate(index++, new java.sql.Date(obj.getDate()));
+		statement.setInt(index++, obj.getEntriesTotal());
+		statement.setInt(index++, obj.getEntriesFirstPart());
+		statement.setInt(index++, obj.getEntriesSecondPart());
+		statement.setInt(index++, obj.getEntriesNewMembers());
+		statement.setInt(index++, obj.getEntriesFree());
+		statement.setInt(index++, obj.getEntriesMale());
+		statement.setInt(index++, obj.getEntriesFemale());
+		statement.setDouble(index++, obj.getRevenue());
+		statement.setDouble(index++, obj.getProfit());
 	}
 	
 	/*

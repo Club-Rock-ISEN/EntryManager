@@ -35,6 +35,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	private final String							entityName;
 	
 	// Prepared statements
+	/** Prepared statement for the create operation */
+	private final PreparedStatement					create;
 	/** Prepared statement for the read operation */
 	private final PreparedStatement					find;
 	/** Prepared statement for the delete operation */
@@ -59,6 +61,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		this.entityName = getEntitySample().getEntityName();
 		
 		// Create prepared statements
+		create = connection.prepareStatement(QueryGenerator.insertPrepared(getEntitySample()),
+				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 		find = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()) +
 				QueryGenerator.whereID(getEntitySample(), null));
 		delete = connection.prepareStatement(QueryGenerator.delete(getEntitySample(), true));
@@ -105,6 +109,20 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 */
 	protected abstract T createEntityFromResult (final ResultSet result) throws SQLException;
 	
+	/**
+	 * Fill the prepared statement with the object value for the insert query.<br />
+	 * The values must be set in the order of their column declaration, and the id column should not
+	 * be set as it is an insert statement.
+	 * @param statement
+	 *        the statement to fill.
+	 * @param obj
+	 *        the object to use.
+	 * @throws SQLException
+	 *         if there was a problem while filling the statement.
+	 */
+	protected abstract void fillInsertStatement (final PreparedStatement statement, final T obj)
+			throws SQLException;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.io.Closeable#close()
@@ -112,6 +130,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	@Override
 	public void close () throws IOException {
 		try {
+			create.close();
 			find.close();
 			delete.close();
 			searchAll.close();
@@ -123,6 +142,39 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			lg.warning("Error while closing statements (" + e.getClass() + "; " + e.getMessage() + ")");
 			throw new IOException("Exception while closing statements", e);
 		}
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.abstracts.DAO#create(org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	public T create (final T obj) {
+		if (obj == null) {
+			return null;
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Creating the " + entityName + ": " + obj.toString());
+		}
+		
+		T newEntity = null;
+		
+		try {
+			fillInsertStatement(create, obj);
+			create.executeUpdate();
+			// Retrieving the created member
+			try (final ResultSet resultSet = create.getGeneratedKeys()) {
+				if (resultSet.next()) {
+					newEntity = find(resultSet.getInt(1));
+				} else {
+					throw new SQLException("Could not retrieve last inserted id.");
+				}
+			}
+		} catch (final SQLException e) {
+			lg.warning("Exception while creating a member: " + e.getMessage());
+			return null;
+		}
+		return newEntity;
 	}
 	
 	/*
@@ -222,7 +274,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		try {
 			final PreparedStatement statement = searches.get(field);
 			if (field.getType().equals(String.class)) {
-				statement.setString(1, value + "%");
+				statement.setString(1, value + "%"); //FIXME remove, might not be always relevant
 			} else {
 				statement.setString(1, value);
 			}

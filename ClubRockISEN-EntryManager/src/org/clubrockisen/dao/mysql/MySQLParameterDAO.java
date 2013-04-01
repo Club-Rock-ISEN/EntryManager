@@ -1,6 +1,7 @@
 package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,6 +66,17 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 		newParameter.setComponentClass(result.getString(columns.get(ParameterColumn.COMPONENT_CLASS).getName()));
 		
 		return newParameter;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	protected void fillInsertStatement (final PreparedStatement statement, final Parameter obj)
+			throws SQLException {
+		// Leave empty for parameter DAO
 	}
 	
 	/**

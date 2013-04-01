@@ -250,4 +250,24 @@ public final class QueryGenerator {
 	public static String searchAll (final Entity object) {
 		return "SELECT * FROM " + object.getEntityName();
 	}
+	
+	/**
+	 * Generates the prepared fields for an insert query.<br />
+	 * <code>(?, ?, ?)</code>
+	 * @param object
+	 * @return
+	 */
+	public static String insertPrepared (final Entity object) {
+		final StringBuilder fields = new StringBuilder(insert(object, false)).append("(");
+		int columnNumber = object.getEntityColumns().size() - 1;
+		if (columnNumber < 1) {
+			return "";
+		}
+		while (columnNumber > 1) {
+			fields.append("?, ");
+			--columnNumber;
+		}
+		return fields.append("?)").toString();
+	}
+	
 }

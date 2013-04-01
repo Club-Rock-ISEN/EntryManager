@@ -1,6 +1,7 @@
 package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -75,40 +76,15 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(org.clubrockisen.entities.Entity)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public EntryMemberParty create (final EntryMemberParty obj) {
-		if (obj == null) {
-			return null;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Creating the entry for member " + obj.getIdMember() + " at party " + obj.getIdParty());
-		}
-		
-		EntryMemberParty newEntry = null;
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.insert(obj, false) + " ("
-					+ "'" + obj.getIdMember() + "',"
-					+ "'" + obj.getIdParty() + "');";
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			// Retrieve last inserted entry member party
-			try (final ResultSet result = statement.getGeneratedKeys()) {
-				if (result.next()) {
-					newEntry = find(result.getInt(1));
-				} else {
-					throw new SQLException("Could not retrieve last inserted id.");
-				}
-			}
-		} catch (final SQLException e) {
-			lg.warning("SQL exception while creating an entry member party: " + e.getMessage());
-			return null;
-		}
-		return newEntry;
+	protected void fillInsertStatement (final PreparedStatement statement, final EntryMemberParty obj)
+			throws SQLException {
+		int index = 1;
+		statement.setInt(index++, obj.getIdMember());
+		statement.setInt(index++, obj.getIdParty());
 	}
 	
 	/*

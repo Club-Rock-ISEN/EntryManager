@@ -1,9 +1,11 @@
 package org.clubrockisen.dao.mysql;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,45 +85,18 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#create(java.lang.Object)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public Member create (final Member obj) {
-		if (obj == null) {
-			return null;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Creating the member " + obj.getName());
-		}
-		
-		Member newMember = null;
-		
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.insert(obj, false) + " ("
-					+ "'" + QueryGenerator.escapeSpecialChars(obj.getName()) + "',"
-					+ "'" + obj.getGender().getAbbreviation() + "',"
-					+ "'" + obj.getEntries() + "',"
-					+ "'" + obj.getNextFree() + "',"
-					+ "'" + obj.getCredit() + "',"
-					+ "'" + obj.getStatus().getName() + "');";
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			// Retrieving the created member
-			try (final ResultSet resultSet = statement.getGeneratedKeys()) {
-				if (resultSet.next()) {
-					newMember = find(resultSet.getInt(1));
-				} else {
-					throw new SQLException("Could not retrieve last inserted id.");
-				}
-			}
-		} catch (final SQLException e) {
-			lg.warning("Exception while creating a member: " + e.getMessage());
-			return null;
-		}
-		return newMember;
+	protected void fillInsertStatement (final PreparedStatement statement, final Member obj) throws SQLException {
+		int index = 1;
+		statement.setString(index++, obj.getName());
+		statement.setObject(index++, obj.getGender().getAbbreviation(), Types.CHAR);
+		statement.setInt(index++, obj.getEntries());
+		statement.setInt(index++, obj.getNextFree());
+		statement.setDouble(index++, obj.getCredit());
+		statement.setString(index++, obj.getStatus().getName());
 	}
 	
 	/*
