@@ -99,8 +99,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Finding the " + entityName + " with id = " + id);
 		}
 		
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-				ResultSet.CONCUR_READ_ONLY)) {
+		try {
 			find.setInt(1, id);
 			try (final ResultSet result = find.executeQuery()) {
 				if (result.first()) {
