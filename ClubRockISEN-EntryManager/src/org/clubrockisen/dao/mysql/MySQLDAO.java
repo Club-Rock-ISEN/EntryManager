@@ -1,11 +1,13 @@
 package org.clubrockisen.dao.mysql;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,20 +27,22 @@ import org.clubrockisen.entities.Entity;
  */
 public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(MySQLDAO.class.getName());
+	private static Logger							lg	= Logger.getLogger(MySQLDAO.class.getName());
 	
 	/** The connection to the database */
-	private final Connection		connection;
+	private final Connection						connection;
 	/** Name of the entity manipulated */
-	private final String			entityName;
+	private final String							entityName;
 	
 	// Prepared statements
 	/** Prepared statement for the read operation */
-	private final PreparedStatement	find;
+	private final PreparedStatement					find;
 	/** Prepared statement for the delete operation */
-	private final PreparedStatement	delete;
+	private final PreparedStatement					delete;
 	/** Prepared statement for the search all operation */
-	private final PreparedStatement	searchAll;
+	private final PreparedStatement					searchAll;
+	/** Prepared statement for the search operation (one per column) */
+	private final Map<Column, PreparedStatement>	searches;
 	
 	/**
 	 * Constructor #1.<br />
@@ -59,6 +63,19 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 				QueryGenerator.whereID(getEntitySample(), null));
 		delete = connection.prepareStatement(QueryGenerator.delete(getEntitySample(), true));
 		searchAll = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()));
+		searches = new HashMap<>(getEntitySample().getEntityColumns().size());
+		for (final Column column : getEntitySample().getEntityColumns().values()) {
+			final PreparedStatement statement;
+			if (column.getType().equals(String.class)) {
+				statement = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()) +
+						QueryGenerator.whereLike(column, null));
+			} else {
+				statement = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()) +
+						QueryGenerator.where(column, null));
+			}
+			
+			searches.put(column, statement);
+		}
 	}
 	
 	/**
@@ -87,6 +104,26 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 *         if there was a problem while reading the data from the columns.
 	 */
 	protected abstract T createEntityFromResult (final ResultSet result) throws SQLException;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.io.Closeable#close()
+	 */
+	@Override
+	public void close () throws IOException {
+		try {
+			find.close();
+			delete.close();
+			searchAll.close();
+			for (final PreparedStatement statement : searches.values()) {
+				statement.close();
+			}
+			searches.clear();
+		} catch (final SQLException e) {
+			lg.warning("Error while closing statements (" + e.getClass() + "; " + e.getMessage() + ")");
+			throw new IOException("Exception while closing statements", e);
+		}
+	}
 	
 	/*
 	 * (non-Javadoc)
@@ -181,28 +218,15 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			return retrieveAll();
 		}
 		
-		final String escapedValue = QueryGenerator.escapeSpecialChars(value);
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Searching " + entityName + " with " + field.getName() + " = " + escapedValue);
-		}
-		
 		final Set<T> entities = new HashSet<>();
-		try (final Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-				ResultSet.CONCUR_READ_ONLY)) {
-			String query = QueryGenerator.searchAll(getEntitySample()) + " WHERE " + field.getName();
-			// Depending on the data type of the field, generate different data
+		try {
+			final PreparedStatement statement = searches.get(field);
 			if (field.getType().equals(String.class)) {
-				query += " LIKE '" + escapedValue + "%'";
-			} else if (field.getType().getSuperclass().equals(Number.class)) {
-				query += " = " + escapedValue;
+				statement.setString(1, value + "%");
 			} else {
-				query += " = '" + escapedValue + "'";
+				statement.setString(1, value);
 			}
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			
-			try (final ResultSet result = statement.executeQuery(query)) {
+			try (final ResultSet result = statement.executeQuery()) {
 				while (result.next()) {
 					entities.add(createEntityFromResult(result));
 				}

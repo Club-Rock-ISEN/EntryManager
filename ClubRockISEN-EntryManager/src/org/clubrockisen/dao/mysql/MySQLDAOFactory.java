@@ -59,11 +59,16 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 		}
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see java.io.Closeable#close()
 	 */
 	@Override
 	public void close () throws IOException {
+		memberDao.close();
+		parameterDao.close();
+		partyDao.close();
+		entryMemberPartyDao.close();
 		Utils.close(connection);
 	}
 	

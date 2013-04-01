@@ -1,5 +1,6 @@
 package org.clubrockisen.dao.abstracts;
 
+import java.io.Closeable;
 import java.util.Set;
 
 import org.clubrockisen.entities.Column;
@@ -11,7 +12,7 @@ import org.clubrockisen.entities.Entity;
  * @param <T>
  *        The class of the object to manipulate.
  */
-public interface DAO<T extends Entity> {
+public interface DAO<T extends Entity> extends Closeable {
 	
 	/**
 	 * Create operation.
