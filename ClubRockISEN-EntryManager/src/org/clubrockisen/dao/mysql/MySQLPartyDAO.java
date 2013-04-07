@@ -4,16 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Constants;
 import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
@@ -29,8 +24,6 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	
 	/** Map between the columns enumeration and their name in the database */
 	private final Map<? extends Enum<?>, Column>	columns;
-	/** Date format used in the database */
-	private final SimpleDateFormat					dateFormat = new SimpleDateFormat(Constants.STORED_DATE_FORMAT);
 	/** Sample to be used by the super class */
 	private Party									partySample;
 	
@@ -109,40 +102,14 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean update (final Party obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Updating the party with id = " + obj.getIdParty());
-		}
-		
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.update(obj) +
-					columns.get(PartyColumn.DATE).getName() + " = '" + dateFormat.format(new Date(obj.getDate())) + "', " +
-					columns.get(PartyColumn.ENTRIES_TOTAL).getName() + " = '" + obj.getEntriesTotal() + "', " +
-					columns.get(PartyColumn.ENTRIES_FIRST_PART).getName() + " = '" + obj.getEntriesFirstPart() + "', " +
-					columns.get(PartyColumn.ENTRIES_SECOND_PART).getName() + " = '" + obj.getEntriesSecondPart() + "', " +
-					columns.get(PartyColumn.ENTRIES_NEW_MEMBER).getName() + " = '" + obj.getEntriesNewMembers() + "', " +
-					columns.get(PartyColumn.ENTRIES_FREE).getName() + " = '" + obj.getEntriesFree() + "', " +
-					columns.get(PartyColumn.ENTRIES_MALE).getName() + " = '" + obj.getEntriesMale() + "', " +
-					columns.get(PartyColumn.ENTRIES_FEMALE).getName() + " = '" + obj.getEntriesFemale() + "', " +
-					columns.get(PartyColumn.REVENUE).getName() + " = '" + obj.getRevenue() + "', " +
-					columns.get(PartyColumn.PROFIT).getName() + " = '" + obj.getProfit() + "'" +
-					QueryGenerator.whereID(obj);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query);
-		} catch (final NoIdException | SQLException e) {
-			lg.warning("Exception while updating a party (" + e.getMessage() + ")");
-			return false;
-		}
-		return true;
+	protected void fillUpdateStatement (final PreparedStatement statement, final Party obj)
+			throws SQLException {
+		fillInsertStatement(statement, obj);
+		statement.setInt(Party.getColumns().size(), obj.getIdParty());
 	}
 	
 }

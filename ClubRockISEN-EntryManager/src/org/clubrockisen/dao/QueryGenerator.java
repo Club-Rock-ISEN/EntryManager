@@ -252,10 +252,11 @@ public final class QueryGenerator {
 	}
 	
 	/**
-	 * Generates the prepared fields for an insert query.<br />
-	 * <code>(?, ?, ?)</code>
+	 * Generates the insert prepared statement.<br />
+	 * <code>INSERT INTO entity (columns) VALUES (?, ?, ?)</code>
 	 * @param object
-	 * @return
+	 *        the target entity.
+	 * @return the prepared query.
 	 */
 	public static String insertPrepared (final Entity object) {
 		final StringBuilder fields = new StringBuilder(insert(object, false)).append("(");
@@ -268,6 +269,30 @@ public final class QueryGenerator {
 			--columnNumber;
 		}
 		return fields.append("?)").toString();
+	}
+	
+	/**
+	 * Generate the update prepared statement.<br />
+	 * <code>UPDATE entity SET columns = ? WHERE idColumn = ?</code>
+	 * @param object
+	 *        the target entity
+	 * @return the prepared query
+	 * @throws NoIdException
+	 *         if the query could not be generated.
+	 */
+	public static String updatePrepared (final Entity object) throws NoIdException {
+		final StringBuilder update = new StringBuilder(update(object));
+		
+		for (final Column column : object.getEntityColumns().values()) {
+			if (column.isID()) {
+				// Don't set the id of a column
+				continue;
+			}
+			update.append(column.getName()).append(" = ?, ");
+		}
+		update.delete(update.length() - 2, update.length());
+		
+		return update.append(whereID(object, null)).toString();
 	}
 	
 }

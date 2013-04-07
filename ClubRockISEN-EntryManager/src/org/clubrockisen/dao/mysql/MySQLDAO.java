@@ -39,6 +39,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	private final PreparedStatement					create;
 	/** Prepared statement for the read operation */
 	private final PreparedStatement					find;
+	/** Prepared statement for the update operation */
+	private final PreparedStatement					update;
 	/** Prepared statement for the delete operation */
 	private final PreparedStatement					delete;
 	/** Prepared statement for the search all operation */
@@ -65,6 +67,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 		find = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()) +
 				QueryGenerator.whereID(getEntitySample(), null));
+		update = connection.prepareStatement(QueryGenerator.updatePrepared(getEntitySample()),
+				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 		delete = connection.prepareStatement(QueryGenerator.delete(getEntitySample(), true));
 		searchAll = connection.prepareStatement(QueryGenerator.searchAll(getEntitySample()));
 		searches = new HashMap<>(getEntitySample().getEntityColumns().size());
@@ -123,6 +127,20 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	protected abstract void fillInsertStatement (final PreparedStatement statement, final T obj)
 			throws SQLException;
 	
+	/**
+	 * Fill the prepared statement with the object value for the insert query.<br />
+	 * The values must be set in the order of their column declaration, and the id column should not
+	 * be set as it is an insert statement.
+	 * @param statement
+	 *        the statement to fill.
+	 * @param obj
+	 *        the object to use.
+	 * @throws SQLException
+	 *         if there was a problem while filling the statement.
+	 */
+	protected abstract void fillUpdateStatement (final PreparedStatement statement, final T obj)
+			throws SQLException;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.io.Closeable#close()
@@ -134,8 +152,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			find.close();
 			delete.close();
 			searchAll.close();
-			for (final PreparedStatement statement : searches.values()) {
-				statement.close();
+			for (final PreparedStatement search : searches.values()) {
+				search.close();
 			}
 			searches.clear();
 		} catch (final SQLException e) {
@@ -162,8 +180,9 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		try {
 			fillInsertStatement(create, obj);
 			create.executeUpdate();
-			// Retrieving the created member
+			// Retrieving the created object
 			try (final ResultSet resultSet = create.getGeneratedKeys()) {
+				create.clearParameters();
 				if (resultSet.next()) {
 					newEntity = find(resultSet.getInt(1));
 				} else {
@@ -171,7 +190,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 				}
 			}
 		} catch (final SQLException e) {
-			lg.warning("Exception while creating a member: " + e.getMessage());
+			lg.warning("Exception while creating a " + entityName + ": " + e.getMessage());
 			return null;
 		}
 		return newEntity;
@@ -191,6 +210,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		try {
 			find.setInt(1, id);
 			try (final ResultSet result = find.executeQuery()) {
+				find.clearParameters();
 				if (result.first()) {
 					entity = createEntityFromResult(result);
 				} else if (lg.isLoggable(Level.INFO)) {
@@ -204,7 +224,32 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		return entity;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.abstracts.DAO#update(org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	public boolean update (final T obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Updating the " + entityName + " with id = " + obj.getID());
+		}
+		
+		try {
+			fillUpdateStatement(update, obj);
+			update.executeUpdate();
+			update.clearParameters();
+		} catch (final SQLException e) {
+			lg.warning("Could not update " + entityName + ": " + e.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
+	/*
+	 * (non-Javadoc)
 	 * @see org.clubrockisen.dao.abstracts.DAO#delete(org.clubrockisen.entities.Entity)
 	 */
 	@Override
@@ -218,6 +263,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		try {
 			delete.setObject(1, obj.getID());
 			delete.execute();
+			delete.clearParameters();
 		} catch (final SQLException e) {
 			lg.warning("Could not delete " + entityName + ": " + e.getMessage());
 			return false;
@@ -272,13 +318,15 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		
 		final Set<T> entities = new HashSet<>();
 		try {
-			final PreparedStatement statement = searches.get(field);
+			final PreparedStatement search = searches.get(field);
 			if (field.getType().equals(String.class)) {
-				statement.setString(1, value + "%"); //FIXME remove, might not be always relevant
+				// FIXME remove, might not be always relevant
+				search.setString(1, value + "%");
 			} else {
-				statement.setString(1, value);
+				search.setString(1, value);
 			}
-			try (final ResultSet result = statement.executeQuery()) {
+			try (final ResultSet result = search.executeQuery()) {
+				search.clearParameters();
 				while (result.next()) {
 					entities.add(createEntityFromResult(result));
 				}

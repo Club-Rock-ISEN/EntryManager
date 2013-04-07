@@ -118,7 +118,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	 */
 	@Test
 	public void testUpdate () {
-		
+		fail("Not yet implemented"); // TODO
 	}
 	
 	/**

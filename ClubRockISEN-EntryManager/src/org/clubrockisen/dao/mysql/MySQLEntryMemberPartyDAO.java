@@ -4,13 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
@@ -89,32 +87,14 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean update (final EntryMemberParty obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Updating the entry with id = " + obj.getIdEntryMemberParty());
-		}
-		
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.update(obj) +
-					columns.get(EntryColumn.MEMBER_ID).getName() + " = '" + obj.getIdMember() + "', " +
-					columns.get(EntryColumn.PARTY_ID).getName() + " = '" + obj.getIdParty() + "'" +
-					QueryGenerator.whereID(obj);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query);
-		} catch (final NoIdException | SQLException e) {
-			lg.warning("Exception while updating an entry: " + e.getMessage());
-			return false;
-		}
-		return true;
+	protected void fillUpdateStatement (final PreparedStatement statement, final EntryMemberParty obj)
+			throws SQLException {
+		fillInsertStatement(statement, obj);
+		statement.setInt(EntryMemberParty.getColumns().size(), obj.getIdEntryMemberParty());
 	}
 	
 }

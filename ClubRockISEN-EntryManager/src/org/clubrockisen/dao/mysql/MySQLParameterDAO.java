@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
@@ -79,6 +77,22 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 		// Leave empty for parameter DAO
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
+	 */
+	@Override
+	protected void fillUpdateStatement (final PreparedStatement statement, final Parameter obj)
+			throws SQLException {
+		int index = 1;
+		statement.setString(index++, obj.getValue());
+		statement.setString(index++, obj.getType());
+		statement.setString(index++, obj.getComponentClass());
+		// For the parameter table, the id is the name
+		statement.setString(index++, obj.getName());
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * Not available for the {@link Parameter} entity, parameters should only be created using the
@@ -99,31 +113,6 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 	@Override
 	public Parameter find (final int id) {
 		return null;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(org.clubrockisen.entities.Entity)
-	 */
-	@Override
-	public boolean update (final Parameter obj) {
-		if (obj == null) {
-			return false;
-		}
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.update(obj) +
-					columns.get(ParameterColumn.VALUE).getName() + " = '" + obj.getValue() + "', " +
-					columns.get(ParameterColumn.TYPE).getName() + " = '" + obj.getType() + "', " +
-					columns.get(ParameterColumn.COMPONENT_CLASS).getName() + " = '" + obj.getComponentClass() + "'" +
-					QueryGenerator.whereID(obj);
-			lg.info(query);
-			statement.executeUpdate(query);
-		} catch (final SQLException | NoIdException e) {
-			lg.warning("Could not update parameter: " + e.getMessage());
-			return false;
-		}
-		return true;
 	}
 	
 	/**

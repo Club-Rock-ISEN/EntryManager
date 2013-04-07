@@ -4,14 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.dao.QueryGenerator;
 import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
@@ -89,7 +87,8 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	protected void fillInsertStatement (final PreparedStatement statement, final Member obj) throws SQLException {
+	protected void fillInsertStatement (final PreparedStatement statement, final Member obj)
+			throws SQLException {
 		int index = 1;
 		statement.setString(index++, obj.getName());
 		statement.setObject(index++, obj.getGender().getAbbreviation(), Types.CHAR);
@@ -101,36 +100,15 @@ public class MySQLMemberDAO extends MySQLDAO<Member> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.DAO#update(java.lang.Object)
+	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
+	 * org.clubrockisen.entities.Entity)
 	 */
 	@Override
-	public boolean update (final Member obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Updating the member with id = " + obj.getIdMember());
-		}
+	protected void fillUpdateStatement (final PreparedStatement statement, final Member obj)
+			throws SQLException {
+		fillInsertStatement(statement, obj);
+		statement.setInt(Member.getColumns().size(), obj.getIdMember());
 		
-		try (final Statement statement = getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY,
-				ResultSet.CONCUR_UPDATABLE)) {
-			final String query = QueryGenerator.update(obj) +
-					columns.get(MemberColumn.NAME).getName() + " = '" + QueryGenerator.escapeSpecialChars(obj.getName()) + "', " +
-					columns.get(MemberColumn.GENDER).getName() + " = '" + obj.getGender().getAbbreviation() + "', " +
-					columns.get(MemberColumn.ENTRIES).getName() + " = '" + obj.getEntries() + "', " +
-					columns.get(MemberColumn.NEXT_FREE).getName() + " = '" + obj.getNextFree() + "', " +
-					columns.get(MemberColumn.CREDIT).getName() + " = '" + obj.getCredit() + "', " +
-					columns.get(MemberColumn.STATUS).getName() + " = '" + obj.getStatus().getName() + "'" +
-					QueryGenerator.whereID(obj);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(query);
-			}
-			statement.executeUpdate(query);
-		} catch (final SQLException | NoIdException e) {
-			lg.warning("Could not update member: " + e.getMessage());
-			return false;
-		}
-		return true;
 	}
 	
 }
