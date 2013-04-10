@@ -26,6 +26,13 @@ public abstract class Entity implements Serializable {
 				lg.fine("Calling the #setColumn() method.");
 			}
 			setEntityColumns();
+			int nbIdColumns = 0;
+			for (final Column column : getEntityColumns().values()) {
+				if (column.isID()) {
+					++nbIdColumns;
+				}
+			}
+			assert nbIdColumns == 1;
 		}
 		
 	}
