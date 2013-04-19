@@ -1,5 +1,6 @@
 package org.clubrockisen;
 
+import java.awt.SplashScreen;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,10 +23,13 @@ public final class App {
 	/** Logger */
 	private static Logger					lg		= Logger.getLogger(App.class.getName());
 	
-	/** Access to the configuration */
-	private final Configuration				config;
 	/** Access to the key structure of the configuration */
 	private static final ConfigurationKeys	KEYS	= ConfigurationKeys.KEY;
+	
+	/** Access to the configuration */
+	private final Configuration				config;
+	/** The splash screen of the application */
+	private final SplashScreen				splashScreen;
 	
 	/**
 	 * Constructor #1.<br />
@@ -35,6 +39,14 @@ public final class App {
 	 */
 	private App (final String[] args) {
 		super();
+		
+		// Load splash screen
+		splashScreen = SplashScreen.getSplashScreen();
+		if (splashScreen != null) {
+			splashScreen.createGraphics();
+		} else {
+			lg.warning("Could not load splash screen");
+		}
 		
 		// Loading configuration file from arguments
 		if (args.length > 0) {
@@ -66,6 +78,10 @@ public final class App {
 			// Loading GUI
 			Utils.setLookAndFeel();
 			final MainWindowController mainWindow = new MainWindowController();
+			// Closing splash screen just before showing GUI
+			if (splashScreen != null) {
+				splashScreen.close();
+			}
 			mainWindow.show();
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Club Rock ISEN application running.");

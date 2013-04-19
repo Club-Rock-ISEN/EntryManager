@@ -107,6 +107,7 @@
 			    <attribute name="Specification-Title" value="${app.name}" />
 			    <attribute name="Specification-Version" value="${app.version}" />
 			    <attribute name="Specification-Vendor" value="${app.author}" />
+			    <attribute name="SplashScreen-Image" value="${app.splashscreen}" />
 			</manifest>
 		</jar>
 		<!-- And copying the launche -->
