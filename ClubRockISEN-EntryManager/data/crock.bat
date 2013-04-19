@@ -1,1 +1,1 @@
-java -Djava.util.logging.config.file=./conf/logging.properties -jar "Club Rock ISEN.jar"
+java -Djava.util.logging.config.file=./conf/logging.properties -jar "ClubRockISEN-EntryManager.jar"
