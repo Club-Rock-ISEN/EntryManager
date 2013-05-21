@@ -30,7 +30,7 @@ public abstract class ServiceFactory {
 	 */
 	public static void createFactory (final String factoryClass) {
 		try {
-			implementation = (ServiceFactory) Class.forName(factoryClass).newInstance();
+			implementation = Class.forName(factoryClass).asSubclass(ServiceFactory.class).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			lg.severe("Cannot instantiate service factory class (" + factoryClass + "). "
 					+ e.getClass() + ", details: " + e.getMessage());
