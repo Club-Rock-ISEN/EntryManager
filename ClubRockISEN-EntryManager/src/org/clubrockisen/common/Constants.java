@@ -42,9 +42,6 @@ public final class Constants {
 	/** Color used to highlight the an element in a list */
 	public static final Color	HIGHLIGHT_COLOR				= Color.PINK;
 	
-	/** The separator between hours and minutes */
-	public static final String	TIME_SEPARATOR				= ":";
-	
 	/** Character used for mnemonics in menu bar */
 	public static final char	MNEMONIC_MARK				= '#';
 	
@@ -111,9 +108,6 @@ public final class Constants {
 	// Miscellaneous constants
 	/** The file prefix used in URIs */
 	public static final String	FILE_URI_PREFIX				= "file:";
-	
-	/** Default prime number to use for hash code computation */
-	public static final int		PRIME_FOR_HASHCODE			= 31;
 	
 	/** The regex pattern that matches any non decimal character */
 	public static final String	NON_DECIMAL_CHARACTER		= "[^0-9]";
