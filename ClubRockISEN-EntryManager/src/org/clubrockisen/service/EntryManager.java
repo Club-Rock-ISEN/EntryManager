@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.Time;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.EntryMemberParty;
@@ -24,6 +23,8 @@ import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
+
+import com.alexrnl.commons.time.Time;
 
 /**
  * Implementation of the {@link IEntryManager} interface.<br />

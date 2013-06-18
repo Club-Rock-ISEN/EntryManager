@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.swing.text.html.HTML.Tag;
 
+import com.alexrnl.commons.time.Time;
+
 /**
  * Various constant being used in the application.<br />
  * The constant contained in this file are development constant, for constants defined at a user

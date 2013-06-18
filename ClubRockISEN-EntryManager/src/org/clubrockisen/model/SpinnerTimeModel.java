@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import javax.swing.AbstractSpinnerModel;
 
-import org.clubrockisen.common.Time;
+import com.alexrnl.commons.time.Time;
 
 /**
  * Model for a JSpinner on {@link Time}.<br />
