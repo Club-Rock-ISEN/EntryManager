@@ -4,10 +4,12 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Auto;
-import org.clubrockisen.common.Comparable;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a member of the association.
@@ -180,7 +182,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the idMember.
 	 * @return the idMember
 	 */
-	@Comparable
+	@Field
 	public Integer getIdMember () {
 		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
@@ -198,7 +200,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the name.
 	 * @return the name
 	 */
-	@Comparable
+	@Field
 	public String getName () {
 		return name == null ? "" : name;
 	}
@@ -216,7 +218,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the gender.
 	 * @return the gender
 	 */
-	@Comparable
+	@Field
 	public Gender getGender () {
 		return gender == null ? Gender.getDefault() : gender;
 	}
@@ -234,7 +236,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the entries.
 	 * @return the entries
 	 */
-	@Comparable
+	@Field
 	public Integer getEntries () {
 		return entries == null ? Integer.valueOf(0) : entries;
 	}
@@ -252,7 +254,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the attribute nextFree.
 	 * @return the attribute nextFree.
 	 */
-	@Comparable
+	@Field
 	public Integer getNextFree () {
 		return nextFree == null ? Integer.valueOf(-1) : nextFree;
 	}
@@ -269,7 +271,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the credit.
 	 * @return the credit
 	 */
-	@Comparable
+	@Field
 	public Double getCredit () {
 		return credit == null ? Double.valueOf(0.0) : credit;
 	}
@@ -287,7 +289,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the status.
 	 * @return the status
 	 */
-	@Comparable
+	@Field
 	public Status getStatus () {
 		return status == null ? Status.getDefault() : status;
 	}
@@ -316,7 +318,7 @@ public class Member extends Entity implements Cloneable {
 	 */
 	@Override
 	public int hashCode () {
-		return Auto.getInstance().hashCode(this);
+		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -328,7 +330,7 @@ public class Member extends Entity implements Cloneable {
 		if (!(obj instanceof Member)) {
 			return false;
 		}
-		return Auto.getInstance().compare(this, (Member) obj);
+		return AutoCompare.getInstance().compare(this, (Member) obj);
 	}
 	
 	/*

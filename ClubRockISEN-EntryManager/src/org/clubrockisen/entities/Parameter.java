@@ -4,8 +4,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Auto;
-import org.clubrockisen.common.Comparable;
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a parameter of the application.<br />
@@ -174,7 +175,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the name.
 	 * @return the name.
 	 */
-	@Comparable
+	@Field
 	public String getName () {
 		return name == null ? "" : name;
 	}
@@ -183,7 +184,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the value.
 	 * @return the value.
 	 */
-	@Comparable
+	@Field
 	public String getValue () {
 		return value == null ? "" : value;
 	}
@@ -201,7 +202,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the type.
 	 * @return the type.
 	 */
-	@Comparable
+	@Field
 	public String getType () {
 		return type == null ? "" : type;
 	}
@@ -219,7 +220,7 @@ public class Parameter extends Entity implements Cloneable {
 	 * Return the attribute component.
 	 * @return the attribute component.
 	 */
-	@Comparable
+	@Field
 	public String getComponentClass () {
 		return componentClass == null ? "" : componentClass;
 	}
@@ -238,7 +239,7 @@ public class Parameter extends Entity implements Cloneable {
 	 */
 	@Override
 	public int hashCode () {
-		return Auto.getInstance().hashCode(this);
+		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -250,7 +251,7 @@ public class Parameter extends Entity implements Cloneable {
 		if (!(obj instanceof Parameter)) {
 			return false;
 		}
-		return Auto.getInstance().compare(this, (Parameter) obj);
+		return AutoCompare.getInstance().compare(this, (Parameter) obj);
 	}
 	
 	/*

@@ -6,9 +6,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Auto;
-import org.clubrockisen.common.Comparable;
 import org.clubrockisen.common.Constants;
+
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a party.
@@ -226,7 +228,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the idParty.
 	 * @return the idParty.
 	 */
-	@Comparable
+	@Field
 	public Integer getIdParty () {
 		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
@@ -243,7 +245,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the date.
 	 * @return the date.
 	 */
-	@Comparable
+	@Field
 	public Long getDate () {
 		return date == null ? Long.valueOf(0) : date;
 	}
@@ -260,7 +262,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesTotal.
 	 * @return the entriesTotal.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesTotal () {
 		return entriesTotal == null ? Integer.valueOf(0) : entriesTotal;
 	}
@@ -277,7 +279,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesFirstPart.
 	 * @return the entriesFirstPart.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesFirstPart () {
 		return entriesFirstPart == null ? Integer.valueOf(0) : entriesFirstPart;
 	}
@@ -294,7 +296,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesSecondPart.
 	 * @return the entriesSecondPart.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesSecondPart () {
 		return entriesSecondPart == null ? Integer.valueOf(0) : entriesSecondPart;
 	}
@@ -311,7 +313,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesNewMembers.
 	 * @return the entriesNewMembers.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesNewMembers () {
 		return entriesNewMembers == null ? Integer.valueOf(0) : entriesNewMembers;
 	}
@@ -328,7 +330,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesFree.
 	 * @return the entriesFree.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesFree () {
 		return entriesFree == null ? Integer.valueOf(0) : entriesFree;
 	}
@@ -345,7 +347,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesMale.
 	 * @return the entriesMale.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesMale () {
 		return entriesMale == null ? Integer.valueOf(0) : entriesMale;
 	}
@@ -362,7 +364,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the entriesFemale.
 	 * @return the entriesFemale.
 	 */
-	@Comparable
+	@Field
 	public Integer getEntriesFemale () {
 		return entriesFemale == null ? Integer.valueOf(0) : entriesFemale;
 	}
@@ -379,7 +381,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the revenue.
 	 * @return the revenue.
 	 */
-	@Comparable
+	@Field
 	public Double getRevenue () {
 		return revenue == null ? Double.valueOf(0.0) : revenue;
 	}
@@ -396,7 +398,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the profit.
 	 * @return the profit.
 	 */
-	@Comparable
+	@Field
 	public Double getProfit () {
 		return profit == null ? Double.valueOf(0.0) : profit;
 	}
@@ -424,7 +426,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 */
 	@Override
 	public int hashCode () {
-		return Auto.getInstance().hashCode(this);
+		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -436,7 +438,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		if (!(obj instanceof Party)) {
 			return false;
 		}
-		return Auto.getInstance().compare(this, (Party) obj);
+		return AutoCompare.getInstance().compare(this, (Party) obj);
 	}
 	
 	/*

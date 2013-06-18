@@ -4,8 +4,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Auto;
-import org.clubrockisen.common.Comparable;
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a entry of a {@link Member} to a {@link Party}.
@@ -171,7 +172,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idEntryMemberParty.
 	 * @return the attribute idEntryMemberParty.
 	 */
-	@Comparable
+	@Field
 	public Integer getIdEntryMemberParty () {
 		return idEntryMemberParty == null ? Integer.valueOf(-1) : idEntryMemberParty;
 	}
@@ -189,7 +190,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idMember.
 	 * @return the attribute idMember.
 	 */
-	@Comparable
+	@Field
 	public Integer getIdMember () {
 		return idMember == null ? Integer.valueOf(-1) : idMember;
 	}
@@ -207,7 +208,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the attribute idParty.
 	 * @return the attribute idParty.
 	 */
-	@Comparable
+	@Field
 	public Integer getIdParty () {
 		return idParty == null ? Integer.valueOf(-1) : idParty;
 	}
@@ -227,7 +228,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 */
 	@Override
 	public int hashCode () {
-		return Auto.getInstance().hashCode(this);
+		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -239,7 +240,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 		if (!(obj instanceof EntryMemberParty)) {
 			return false;
 		}
-		return Auto.getInstance().compare(this, (EntryMemberParty) obj);
+		return AutoCompare.getInstance().compare(this, (EntryMemberParty) obj);
 	}
 	
 	/*

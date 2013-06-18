@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Auto;
-import org.clubrockisen.common.Comparable;
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a column in a entity.<br />
@@ -70,7 +71,7 @@ public class Column implements Serializable {
 	 * Return the type.
 	 * @return the type
 	 */
-	@Comparable
+	@Field
 	public Class<?> getType () {
 		return type;
 	}
@@ -88,7 +89,7 @@ public class Column implements Serializable {
 	 * Return the name.
 	 * @return the name.
 	 */
-	@Comparable
+	@Field
 	public String getName () {
 		return name;
 	}
@@ -106,7 +107,7 @@ public class Column implements Serializable {
 	 * Return the isID.
 	 * @return <code>true</code> if the column is an index of the table.
 	 */
-	@Comparable
+	@Field
 	public boolean isID () {
 		return isID;
 	}
@@ -134,7 +135,7 @@ public class Column implements Serializable {
 	 */
 	@Override
 	public int hashCode () {
-		return Auto.getInstance().hashCode(this);
+		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
 	/*
@@ -146,7 +147,7 @@ public class Column implements Serializable {
 		if (!(obj instanceof Column)) {
 			return false;
 		}
-		return Auto.getInstance().compare(this, (Column) obj);
+		return AutoCompare.getInstance().compare(this, (Column) obj);
 	}
 	
 }
