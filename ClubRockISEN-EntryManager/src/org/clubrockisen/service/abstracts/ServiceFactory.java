@@ -2,7 +2,10 @@ package org.clubrockisen.service.abstracts;
 
 import java.util.logging.Logger;
 
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.ServiceInstantiationError;
+
+import com.alexrnl.commons.utils.Configuration;
 
 /**
  * Factory for the services of the application.<br />
@@ -14,6 +17,8 @@ public abstract class ServiceFactory {
 	
 	/** Implementation of the factory to be used */
 	private static ServiceFactory	implementation;
+	/** The translation file to use */
+	private static String			translationFile;
 	
 	/**
 	 * Return the implementation of the factory to be used.
@@ -25,17 +30,27 @@ public abstract class ServiceFactory {
 	
 	/**
 	 * Static method used to load the implementation to use in the application.
-	 * @param factoryClass
-	 *        the class of the factory to use.
+	 * @param config
+	 *        the configuration of the program.
 	 */
-	public static void createFactory (final String factoryClass) {
+	public static void createFactory (final Configuration config) {
+		final String serviceFactory = config.get(ConfigurationKeys.KEY.serviceFactory());
+		translationFile = config.get(ConfigurationKeys.KEY.translationFile());
 		try {
-			implementation = Class.forName(factoryClass).asSubclass(ServiceFactory.class).newInstance();
+			implementation = Class.forName(serviceFactory).asSubclass(ServiceFactory.class).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			lg.severe("Cannot instantiate service factory class (" + factoryClass + "). "
+			lg.severe("Cannot instantiate service factory class (" + config + "). "
 					+ e.getClass() + ", details: " + e.getMessage());
-			throw new ServiceInstantiationError(factoryClass, e);
+			throw new ServiceInstantiationError(serviceFactory, e);
 		}
+	}
+	
+	/**
+	 * Get the translation file set during the creation of the implementation.
+	 * @return the translation file to use.
+	 */
+	protected String getTranslationFile () {
+		return translationFile;
 	}
 	
 	/**

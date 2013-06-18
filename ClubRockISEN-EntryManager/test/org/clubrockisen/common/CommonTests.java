@@ -10,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ConfigurationTest.class, ErrorTest.class })
+@SuiteClasses({ ErrorTest.class })
 public class CommonTests {
 }

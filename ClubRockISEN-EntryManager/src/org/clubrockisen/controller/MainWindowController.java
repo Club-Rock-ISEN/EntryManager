@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.SortedSet;
@@ -15,8 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
-import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
@@ -74,20 +71,22 @@ public class MainWindowController extends AbstractController implements MemberCo
 	private final ParametersPanelController	parametersPanel;
 	
 	// Reference to required services
-	/** The configuration */
-	private final Configuration				configuration	= Configuration.getInstance();
-	/** The configuration keys */
-	private final ConfigurationKeys			keys			= ConfigurationKeys.KEY;
 	/** The file importer */
 	private final IFileManager				fileManager		= ServiceFactory.getImplementation().getFileManager();
 	/** The entry manager */
 	private final IEntryManager				entryManager	= ServiceFactory.getImplementation().getEntryManager();
 	
+	/** The help file to show when for help */
+	private final Path							helpFile;
+	
 	/**
 	 * Constructor #1.<br />
+	 * @param helpFile
+	 *        the file to show when the user requires some help.
 	 */
-	public MainWindowController () {
+	public MainWindowController (final Path helpFile) {
 		super();
+		this.helpFile = helpFile;
 		// Other panels
 		memberUpdatePanel = new MemberPanelController();
 		parametersPanel = new ParametersPanelController();
@@ -453,7 +452,6 @@ public class MainWindowController extends AbstractController implements MemberCo
 	public boolean showHelp () {
 		if (Desktop.isDesktopSupported()) {
 			try {
-				final Path helpFile = Paths.get(configuration.get(keys.helpFile()));
 				Desktop.getDesktop().browse(helpFile.toUri());
 			} catch (final IOException e) {
 				lg.warning("Could not display help (" + e.getClass() + "; " + e.getMessage() + ")");

@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.SQLConfigurationError;
 
 /**
@@ -17,11 +15,6 @@ import org.clubrockisen.common.error.SQLConfigurationError;
 public final class Utils {
 	/** Logger */
 	private static Logger					lg	= Logger.getLogger(Utils.class.getName());
-	
-	/** Access to the configuration */
-	private static final Configuration		CONFIG	= Configuration.getInstance();
-	/** Access to the key structure of the configuration */
-	private static final ConfigurationKeys	KEYS	= ConfigurationKeys.KEY;
 	
 	/**
 	 * Constructor #1.<br />
@@ -85,23 +78,14 @@ public final class Utils {
 	}
 	
 	/**
-	 * Returns the connection information in the configuration file.
-	 * @return the connection information.
-	 */
-	public static DBConnectionInfo getConnectionInfo () {
-		return new DBConnectionInfo(CONFIG.get(KEYS.db().url()),
-				CONFIG.get(KEYS.db().username()),
-				CONFIG.get(KEYS.db().password()));
-	}
-	
-	/**
-	 * Return the connection to the database with the information in the configuration file.
+	 * Return the connection to the database with the information specified.
+	 * @param dbInfos
+	 *        the informations to use to connect to the database.
 	 * @return the connection to the database.
 	 */
-	public static Connection getConnection () {
+	public static Connection getConnection (final DBConnectionInfo dbInfos) {
 		final Connection connection;
 		try {
-			final DBConnectionInfo dbInfos = Utils.getConnectionInfo();
 			connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword());
 			if (connection.isValid(0)) {
 				connection.setAutoCommit(true);

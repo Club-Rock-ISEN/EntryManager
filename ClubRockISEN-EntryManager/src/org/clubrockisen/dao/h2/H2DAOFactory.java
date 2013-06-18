@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.NoIdException;
@@ -38,10 +36,6 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	/** Logger */
 	private static Logger				lg	= Logger.getLogger(H2DAOFactory.class.getName());
 	
-	/** Access to the configuration */
-	private final Configuration			config	= Configuration.getInstance();
-	/** Access to the key structure of the configuration */
-	private final ConfigurationKeys		keys	= ConfigurationKeys.KEY;
 	/** The connection to the database */
 	private final Connection			connection;
 	/** The member DAO */
@@ -59,7 +53,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	public H2DAOFactory () {
 		super();
 		
-		final DBConnectionInfo dbInfos = Utils.getConnectionInfo();
+		final DBConnectionInfo dbInfos = getDBConnectionInfo();
 		Path dbFile = getDBFile(dbInfos, true);
 		if (!Files.exists(dbFile)) {
 			try {
@@ -68,7 +62,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 					lg.info("URL connection: " + (org.h2.engine.Constants.START_URL + dbFile));
 				}
 				RunScript.execute(org.h2.engine.Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
-						config.get(keys.db().creationFile()), null, true);
+						getCreationFile(), null, true);
 			} catch (final SQLException e) {
 				lg.warning("Error while initilization of H2 database (" + e.getClass() + "; " +
 						e.getMessage() + ")");
@@ -77,7 +71,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 			
 		}
 		
-		connection = Utils.getConnection();
+		connection = Utils.getConnection(dbInfos);
 		// Instantiating all DAOs once to avoid multiple DAOs
 		try {
 			memberDao = new MySQLMemberDAO(connection);
@@ -88,7 +82,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 			throw new SQLConfigurationError("Error while initializing H2 DAOs.", e);
 		}
 	}
-	
+
 	/**
 	 * Check if the database file exists.
 	 * @param dbInfos

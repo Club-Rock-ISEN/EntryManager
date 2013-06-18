@@ -1,5 +1,6 @@
 package org.clubrockisen.service;
 
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 			lg.info("Initialize services.");
 		}
 		parameterManager = new ParametersManager(AbstractDAOFactory.getImplementation());
-		translator = Translator.getInstance();
+		translator = new Translator(Paths.get(getTranslationFile()));
 		entryManager = new EntryManager(AbstractDAOFactory.getImplementation());
 		fileManager = new FileManager(AbstractDAOFactory.getImplementation().getMemberDAO());
 	}

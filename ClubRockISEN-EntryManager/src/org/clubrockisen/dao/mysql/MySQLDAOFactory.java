@@ -43,7 +43,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	public MySQLDAOFactory () {
 		super();
 		
-		connection = Utils.getConnection();
+		connection = Utils.getConnection(getDBConnectionInfo());
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Creating DAOs");
 		}

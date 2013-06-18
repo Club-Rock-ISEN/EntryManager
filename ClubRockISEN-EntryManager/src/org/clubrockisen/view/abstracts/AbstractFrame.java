@@ -1,8 +1,9 @@
 package org.clubrockisen.view.abstracts;
 
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,8 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
@@ -32,19 +31,8 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	
 	/** Icon for frames */
 	private static Image							icon = null;
-	/** Load icon */
-	static {
-		try {
-			icon = ImageIO.read(new File(Configuration.getInstance().get(ConfigurationKeys.KEY.iconFile())));
-		} catch (final IOException e) {
-			lg.warning("Could not load icon, frame will be iconless (" + e.getClass() + "; " +
-					e.getMessage() + ")");
-		}
-	}
 	
 	// Services
-	/** Configuration */
-	private final transient Configuration			configuration		= Configuration.getInstance();
 	/** Parameters manager */
 	private final transient IParametersManager		paramManager		= ServiceFactory.getImplementation().getParameterManager();
 	/** Translator */
@@ -55,6 +43,21 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	private boolean									ready;
 	/** Reference to this */
 	private final AbstractFrame						frame;
+	
+	/**
+	 * Load the icon from the specified file.<br />
+	 * It will be used for all future
+	 * @param iconFile
+	 *        the path to the icon file.
+	 */
+	public static void loadIcon (final Path iconFile) {
+		try {
+			icon = ImageIO.read(Files.newInputStream(iconFile));
+		} catch (final IOException e) {
+			lg.warning("Could not load icon, frame will be iconless (" + e.getClass() + "; " +
+					e.getMessage() + ")");
+		}
+	}
 	
 	/**
 	 * Constructor #1.<br />
@@ -138,14 +141,6 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 				frame.notifyAll();
 			}
 		}
-	}
-	
-	/**
-	 * Return the configuration of the application.
-	 * @return the configuration.
-	 */
-	public Configuration getConfig () {
-		return configuration;
 	}
 	
 	/**

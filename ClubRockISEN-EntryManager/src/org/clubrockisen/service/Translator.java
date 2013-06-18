@@ -1,14 +1,13 @@
 package org.clubrockisen.service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Configuration;
-import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.entities.Column;
@@ -17,7 +16,7 @@ import org.clubrockisen.service.abstracts.ITranslator;
 
 /**
  * Implementation of the translator.<br />
- * Singleton which provide utilities method to translate key to the local set in the configuration
+ * Class which provide utilities method to translate key to the locale set in the configuration
  * file.
  * @author Alex
  */
@@ -25,27 +24,18 @@ public final class Translator implements ITranslator {
 	/** Logger */
 	private static Logger					lg			= Logger.getLogger(Translator.class.getName());
 	
-	// Configuration
-	/** Access to the configuration */
-	private final Configuration				config		= Configuration.getInstance();
-	/** Access to the key structure of the configuration */
-	private static final ConfigurationKeys	KEYS		= ConfigurationKeys.KEY;
-	
-	// Translations
-	/** Unique instance of the class */
-	private static final Translator			singleton	= new Translator();
 	/** The map between the keys and their translation */
 	private final Properties				translations;
 	
 	/**
 	 * Constructor #1.<br />
-	 * Private constructor which load the translation file.
+	 * @param translationFile
+	 *        the translation file to load.
 	 */
-	private Translator () {
-		final String translationFile = config.get(KEYS.translationFile());
+	public Translator (final Path translationFile) {
 		translations = new Properties();
 		try {
-			translations.loadFromXML(new FileInputStream(translationFile));
+			translations.loadFromXML(Files.newInputStream(translationFile));
 		} catch (final IOException e) {
 			lg.severe("Could not load translation file: " + translationFile + " (" + e.getMessage()
 					+ ")");
@@ -57,14 +47,6 @@ public final class Translator implements ITranslator {
 			lg.info("Language locale file " + translationFile + " successfully loaded ("
 					+ translations.size() + " keys loaded)");
 		}
-	}
-	
-	/**
-	 * Return the translator.
-	 * @return the unique instance of the class.
-	 */
-	public static Translator getInstance () {
-		return singleton;
 	}
 	
 	/*

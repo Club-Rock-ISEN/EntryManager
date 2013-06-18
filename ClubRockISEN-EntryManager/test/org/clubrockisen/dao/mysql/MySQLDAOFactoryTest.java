@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
-import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -15,30 +15,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alexrnl.commons.database.DAOInstantiationError;
+import com.alexrnl.commons.utils.Configuration;
 
 /**
  * Test suite for the {@link MySQLDAOFactory} class.
  * @author Alex
  */
 public class MySQLDAOFactoryTest {
+	/** The configuration to use */
+	private Configuration		config;
 	/** The factory */
 	private AbstractDAOFactory	factory;
-	/** A dummy class name which is not a factory */
-	private String dummyClass;
-	/** A fake class name which is not a class */
-	private String fakeClass;
 	
 	/**
 	 * Set up the attribute required by the tests.
 	 */
 	@Before
 	public void setUp () {
-		Configuration.setFile(ConfigurationKeys.FILE);
-		AbstractDAOFactory.createFactory(MySQLDAOFactory.class.getName());
+		config = new Configuration(Paths.get(ConfigurationKeys.FILE));
+		AbstractDAOFactory.createFactory(config);
 		factory = AbstractDAOFactory.getImplementation();
-		dummyClass = String.class.getName();
-		fakeClass = "a";
 	}
 	
 	/**
@@ -51,7 +47,6 @@ public class MySQLDAOFactoryTest {
 		} catch (final IOException e) {
 			fail(e.getMessage());
 		}
-		Configuration.setFile(ConfigurationKeys.FILE);
 	}
 	
 	/**
@@ -100,30 +95,13 @@ public class MySQLDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.abstracts.AbstractDAOFactory#createFactory(java.lang.String)}.
-	 */
-	@Test(expected=DAOInstantiationError.class)
-	public void testCreateFactoryNotDAO () {
-		AbstractDAOFactory.createFactory(dummyClass);
-	}
-	
-	/**
-	 * Test method for {@link org.clubrockisen.dao.abstracts.AbstractDAOFactory#createFactory(java.lang.String)}.
-	 */
-	@Test(expected=DAOInstantiationError.class)
-	public void testCreateFactoryNotClass () {
-		AbstractDAOFactory.createFactory(fakeClass);
-	}
-	
-	/**
 	 * Test the behavior with a bad configuration file.
 	 * @throws SQLException
 	 *         expected to happen.
 	 */
 	@Test(expected = SQLConfigurationError.class)
 	public void testConnectionFailed () throws SQLException {
-		Configuration.setFile("test/wrongConf.xml");
-		AbstractDAOFactory.createFactory(MySQLDAOFactory.class.getName());
+		AbstractDAOFactory.createFactory(new Configuration(Paths.get("test/wrongConf.xml")));
 		factory = AbstractDAOFactory.getImplementation();
 	}
 }

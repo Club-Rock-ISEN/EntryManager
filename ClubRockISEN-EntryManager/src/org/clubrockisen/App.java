@@ -1,20 +1,23 @@
 package org.clubrockisen;
 
+import static org.clubrockisen.common.ConfigurationKeys.KEY;
+
 import java.awt.SplashScreen;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
+import org.clubrockisen.view.abstracts.AbstractFrame;
 
 import com.alexrnl.commons.error.TopLevelError;
+import com.alexrnl.commons.utils.Configuration;
 
 /**
  * Launcher for the Club Rock ISEN application.
@@ -23,9 +26,6 @@ import com.alexrnl.commons.error.TopLevelError;
 public final class App {
 	/** Logger */
 	private static Logger					lg		= Logger.getLogger(App.class.getName());
-	
-	/** Access to the key structure of the configuration */
-	private static final ConfigurationKeys	KEYS	= ConfigurationKeys.KEY;
 	
 	/** Access to the configuration */
 	private final Configuration				config;
@@ -49,16 +49,8 @@ public final class App {
 			lg.warning("Could not load splash screen");
 		}
 		
-		// Loading configuration file from arguments
-		if (args.length > 0) {
-			Configuration.setFile(args[0]);
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Loading configuration file from program command line " + args[0]);
-			}
-		}
-		// Pre-loading configuration and translator.
-		config = Configuration.getInstance();
-		Translator.getInstance();
+		// Load configuration
+		config = new Configuration(Paths.get(args.length > 0 ? args[0] : ConfigurationKeys.FILE));
 	}
 	
 	/**
@@ -73,12 +65,13 @@ public final class App {
 		
 		try {
 			// Loading DAO factory and services
-			AbstractDAOFactory.createFactory(config.get(KEYS.daoFactory()));
-			ServiceFactory.createFactory(config.get(KEYS.serviceFactory()));
+			AbstractDAOFactory.createFactory(config);
+			ServiceFactory.createFactory(config);
 			
 			// Loading GUI
+			AbstractFrame.loadIcon(Paths.get(config.get(KEY.iconFile())));
 			Utils.setLookAndFeel();
-			final MainWindowController mainWindow = new MainWindowController();
+			final MainWindowController mainWindow = new MainWindowController(Paths.get(config.get(KEY.helpFile())));
 			// Closing splash screen just before showing GUI
 			if (splashScreen != null) {
 				splashScreen.close();
