@@ -1,5 +1,7 @@
 package org.clubrockisen.common.error;
 
+import com.alexrnl.commons.error.TopLevelError;
+
 /**
  * Exception indicating a problem with the configuration of the database.<br />
  * Probable cause, wrong URL, login or password.

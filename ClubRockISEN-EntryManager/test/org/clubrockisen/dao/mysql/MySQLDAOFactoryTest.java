@@ -9,12 +9,13 @@ import java.sql.SQLException;
 
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKeys;
-import org.clubrockisen.common.error.DAOInstantiationError;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.alexrnl.commons.database.DAOInstantiationError;
 
 /**
  * Test suite for the {@link MySQLDAOFactory} class.

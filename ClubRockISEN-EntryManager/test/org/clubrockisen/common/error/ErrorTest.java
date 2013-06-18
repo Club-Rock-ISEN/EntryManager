@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ DAOInstantiationErrorTest.class, ServiceInstantiationErrorTest.class, SQLConfigurationErrorTest.class })
+@SuiteClasses({ ServiceInstantiationErrorTest.class, SQLConfigurationErrorTest.class })
 public class ErrorTest {
 }

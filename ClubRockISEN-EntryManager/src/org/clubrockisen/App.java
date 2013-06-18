@@ -8,12 +8,13 @@ import javax.swing.JOptionPane;
 
 import org.clubrockisen.common.Configuration;
 import org.clubrockisen.common.ConfigurationKeys;
-import org.clubrockisen.common.error.TopLevelError;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
+
+import com.alexrnl.commons.error.TopLevelError;
 
 /**
  * Launcher for the Club Rock ISEN application.

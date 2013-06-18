@@ -1,5 +1,7 @@
 package org.clubrockisen.common.error;
 
+import com.alexrnl.commons.error.TopLevelError;
+
 /**
  * Error when using a service factory which is not yet implemented.
  * @author Alex
