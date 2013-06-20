@@ -1,6 +1,6 @@
 package org.clubrockisen.service.abstracts;
 
-import org.clubrockisen.entities.Property;
+import com.alexrnl.commons.database.EntityColumn;
 
 
 /**
@@ -10,7 +10,7 @@ import org.clubrockisen.entities.Property;
  * @author Alex
  * @param <T> The property this converter may convert.
  */
-public class Converter<T extends Property> {
+public class Converter<T extends EntityColumn> {
 	/** The field */
 	private final T	field;
 	

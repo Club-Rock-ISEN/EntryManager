@@ -41,7 +41,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member name to " + newName + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.NAME.getPropertyName(), newName);
+		controller.setModelProperty(MemberColumn.NAME.getFieldName(), newName);
 	}
 	
 	/*
@@ -53,7 +53,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member gender to " + newGender + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.GENDER.getPropertyName(), newGender);
+		controller.setModelProperty(MemberColumn.GENDER.getFieldName(), newGender);
 	}
 	
 	/*
@@ -65,7 +65,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member entries to " + newEntries + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.ENTRIES.getPropertyName(), newEntries);
+		controller.setModelProperty(MemberColumn.ENTRIES.getFieldName(), newEntries);
 	}
 	
 	/*
@@ -77,7 +77,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member next free entry to " + newNextFree + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.NEXT_FREE.getPropertyName(), newNextFree);
+		controller.setModelProperty(MemberColumn.NEXT_FREE.getFieldName(), newNextFree);
 	}
 	
 	/*
@@ -89,7 +89,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member credit to " + newCredit + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.CREDIT.getPropertyName(), newCredit);
+		controller.setModelProperty(MemberColumn.CREDIT.getFieldName(), newCredit);
 	}
 	
 	/*
@@ -101,7 +101,7 @@ public class MemberControllerImpl implements MemberController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing member status to " + newStatus + " in controller");
 		}
-		controller.setModelProperty(MemberColumn.STATUS.getPropertyName(), newStatus);
+		controller.setModelProperty(MemberColumn.STATUS.getFieldName(), newStatus);
 	}
 	
 	/*

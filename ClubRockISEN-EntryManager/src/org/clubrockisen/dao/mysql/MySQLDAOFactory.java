@@ -7,14 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.error.SQLConfigurationError;
-import org.clubrockisen.dao.NoIdException;
 import org.clubrockisen.dao.Utils;
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
+
+import com.alexrnl.commons.database.DAO;
 
 /**
  * The factory for the MySQL DAO classes.<br />
@@ -22,9 +22,9 @@ import org.clubrockisen.entities.Party;
  * needed. However, if the factory is load several times, several DAOs will be created.
  * @author Alex
  */
-public class MySQLDAOFactory extends AbstractDAOFactory {
+public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
 	/** Logger */
-	private static Logger				lg		= Logger.getLogger(AbstractDAOFactory.class.getName());
+	private static Logger				lg		= Logger.getLogger(EntryManagerAbstractDAOFactory.class.getName());
 	
 	/** The connection to the database */
 	private final Connection			connection;
@@ -43,7 +43,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	public MySQLDAOFactory () {
 		super();
 		
-		connection = Utils.getConnection(getDBConnectionInfo());
+		connection = Utils.getConnection(getDataSourceConfiguration());
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Creating DAOs");
 		}
@@ -54,7 +54,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 			parameterDao = new MySQLParameterDAO(connection);
 			partyDao = new MySQLPartyDAO(connection);
 			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
-		} catch (SQLException | NoIdException e) {
+		} catch (final SQLException e) {
 			throw new SQLConfigurationError("Error while initializing MySQL DAOs.", e);
 		}
 	}
@@ -65,10 +65,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 	 */
 	@Override
 	public void close () throws IOException {
-		memberDao.close();
-		parameterDao.close();
-		partyDao.close();
-		entryMemberPartyDao.close();
+		super.close();
 		Utils.close(connection);
 	}
 	

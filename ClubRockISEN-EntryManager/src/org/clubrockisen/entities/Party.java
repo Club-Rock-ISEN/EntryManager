@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
 
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.Entity;
+import com.alexrnl.commons.database.EntityColumn;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -68,7 +71,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum PartyColumn implements Property {
+	public enum PartyColumn implements EntityColumn {
 		/** The party's id */
 		ID ("IdParty"),
 		/** The party's date */
@@ -106,7 +109,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		}
 		
 		@Override
-		public String getPropertyName () {
+		public String getFieldName () {
 			return propertyName;
 		}
 	}
@@ -141,7 +144,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
 	 */
 	@Override
-	public Map<? extends Enum<?>, Column> getEntityColumns () {
+	public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
 		return columns;
 	}
 	
@@ -149,7 +152,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 * Return the list of the columns of the table party.
 	 * @return the columns.
 	 */
-	public static Map<? extends Enum<?>, Column> getColumns () {
+	public static Map<? extends Enum<? extends EntityColumn>, Column> getColumns () {
 		return columns;
 	}
 	
@@ -447,7 +450,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	 */
 	@Override
 	public Party clone () throws CloneNotSupportedException {
-		final Party clone = (Party) super.clone();
+		final Party clone = new Party();
 		clone.idParty = idParty;
 		clone.date = date;
 		clone.entriesTotal = entriesTotal;

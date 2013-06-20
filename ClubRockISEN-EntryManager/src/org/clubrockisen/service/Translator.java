@@ -10,9 +10,10 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
-import org.clubrockisen.entities.Column;
-import org.clubrockisen.entities.Entity;
 import org.clubrockisen.service.abstracts.ITranslator;
+
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.Entity;
 
 /**
  * Implementation of the translator.<br />

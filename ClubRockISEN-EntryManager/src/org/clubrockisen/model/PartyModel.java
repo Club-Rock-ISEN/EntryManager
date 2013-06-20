@@ -3,11 +3,11 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 
+import com.alexrnl.commons.database.DAO;
 import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
@@ -34,7 +34,7 @@ public class PartyModel extends AbstractModel {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
 		this.party = new Party();
-		this.daoParty = AbstractDAOFactory.getImplementation().getPartyDAO();
+		this.daoParty = EntryManagerAbstractDAOFactory.getImplementation().getPartyDAO();
 		this.newFlag = true;
 	}
 	
@@ -127,7 +127,7 @@ public class PartyModel extends AbstractModel {
 	public void setDate (final Long date) {
 		final Long oldDate = getDate();
 		party.setDate(date);
-		fireModelChange(PartyColumn.DATE.getPropertyName(), oldDate, date);
+		fireModelChange(PartyColumn.DATE.getFieldName(), oldDate, date);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesTotal (final Integer entriesTotal) {
 		final Integer oldEntriesTotal = getEntriesTotal();
 		party.setEntriesTotal(entriesTotal);
-		fireModelChange(PartyColumn.ENTRIES_TOTAL.getPropertyName(), oldEntriesTotal, entriesTotal);
+		fireModelChange(PartyColumn.ENTRIES_TOTAL.getFieldName(), oldEntriesTotal, entriesTotal);
 	}
 	
 	/**
@@ -163,7 +163,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesFirstPart (final Integer entriesFirstPart) {
 		final Integer oldEntriesFirstPart = getEntriesFirstPart();
 		party.setEntriesFirstPart(entriesFirstPart);
-		fireModelChange(PartyColumn.ENTRIES_FIRST_PART.getPropertyName(), oldEntriesFirstPart, entriesFirstPart);
+		fireModelChange(PartyColumn.ENTRIES_FIRST_PART.getFieldName(), oldEntriesFirstPart, entriesFirstPart);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesSecondPart (final Integer entriesSecondPart) {
 		final Integer oldEntriesSecondPart = getEntriesSecondPart();
 		party.setEntriesSecondPart(entriesSecondPart);
-		fireModelChange(PartyColumn.ENTRIES_SECOND_PART.getPropertyName(), oldEntriesSecondPart, entriesSecondPart);
+		fireModelChange(PartyColumn.ENTRIES_SECOND_PART.getFieldName(), oldEntriesSecondPart, entriesSecondPart);
 	}
 	
 	/**
@@ -199,7 +199,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesNewMembers (final Integer entriesNewMembers) {
 		final Integer oldEntriesNewMembers = getEntriesNewMembers();
 		party.setEntriesNewMembers(entriesNewMembers);
-		fireModelChange(PartyColumn.ENTRIES_NEW_MEMBER.getPropertyName(), oldEntriesNewMembers, entriesNewMembers);
+		fireModelChange(PartyColumn.ENTRIES_NEW_MEMBER.getFieldName(), oldEntriesNewMembers, entriesNewMembers);
 	}
 	
 	/**
@@ -217,7 +217,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesFree (final Integer entriesFree) {
 		final Integer oldEntriesFree = getEntriesFree();
 		party.setEntriesFree(entriesFree);
-		fireModelChange(PartyColumn.ENTRIES_FREE.getPropertyName(), oldEntriesFree, entriesFree);
+		fireModelChange(PartyColumn.ENTRIES_FREE.getFieldName(), oldEntriesFree, entriesFree);
 	}
 	
 	/**
@@ -235,7 +235,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesMale (final Integer entriesMale) {
 		final Integer oldEntriesMale = getEntriesMale();
 		party.setEntriesMale(entriesMale);
-		fireModelChange(PartyColumn.ENTRIES_MALE.getPropertyName(), oldEntriesMale, entriesMale);
+		fireModelChange(PartyColumn.ENTRIES_MALE.getFieldName(), oldEntriesMale, entriesMale);
 	}
 	
 	/**
@@ -253,7 +253,7 @@ public class PartyModel extends AbstractModel {
 	public void setEntriesFemale (final Integer entriesFemale) {
 		final Integer oldEntriesFemale = getEntriesFemale();
 		party.setEntriesFemale(entriesFemale);
-		fireModelChange(PartyColumn.ENTRIES_FEMALE.getPropertyName(), oldEntriesFemale, entriesFemale);
+		fireModelChange(PartyColumn.ENTRIES_FEMALE.getFieldName(), oldEntriesFemale, entriesFemale);
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class PartyModel extends AbstractModel {
 	public void setRevenue (final Double revenue) {
 		final Double oldRevenue = getRevenue();
 		party.setRevenue(revenue);
-		fireModelChange(PartyColumn.REVENUE.getPropertyName(), oldRevenue, revenue);
+		fireModelChange(PartyColumn.REVENUE.getFieldName(), oldRevenue, revenue);
 	}
 	
 	/**
@@ -289,6 +289,6 @@ public class PartyModel extends AbstractModel {
 	public void setProfit (final Double profit) {
 		final Double oldProfit = getProfit();
 		party.setProfit(profit);
-		fireModelChange(PartyColumn.PROFIT.getPropertyName(), oldProfit, profit);
+		fireModelChange(PartyColumn.PROFIT.getFieldName(), oldProfit, profit);
 	}
 }

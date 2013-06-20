@@ -8,17 +8,18 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
+
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.sql.SQLDAO;
 
 /**
  * Class used to manipulate the parties in the database.<br />
  * The class should be the only access point to the {@link Party} table in the database.
  * @author Alex
  */
-public class MySQLPartyDAO extends MySQLDAO<Party> {
+public class MySQLPartyDAO extends SQLDAO<Party> {
 	/** Logger */
 	private static Logger							lg	= Logger.getLogger(MySQLPartyDAO.class.getName());
 	
@@ -33,10 +34,8 @@ public class MySQLPartyDAO extends MySQLDAO<Party> {
 	 *        the connection to the database.
 	 * @throws SQLException
 	 *         The prepared statements could not be created.
-	 * @throws NoIdException
-	 *         The {@link Party} has no ID column.
 	 */
-	public MySQLPartyDAO (final Connection connection) throws SQLException, NoIdException {
+	public MySQLPartyDAO (final Connection connection) throws SQLException {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("New " + this.getClass().getCanonicalName());

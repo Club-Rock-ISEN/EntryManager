@@ -49,7 +49,7 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	 */
 	@Override
 	public void changeValue (final String newValue) {
-		setModelProperty(ParameterColumn.VALUE.getPropertyName(), newValue);
+		setModelProperty(ParameterColumn.VALUE.getFieldName(), newValue);
 	}
 	
 	/*
@@ -58,7 +58,7 @@ public class ParameterControllerImpl extends AbstractController implements Param
 	 */
 	@Override
 	public void changeType (final String newType) {
-		setModelProperty(ParameterColumn.TYPE.getPropertyName(), newType);
+		setModelProperty(ParameterColumn.TYPE.getFieldName(), newType);
 	}
 	
 	/*

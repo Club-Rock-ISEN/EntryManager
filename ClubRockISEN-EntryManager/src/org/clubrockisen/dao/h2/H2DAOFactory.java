@@ -11,11 +11,8 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
-import org.clubrockisen.dao.NoIdException;
 import org.clubrockisen.dao.Utils;
-import org.clubrockisen.dao.Utils.DBConnectionInfo;
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO;
 import org.clubrockisen.dao.mysql.MySQLMemberDAO;
 import org.clubrockisen.dao.mysql.MySQLParameterDAO;
@@ -26,13 +23,16 @@ import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 import org.h2.tools.RunScript;
 
+import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.DataSourceConfiguration;
+
 /**
  * The factory for the H2 DAO classes.<br />
  * A factory is only handling one DAO of each type and thus will not instantiate more DAOs than
  * needed. However, if the factory is load several times, several DAOs will be created.
  * @author Alex
  */
-public class H2DAOFactory extends AbstractDAOFactory {
+public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 	/** Logger */
 	private static Logger				lg	= Logger.getLogger(H2DAOFactory.class.getName());
 	
@@ -53,7 +53,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	public H2DAOFactory () {
 		super();
 		
-		final DBConnectionInfo dbInfos = getDBConnectionInfo();
+		final DataSourceConfiguration dbInfos = getDataSourceConfiguration();
 		Path dbFile = getDBFile(dbInfos, true);
 		if (!Files.exists(dbFile)) {
 			try {
@@ -62,7 +62,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 					lg.info("URL connection: " + (org.h2.engine.Constants.START_URL + dbFile));
 				}
 				RunScript.execute(org.h2.engine.Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
-						getCreationFile(), null, true);
+						dbInfos.getCreationFile().toString(), null, true);
 			} catch (final SQLException e) {
 				lg.warning("Error while initilization of H2 database (" + e.getClass() + "; " +
 						e.getMessage() + ")");
@@ -78,7 +78,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 			parameterDao = new MySQLParameterDAO(connection);
 			partyDao = new MySQLPartyDAO(connection);
 			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
-		} catch (SQLException | NoIdException e) {
+		} catch (final SQLException e) {
 			throw new SQLConfigurationError("Error while initializing H2 DAOs.", e);
 		}
 	}
@@ -91,7 +91,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	 *        <code>true</code> if the suffix should be added to the path.
 	 * @return <code>true</code>
 	 */
-	private static Path getDBFile (final DBConnectionInfo dbInfos, final boolean suffix) {
+	private static Path getDBFile (final DataSourceConfiguration dbInfos, final boolean suffix) {
 		// Creating database if file does not exists. jdbc:h2:file:data/database/crock.db
 		String file = dbInfos.getUrl().substring(org.h2.engine.Constants.START_URL.length());
 		if (file.startsWith(Constants.FILE_URI_PREFIX)) {
@@ -119,11 +119,12 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	 */
 	@Override
 	public void close () throws IOException {
+		super.close();
 		Utils.close(connection);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.AbstractDAOFactory#getParameterDAO()
+	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getParameterDAO()
 	 */
 	@Override
 	public DAO<Parameter> getParameterDAO () {
@@ -131,7 +132,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.AbstractDAOFactory#getMemberDAO()
+	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getMemberDAO()
 	 */
 	@Override
 	public DAO<Member> getMemberDAO () {
@@ -139,7 +140,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.AbstractDAOFactory#getPartyDAO()
+	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getPartyDAO()
 	 */
 	@Override
 	public DAO<Party> getPartyDAO () {
@@ -147,7 +148,7 @@ public class H2DAOFactory extends AbstractDAOFactory {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.AbstractDAOFactory#getEntryMemberPartyDAO()
+	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getEntryMemberPartyDAO()
 	 */
 	@Override
 	public DAO<EntryMemberParty> getEntryMemberPartyDAO () {

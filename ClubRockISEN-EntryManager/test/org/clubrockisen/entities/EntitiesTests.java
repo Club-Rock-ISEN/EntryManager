@@ -10,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ EnumsTests.class, ColumnTest.class, NoIdExceptionTest.class,
-	EntryMemberPartyTest.class, ParameterTest.class, MemberTest.class, PartyTest.class })
+@SuiteClasses({ EnumsTests.class, EntryMemberPartyTest.class, ParameterTest.class,
+		MemberTest.class, PartyTest.class })
 public class EntitiesTests {
 }

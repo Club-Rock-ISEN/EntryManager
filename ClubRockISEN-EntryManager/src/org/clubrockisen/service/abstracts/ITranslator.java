@@ -1,7 +1,7 @@
 package org.clubrockisen.service.abstracts;
 
-import org.clubrockisen.entities.Column;
-import org.clubrockisen.entities.Entity;
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.Entity;
 
 /**
  * Interface for the translator.

@@ -7,17 +7,18 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
+
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.sql.SQLDAO;
 
 /**
  * Class used to manipulating the parameters in the database.<br />
  * This class should be the only access point to the {@link Parameter} table in the database.
  * @author Alex
  */
-public class MySQLParameterDAO extends MySQLDAO<Parameter> {
+public class MySQLParameterDAO extends SQLDAO<Parameter> {
 	/** Logger */
 	private static Logger							lg	= Logger.getLogger(MySQLParameterDAO.class.getName());
 	
@@ -31,10 +32,8 @@ public class MySQLParameterDAO extends MySQLDAO<Parameter> {
 	 * @param connection the connection to the database.
 	 * @throws SQLException
 	 *         The prepared statements could not be created.
-	 * @throws NoIdException
-	 *         The {@link Parameter} has no ID column.
 	 */
-	public MySQLParameterDAO(final Connection connection) throws SQLException, NoIdException {
+	public MySQLParameterDAO(final Connection connection) throws SQLException {
 		super(connection);
 		lg.fine("New " + this.getClass().getCanonicalName());
 		// Initialize the columns (call to the constructor is required

@@ -16,8 +16,7 @@ import javax.swing.SwingUtilities;
 
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.Party;
@@ -32,6 +31,7 @@ import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
 
+import com.alexrnl.commons.database.DAO;
 import com.alexrnl.commons.mvc.AbstractController;
 
 /**
@@ -306,7 +306,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 			public void run () {
 				final DefaultListModel<Member> newMemberListModel = new DefaultListModel<>();
 				if (!searchModel.getSearch().isEmpty()) {
-					final DAO<Member> memberDAO = AbstractDAOFactory.getImplementation().getMemberDAO();
+					final DAO<Member> memberDAO = EntryManagerAbstractDAOFactory.getImplementation().getMemberDAO();
 					if (lg.isLoggable(Level.INFO)) {
 						lg.info("searching for '" + searchModel.getSearch() + "'");
 					}
@@ -319,7 +319,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 					});
 					
 					members.addAll(memberDAO.search(Member.getColumns().get(MemberColumn.NAME),
-							searchModel.getSearch()));
+							searchModel.getSearch() + '%')); // FIXME move search character?
 					for (final Member member : members) {
 						newMemberListModel.addElement(member);
 					}
@@ -345,7 +345,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 		memberUpdatePanel.dispose();
 		parametersPanel.dispose();
 		try {
-			AbstractDAOFactory.getImplementation().close();
+			EntryManagerAbstractDAOFactory.getImplementation().close();
 		} catch (final IOException ex) {
 			lg.warning("Error while closing DAO connection (" + ex.getMessage() + ")");
 		}
@@ -496,7 +496,7 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	public void deleteMember (final Member member) {
 		if (member != null) {
-			AbstractDAOFactory.getImplementation().getMemberDAO().delete(member);
+			EntryManagerAbstractDAOFactory.getImplementation().getMemberDAO().delete(member);
 		}
 	}
 	

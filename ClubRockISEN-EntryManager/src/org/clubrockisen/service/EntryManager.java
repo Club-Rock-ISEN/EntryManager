@@ -10,8 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 import org.clubrockisen.entities.Member;
@@ -24,6 +23,7 @@ import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
+import com.alexrnl.commons.database.DAO;
 import com.alexrnl.commons.time.Time;
 
 /**
@@ -46,7 +46,7 @@ public class EntryManager implements IEntryManager {
 	 * Constructor #1.<br />
 	 * @param daoFactory the DAO factory.
 	 */
-	public EntryManager (final AbstractDAOFactory daoFactory) {
+	public EntryManager (final EntryManagerAbstractDAOFactory daoFactory) {
 		super();
 		memberDAO = daoFactory.getMemberDAO();
 		partyDAO = daoFactory.getPartyDAO();

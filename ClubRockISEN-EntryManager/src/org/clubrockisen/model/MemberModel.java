@@ -3,13 +3,13 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
+import com.alexrnl.commons.database.DAO;
 import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
@@ -37,7 +37,7 @@ public class MemberModel extends AbstractModel {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
 		this.member = new Member();
-		this.daoMember = AbstractDAOFactory.getImplementation().getMemberDAO();
+		this.daoMember = EntryManagerAbstractDAOFactory.getImplementation().getMemberDAO();
 		this.newFlag = true;
 	}
 	
@@ -127,7 +127,7 @@ public class MemberModel extends AbstractModel {
 	public void setName (final String name) {
 		final String oldName = getName();
 		member.setName(name);
-		fireModelChange(MemberColumn.NAME.getPropertyName(), oldName, name);
+		fireModelChange(MemberColumn.NAME.getFieldName(), oldName, name);
 	}
 	
 	/**
@@ -146,7 +146,7 @@ public class MemberModel extends AbstractModel {
 	public void setGender (final Gender gender) {
 		final Gender oldGender = getGender();
 		member.setGender(gender);
-		fireModelChange(MemberColumn.GENDER.getPropertyName(), oldGender, gender);
+		fireModelChange(MemberColumn.GENDER.getFieldName(), oldGender, gender);
 	}
 	
 	/**
@@ -165,7 +165,7 @@ public class MemberModel extends AbstractModel {
 	public void setEntries (final Integer entries) {
 		final Integer oldEntries = getEntries();
 		member.setEntries(entries);
-		fireModelChange(MemberColumn.ENTRIES.getPropertyName(), oldEntries, entries);
+		fireModelChange(MemberColumn.ENTRIES.getFieldName(), oldEntries, entries);
 	}
 	
 	/**
@@ -184,7 +184,7 @@ public class MemberModel extends AbstractModel {
 	public void setNextFree (final Integer nextFree) {
 		final Integer oldNextFree = getNextFree();
 		member.setNextFree(nextFree);
-		fireModelChange(MemberColumn.NEXT_FREE.getPropertyName(), oldNextFree, nextFree);
+		fireModelChange(MemberColumn.NEXT_FREE.getFieldName(), oldNextFree, nextFree);
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class MemberModel extends AbstractModel {
 	public void setCredit (final Double credit) {
 		final Double oldCredit = getCredit();
 		member.setCredit(credit);
-		fireModelChange(MemberColumn.CREDIT.getPropertyName(), oldCredit, credit);
+		fireModelChange(MemberColumn.CREDIT.getFieldName(), oldCredit, credit);
 	}
 	
 	/**
@@ -222,7 +222,7 @@ public class MemberModel extends AbstractModel {
 	public void setStatus (final Status status) {
 		final Status oldStatus = getStatus();
 		member.setStatus(status);
-		fireModelChange(MemberColumn.STATUS.getPropertyName(), oldStatus, status);
+		fireModelChange(MemberColumn.STATUS.getFieldName(), oldStatus, status);
 	}
 	
 }

@@ -24,13 +24,13 @@ import javax.swing.event.ChangeListener;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.abstracts.PartyController;
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
 
+import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.mvc.AbstractView;
 
 /**
@@ -336,27 +336,27 @@ public class PartyPanel extends JPanel implements AbstractView {
 			lg.fine("Changing view: " + evt.getPropertyName() + " with value " + evt.getNewValue());
 		}
 		
-		if (evt.getPropertyName().equals(PartyColumn.DATE.getPropertyName())) {
+		if (evt.getPropertyName().equals(PartyColumn.DATE.getFieldName())) {
 			dateField.setText(dateFormatter.format(new Date((Long)evt.getNewValue())));
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_TOTAL.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_TOTAL.getFieldName())) {
 			entriesTotalField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FIRST_PART.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FIRST_PART.getFieldName())) {
 			entriesFirstPartField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_SECOND_PART.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_SECOND_PART.getFieldName())) {
 			entriesSecondPartField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_NEW_MEMBER.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_NEW_MEMBER.getFieldName())) {
 			entriesNewMemberField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FREE.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FREE.getFieldName())) {
 			entriesFreeField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_MALE.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_MALE.getFieldName())) {
 			entriesMaleField.setValue(evt.getNewValue());
 			updateDelta();
-		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FEMALE.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.ENTRIES_FEMALE.getFieldName())) {
 			entriesFemaleField.setValue(evt.getNewValue());
 			updateDelta();
-		} else if (evt.getPropertyName().equals(PartyColumn.REVENUE.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.REVENUE.getFieldName())) {
 			revenueField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(PartyColumn.PROFIT.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(PartyColumn.PROFIT.getFieldName())) {
 			profitField.setValue(evt.getNewValue());
 		} else if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Property event not managed: " + evt.getPropertyName());

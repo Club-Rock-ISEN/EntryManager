@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.error.SQLConfigurationError;
 
+import com.alexrnl.commons.database.DataSourceConfiguration;
+
 /**
  * Utility methods for DAOs (connection, statement generation, etc).
  * @author Alex
@@ -24,66 +26,12 @@ public final class Utils {
 	}
 	
 	/**
-	 * Class holding the database configuration information.<br />
-	 * @author Alex
-	 */
-	public static class DBConnectionInfo {
-		/** The URL of the connection */
-		private final String url;
-		/** The user name to use */
-		private final String username;
-		/** The password associated to the user name */
-		private final String password;
-		
-		/**
-		 * Constructor #1.<br />
-		 * @param url
-		 *        the URL of the database.
-		 * @param username
-		 *        the user name to use.
-		 * @param password
-		 *        the password associated to the user name.
-		 */
-		public DBConnectionInfo (final String url, final String username, final String password) {
-			super();
-			this.url = url;
-			this.username = username;
-			this.password = password;
-		}
-		
-		/**
-		 * Return the URL.
-		 * @return the URL.
-		 */
-		public String getUrl () {
-			return url;
-		}
-		
-		/**
-		 * Return the attribute user name.
-		 * @return the attribute user name.
-		 */
-		public String getUsername () {
-			return username;
-		}
-		
-		/**
-		 * Return the attribute password.
-		 * @return the attribute password.
-		 */
-		public String getPassword () {
-			return password;
-		}
-		
-	}
-	
-	/**
 	 * Return the connection to the database with the information specified.
 	 * @param dbInfos
 	 *        the informations to use to connect to the database.
 	 * @return the connection to the database.
 	 */
-	public static Connection getConnection (final DBConnectionInfo dbInfos) {
+	public static Connection getConnection (final DataSourceConfiguration dbInfos) {
 		final Connection connection;
 		try {
 			connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword());

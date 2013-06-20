@@ -8,17 +8,18 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.NoIdException;
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
+
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.sql.SQLDAO;
 
 /**
  * Class used to manipulating the entries of the members in the database.<br />
  * This class should be the only access point to the {@link EntryMemberParty} table in the database.
  * @author Alex
  */
-public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
+public class MySQLEntryMemberPartyDAO extends SQLDAO<EntryMemberParty> {
 	/** Logger */
 	private static Logger							lg	= Logger.getLogger(MySQLEntryMemberPartyDAO.class.getName());
 	
@@ -33,10 +34,8 @@ public class MySQLEntryMemberPartyDAO extends MySQLDAO<EntryMemberParty> {
 	 *        the connection to the database.
 	 * @throws SQLException
 	 *         The prepared statements could not be created.
-	 * @throws NoIdException
-	 *         The {@link EntryMemberParty} has no ID column.
 	 */
-	public MySQLEntryMemberPartyDAO (final Connection connection) throws SQLException, NoIdException {
+	public MySQLEntryMemberPartyDAO (final Connection connection) throws SQLException {
 		super(connection);
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("New " + this.getClass().getCanonicalName());

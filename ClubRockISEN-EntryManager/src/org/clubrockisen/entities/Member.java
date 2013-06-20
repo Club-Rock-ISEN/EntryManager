@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.Entity;
+import com.alexrnl.commons.database.EntityColumn;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -58,7 +61,7 @@ public class Member extends Entity implements Cloneable {
 	 * Enumeration for the column of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum MemberColumn implements Property {
+	public enum MemberColumn implements EntityColumn {
 		/** The member's id */
 		ID ("IdMember"),
 		/** The member's name */
@@ -88,7 +91,7 @@ public class Member extends Entity implements Cloneable {
 		}
 		
 		@Override
-		public String getPropertyName () {
+		public String getFieldName () {
 			return propertyName;
 		}
 	}
@@ -111,7 +114,7 @@ public class Member extends Entity implements Cloneable {
 	}
 	
 	@Override
-	public Map<? extends Enum<?>, Column> getEntityColumns () {
+	public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
 		return columns;
 	}
 	
@@ -119,7 +122,7 @@ public class Member extends Entity implements Cloneable {
 	 * Return the list of the columns of the table Member.
 	 * @return the list of the columns.
 	 */
-	public static Map<? extends Enum<?>, Column> getColumns () {
+	public static Map<? extends Enum<? extends EntityColumn>, Column> getColumns () {
 		return columns;
 	}
 	
@@ -338,8 +341,8 @@ public class Member extends Entity implements Cloneable {
 	 * @see org.clubrockisen.entities.Entity#clone()
 	 */
 	@Override
-	protected Entity clone () throws CloneNotSupportedException {
-		final Member clone =  (Member) super.clone();
+	public Entity clone () throws CloneNotSupportedException {
+		final Member clone =  new Member();
 		clone.idMember = idMember;
 		clone.name = name;
 		clone.gender = gender;

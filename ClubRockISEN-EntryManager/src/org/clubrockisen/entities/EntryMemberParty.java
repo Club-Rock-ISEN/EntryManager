@@ -4,6 +4,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.Entity;
+import com.alexrnl.commons.database.EntityColumn;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -46,7 +49,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Enumeration for the columns of the table associated to the type.
 	 * @author Alex
 	 */
-	public enum EntryColumn implements Property {
+	public enum EntryColumn implements EntityColumn {
 		/** The entry's id */
 		ID ("IdEntryMemberParty"),
 		/** The entry's member id */
@@ -68,7 +71,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 		}
 		
 		@Override
-		public String getPropertyName () {
+		public String getFieldName () {
 			return propertyName;
 		}
 	}
@@ -96,7 +99,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
 	 */
 	@Override
-	public Map<? extends Enum<?>, Column> getEntityColumns () {
+	public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
 		return columns;
 	}
 	
@@ -104,7 +107,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 * Return the list of the columns of the table entry member party.
 	 * @return the columns.
 	 */
-	public static Map<? extends Enum<?>, Column> getColumns () {
+	public static Map<? extends Enum<? extends EntityColumn>, Column> getColumns () {
 		return columns;
 	}
 	
@@ -249,7 +252,7 @@ public class EntryMemberParty extends Entity implements Cloneable {
 	 */
 	@Override
 	public EntryMemberParty clone () throws CloneNotSupportedException {
-		final EntryMemberParty clone =  (EntryMemberParty) super.clone();
+		final EntryMemberParty clone = new EntryMemberParty();
 		clone.idEntryMemberParty = idEntryMemberParty;
 		clone.idMember = idMember;
 		clone.idParty = idParty;

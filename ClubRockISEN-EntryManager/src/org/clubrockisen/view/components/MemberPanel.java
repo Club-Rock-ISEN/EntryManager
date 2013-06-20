@@ -22,7 +22,6 @@ import javax.swing.event.ChangeListener;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.controller.abstracts.MemberController;
-import org.clubrockisen.entities.Column;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
@@ -33,6 +32,7 @@ import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
+import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.mvc.AbstractView;
 
 /**
@@ -237,17 +237,17 @@ public class MemberPanel extends JPanel implements AbstractView {
 			lg.fine("Changing view: " + evt.getPropertyName() + " with value " + evt.getNewValue());
 		}
 		
-		if (evt.getPropertyName().equals(MemberColumn.NAME.getPropertyName())) {
+		if (evt.getPropertyName().equals(MemberColumn.NAME.getFieldName())) {
 			nameField.setText(evt.getNewValue().toString());
-		} else if (evt.getPropertyName().equals(MemberColumn.GENDER.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(MemberColumn.GENDER.getFieldName())) {
 			genderField.setSelectedItem(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(MemberColumn.ENTRIES.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(MemberColumn.ENTRIES.getFieldName())) {
 			entryNumberField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(MemberColumn.NEXT_FREE.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(MemberColumn.NEXT_FREE.getFieldName())) {
 			nextFreeField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(MemberColumn.CREDIT.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(MemberColumn.CREDIT.getFieldName())) {
 			creditField.setValue(evt.getNewValue());
-		} else if (evt.getPropertyName().equals(MemberColumn.STATUS.getPropertyName())) {
+		} else if (evt.getPropertyName().equals(MemberColumn.STATUS.getFieldName())) {
 			statusField.setSelectedItem(evt.getNewValue());
 		} else if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Property event not managed: " + evt.getPropertyName());

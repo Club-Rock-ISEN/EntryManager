@@ -39,7 +39,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party date to " + newDate + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.DATE.getPropertyName(), newDate);
+		controller.setModelProperty(PartyColumn.DATE.getFieldName(), newDate);
 	}
 	
 	/*
@@ -51,7 +51,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party entries total to " + newEntriesTotal + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_TOTAL.getPropertyName(), newEntriesTotal);
+		controller.setModelProperty(PartyColumn.ENTRIES_TOTAL.getFieldName(), newEntriesTotal);
 	}
 	
 	/*
@@ -63,7 +63,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party entries first part to " + newEntriesFirstPart + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_FIRST_PART.getPropertyName(), newEntriesFirstPart);
+		controller.setModelProperty(PartyColumn.ENTRIES_FIRST_PART.getFieldName(), newEntriesFirstPart);
 	}
 	
 	/*
@@ -75,7 +75,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party entries second part to " + newEntriesSecondPart + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_SECOND_PART.getPropertyName(), newEntriesSecondPart);
+		controller.setModelProperty(PartyColumn.ENTRIES_SECOND_PART.getFieldName(), newEntriesSecondPart);
 	}
 	
 	/*
@@ -87,7 +87,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party entries for new members to " + newEntriesNewMembers + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_NEW_MEMBER.getPropertyName(), newEntriesNewMembers);
+		controller.setModelProperty(PartyColumn.ENTRIES_NEW_MEMBER.getFieldName(), newEntriesNewMembers);
 	}
 	
 	/*
@@ -99,7 +99,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party free entries to " + newEntriesFree + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_FREE.getPropertyName(), newEntriesFree);
+		controller.setModelProperty(PartyColumn.ENTRIES_FREE.getFieldName(), newEntriesFree);
 	}
 	
 	/*
@@ -111,7 +111,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party male entries to " + newEntriesMale + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_MALE.getPropertyName(), newEntriesMale);
+		controller.setModelProperty(PartyColumn.ENTRIES_MALE.getFieldName(), newEntriesMale);
 	}
 	
 	/*
@@ -123,7 +123,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party female entries to " + newEntriesFemale + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.ENTRIES_FEMALE.getPropertyName(), newEntriesFemale);
+		controller.setModelProperty(PartyColumn.ENTRIES_FEMALE.getFieldName(), newEntriesFemale);
 	}
 	
 	/*
@@ -135,7 +135,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party revenue to " + newRevenue + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.REVENUE.getPropertyName(), newRevenue);
+		controller.setModelProperty(PartyColumn.REVENUE.getFieldName(), newRevenue);
 	}
 	
 	/*
@@ -147,7 +147,7 @@ public class PartyControllerImp implements PartyController {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Changing party profit to " + newProfit + " in controller");
 		}
-		controller.setModelProperty(PartyColumn.PROFIT.getPropertyName(), newProfit);
+		controller.setModelProperty(PartyColumn.PROFIT.getFieldName(), newProfit);
 	}
 	
 	/*

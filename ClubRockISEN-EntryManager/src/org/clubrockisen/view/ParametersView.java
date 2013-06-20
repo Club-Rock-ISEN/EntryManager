@@ -165,18 +165,18 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 			}
 			if (evt.getPropertyName().startsWith(parameter.getName())) {
 				final String propertyName = evt.getPropertyName().substring(parameter.getName().length());
-				if (propertyName.equals(ParameterColumn.VALUE.getPropertyName())) {
+				if (propertyName.equals(ParameterColumn.VALUE.getFieldName())) {
 					found = true;
 					parametersComponents.get(parameter).setValue(evt.getNewValue());
 				}
-				if (propertyName.equals(ParameterColumn.TYPE.getPropertyName())) {
+				if (propertyName.equals(ParameterColumn.TYPE.getFieldName())) {
 					found = true;
 					if (lg.isLoggable(Level.FINER)) {
 						lg.fine("No component displays the type of a parameter, event ignored");
 					}
 					// Nothing to be done
 				}
-				if (propertyName.equals(ParameterColumn.COMPONENT_CLASS.getPropertyName())) {
+				if (propertyName.equals(ParameterColumn.COMPONENT_CLASS.getFieldName())) {
 					found = true;
 					if (lg.isLoggable(Level.FINER)) {
 						lg.fine("No component displays the component class of a parameter, event ignored");

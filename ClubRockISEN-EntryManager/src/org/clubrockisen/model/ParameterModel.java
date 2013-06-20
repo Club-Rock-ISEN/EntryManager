@@ -102,7 +102,7 @@ public class ParameterModel extends AbstractModel {
 		} else if (Double.class.getSimpleName().equals(parameter.getType())) {
 			evtValue = Double.valueOf(value);
 		}
-		fireModelChange(ParameterColumn.VALUE.getPropertyName(), oldValue, evtValue);
+		fireModelChange(ParameterColumn.VALUE.getFieldName(), oldValue, evtValue);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public class ParameterModel extends AbstractModel {
 	public void setType (final String type) {
 		final String oldType = parameter.getType();
 		parameter.setType(type);
-		fireModelChange(ParameterColumn.TYPE.getPropertyName(), oldType, type);
+		fireModelChange(ParameterColumn.TYPE.getFieldName(), oldType, type);
 	}
 	
 	/**
@@ -140,6 +140,6 @@ public class ParameterModel extends AbstractModel {
 	public void setComponentClass (final String componentClass) {
 		final String oldType = parameter.getComponentClass();
 		parameter.setComponentClass(componentClass);
-		fireModelChange(ParameterColumn.COMPONENT_CLASS.getPropertyName(), oldType, componentClass);
+		fireModelChange(ParameterColumn.COMPONENT_CLASS.getFieldName(), oldType, componentClass);
 	}
 }

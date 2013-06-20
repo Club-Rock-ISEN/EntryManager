@@ -6,11 +6,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
-import org.clubrockisen.dao.abstracts.DAO;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
+
+import com.alexrnl.commons.database.DAO;
 
 /**
  * Manager for the parameters.<br />
@@ -36,7 +37,7 @@ public final class ParametersManager implements IParametersManager {
 	 * @param daoFactory
 	 *        the factory for the DAO
 	 */
-	public ParametersManager(final AbstractDAOFactory daoFactory) {
+	public ParametersManager(final EntryManagerAbstractDAOFactory daoFactory) {
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Building singleton for " + this.getClass().getName());
 		}
