@@ -3,7 +3,7 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.model.abstracts.AbstractModel;
+import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
  * Model for the search string of the main window.

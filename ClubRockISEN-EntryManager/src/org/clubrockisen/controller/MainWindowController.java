@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
@@ -32,6 +31,8 @@ import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.MainWindow;
+
+import com.alexrnl.commons.mvc.AbstractController;
 
 /**
  * Controller for the main window of the applications.

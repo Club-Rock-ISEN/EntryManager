@@ -3,9 +3,10 @@ package org.clubrockisen.controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.entities.Party.PartyColumn;
+
+import com.alexrnl.commons.mvc.AbstractController;
 
 /**
  * Basic implementation of a party controller.<br />

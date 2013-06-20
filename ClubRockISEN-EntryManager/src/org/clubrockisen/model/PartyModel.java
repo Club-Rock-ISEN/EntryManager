@@ -7,7 +7,8 @@ import org.clubrockisen.dao.abstracts.AbstractDAOFactory;
 import org.clubrockisen.dao.abstracts.DAO;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
-import org.clubrockisen.model.abstracts.AbstractModel;
+
+import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
  * Model for the {@link Party} entity.

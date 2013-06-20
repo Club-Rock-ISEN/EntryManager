@@ -3,11 +3,12 @@ package org.clubrockisen.controller;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.MemberController;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+
+import com.alexrnl.commons.mvc.AbstractController;
 
 /**
  * Basic implementation of a member controller.<br />

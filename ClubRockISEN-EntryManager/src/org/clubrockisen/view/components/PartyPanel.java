@@ -30,7 +30,8 @@ import org.clubrockisen.entities.Party.PartyColumn;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
-import org.clubrockisen.view.abstracts.AbstractView;
+
+import com.alexrnl.commons.mvc.AbstractView;
 
 /**
  * This panel display a party with the field labels.<br />

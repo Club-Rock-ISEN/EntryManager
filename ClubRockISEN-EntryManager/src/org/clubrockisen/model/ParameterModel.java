@@ -5,10 +5,11 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
-import org.clubrockisen.model.abstracts.AbstractModel;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
+
+import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
  * Model for a {@link Parameter} entity.

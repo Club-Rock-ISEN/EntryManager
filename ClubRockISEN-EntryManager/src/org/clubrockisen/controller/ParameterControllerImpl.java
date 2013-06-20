@@ -4,11 +4,12 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.controller.abstracts.ParameterController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.model.ParameterModel;
 import org.clubrockisen.service.abstracts.ParametersEnum;
+
+import com.alexrnl.commons.mvc.AbstractController;
 
 /**
  * Controller for a single parameter.<br />

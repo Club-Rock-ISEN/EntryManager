@@ -6,9 +6,10 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.controller.abstracts.AbstractController;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.ParametersView;
+
+import com.alexrnl.commons.mvc.AbstractController;
 
 /**
  * TODO

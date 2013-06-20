@@ -9,7 +9,8 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
-import org.clubrockisen.model.abstracts.AbstractModel;
+
+import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
  * Model for the {@link Member} entity.

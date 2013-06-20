@@ -31,8 +31,9 @@ import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.abstracts.AbstractView;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
+
+import com.alexrnl.commons.mvc.AbstractView;
 
 /**
  * This panel display a member with the field labels.<br />

@@ -16,6 +16,8 @@ import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
+import com.alexrnl.commons.mvc.AbstractView;
+
 /**
  * Abstract frame.<br />
  * Other threads may be waiting on the instance being built, the waiters will be notified when
