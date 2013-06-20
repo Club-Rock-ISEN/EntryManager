@@ -28,6 +28,7 @@ import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.service.format.OldDataFiles;
 
 import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.utils.object.ReflectUtils;
 
 
 /**
@@ -240,7 +241,7 @@ public class FileManager implements IFileManager {
 			}
 			// Getting the value of the current field and building the setter name
 			final Object fieldValue = converter.read(fields[i]);
-			final String methodName = Constants.SETTER_PREFIX + converter.getField().getFieldName();
+			final String methodName = ReflectUtils.SETTER_PREFIX + converter.getField().getFieldName();
 			try {
 				final Method method = Member.class.getMethod(methodName, new Class<?>[] { fieldValue.getClass() });
 				method.invoke(member, fieldValue);
@@ -269,7 +270,7 @@ public class FileManager implements IFileManager {
 		for (final Converter<MemberColumn> converter : format.getFieldOrder()) {
 			if (converter != null) {
 				final Object data;
-				final String methodName = Constants.GETTER_PREFIX + converter.getField().getFieldName();
+				final String methodName = ReflectUtils.GETTER_PREFIX + converter.getField().getFieldName();
 				try {
 					final Method method = Member.class.getMethod(methodName);
 					data = method.invoke(member);

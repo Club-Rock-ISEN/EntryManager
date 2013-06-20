@@ -109,13 +109,4 @@ public final class Constants {
 	/** The file prefix used in URIs */
 	public static final String	FILE_URI_PREFIX				= "file:";
 	
-	/** The regex pattern that matches any non decimal character */
-	public static final String	NON_DECIMAL_CHARACTER		= "[^0-9]";
-	
-	/** The common prefix for attribute getters in classes */
-	public static final String	GETTER_PREFIX				= "get";
-	
-	/** The common prefix for attribute setters in classes */
-	public static final String	SETTER_PREFIX				= "set";
-	
 }
