@@ -1,4 +1,4 @@
-Copyright (c) 2012 Barféty Alex
+Copyright (c) 2012, BarfÃ©ty Alex
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted
