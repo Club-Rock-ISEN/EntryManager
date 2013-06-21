@@ -270,6 +270,7 @@ public class FileManager implements IFileManager {
 		for (final Converter<MemberColumn> converter : format.getFieldOrder()) {
 			if (converter != null) {
 				final Object data;
+				// TODO add a case for boolean with the is prefix
 				final String methodName = ReflectUtils.GETTER_PREFIX + converter.getField().getFieldName();
 				try {
 					final Method method = Member.class.getMethod(methodName);
