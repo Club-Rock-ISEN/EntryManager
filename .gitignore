@@ -1,11 +1,11 @@
 #################
 ## Java
 #################
-.class
-.jar
-.ear
-.war
-target
+*.class
+*.jar
+*.ear
+*.war
+target/
 
 
 #################
