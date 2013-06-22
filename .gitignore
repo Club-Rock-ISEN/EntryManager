@@ -60,3 +60,4 @@ $RECYCLE.BIN/
 #############
 
 data/database/*.db
+.sonar
