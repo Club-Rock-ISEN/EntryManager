@@ -14,7 +14,7 @@ import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Test suite for the {@link EntryMemberParty} class.

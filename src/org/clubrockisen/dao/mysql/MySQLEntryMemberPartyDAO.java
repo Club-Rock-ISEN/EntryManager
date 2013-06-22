@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.EntryMemberParty.EntryColumn;
 
-import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.database.sql.SQLDAO;
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Class used to manipulating the entries of the members in the database.<br />

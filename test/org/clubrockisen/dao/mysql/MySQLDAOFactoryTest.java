@@ -16,8 +16,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alexrnl.commons.database.AbstractDAOFactory;
-import com.alexrnl.commons.database.DataSourceConfiguration;
+import com.alexrnl.commons.database.dao.AbstractDAOFactory;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.utils.Configuration;
 
 /**
@@ -39,8 +39,7 @@ public class MySQLDAOFactoryTest {
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
 				config.get(KEY.db().username()), config.get(KEY.db().password()),
 				Paths.get(config.get(KEY.db().creationFile())));
-		AbstractDAOFactory.createFactory(config.get(KEY.daoFactory()), dbInfos);
-		factory = EntryManagerAbstractDAOFactory.getImplementation();
+		factory = AbstractDAOFactory.buildFactory(config.get(KEY.daoFactory()), dbInfos, EntryManagerAbstractDAOFactory.class);
 	}
 	
 	/**
@@ -110,7 +109,6 @@ public class MySQLDAOFactoryTest {
 		final Configuration badConfig = new Configuration(Paths.get("test/wrongConf.xml"));
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(badConfig.get(KEY.db().url()),
 				badConfig.get(KEY.db().username()), badConfig.get(KEY.db().password()), null);
-		AbstractDAOFactory.createFactory(badConfig.get(KEY.daoFactory()), dbInfos);
-		factory = EntryManagerAbstractDAOFactory.getImplementation();
+		AbstractDAOFactory.buildFactory(badConfig.get(KEY.daoFactory()), dbInfos);
 	}
 }

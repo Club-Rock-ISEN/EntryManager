@@ -3,11 +3,11 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
@@ -34,7 +34,7 @@ public class PartyModel extends AbstractModel {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
 		this.party = new Party();
-		this.daoParty = EntryManagerAbstractDAOFactory.getImplementation().getPartyDAO();
+		this.daoParty = ServiceFactory.getDaoFactory().getPartyDAO();
 		this.newFlag = true;
 	}
 	

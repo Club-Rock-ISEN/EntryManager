@@ -5,8 +5,8 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 
-import com.alexrnl.commons.database.AbstractDAOFactory;
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.AbstractDAOFactory;
+import com.alexrnl.commons.database.dao.DAO;
 
 /**
  * The abstract factory for the {@link DAO}s.<br />
@@ -15,16 +15,6 @@ import com.alexrnl.commons.database.DAO;
  */
 public abstract class EntryManagerAbstractDAOFactory extends AbstractDAOFactory {
 
-	/**
-	 * Avoid cast in user classes, but this should be re-think to avoid such things, i.e. remove
-	 * singleton and use instances.
-	 * FIXME remove ugly cast
-	 * @return the implementation.
-	 */
-	public static EntryManagerAbstractDAOFactory getImplementation () {
-		return (EntryManagerAbstractDAOFactory) AbstractDAOFactory.getImplementation();
-	}
-	
 	/**
 	 * Retrieve a {@link DAO} for the {@link Parameter} class.
 	 * @return the DAO for the parameter class.

@@ -27,7 +27,7 @@ import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.service.format.OldDataFiles;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.utils.object.ReflectUtils;
 
 

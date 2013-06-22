@@ -11,7 +11,7 @@ import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 
 /**
  * Manager for the parameters.<br />

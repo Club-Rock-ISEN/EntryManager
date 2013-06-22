@@ -1,6 +1,6 @@
 package org.clubrockisen.service.abstracts;
 
-import com.alexrnl.commons.database.EntityColumn;
+import com.alexrnl.commons.database.structure.EntityColumn;
 
 
 /**

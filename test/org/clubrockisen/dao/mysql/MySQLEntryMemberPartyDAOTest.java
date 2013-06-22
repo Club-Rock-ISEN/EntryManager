@@ -1,5 +1,6 @@
 package org.clubrockisen.dao.mysql;
 
+import static org.clubrockisen.common.ConfigurationKeys.KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -7,8 +8,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Set;
 
+import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
@@ -16,6 +19,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.alexrnl.commons.database.dao.AbstractDAOFactory;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
+import com.alexrnl.commons.utils.Configuration;
 
 /**
  * Test suite for the {@link MySQLEntryMemberPartyDAO} class.
@@ -34,7 +41,11 @@ public class MySQLEntryMemberPartyDAOTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass () {
-		factory = new MySQLDAOFactory();
+		final Configuration config = new Configuration(Paths.get(ConfigurationKeys.FILE));
+		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
+				config.get(KEY.db().username()), config.get(KEY.db().password()),
+				Paths.get(config.get(KEY.db().creationFile())));
+		factory = AbstractDAOFactory.buildFactory(MySQLDAOFactory.class.getName(), dbInfos, MySQLDAOFactory.class);
 		entriesBackup = ((MySQLEntryMemberPartyDAO) factory.getEntryMemberPartyDAO()).retrieveAll();
 	}
 	

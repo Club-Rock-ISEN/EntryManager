@@ -30,7 +30,7 @@ import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
 
-import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.mvc.AbstractView;
 
 /**

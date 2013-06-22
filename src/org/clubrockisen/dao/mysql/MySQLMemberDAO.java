@@ -14,8 +14,8 @@ import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
-import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.database.sql.SQLDAO;
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Class used to manipulating the members in the database.<br />

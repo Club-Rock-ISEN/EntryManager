@@ -23,8 +23,8 @@ import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 import org.h2.tools.RunScript;
 
-import com.alexrnl.commons.database.DAO;
-import com.alexrnl.commons.database.DataSourceConfiguration;
+import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 
 /**
  * The factory for the H2 DAO classes.<br />
@@ -34,25 +34,28 @@ import com.alexrnl.commons.database.DataSourceConfiguration;
  */
 public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 	/** Logger */
-	private static Logger				lg	= Logger.getLogger(H2DAOFactory.class.getName());
+	private static Logger			lg	= Logger.getLogger(H2DAOFactory.class.getName());
 	
 	/** The connection to the database */
-	private final Connection			connection;
+	private Connection				connection;
 	/** The member DAO */
-	private final DAO<Member>			memberDao;
+	private DAO<Member>				memberDao;
 	/** The parameter DAO */
-	private final DAO<Parameter>		parameterDao;
+	private DAO<Parameter>			parameterDao;
 	/** The party DAO */
-	private final DAO<Party>			partyDao;
+	private DAO<Party>				partyDao;
 	/** The entry member party DAO */
-	private final DAO<EntryMemberParty>	entryMemberPartyDao;
+	private DAO<EntryMemberParty>	entryMemberPartyDao;
 	
 	/**
 	 * Constructor #1.<br />
 	 */
 	public H2DAOFactory () {
 		super();
-		
+	}
+	
+	@Override
+	protected void init () {
 		final DataSourceConfiguration dbInfos = getDataSourceConfiguration();
 		Path dbFile = getDBFile(dbInfos, true);
 		if (!Files.exists(dbFile)) {
@@ -81,6 +84,10 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 		} catch (final SQLException e) {
 			throw new SQLConfigurationError("Error while initializing H2 DAOs.", e);
 		}
+		addDAO(Member.class, memberDao);
+		addDAO(Parameter.class, parameterDao);
+		addDAO(Party.class, partyDao);
+		addDAO(EntryMemberParty.class, entryMemberPartyDao);
 	}
 
 	/**

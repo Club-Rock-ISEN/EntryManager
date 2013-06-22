@@ -23,7 +23,7 @@ import org.clubrockisen.service.abstracts.IParametersManager;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.time.Time;
 
 /**

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.ServiceInstantiationError;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 
 import com.alexrnl.commons.utils.Configuration;
 
@@ -13,12 +14,14 @@ import com.alexrnl.commons.utils.Configuration;
  */
 public abstract class ServiceFactory {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(ServiceFactory.class.getName());
+	private static Logger							lg	= Logger.getLogger(ServiceFactory.class.getName());
 	
 	/** Implementation of the factory to be used */
-	private static ServiceFactory	implementation;
+	private static ServiceFactory					implementation;
+	/** The daoFactory used to communicate with the database */
+	private static EntryManagerAbstractDAOFactory	daoFactory;
 	/** The translation file to use */
-	private static String			translationFile;
+	private static String							translationFile;
 	
 	/**
 	 * Return the implementation of the factory to be used.
@@ -32,10 +35,13 @@ public abstract class ServiceFactory {
 	 * Static method used to load the implementation to use in the application.
 	 * @param config
 	 *        the configuration of the program.
+	 * @param emDAOFactory
+	 *        the DAO factory to use.
 	 */
-	public static void createFactory (final Configuration config) {
+	public static void createFactory (final Configuration config, final EntryManagerAbstractDAOFactory emDAOFactory) {
 		final String serviceFactory = config.get(ConfigurationKeys.KEY.serviceFactory());
 		translationFile = config.get(ConfigurationKeys.KEY.translationFile());
+		ServiceFactory.daoFactory = emDAOFactory;
 		try {
 			implementation = Class.forName(serviceFactory).asSubclass(ServiceFactory.class).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -53,6 +59,14 @@ public abstract class ServiceFactory {
 		return translationFile;
 	}
 	
+	/**
+	 * Return the attribute daoFactory.
+	 * @return the attribute daoFactory.
+	 */
+	public static EntryManagerAbstractDAOFactory getDaoFactory () {
+		return daoFactory;
+	}
+
 	/**
 	 * Return the parameter manager to use.
 	 * @return the parameter manager.

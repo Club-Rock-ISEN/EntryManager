@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 import org.clubrockisen.common.error.SQLConfigurationError;
 
-import com.alexrnl.commons.database.DataSourceConfiguration;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 
 /**
  * Utility methods for DAOs (connection, statement generation, etc).

@@ -3,13 +3,13 @@ package org.clubrockisen.model;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.service.abstracts.ServiceFactory;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.mvc.AbstractModel;
 
 /**
@@ -37,7 +37,7 @@ public class MemberModel extends AbstractModel {
 			lg.fine("Building new " + this.getClass().getSimpleName());
 		}
 		this.member = new Member();
-		this.daoMember = EntryManagerAbstractDAOFactory.getImplementation().getMemberDAO();
+		this.daoMember = ServiceFactory.getDaoFactory().getMemberDAO();
 		this.newFlag = true;
 	}
 	

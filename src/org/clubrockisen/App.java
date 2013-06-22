@@ -11,12 +11,13 @@ import javax.swing.JOptionPane;
 
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.controller.MainWindowController;
+import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
 import org.clubrockisen.view.abstracts.AbstractFrame;
 
-import com.alexrnl.commons.database.AbstractDAOFactory;
-import com.alexrnl.commons.database.DataSourceConfiguration;
+import com.alexrnl.commons.database.dao.AbstractDAOFactory;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.error.TopLevelError;
 import com.alexrnl.commons.utils.Configuration;
 
@@ -69,8 +70,9 @@ public final class App {
 			final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
 					config.get(KEY.db().username()), config.get(KEY.db().password()),
 					Paths.get(config.get(KEY.db().creationFile())));
-			AbstractDAOFactory.createFactory(config.get(KEY.daoFactory()), dbInfos);
-			ServiceFactory.createFactory(config);
+			final EntryManagerAbstractDAOFactory factory = AbstractDAOFactory.buildFactory(config.get(KEY.daoFactory()),
+					dbInfos, EntryManagerAbstractDAOFactory.class);
+			ServiceFactory.createFactory(config, factory);
 			
 			// Loading GUI
 			AbstractFrame.loadIcon(Paths.get(config.get(KEY.iconFile())));

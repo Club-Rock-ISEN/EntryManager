@@ -4,7 +4,6 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.IParametersManager;
@@ -37,10 +36,10 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Initialize services.");
 		}
-		parameterManager = new ParametersManager(EntryManagerAbstractDAOFactory.getImplementation());
+		parameterManager = new ParametersManager(getDaoFactory());
 		translator = new Translator(Paths.get(getTranslationFile()));
-		entryManager = new EntryManager(EntryManagerAbstractDAOFactory.getImplementation());
-		fileManager = new FileManager(EntryManagerAbstractDAOFactory.getImplementation().getMemberDAO());
+		entryManager = new EntryManager(getDaoFactory());
+		fileManager = new FileManager(getDaoFactory().getMemberDAO());
 	}
 	
 	/*

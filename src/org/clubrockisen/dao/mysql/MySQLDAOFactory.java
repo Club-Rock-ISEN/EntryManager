@@ -14,7 +14,7 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 
-import com.alexrnl.commons.database.DAO;
+import com.alexrnl.commons.database.dao.DAO;
 
 /**
  * The factory for the MySQL DAO classes.<br />
@@ -27,22 +27,25 @@ public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
 	private static Logger				lg		= Logger.getLogger(EntryManagerAbstractDAOFactory.class.getName());
 	
 	/** The connection to the database */
-	private final Connection			connection;
+	private Connection			connection;
 	/** The member DAO */
-	private final DAO<Member>			memberDao;
+	private DAO<Member>			memberDao;
 	/** The parameter DAO */
-	private final DAO<Parameter>		parameterDao;
+	private DAO<Parameter>		parameterDao;
 	/** The party DAO */
-	private final DAO<Party>			partyDao;
+	private DAO<Party>			partyDao;
 	/** The entry DAO */
-	private final DAO<EntryMemberParty>	entryMemberPartyDao;
+	private DAO<EntryMemberParty>	entryMemberPartyDao;
 	
 	/**
 	 * Constructor #1.<br />
 	 */
 	public MySQLDAOFactory () {
 		super();
-		
+	}
+	
+	@Override
+	protected void init () {
 		connection = Utils.getConnection(getDataSourceConfiguration());
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Creating DAOs");

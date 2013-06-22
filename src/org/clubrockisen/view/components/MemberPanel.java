@@ -32,7 +32,7 @@ import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
 
-import com.alexrnl.commons.database.Column;
+import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.mvc.AbstractView;
 
 /**

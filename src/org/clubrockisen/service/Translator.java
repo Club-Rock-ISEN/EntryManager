@@ -12,8 +12,8 @@ import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.service.abstracts.ITranslator;
 
-import com.alexrnl.commons.database.Column;
-import com.alexrnl.commons.database.Entity;
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
 
 /**
  * Implementation of the translator.<br />

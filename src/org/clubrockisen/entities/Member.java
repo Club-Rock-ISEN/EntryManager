@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
 
-import com.alexrnl.commons.database.Column;
-import com.alexrnl.commons.database.Entity;
-import com.alexrnl.commons.database.EntityColumn;
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.database.structure.EntityColumn;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;

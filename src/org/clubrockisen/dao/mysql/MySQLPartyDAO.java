@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 
-import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.database.sql.SQLDAO;
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Class used to manipulate the parties in the database.<br />
