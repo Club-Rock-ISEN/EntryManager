@@ -14,3 +14,7 @@ Features
  * Many parameters and configuration options.
  * Data import/export.
  * and more !
+
+Misc
+-------
+Note that this project has a dependancy to [AlexRNL/Commons](https://github.com/AlexRNL/Commons), for the full list of requried libraries, please refer to the Readme.txt in the lib folder.
