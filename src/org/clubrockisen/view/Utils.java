@@ -27,6 +27,8 @@ import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
+import com.alexrnl.commons.utils.StringUtils;
+
 /**
  * Utility class for GUI related methods.<br />
  * @author Alex
@@ -46,49 +48,6 @@ public final class Utils {
 	 */
 	private Utils () {
 		super();
-	}
-	
-	/**
-	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
-	 * @param input
-	 *        the input string to be cut.
-	 * @return the string divided in several lines.
-	 */
-	public static String multiLine (final String input) {
-		// If input is shorter than the limit
-		if (input.trim().length() < Constants.LINE_MAX_LENGTH) {
-			return input.trim();
-		}
-		
-		// Other cases
-		final StringBuilder result = new StringBuilder();
-		String remaining = input;
-		while (remaining.length() > Constants.LINE_MAX_LENGTH) {
-			String nextLine = remaining.substring(0, Constants.LINE_MAX_LENGTH);
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Writing next line '" + nextLine + "'");
-			}
-			nextLine = nextLine.substring(0, nextLine.lastIndexOf(Constants.SPACE));
-			result.append(nextLine).append(Constants.NEW_LINE);
-			remaining = remaining.substring(nextLine.length()).trim();
-		}
-		result.append(remaining);
-		
-		return result.toString();
-	}
-	
-	/**
-	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
-	 * @param input
-	 *        the input string to be cut.
-	 * @return the content spread on several lines (using <code>&lt;br /&gt;</code>) and between
-	 *         <code>&lt;html&gt;</code> tags.
-	 * @see #multiLine(String)
-	 */
-	public static String multiLineHTML (final String input) {
-		final StringBuilder result = new StringBuilder(Constants.HTML_HTML_START);
-		result.append(multiLine(input)).append(Constants.HTML_HTML_END);
-		return result.toString().replace("" + Constants.NEW_LINE, Constants.HTML_NEW_LINE);
 	}
 	
 	/**
@@ -167,7 +126,7 @@ public final class Utils {
 	 */
 	public static void showMessageDialog (final Component parent, final AbstractDialog dialog,
 			final int type) {
-		JOptionPane.showMessageDialog(parent, multiLineHTML(getMessage(dialog)),
+		JOptionPane.showMessageDialog(parent, StringUtils.splitInLinesHTML(getMessage(dialog), Constants.LINE_MAX_LENGTH),
 				TRANSLATOR.get(dialog.title()), type);
 	}
 	
@@ -180,7 +139,7 @@ public final class Utils {
 	 * @return <code>true</code> if the use confirmed the dialog (clicked 'yes').
 	 */
 	public static boolean askConfirmation (final Component parent, final AbstractDialog dialog) {
-		final int choice = JOptionPane.showConfirmDialog(parent, multiLineHTML(getMessage(dialog)),
+		final int choice = JOptionPane.showConfirmDialog(parent, StringUtils.splitInLinesHTML(getMessage(dialog), Constants.LINE_MAX_LENGTH),
 				TRANSLATOR.get(dialog.title()), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return choice == JOptionPane.YES_OPTION;
 	}
@@ -205,7 +164,7 @@ public final class Utils {
 			translationMap.put(TRANSLATOR.get(t.toString()), t);
 		}
 		
-		final String choice = (String) JOptionPane.showInputDialog(parent, multiLineHTML(getMessage(dialog)),
+		final String choice = (String) JOptionPane.showInputDialog(parent, StringUtils.splitInLinesHTML(getMessage(dialog), Constants.LINE_MAX_LENGTH),
 				TRANSLATOR.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
 				translationMap.keySet().toArray(new Object[0]), translationMap.keySet().iterator().next());
 		if (lg.isLoggable(Level.FINE)) {
