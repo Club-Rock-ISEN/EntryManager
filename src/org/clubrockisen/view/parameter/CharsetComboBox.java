@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.renderers.CharsetRenderer;
+
+import com.alexrnl.commons.gui.swing.renderers.ListCellTextHighLighterRenderer;
 
 /**
  * Combo box for the charset available.
@@ -78,7 +80,7 @@ public class CharsetComboBox extends ParameterComponent {
 			});
 			charsets.addAll(Charset.availableCharsets().keySet());
 			comboBox = new JComboBox<>(charsets.toArray(new String[0]));
-			comboBox.setRenderer(new CharsetRenderer(mainCharset));
+			comboBox.setRenderer(new ListCellTextHighLighterRenderer(mainCharset, Constants.HIGHLIGHT_COLOR));
 		}
 		return comboBox;
 	}

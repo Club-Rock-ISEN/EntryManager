@@ -12,7 +12,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.view.Utils;
-import org.clubrockisen.view.renderers.LafRenderer;
+
+import com.alexrnl.commons.gui.swing.renderers.LafRenderer;
 
 /**
  * A combo box for editing an look and feel parameter.<br />

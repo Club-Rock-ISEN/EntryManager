@@ -6,8 +6,8 @@ import javax.swing.SpinnerModel;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.renderers.SpinnerEditableRenderer;
 
+import com.alexrnl.commons.gui.swing.renderers.SpinnerEditableRenderer;
 import com.alexrnl.commons.time.SpinnerTimeModel;
 
 /**
