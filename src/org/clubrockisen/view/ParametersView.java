@@ -19,7 +19,7 @@ import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.ParametersPanelController;
 import org.clubrockisen.entities.Parameter.ParameterColumn;
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.ValidateCancelPanel;
 import org.clubrockisen.view.parameter.ParameterChangeListener;
 import org.clubrockisen.view.parameter.ParameterComponent;
@@ -29,7 +29,7 @@ import org.clubrockisen.view.parameter.ParameterComponentsManager;
  * View for the parameter manager.<br />
  * @author Alex
  */
-public class ParametersView extends AbstractFrame implements ParameterChangeListener {
+public class ParametersView extends EntryManagerFrame implements ParameterChangeListener {
 	/** Logger */
 	private static Logger										lg					= Logger.getLogger(ParametersView.class.getName());
 	
@@ -54,12 +54,12 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	 *        the controller of the view.
 	 */
 	public ParametersView (final ParametersPanelController parametersPanelController) {
-		super(parametersPanelController);
+		super(TranslationKeys.GUI.parameters().title(), parametersPanelController);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
 	 */
 	@Override
 	protected void preInit (final Object... parameters) {
@@ -69,11 +69,10 @@ public class ParametersView extends AbstractFrame implements ParameterChangeList
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#build()
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
 	 */
 	@Override
 	protected void build () {
-		setTitle(getTranslator().get(TranslationKeys.GUI.parameters().title()));
 		setContentPane(buildParametersPanel());
 		setListeners();
 	}

@@ -14,7 +14,7 @@ import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
-import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.abstracts.EntryManagerFrame;
 
 import com.alexrnl.commons.database.dao.AbstractDAOFactory;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
@@ -75,7 +75,7 @@ public final class App {
 			ServiceFactory.createFactory(config, factory);
 			
 			// Loading GUI
-			AbstractFrame.loadIcon(Paths.get(config.get(KEY.iconFile())));
+			EntryManagerFrame.setIcon(Paths.get(config.get(KEY.iconFile())));
 			Utils.setLookAndFeel();
 			final MainWindowController mainWindow = new MainWindowController(Paths.get(config.get(KEY.helpFile())));
 			// Closing splash screen just before showing GUI

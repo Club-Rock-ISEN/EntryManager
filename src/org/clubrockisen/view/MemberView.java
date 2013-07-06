@@ -11,8 +11,7 @@ import javax.swing.JPanel;
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.abstracts.MemberController;
-import org.clubrockisen.entities.Member;
-import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.ValidateCancelPanel;
 
@@ -20,7 +19,7 @@ import org.clubrockisen.view.components.ValidateCancelPanel;
  * View which displays a panel to update a member.<br />
  * @author Alex
  */
-public class MemberView extends AbstractFrame {
+public class MemberView extends EntryManagerFrame {
 	/** Serial Version UID */
 	private static final long			serialVersionUID	= 5754628770258165084L;
 	
@@ -40,12 +39,12 @@ public class MemberView extends AbstractFrame {
 	 *        the controller to warn when the changes are applied.
 	 */
 	public MemberView (final MemberController controller) {
-		super(controller);
+		super(TranslationKeys.ENTITY.member().toString(), controller);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
 	 */
 	@Override
 	protected void preInit (final Object ... parameters) {
@@ -54,11 +53,10 @@ public class MemberView extends AbstractFrame {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#build()
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
 	 */
 	@Override
 	protected void build () {
-		setTitle(getTranslator().get(new Member()));
 		setContentPane(buildMemberPanel());
 		setListeners();
 	}

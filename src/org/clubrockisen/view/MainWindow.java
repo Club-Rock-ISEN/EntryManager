@@ -39,7 +39,7 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.model.SearchModel;
 import org.clubrockisen.service.abstracts.Format;
-import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
 
@@ -47,7 +47,7 @@ import org.clubrockisen.view.components.PartyPanel;
  * The main window of the application.<br />
  * @author Alex
  */
-public class MainWindow extends AbstractFrame {
+public class MainWindow extends EntryManagerFrame {
 	/** Logger */
 	private static Logger				lg					= Logger.getLogger(MainWindow.class.getName());
 	
@@ -79,12 +79,12 @@ public class MainWindow extends AbstractFrame {
 	 *        the controller of the view.
 	 */
 	public MainWindow (final MainWindowController controller) {
-		super(controller);
+		super(TranslationKeys.GUI.title(), controller);
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#preInit(java.lang.Object[])
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
 	 */
 	@Override
 	protected void preInit (final Object... parameters) {
@@ -93,11 +93,10 @@ public class MainWindow extends AbstractFrame {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractFrame#build()
+	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
 	 */
 	@Override
 	protected void build () {
-		setTitle(getTranslator().get(TranslationKeys.GUI.title()));
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setResizable(true);
 		buildMenus();

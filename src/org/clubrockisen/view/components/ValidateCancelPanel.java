@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
-import org.clubrockisen.view.abstracts.AbstractFrame;
+import org.clubrockisen.view.abstracts.EntryManagerFrame;
 
 /**
  * Panel with a cancel and a validate button.<br />
@@ -39,14 +39,14 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	/** List of the listener for the panel */
 	private final transient List<ActionListener>	actionListeners;
 	/** The parent frame to be hidden on cancel */
-	private final AbstractFrame						parentFrame;
+	private final EntryManagerFrame					parentFrame;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param frame
 	 *        the parent frame to be hidden on cancel.
 	 */
-	public ValidateCancelPanel (final AbstractFrame frame) {
+	public ValidateCancelPanel (final EntryManagerFrame frame) {
 		super();
 		// Initialization
 		this.parentFrame = frame;
