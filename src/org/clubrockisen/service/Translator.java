@@ -95,27 +95,6 @@ public final class Translator implements ITranslator {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.util.Set)
-	@Override
-	public <T extends Collection<?>> T get (final T keys) {
-		try {
-			final T translatedKeys = (T) keys.getClass().newInstance();
-			for (final Object key : keys) {
-				Object newObj = key.getClass().newInstance();
-				
-				translatedKeys.add(newObj);
-			}
-			return translatedKeys;
-		} catch (InstantiationException | IllegalAccessException e) {
-			lg.warning("Could not instantiate a collection of type " + keys.getClass().getSimpleName()
-					+ ", " + e.getClass() + ", " + e.getMessage() + ")");
-			return keys;
-		}
-	}
-	 */
-	
-	/*
-	 * (non-Javadoc)
 	 * @see org.clubrockisen.service.abstracts.ITranslator#get(java.lang.String, java.lang.Object[])
 	 */
 	@Override
