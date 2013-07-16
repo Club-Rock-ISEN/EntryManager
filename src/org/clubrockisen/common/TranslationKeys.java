@@ -1,5 +1,7 @@
 package org.clubrockisen.common;
 
+import com.alexrnl.commons.translation.AbstractDialog;
+
 /**
  * The Translation file key structure.
  * @author Alex
@@ -11,18 +13,6 @@ public final class TranslationKeys {
 	 */
 	private TranslationKeys () {
 		super();
-	}
-	
-	/**
-	 * Interface for configurable translations keys.
-	 * @author Alex
-	 */
-	public interface Parametrable {
-		/**
-		 * Return the parameters to use when building the translation of the key.
-		 * @return the parameters to use.
-		 */
-		Object[] getParameters ();
 	}
 	
 	/**
@@ -1023,40 +1013,10 @@ public final class TranslationKeys {
 			}
 			
 			/**
-			 * Abstract class to ease dialog translation.
-			 * @author Alex
-			 */
-			public abstract static class AbstractDialog {
-				
-				/**
-				 * Provide the key to the dialog, which allow to define the {@link #title()} and
-				 * {@link #message()} method at this level.
-				 */
-				@Override
-				public abstract String toString ();
-				
-				/**
-				 * The title of the dialog.
-				 * @return the translation of the dialog's title.
-				 */
-				public String title () {
-					return toString() + "." + "title";
-				}
-				
-				/**
-				 * The message of the dialog.
-				 * @return the translation of the dialog's message.
-				 */
-				public String message () {
-					return toString() + "." + "message";
-				}
-			}
-			
-			/**
 			 * The about dialog translations.
 			 * @author Alex
 			 */
-			public static final class About extends Dialog.AbstractDialog implements Parametrable {
+			public static final class About extends AbstractDialog {
 				/** The key to the about dialog */
 				private final String	aboutKey;
 				/** Array with the parameters to use */
@@ -1110,7 +1070,7 @@ public final class TranslationKeys {
 			 * The dialog to warn when a member is not selected.
 			 * @author Alex
 			 */
-			public static final class NotSelectedMember extends Dialog.AbstractDialog {
+			public static final class NotSelectedMember extends AbstractDialog {
 				/** The key to the not selected member dialog */
 				private final String	notSelectedMemberKey;
 				
@@ -1149,7 +1109,7 @@ public final class TranslationKeys {
 			 * The dialog to warn when a member is not persisted.
 			 * @author Alex
 			 */
-			public static final class NotPersistedMember extends Dialog.AbstractDialog {
+			public static final class NotPersistedMember extends AbstractDialog {
 				/** The key to the not persisted member dialog */
 				private final String	notPersistedMember;
 				
@@ -1188,7 +1148,7 @@ public final class TranslationKeys {
 			 * The dialog to warn when a parameter is not persisted.
 			 * @author Alex
 			 */
-			public static final class NotPersistedParameter extends Dialog.AbstractDialog {
+			public static final class NotPersistedParameter extends AbstractDialog {
 				/** The key to the not persisted parameter dialog */
 				private final String	notPersistedParameter;
 				
@@ -1227,7 +1187,7 @@ public final class TranslationKeys {
 			 * The dialog to warn when a unparsable date is entered.
 			 * @author Alex
 			 */
-			public static final class UnparsableDate extends Dialog.AbstractDialog implements Parametrable {
+			public static final class UnparsableDate extends AbstractDialog {
 				/** The key to the unparsable date dialog */
 				private final String	unparsableDateKey;
 				/** Array with the parameters to use */
@@ -1281,7 +1241,7 @@ public final class TranslationKeys {
 			 * The dialog to warn that the help could not be displayed.
 			 * @author Alex
 			 */
-			public static final class HelpNotDisplayable extends Dialog.AbstractDialog {
+			public static final class HelpNotDisplayable extends AbstractDialog {
 				/** The key to the help not displayable dialog */
 				private final String	helpNotDisplayableKey;
 				
@@ -1319,7 +1279,7 @@ public final class TranslationKeys {
 			 * The dialog to ask confirmation for member deletion.
 			 * @author Alex
 			 */
-			public static final class DeleteMember extends Dialog.AbstractDialog implements Parametrable {
+			public static final class DeleteMember extends AbstractDialog {
 				/** The key to the delete member dialog */
 				private final String	deleteMemberKey;
 				/** The array with the parameters */
@@ -1373,7 +1333,7 @@ public final class TranslationKeys {
 			 * The dialog to confirm the success of file import.
 			 * @author Alex
 			 */
-			public static final class FileImportSuccessful extends Dialog.AbstractDialog implements Parametrable {
+			public static final class FileImportSuccessful extends AbstractDialog {
 				/** The key to the file import successful dialog */
 				private final String	fileImportSuccessfulKey;
 				/** Array with the parameters */
@@ -1432,7 +1392,7 @@ public final class TranslationKeys {
 			 * The dialog of file import failed.
 			 * @author Alex
 			 */
-			public static final class FileImportFailed extends Dialog.AbstractDialog implements Parametrable {
+			public static final class FileImportFailed extends AbstractDialog {
 				/** The key to the file import failed dialog */
 				private final String	fileImportFailedKey;
 				/** Array with the parameters */
@@ -1485,7 +1445,7 @@ public final class TranslationKeys {
 			 * Structure of the choose format dialog.
 			 * @author Alex
 			 */
-			public static final class ChooseFormat extends Dialog.AbstractDialog {
+			public static final class ChooseFormat extends AbstractDialog {
 				/** The key to the choose format dialog */
 				private final String	chooseFormaKey;
 				
@@ -1523,7 +1483,7 @@ public final class TranslationKeys {
 			 * The dialog to confirm the success of file export.
 			 * @author Alex
 			 */
-			public static final class FileExportSuccessful extends Dialog.AbstractDialog implements Parametrable {
+			public static final class FileExportSuccessful extends AbstractDialog {
 				/** The key to the file export successful dialog */
 				private final String	fileExportSuccessfulKey;
 				/** Array with the parameters */
@@ -1577,7 +1537,7 @@ public final class TranslationKeys {
 			 * The dialog of file export failed.
 			 * @author Alex
 			 */
-			public static final class FileExportFailed extends Dialog.AbstractDialog implements Parametrable {
+			public static final class FileExportFailed extends AbstractDialog {
 				/** The key to the file export failed dialog */
 				private final String	fileExportFailedKey;
 				/** Array with the parameters */
@@ -1631,7 +1591,7 @@ public final class TranslationKeys {
 			 * The dialog for free entrances.
 			 * @author Alex
 			 */
-			public static final class FreeEntry extends Dialog.AbstractDialog implements Parametrable {
+			public static final class FreeEntry extends AbstractDialog {
 				/** The key to the free entry dialog */
 				private final String	freeEntryKey;
 				/** Array with the parameters */
@@ -1686,7 +1646,7 @@ public final class TranslationKeys {
 			 * The dialog for entry price.
 			 * @author Alex
 			 */
-			public static final class EntryPrice extends Dialog.AbstractDialog implements Parametrable {
+			public static final class EntryPrice extends AbstractDialog {
 				/** The key to the entry price dialog */
 				private final String	entryPriceKey;
 				/** Array with the parameters */
@@ -1746,7 +1706,7 @@ public final class TranslationKeys {
 			 * The dialog for member entry.
 			 * @author Alex
 			 */
-			public static final class MemberEntry extends Dialog.AbstractDialog implements Parametrable {
+			public static final class MemberEntry extends AbstractDialog {
 				/** The key to the member entry dialog */
 				private final String	memberEntryKey;
 				/** Array with the parameters */
@@ -1801,7 +1761,7 @@ public final class TranslationKeys {
 			 * The dialog for member entry failed.
 			 * @author Alex
 			 */
-			public static final class MemberEntryFailed extends Dialog.AbstractDialog implements Parametrable {
+			public static final class MemberEntryFailed extends AbstractDialog {
 				/** The key to the member entry failed dialog */
 				private final String	memberEntryFailedKey;
 				/** Array with the parameters */

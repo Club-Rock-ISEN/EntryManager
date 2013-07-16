@@ -33,7 +33,6 @@ import javax.swing.event.ListSelectionListener;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
-import org.clubrockisen.common.TranslationKeys.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
@@ -42,6 +41,8 @@ import org.clubrockisen.service.abstracts.Format;
 import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
+
+import com.alexrnl.commons.translation.AbstractDialog;
 
 /**
  * The main window of the application.<br />

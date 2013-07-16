@@ -20,13 +20,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKeys.Gui.Dialog.AbstractDialog;
 import org.clubrockisen.common.TranslationKeys.Gui.GUIElement;
-import org.clubrockisen.common.TranslationKeys.Parametrable;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
+import com.alexrnl.commons.translation.AbstractDialog;
 import com.alexrnl.commons.utils.StringUtils;
 
 /**
@@ -102,13 +101,7 @@ public final class Utils {
 	 * @return the message to display.
 	 */
 	private static String getMessage (final AbstractDialog dialog) {
-		String message;
-		if (Parametrable.class.isInstance(dialog)) {
-			message = TRANSLATOR.get(dialog.message(), ((Parametrable) dialog).getParameters());
-		} else {
-			message = TRANSLATOR.get(dialog.message());
-		}
-		return message;
+		return TRANSLATOR.get(dialog.message(), dialog.getParameters());
 	}
 	
 	/**
