@@ -1,6 +1,7 @@
 package org.clubrockisen.common;
 
 import com.alexrnl.commons.translation.AbstractDialog;
+import com.alexrnl.commons.translation.GUIElement;
 
 /**
  * The Translation file key structure.
@@ -554,60 +555,6 @@ public final class TranslationKeys {
 		}
 		
 		/**
-		 * Define an element that may also be accessible via a shortcut and display a title on
-		 * mouse over events.
-		 * @author Alex
-		 */
-		public static final class GUIElement {
-			/** The key to the property */
-			private final String propertyKey;
-			
-			/**
-			 * Constructor #1.<br />
-			 * @param propertyKey
-			 *        the key of the property.
-			 */
-			public GUIElement (final String propertyKey) {
-				super();
-				this.propertyKey = propertyKey;
-			}
-			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
-			@Override
-			public String toString () {
-				return propertyKey;
-			}
-			
-			/**
-			 * The text of the element.
-			 * @return the translation for the main text of the GUI element.
-			 */
-			public String getText () {
-				return toString();
-			}
-			
-			/**
-			 * The shortcut to use for quick call to the element.
-			 * @return the shortcut to use.
-			 */
-			public String getShortcut () {
-				return propertyKey + "." + "shortcut";
-			}
-			
-			/**
-			 * The tool tip to show on the element.
-			 * @return the tool tip to show on the element.
-			 */
-			public String getToolTip () {
-				return propertyKey + "." + "tooltip";
-			}
-			
-		}
-		
-		/**
 		 * The menu translation.
 		 * @author Alex
 		 */
@@ -667,7 +614,7 @@ public final class TranslationKeys {
 				 * The parameters item.
 				 * @return the translation for the parameters item.
 				 */
-				public Gui.GUIElement parameters () {
+				public GUIElement parameters () {
 					return new GUIElement(fileKey + "." + "parameters");
 				}
 				
@@ -675,7 +622,7 @@ public final class TranslationKeys {
 				 * The quit item.
 				 * @return the translation for the quit item.
 				 */
-				public Gui.GUIElement quit () {
+				public GUIElement quit () {
 					return new GUIElement(fileKey + "." + "quit");
 				}
 				
@@ -721,7 +668,7 @@ public final class TranslationKeys {
 				 * The see members item.
 				 * @return the translation for the see members item.
 				 */
-				public Gui.GUIElement seeMembers () {
+				public GUIElement seeMembers () {
 					return new GUIElement(databaseKey + "." + "seeMembers");
 				}
 				
@@ -729,7 +676,7 @@ public final class TranslationKeys {
 				 * The see attendees item.
 				 * @return the translation for the see attendees item.
 				 */
-				public Gui.GUIElement seeAttendees () {
+				public GUIElement seeAttendees () {
 					return new GUIElement(databaseKey + "." + "seeAttendees");
 				}
 				
@@ -737,7 +684,7 @@ public final class TranslationKeys {
 				 * The import data item.
 				 * @return the translation for the import data item.
 				 */
-				public Gui.GUIElement importData () {
+				public GUIElement importData () {
 					return new GUIElement(databaseKey + "." + "importData");
 				}
 				
@@ -745,7 +692,7 @@ public final class TranslationKeys {
 				 * The export data item.
 				 * @return the translation for the export data item.
 				 */
-				public Gui.GUIElement exportData () {
+				public GUIElement exportData () {
 					return new GUIElement(databaseKey + "." + "exportData");
 				}
 				
@@ -791,7 +738,7 @@ public final class TranslationKeys {
 				 * The new member item.
 				 * @return the translation for the new member item.
 				 */
-				public Gui.GUIElement newMember () {
+				public GUIElement newMember () {
 					return new GUIElement(memberKey + "." + "newMember");
 				}
 				
@@ -799,7 +746,7 @@ public final class TranslationKeys {
 				 * The delete member item.
 				 * @return the translation for the delete member item.
 				 */
-				public Gui.GUIElement deleteMember () {
+				public GUIElement deleteMember () {
 					return new GUIElement(memberKey + "." + "deleteMember");
 				}
 				
@@ -807,7 +754,7 @@ public final class TranslationKeys {
 				 * The update member item.
 				 * @return the translation for the update member item.
 				 */
-				public Gui.GUIElement updateMember () {
+				public GUIElement updateMember () {
 					return new GUIElement(memberKey + "." + "updateMember");
 				}
 				
@@ -853,7 +800,7 @@ public final class TranslationKeys {
 				 * The help item.
 				 * @return the translation for the help item.
 				 */
-				public Gui.GUIElement help () {
+				public GUIElement help () {
 					return new GUIElement(helpKey + "." + "help");
 				}
 				
@@ -861,7 +808,7 @@ public final class TranslationKeys {
 				 * The about item.
 				 * @return the translation for the about item.
 				 */
-				public Gui.GUIElement about () {
+				public GUIElement about () {
 					return new GUIElement(helpKey + "." + "about");
 				}
 				
@@ -881,7 +828,7 @@ public final class TranslationKeys {
 		 * Access to the menu translations.
 		 * @return the menu translations.
 		 */
-		public Gui.Menu menu () {
+		public Menu menu () {
 			return new Menu(guiKey);
 		}
 		
@@ -927,7 +874,7 @@ public final class TranslationKeys {
 		 * Access to the parameters manager translations.
 		 * @return the parameters manager translations.
 		 */
-		public Gui.Parameters parameters () {
+		public Parameters parameters () {
 			return new Parameters(guiKey);
 		}
 		
@@ -981,7 +928,7 @@ public final class TranslationKeys {
 		 * Access to the translations for the buttons.
 		 * @return the buttons translation.
 		 */
-		public Gui.Buttons buttons () {
+		public Buttons buttons () {
 			return new Buttons(guiKey);
 		}
 		

@@ -20,12 +20,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.clubrockisen.common.Constants;
-import org.clubrockisen.common.TranslationKeys.Gui.GUIElement;
 import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
 import com.alexrnl.commons.translation.AbstractDialog;
+import com.alexrnl.commons.translation.GUIElement;
 import com.alexrnl.commons.utils.StringUtils;
 
 /**
