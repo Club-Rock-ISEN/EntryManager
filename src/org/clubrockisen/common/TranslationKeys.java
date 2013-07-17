@@ -554,7 +554,8 @@ public final class TranslationKeys {
 		}
 		
 		/**
-		 * Define an element that may also
+		 * Define an element that may also be accessible via a shortcut and display a title on
+		 * mouse over events.
 		 * @author Alex
 		 */
 		public static final class GUIElement {
