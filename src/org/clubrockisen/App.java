@@ -101,8 +101,7 @@ public final class App {
 	 *        the arguments from the command line.
 	 */
 	public static void main (final String[] args) {
-		final App app = new App(args);
-		app.launch();
+		new App(args).launch();
 	}
 	
 }
