@@ -11,8 +11,8 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.clubrockisen.service.abstracts.ParametersEnum;
-import org.clubrockisen.view.Utils;
 
+import com.alexrnl.commons.gui.swing.SwingUtils;
 import com.alexrnl.commons.gui.swing.renderers.LafRenderer;
 
 /**
@@ -76,7 +76,7 @@ public class LAFComboBox extends ParameterComponent {
 					 */
 					@Override
 					public void run () {
-						Utils.setLookAndFeel(getValue());
+						SwingUtils.setLookAndFeel(getValue());
 					}
 				});
 			}

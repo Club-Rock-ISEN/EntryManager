@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import org.clubrockisen.service.abstracts.IEntryManager;
 import org.clubrockisen.service.abstracts.IFileManager;
 import org.clubrockisen.service.abstracts.IParametersManager;
-import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
 /**
@@ -21,7 +20,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 	/** The parameter manager */
 	private final IParametersManager	parameterManager;
 	/** The translator */
-	private final ITranslator			translator;
+	private final Translator			translator;
 	/** The entry manager */
 	private final IEntryManager			entryManager;
 	/** The file importer */
@@ -56,7 +55,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getTranslator()
 	 */
 	@Override
-	public ITranslator getTranslator () {
+	public Translator getTranslator () {
 		return translator;
 	}
 	

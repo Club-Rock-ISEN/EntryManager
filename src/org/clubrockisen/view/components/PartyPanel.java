@@ -26,7 +26,7 @@ import org.clubrockisen.common.TranslationKeys;
 import org.clubrockisen.controller.abstracts.PartyController;
 import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
-import org.clubrockisen.service.abstracts.ITranslator;
+import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.Utils;
 
@@ -40,42 +40,42 @@ import com.alexrnl.commons.mvc.AbstractView;
  */
 public class PartyPanel extends JPanel implements AbstractView {
 	/** Logger */
-	private static Logger					lg					= Logger.getLogger(PartyPanel.class.getName());
+	private static Logger				lg					= Logger.getLogger(PartyPanel.class.getName());
 	
 	/** Serial version UID */
-	private static final long				serialVersionUID	= 5439969626885070319L;
+	private static final long			serialVersionUID	= 5439969626885070319L;
 	
 	// Services
 	/** Translator */
-	private final transient ITranslator		translator			= ServiceFactory.getImplementation().getTranslator();
+	private final transient Translator	translator			= ServiceFactory.getImplementation().getTranslator();
 	
 	// Swing elements
 	/** Field for the party's date */
-	private final JTextField				dateField;
+	private final JTextField			dateField;
 	/** Field for the party's entry number */
-	private final JSpinner					entriesTotalField;
+	private final JSpinner				entriesTotalField;
 	/** Field for the party's first part entry number */
-	private final JSpinner					entriesFirstPartField;
+	private final JSpinner				entriesFirstPartField;
 	/** Field for the party's second part entry number */
-	private final JSpinner					entriesSecondPartField;
+	private final JSpinner				entriesSecondPartField;
 	/** Field for the party's new member entry number */
-	private final JSpinner					entriesNewMemberField;
+	private final JSpinner				entriesNewMemberField;
 	/** Field for the party's free entry number */
-	private final JSpinner					entriesFreeField;
+	private final JSpinner				entriesFreeField;
 	/** Field for the party's male entry number */
-	private final JSpinner					entriesMaleField;
+	private final JSpinner				entriesMaleField;
 	/** Field for the party's female entry number */
-	private final JSpinner					entriesFemaleField;
+	private final JSpinner				entriesFemaleField;
 	/** Field of the difference between male and female members */
-	private final JSpinner					deltaValue;
+	private final JSpinner				deltaValue;
 	/** Field for the party's revenue */
-	private final JSpinner					revenueField;
+	private final JSpinner				revenueField;
 	/** Field for the party's profit */
-	private final JSpinner					profitField;
+	private final JSpinner				profitField;
 	
 	// Miscellaneous
 	/** Formatter for the date */
-	private final SimpleDateFormat			dateFormatter;
+	private final SimpleDateFormat		dateFormatter;
 	
 	/**
 	 * Constructor #1.<br />

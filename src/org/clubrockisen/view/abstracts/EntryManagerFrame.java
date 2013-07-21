@@ -2,7 +2,7 @@ package org.clubrockisen.view.abstracts;
 
 import java.nio.file.Path;
 
-import org.clubrockisen.service.abstracts.ITranslator;
+import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 
 import com.alexrnl.commons.gui.swing.AbstractFrame;
@@ -15,12 +15,12 @@ import com.alexrnl.commons.gui.swing.AbstractFrame;
  */
 public abstract class EntryManagerFrame extends AbstractFrame {
 	/** Serial Version UID */
-	private static final long							serialVersionUID	= -3391832845968248721L;
+	private static final long					serialVersionUID	= -3391832845968248721L;
 	
 	/** Translator */
-	private static final transient ITranslator			TRANSLATOR			= ServiceFactory.getImplementation().getTranslator();
+	private static final transient Translator	TRANSLATOR			= ServiceFactory.getImplementation().getTranslator();
 	/** Icon for frames */
-	private static Path									icon = null;
+	private static Path							icon = null;
 	
 	/**
 	 * Set the file for the icon of the frames.<br />
@@ -46,7 +46,7 @@ public abstract class EntryManagerFrame extends AbstractFrame {
 	 * Return the translator.
 	 * @return the translator.
 	 */
-	public ITranslator getTranslator () {
+	public Translator getTranslator () {
 		return TRANSLATOR;
 	}
 	

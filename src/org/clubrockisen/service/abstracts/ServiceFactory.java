@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.common.error.ServiceInstantiationError;
 import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
+import org.clubrockisen.service.Translator;
 
 import com.alexrnl.commons.utils.Configuration;
 
@@ -77,7 +78,7 @@ public abstract class ServiceFactory {
 	 * Return the translator to use.
 	 * @return the translator.
 	 */
-	public abstract ITranslator getTranslator ();
+	public abstract Translator getTranslator ();
 	
 	/**
 	 * Return the entry manager to use.

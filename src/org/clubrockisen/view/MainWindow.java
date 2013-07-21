@@ -42,6 +42,7 @@ import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
 
+import com.alexrnl.commons.gui.swing.SwingUtils;
 import com.alexrnl.commons.translation.AbstractDialog;
 
 /**
@@ -110,8 +111,8 @@ public class MainWindow extends EntryManagerFrame {
 	private void buildMenus () {
 		final JMenuBar menuBar = new JMenuBar();
 		// File menu creation
-		final JMenu fileMenu = Utils.getMenu(TranslationKeys.GUI.menu().file().toString());
-		final JMenuItem parametersItem = Utils.getMenuItem(TranslationKeys.GUI.menu().file().parameters(), new ActionListener() {
+		final JMenu fileMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().file().toString());
+		final JMenuItem parametersItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().file().parameters(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -121,7 +122,7 @@ public class MainWindow extends EntryManagerFrame {
 				controller.showParameters();
 			}
 		});
-		final JMenuItem quitItem = Utils.getMenuItem(TranslationKeys.GUI.menu().file().quit(), new ActionListener() {
+		final JMenuItem quitItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().file().quit(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -136,8 +137,8 @@ public class MainWindow extends EntryManagerFrame {
 		fileMenu.add(quitItem);
 		
 		// Database menu creation
-		final JMenu dataBaseMenu = Utils.getMenu(TranslationKeys.GUI.menu().database().toString());
-		final JMenuItem seeMembersItem = Utils.getMenuItem(TranslationKeys.GUI.menu().database().seeMembers(), new ActionListener() {
+		final JMenu dataBaseMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().database().toString());
+		final JMenuItem seeMembersItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().seeMembers(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -147,7 +148,7 @@ public class MainWindow extends EntryManagerFrame {
 				controller.showAllMembers();
 			}
 		});
-		final JMenuItem seeAttendeesItem = Utils.getMenuItem(TranslationKeys.GUI.menu().database().seeAttendees(), new ActionListener() {
+		final JMenuItem seeAttendeesItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().seeAttendees(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -157,7 +158,7 @@ public class MainWindow extends EntryManagerFrame {
 				controller.showAttendees();
 			}
 		});
-		final JMenuItem importDataItem = Utils.getMenuItem(TranslationKeys.GUI.menu().database().importData(), new ActionListener() {
+		final JMenuItem importDataItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().importData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -178,7 +179,7 @@ public class MainWindow extends EntryManagerFrame {
 				}
 			}
 		});
-		final JMenuItem exportDataItem = Utils.getMenuItem(TranslationKeys.GUI.menu().database().exportData(), new ActionListener() {
+		final JMenuItem exportDataItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().exportData(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -205,8 +206,8 @@ public class MainWindow extends EntryManagerFrame {
 		dataBaseMenu.add(exportDataItem);
 		
 		// Member menu creation
-		final JMenu memberMenu = Utils.getMenu(TranslationKeys.GUI.menu().member().toString());
-		final JMenuItem newMemberItem = Utils.getMenuItem(TranslationKeys.GUI.menu().member().newMember(), new ActionListener() {
+		final JMenu memberMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().member().toString());
+		final JMenuItem newMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().newMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -216,7 +217,7 @@ public class MainWindow extends EntryManagerFrame {
 				controller.createMember();
 			}
 		});
-		final JMenuItem deleteMemberItem = Utils.getMenuItem(TranslationKeys.GUI.menu().member().deleteMember(), new ActionListener() {
+		final JMenuItem deleteMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().deleteMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -228,7 +229,7 @@ public class MainWindow extends EntryManagerFrame {
 				}
 			}
 		});
-		final JMenuItem updateMemberItem = Utils.getMenuItem(TranslationKeys.GUI.menu().member().updateMember(), new ActionListener() {
+		final JMenuItem updateMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().updateMember(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -243,8 +244,8 @@ public class MainWindow extends EntryManagerFrame {
 		memberMenu.add(updateMemberItem);
 		
 		// Help menu creation
-		final JMenu helpMenu = Utils.getMenu(TranslationKeys.GUI.menu().help().toString());
-		final JMenuItem helpItem = Utils.getMenuItem(TranslationKeys.GUI.menu().help().help(), new ActionListener() {
+		final JMenu helpMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().help().toString());
+		final JMenuItem helpItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().help().help(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -258,7 +259,7 @@ public class MainWindow extends EntryManagerFrame {
 				}
 			}
 		});
-		final JMenuItem aboutItem = Utils.getMenuItem(TranslationKeys.GUI.menu().help().about(), new ActionListener() {
+		final JMenuItem aboutItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().help().about(), new ActionListener() {
 			/*
 			 * (non-Javadoc)
 			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)

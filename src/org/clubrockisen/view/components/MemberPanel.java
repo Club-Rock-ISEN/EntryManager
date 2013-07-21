@@ -26,8 +26,8 @@ import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Member.MemberColumn;
 import org.clubrockisen.entities.enums.Gender;
 import org.clubrockisen.entities.enums.Status;
+import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.IParametersManager;
-import org.clubrockisen.service.abstracts.ITranslator;
 import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
 import org.clubrockisen.view.renderers.CustomEnumRenderer;
@@ -49,7 +49,7 @@ public class MemberPanel extends JPanel implements AbstractView {
 	
 	// Services
 	/** Translator */
-	private final transient ITranslator			translator			= ServiceFactory.getImplementation().getTranslator();
+	private final transient Translator			translator			= ServiceFactory.getImplementation().getTranslator();
 	/** Parameter manager */
 	private final transient IParametersManager	paramManager		= ServiceFactory.getImplementation().getParameterManager();
 	
