@@ -28,9 +28,9 @@ import org.clubrockisen.entities.Party;
 import org.clubrockisen.entities.Party.PartyColumn;
 import org.clubrockisen.service.Translator;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.Utils;
 
 import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.gui.swing.SwingUtils;
 import com.alexrnl.commons.mvc.AbstractView;
 
 /**
@@ -218,9 +218,9 @@ public class PartyPanel extends JPanel implements AbstractView {
 				} catch (final ParseException e) {
 					lg.warning("Invalid date format, revert changes (" + e.getClass() + "; "
 							+ e.getMessage() + ")");
-					Utils.showMessageDialog(PartyPanel.this,
+					SwingUtils.showMessageDialog(PartyPanel.this, translator,
 							TranslationKeys.GUI.dialog().unparsableDate(dateField.getText()),
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE, Constants.LINE_MAX_LENGTH);
 					dateField.setText(oldValue);
 				}
 			}

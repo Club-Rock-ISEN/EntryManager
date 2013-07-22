@@ -25,6 +25,8 @@ import org.clubrockisen.view.parameter.ParameterChangeListener;
 import org.clubrockisen.view.parameter.ParameterComponent;
 import org.clubrockisen.view.parameter.ParameterComponentsManager;
 
+import com.alexrnl.commons.gui.swing.SwingUtils;
+
 /**
  * View for the parameter manager.<br />
  * @author Alex
@@ -134,9 +136,9 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(getFrame(),
+					SwingUtils.showMessageDialog(getFrame(), getTranslator(),
 							TranslationKeys.GUI.dialog().notPersistedParameter(),
-							JOptionPane.ERROR_MESSAGE);
+							JOptionPane.ERROR_MESSAGE, Constants.LINE_MAX_LENGTH);
 				} else {
 					getFrame().setVisible(false);
 				}

@@ -170,11 +170,13 @@ public class MainWindow extends EntryManagerFrame {
 				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
 					final Integer importedMember = controller.importFile(file, format);
 					if (importedMember != null) {
-						Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
-								JOptionPane.INFORMATION_MESSAGE);
+						SwingUtils.showMessageDialog(getFrame(), getTranslator(),
+								TranslationKeys.GUI.dialog().fileImportSuccessful(file.toString(), importedMember),
+								JOptionPane.INFORMATION_MESSAGE, Constants.LINE_MAX_LENGTH);
 					} else {
-						Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().fileImportFailed(file.toString()),
-								JOptionPane.ERROR_MESSAGE);
+						SwingUtils.showMessageDialog(getFrame(), getTranslator(),
+								TranslationKeys.GUI.dialog().fileImportFailed(file.toString()),
+								JOptionPane.ERROR_MESSAGE, Constants.LINE_MAX_LENGTH);
 					}
 				}
 			}
@@ -190,11 +192,13 @@ public class MainWindow extends EntryManagerFrame {
 				Path file;
 				if ((format = getFileFormat()) != null && (file = getFilePath()) != null) {
 					if (controller.exportFile(file, format)) {
-						Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().fileExportSuccessful(file.toString()),
-								JOptionPane.INFORMATION_MESSAGE);
+						SwingUtils.showMessageDialog(getFrame(), getTranslator(),
+								TranslationKeys.GUI.dialog().fileExportSuccessful(file.toString()),
+								JOptionPane.INFORMATION_MESSAGE, Constants.LINE_MAX_LENGTH);
 					} else {
-						Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().fileExportFailed(file.toString()),
-								JOptionPane.ERROR_MESSAGE);
+						SwingUtils.showMessageDialog(getFrame(), getTranslator(),
+								TranslationKeys.GUI.dialog().fileExportFailed(file.toString()),
+								JOptionPane.ERROR_MESSAGE, Constants.LINE_MAX_LENGTH);
 					}
 				}
 			}
@@ -224,7 +228,8 @@ public class MainWindow extends EntryManagerFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				if (Utils.askConfirmation(getFrame(), TranslationKeys.GUI.dialog().deleteMember(getSelectedMember().getName()))) {
+				if (SwingUtils.askConfirmation(getFrame(), getTranslator(),
+						TranslationKeys.GUI.dialog().deleteMember(getSelectedMember().getName()), Constants.LINE_MAX_LENGTH)) {
 					controller.deleteMember(getSelectedMember());
 				}
 			}
@@ -253,9 +258,9 @@ public class MainWindow extends EntryManagerFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.showHelp()) {
-					Utils.showMessageDialog(getFrame(),
+					SwingUtils.showMessageDialog(getFrame(), getTranslator(),
 							TranslationKeys.GUI.dialog().helpNotDisplayable(),
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.WARNING_MESSAGE, Constants.LINE_MAX_LENGTH);
 				}
 			}
 		});
@@ -266,8 +271,8 @@ public class MainWindow extends EntryManagerFrame {
 			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
-				Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().about(Constants.AUTHOR_NAME),
-						JOptionPane.INFORMATION_MESSAGE);
+				SwingUtils.showMessageDialog(getFrame(), getTranslator(), TranslationKeys.GUI.dialog().about(Constants.AUTHOR_NAME),
+						JOptionPane.INFORMATION_MESSAGE, Constants.LINE_MAX_LENGTH);
 			}
 		});
 		helpMenu.add(helpItem);
@@ -390,7 +395,7 @@ public class MainWindow extends EntryManagerFrame {
 				}
 				
 				// Entry canceled
-				if (!Utils.askConfirmation(getFrame(), dialog)) {
+				if (!SwingUtils.askConfirmation(getFrame(), getTranslator(), dialog, Constants.LINE_MAX_LENGTH)) {
 					if (lg.isLoggable(Level.INFO)) {
 						lg.info("User canceled member entry.");
 					}
@@ -398,11 +403,11 @@ public class MainWindow extends EntryManagerFrame {
 				}
 				
 				if (controller.enter(member)) {
-					Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().memberEntry(member.getName()),
-							JOptionPane.INFORMATION_MESSAGE);
+					SwingUtils.showMessageDialog(getFrame(), getTranslator(), TranslationKeys.GUI.dialog().memberEntry(member.getName()),
+							JOptionPane.INFORMATION_MESSAGE, Constants.LINE_MAX_LENGTH);
 				} else {
-					Utils.showMessageDialog(getFrame(), TranslationKeys.GUI.dialog().memberEntryFailed(member.getName()),
-							JOptionPane.ERROR_MESSAGE);
+					SwingUtils.showMessageDialog(getFrame(), getTranslator(), TranslationKeys.GUI.dialog().memberEntryFailed(member.getName()),
+							JOptionPane.ERROR_MESSAGE, Constants.LINE_MAX_LENGTH);
 				}
 				
 				SwingUtilities.invokeLater(new Runnable() {
@@ -478,9 +483,9 @@ public class MainWindow extends EntryManagerFrame {
 		final Member member = resultList.getSelectedValue();
 		if (member == null) {
 			lg.info("No member selected.");
-			Utils.showMessageDialog(getFrame(),
+			SwingUtils.showMessageDialog(getFrame(), getTranslator(),
 					TranslationKeys.GUI.dialog().notSelectedMember(),
-					JOptionPane.WARNING_MESSAGE);
+					JOptionPane.WARNING_MESSAGE, Constants.LINE_MAX_LENGTH);
 		}
 		return member;
 	}
@@ -491,7 +496,7 @@ public class MainWindow extends EntryManagerFrame {
 	 * @return the {@link Format} selected.
 	 */
 	private Format getFileFormat () {
-		return Utils.askChoice(getFrame(), TranslationKeys.GUI.dialog().chooseFormat(), controller.getAvailableFormat());
+		return SwingUtils.askChoice(getFrame(), getTranslator(), TranslationKeys.GUI.dialog().chooseFormat(), controller.getAvailableFormat(), Constants.LINE_MAX_LENGTH);
 	}
 	
 	/**

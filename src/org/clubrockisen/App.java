@@ -12,13 +12,14 @@ import javax.swing.JOptionPane;
 import org.clubrockisen.common.ConfigurationKeys;
 import org.clubrockisen.controller.MainWindowController;
 import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
+import org.clubrockisen.service.abstracts.ParametersEnum;
 import org.clubrockisen.service.abstracts.ServiceFactory;
-import org.clubrockisen.view.Utils;
 import org.clubrockisen.view.abstracts.EntryManagerFrame;
 
 import com.alexrnl.commons.database.dao.AbstractDAOFactory;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.error.TopLevelError;
+import com.alexrnl.commons.gui.swing.SwingUtils;
 import com.alexrnl.commons.utils.Configuration;
 
 /**
@@ -76,7 +77,7 @@ public final class App {
 			
 			// Loading GUI
 			EntryManagerFrame.setIcon(Paths.get(config.get(KEY.iconFile())));
-			Utils.setLookAndFeel();
+			SwingUtils.setLookAndFeel(ServiceFactory.getImplementation().getParameterManager().get(ParametersEnum.LOOK_AND_FEEL).getValue());
 			final MainWindowController mainWindow = new MainWindowController(Paths.get(config.get(KEY.helpFile())));
 			// Closing splash screen just before showing GUI
 			if (splashScreen != null) {

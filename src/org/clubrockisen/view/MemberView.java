@@ -15,6 +15,8 @@ import org.clubrockisen.view.abstracts.EntryManagerFrame;
 import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.ValidateCancelPanel;
 
+import com.alexrnl.commons.gui.swing.SwingUtils;
+
 /**
  * View which displays a panel to update a member.<br />
  * @author Alex
@@ -94,9 +96,9 @@ public class MemberView extends EntryManagerFrame {
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
-					Utils.showMessageDialog(getFrame(),
+					SwingUtils.showMessageDialog(getFrame(), getTranslator(),
 							TranslationKeys.GUI.dialog().notPersistedMember(),
-							JOptionPane.ERROR_MESSAGE);
+							JOptionPane.ERROR_MESSAGE, Constants.LINE_MAX_LENGTH);
 				} else {
 					getFrame().setVisible(false);
 				}
