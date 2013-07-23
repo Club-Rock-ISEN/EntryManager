@@ -66,6 +66,7 @@ public final class App {
 			lg.info("Club Rock ISEN application starting...");
 		}
 		
+		MainWindowController mainWindow = null;
 		try {
 			// Loading DAO factory and services
 			final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
@@ -78,21 +79,31 @@ public final class App {
 			// Loading GUI
 			EntryManagerFrame.setIcon(Paths.get(config.get(KEY.iconFile())));
 			SwingUtils.setLookAndFeel(ServiceFactory.getImplementation().getParameterManager().get(ParametersEnum.LOOK_AND_FEEL).getValue());
-			final MainWindowController mainWindow = new MainWindowController(Paths.get(config.get(KEY.helpFile())));
-			// Closing splash screen just before showing GUI
-			if (splashScreen != null) {
-				splashScreen.close();
-			}
+			mainWindow = new MainWindowController(Paths.get(config.get(KEY.helpFile())));
+			closeSplashScreen();
 			mainWindow.show();
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Club Rock ISEN application running.");
 			}
 		} catch (final TopLevelError e) {
+			closeSplashScreen();
 			lg.severe("Cannot run application: " + e.getClass() + "; details: " + e.getMessage());
 			lg.severe("Caused by " + e.getCause());
 			// Cannot use the method in view.Utils because the translator may not be loaded
 			JOptionPane.showMessageDialog(null, e.getMessage(),
 					"Severe error - Application will not run", JOptionPane.ERROR_MESSAGE);
+			if (mainWindow != null) {
+				mainWindow.dispose();
+			}
+		}
+	}
+	
+	/**
+	 * Close the splash screen if it has been created.
+	 */
+	private void closeSplashScreen () {
+		if (splashScreen != null) {
+			splashScreen.close();
 		}
 	}
 	
