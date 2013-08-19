@@ -49,22 +49,4 @@ public class SearchModel extends AbstractModel {
 		fireModelChange(SEARCH, oldSearch, search);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
-	 */
-	@Override
-	public boolean persist () {
-		// Useless for this model
-		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
-	 */
-	@Override
-	public void reload () {
-		// Nothing to be reloaded from the database
-	}
 }
