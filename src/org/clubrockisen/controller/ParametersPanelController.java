@@ -66,8 +66,8 @@ public class ParametersPanelController extends AbstractController {
 	 */
 	@Override
 	public void dispose () {
+		super.dispose();
 		parametersView.dispose();
-		removeView(parametersView);
 		for (final ParameterControllerImpl parameterController : parametersControllers.values()) {
 			parameterController.dispose();
 		}

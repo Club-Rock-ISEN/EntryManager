@@ -334,13 +334,11 @@ public class MainWindowController extends AbstractController implements MemberCo
 	 */
 	@Override
 	public void dispose () {
+		super.dispose();
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Exit program.");
 		}
 		// No need to call the dispose method on the main window: this is the origin of the call.
-		removeModel(memberModel);
-		removeModel(partyModel);
-		removeView(mainWindow);
 		memberUpdatePanel.dispose();
 		parametersPanel.dispose();
 		try {

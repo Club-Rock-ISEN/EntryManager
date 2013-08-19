@@ -131,9 +131,8 @@ public class MemberPanelController extends AbstractController implements MemberC
 	 */
 	@Override
 	public void dispose () {
+		super.dispose();
 		memberView.dispose();
-		removeModel(memberModel);
-		removeView(memberView);
 	}
 	
 	/* (non-Javadoc)
