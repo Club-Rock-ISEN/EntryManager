@@ -31,8 +31,8 @@
 	<entry key="enum.gender.male">Homme</entry>
 	<entry key="enum.gender.female">Femme</entry>
 	<!-- Status -->
-	<entry key="enum.status.member">Membre</entry>
-	<entry key="enum.status.helper_member">Adhérant</entry>
+	<entry key="enum.status.member">Client</entry>
+	<entry key="enum.status.helper_member">Membre actif</entry>
 	<entry key="enum.status.office_member">Membre du bureau</entry>
 	<entry key="enum.status.veteran">Membre d'honneur</entry>
 	<!-- Parameters name -->
