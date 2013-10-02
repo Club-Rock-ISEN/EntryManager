@@ -103,7 +103,8 @@ public class EntryManager implements IEntryManager {
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Free entry because the member is a special member (" + member.getStatus() + ")");
 			}
-		} else if (member.getEntries() % Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()) == 0) {
+		} else if (member.getEntries() != 0 &&
+				(member.getEntries() + 1)  % Integer.valueOf(parametersManager.get(ParametersEnum.FREE_ENTRY_FREQUENCY).getValue()) == 0) {
 			price = 0.0;
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Free entry");
