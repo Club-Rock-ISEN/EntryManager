@@ -266,6 +266,7 @@ public class Member extends Entity implements Cloneable {
 	 * Set the attribute nextFree.
 	 * @param nextFree the attribute nextFree.
 	 */
+	@Deprecated
 	public void setNextFree (final Integer nextFree) {
 		this.nextFree = nextFree;
 	}
