@@ -52,8 +52,11 @@
 	         ================================= -->
 	<target name="build" depends="init" description="Compile the source files.">
 		<javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false" classpathref="classpath">
-		    <compilerarg value="-Xlint" />
-	    </javac>
+			<compilerarg value="-Xlint" />
+		</javac>
+		<copy todir="${bin.dir}">
+			<fileset dir="${src.dir}" includes="**/*.xml,**/*.properties,**/*.png,**/*.ico" />
+		</copy>
 	</target>
     
 	<!-- ================================= 
@@ -131,7 +134,7 @@
 	<!-- ================================= 
           target: archive              
 		         ================================= -->
-    <target name="archive" depends="jar" description="Gather and archive the executable and the required files.">
+    <target name="archive" depends="cleanDeep, jar" description="Gather and archive the executable and the required files.">
         <delete includeemptydirs="true" verbose="true" failonerror="false">
             <fileset dir="${reports.dir}" includes="**/*" />
 		</delete>
