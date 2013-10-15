@@ -92,7 +92,7 @@
 		<copy todir="${target.dir}/${target.data.dir.name}">
 			<fileset dir="${data.dir}"
 				includes="**/*"
-				excludes="**/${launcher.name}" />
+				excludes="**/${launcher.name}, **/*.db" />
 		</copy>
 	    <!-- Copying the configuration file and the logging properties -->
 	    <copy todir="${target.dir}/${target.conf.dir.name}">
