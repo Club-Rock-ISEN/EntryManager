@@ -1,15 +1,10 @@
 package org.clubrockisen.dao.h2;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.Utils;
 import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
@@ -21,10 +16,10 @@ import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
-import org.h2.tools.RunScript;
 
 import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
+import com.alexrnl.commons.database.h2.H2Utils;
 
 /**
  * The factory for the H2 DAO classes.<br />
@@ -57,22 +52,7 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 	@Override
 	protected void init () {
 		final DataSourceConfiguration dbInfos = getDataSourceConfiguration();
-		Path dbFile = getDBFile(dbInfos, true);
-		if (!Files.exists(dbFile)) {
-			try {
-				dbFile = getDBFile(dbInfos, false);
-				if (lg.isLoggable(Level.INFO)) {
-					lg.info("URL connection: " + (org.h2.engine.Constants.START_URL + dbFile));
-				}
-				RunScript.execute(org.h2.engine.Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
-						dbInfos.getCreationFile().toString(), null, true);
-			} catch (final SQLException e) {
-				lg.warning("Error while initilization of H2 database (" + e.getClass() + "; " +
-						e.getMessage() + ")");
-				throw new SQLConfigurationError("Could not create H2 database", e);
-			}
-			
-		}
+		H2Utils.initDatabase(dbInfos);
 		
 		connection = Utils.getConnection(dbInfos);
 		// Instantiating all DAOs once to avoid multiple DAOs
@@ -90,37 +70,6 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 		addDAO(EntryMemberParty.class, entryMemberPartyDao);
 	}
 
-	/**
-	 * Check if the database file exists.
-	 * @param dbInfos
-	 *        the database information to use.
-	 * @param suffix
-	 *        <code>true</code> if the suffix should be added to the path.
-	 * @return <code>true</code>
-	 */
-	private static Path getDBFile (final DataSourceConfiguration dbInfos, final boolean suffix) {
-		// Creating database if file does not exists. jdbc:h2:file:data/database/crock.db
-		String file = dbInfos.getUrl().substring(org.h2.engine.Constants.START_URL.length());
-		if (file.startsWith(Constants.FILE_URI_PREFIX)) {
-			file = file.substring(Constants.FILE_URI_PREFIX.length());
-		}
-		// Removing parameters
-		final int delimiter = file.lastIndexOf(';');
-		if (delimiter >= 0) {
-			file = file.substring(0, delimiter);
-		}
-		
-		// Adding the extension if required
-		if (suffix) {
-			file += org.h2.engine.Constants.SUFFIX_PAGE_FILE;
-		}
-		
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("filename: " + file);
-		}
-		return Paths.get(file);
-	}
-	
 	/* (non-Javadoc)
 	 * @see java.io.Closeable#close()
 	 */
