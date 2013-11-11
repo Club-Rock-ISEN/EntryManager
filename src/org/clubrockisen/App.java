@@ -69,9 +69,7 @@ public final class App {
 		MainWindowController mainWindow = null;
 		try {
 			// Loading DAO factory and services
-			final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
-					config.get(KEY.db().username()), config.get(KEY.db().password()),
-					Paths.get(config.get(KEY.db().creationFile())));
+			final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config, KEY.db().toString());
 			final EntryManagerAbstractDAOFactory factory = AbstractDAOFactory.buildFactory(config.get(KEY.daoFactory()),
 					dbInfos, EntryManagerAbstractDAOFactory.class);
 			ServiceFactory.createFactory(config, factory);

@@ -80,6 +80,11 @@ public final class ConfigurationKeys {
 		public String creationFile () {
 			return dbKey + "." + "creationFile";
 		}
+		
+		@Override
+		public String toString () {
+			return dbKey;
+		}
 	}
 	
 	/** Attribute which holds the structure of the database configuration */
