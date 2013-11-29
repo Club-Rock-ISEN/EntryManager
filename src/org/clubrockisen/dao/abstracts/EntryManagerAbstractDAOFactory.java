@@ -7,6 +7,7 @@ import org.clubrockisen.entities.Party;
 
 import com.alexrnl.commons.database.dao.AbstractDAOFactory;
 import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 
 /**
  * The abstract factory for the {@link DAO}s.<br />
@@ -14,6 +15,15 @@ import com.alexrnl.commons.database.dao.DAO;
  * @author Alex
  */
 public abstract class EntryManagerAbstractDAOFactory extends AbstractDAOFactory {
+
+	/**
+	 * Constructor #1.<br />
+	 * @param dataSourceConfig
+	 *        the data source configuration.
+	 */
+	public EntryManagerAbstractDAOFactory (final DataSourceConfiguration dataSourceConfig) {
+		super(dataSourceConfig);
+	}
 
 	/**
 	 * Retrieve a {@link DAO} for the {@link Parameter} class.

@@ -3,8 +3,6 @@ package org.clubrockisen.dao.mysql;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.Utils;
@@ -15,6 +13,7 @@ import org.clubrockisen.entities.Parameter;
 import org.clubrockisen.entities.Party;
 
 import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 
 /**
  * The factory for the MySQL DAO classes.<br />
@@ -23,33 +22,26 @@ import com.alexrnl.commons.database.dao.DAO;
  * @author Alex
  */
 public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
-	/** Logger */
-	private static Logger				lg		= Logger.getLogger(EntryManagerAbstractDAOFactory.class.getName());
 	
 	/** The connection to the database */
-	private Connection			connection;
+	private final Connection		connection;
 	/** The member DAO */
-	private DAO<Member>			memberDao;
+	private DAO<Member>				memberDao;
 	/** The parameter DAO */
-	private DAO<Parameter>		parameterDao;
+	private DAO<Parameter>			parameterDao;
 	/** The party DAO */
-	private DAO<Party>			partyDao;
+	private DAO<Party>				partyDao;
 	/** The entry DAO */
 	private DAO<EntryMemberParty>	entryMemberPartyDao;
 	
 	/**
 	 * Constructor #1.<br />
+	 * @param dataSourceConfiguration
+	 *        the data source configuration.
 	 */
-	public MySQLDAOFactory () {
-		super();
-	}
-	
-	@Override
-	protected void init () {
+	public MySQLDAOFactory (final DataSourceConfiguration dataSourceConfiguration) {
+		super(dataSourceConfiguration);
 		connection = Utils.getConnection(getDataSourceConfiguration());
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Creating DAOs");
-		}
 		
 		// Instantiating all DAOs once to avoid multiple DAOs
 		try {
@@ -58,7 +50,7 @@ public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
 			partyDao = new MySQLPartyDAO(connection);
 			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
 		} catch (final SQLException e) {
-			throw new SQLConfigurationError("Error while initializing MySQL DAOs.", e);
+			throw new SQLConfigurationError("Error while initializing MySQL DAOs", e);
 		}
 	}
 	

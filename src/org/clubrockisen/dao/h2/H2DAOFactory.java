@@ -3,7 +3,6 @@ package org.clubrockisen.dao.h2;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.Utils;
@@ -28,11 +27,9 @@ import com.alexrnl.commons.database.h2.H2Utils;
  * @author Alex
  */
 public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
-	/** Logger */
-	private static Logger			lg	= Logger.getLogger(H2DAOFactory.class.getName());
 	
 	/** The connection to the database */
-	private Connection				connection;
+	private final Connection				connection;
 	/** The member DAO */
 	private DAO<Member>				memberDao;
 	/** The parameter DAO */
@@ -44,17 +41,14 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 	
 	/**
 	 * Constructor #1.<br />
+	 * @param dataSourceConfiguration
+	 *        the data source configuration.
 	 */
-	public H2DAOFactory () {
-		super();
-	}
-	
-	@Override
-	protected void init () {
-		final DataSourceConfiguration dbInfos = getDataSourceConfiguration();
-		H2Utils.initDatabase(dbInfos);
+	public H2DAOFactory (final DataSourceConfiguration dataSourceConfiguration) {
+		super(dataSourceConfiguration);
+		H2Utils.initDatabase(getDataSourceConfiguration());
 		
-		connection = Utils.getConnection(dbInfos);
+		connection = Utils.getConnection(getDataSourceConfiguration());
 		// Instantiating all DAOs once to avoid multiple DAOs
 		try {
 			memberDao = new MySQLMemberDAO(connection);
@@ -62,7 +56,7 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 			partyDao = new MySQLPartyDAO(connection);
 			entryMemberPartyDao = new MySQLEntryMemberPartyDAO(connection);
 		} catch (final SQLException e) {
-			throw new SQLConfigurationError("Error while initializing H2 DAOs.", e);
+			throw new SQLConfigurationError("Error while initializing H2 DAOs", e);
 		}
 		addDAO(Member.class, memberDao);
 		addDAO(Parameter.class, parameterDao);
