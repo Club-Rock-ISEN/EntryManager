@@ -52,6 +52,10 @@ public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
 		} catch (final SQLException e) {
 			throw new SQLConfigurationError("Error while initializing MySQL DAOs", e);
 		}
+		addDAO(Member.class, memberDao);
+		addDAO(Parameter.class, parameterDao);
+		addDAO(Party.class, partyDao);
+		addDAO(EntryMemberParty.class, entryMemberPartyDao);
 	}
 	
 	/*
