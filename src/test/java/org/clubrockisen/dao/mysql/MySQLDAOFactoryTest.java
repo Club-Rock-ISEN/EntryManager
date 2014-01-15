@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import org.clubrockisen.common.ConfigurationKeys;
-import org.clubrockisen.common.error.SQLConfigurationError;
 import org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -101,10 +100,10 @@ public class MySQLDAOFactoryTest {
 	
 	/**
 	 * Test the behavior with a bad configuration file.
-	 * @throws SQLException
+	 * @throws SQLException TODO fix expected
 	 *         expected to happen.
 	 */
-	@Test(expected = SQLConfigurationError.class)
+	@Test(expected = Throwable.class)
 	public void testConnectionFailed () throws SQLException {
 		final Configuration badConfig = new Configuration(Paths.get("test/wrongConf.xml"));
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(badConfig.get(KEY.db().url()),

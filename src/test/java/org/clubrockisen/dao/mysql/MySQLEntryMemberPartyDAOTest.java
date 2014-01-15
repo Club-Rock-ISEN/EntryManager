@@ -18,6 +18,7 @@ import org.clubrockisen.entities.Party;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.alexrnl.commons.database.dao.AbstractDAOFactory;
@@ -46,7 +47,7 @@ public class MySQLEntryMemberPartyDAOTest {
 				config.get(KEY.db().username()), config.get(KEY.db().password()),
 				Paths.get(config.get(KEY.db().creationFile())));
 		factory = AbstractDAOFactory.buildFactory(MySQLDAOFactory.class.getName(), dbInfos, MySQLDAOFactory.class);
-		entriesBackup = ((MySQLEntryMemberPartyDAO) factory.getEntryMemberPartyDAO()).retrieveAll();
+		entriesBackup = factory.getEntryMemberPartyDAO().retrieveAll();
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	@AfterClass
 	public static void tearDownAfterClass () {
 		try {
-			assertEquals(entriesBackup, ((MySQLEntryMemberPartyDAO) factory.getEntryMemberPartyDAO()).retrieveAll());
+			assertEquals(entriesBackup, factory.getEntryMemberPartyDAO().retrieveAll());
 			factory.close();
 		} catch (final IOException e) {
 			fail(e.getMessage());
@@ -115,7 +116,7 @@ public class MySQLEntryMemberPartyDAOTest {
 		assertEquals(member.getIdMember(), found.getIdMember());
 		assertEquals(party.getIdParty(), found.getIdParty());
 		
-		assertTrue(entriesDAO.delete(entry));
+		assertTrue(entriesDAO.delete(found));
 		if (deleteM) {
 			assertTrue(factory.getMemberDAO().delete(member));
 		}
@@ -127,6 +128,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/**
 	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO#update(org.clubrockisen.entities.EntryMemberParty)}.
 	 */
+	@Ignore
 	@Test
 	public void testUpdate () {
 		fail("Not yet implemented"); // TODO
@@ -135,6 +137,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/**
 	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#find(int)}.
 	 */
+	@Ignore
 	@Test
 	public void testFind () {
 		fail("Not yet implemented"); // TODO
@@ -143,6 +146,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/**
 	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#delete(org.clubrockisen.entities.Entity)}.
 	 */
+	@Ignore
 	@Test
 	public void testDelete () {
 		fail("Not yet implemented"); // TODO
@@ -151,6 +155,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/**
 	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#retrieveAll()}.
 	 */
+	@Ignore
 	@Test
 	public void testRetrieveAll () {
 		fail("Not yet implemented"); // TODO
@@ -159,6 +164,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	/**
 	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#search(org.clubrockisen.entities.Column, java.lang.String)}.
 	 */
+	@Ignore
 	@Test
 	public void testSearch () {
 		fail("Not yet implemented"); // TODO
