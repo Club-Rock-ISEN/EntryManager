@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- DAO factory to load -->
+	<entry key="configuration.dao">org.clubrockisen.dao.mysql.MySQLDAOFactory</entry>
+	<!-- Service factory to load -->
+	<entry key="configuration.service">org.clubrockisen.service.ServiceFactoryImpl</entry>
+	
+	<!-- Data base connection information -->
+	<entry key="configuration.db.url">jdbc:mysql://localhost/a</entry>
+	<entry key="configuration.db.username">b</entry>
+	<entry key="configuration.db.password">c</entry>
+	
+	<!-- Miscellaneous -->
+	<entry key="configuration.translationFile">./data/locale/fr.xml</entry>
+</properties>
