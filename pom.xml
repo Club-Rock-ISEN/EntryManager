@@ -35,10 +35,12 @@
 		<!-- Version management -->
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
 		<java.version>1.7</java.version>
 
 		<!-- Project properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<assemblyDirectory>src/main/assembly</assemblyDirectory>
 	</properties>
 
 	<dependencies>
@@ -90,11 +92,22 @@
 					<archive>
 						<manifest>
 							<mainClass>org.clubrockisen.App</mainClass>
+							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
 							<SplashScreen-Image>splash.png</SplashScreen-Image>
 						</manifestEntries>
 					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>${assemblyDirectory}/assembly.xml</descriptor>
+					</descriptors>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -7,7 +7,15 @@
 		<format>zip</format>
 	</formats>
 	
+	<!-- Put all jars in lib folder -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+
 	<fileSets>
+		<!-- Add readme and license to root folder -->
 		<fileSet>
 			<directory>${project.basedir}</directory>
 			<outputDirectory>/</outputDirectory>
@@ -17,28 +25,40 @@
 			</includes>
 		</fileSet>
 		
+		<!-- Add application launcher -->
 		<fileSet>
-			<directory>${directory}</directory>
+			<directory>${project.basedir}/src/main/scripts</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>*.jar</include>
+				<include>crock.bat</include>
 			</includes>
 		</fileSet>
 		
+		<!-- Add configuration -->
 		<fileSet>
-			<directory>${scriptSourceDirectory}</directory>
-			<outputDirectory>/script</outputDirectory>
+			<directory>${project.basedir}/src/main/config</directory>
+			<outputDirectory>/config</outputDirectory>
+			<includes>
+				<include>configuration.xml</include>
+			</includes>
+		</fileSet>
+		
+		<!-- Add SQL scripts -->
+		<fileSet>
+			<directory>${project.basedir}/src/main/scripts</directory>
+			<outputDirectory>/data/script</outputDirectory>
 			<includes>
 				<include>*.sql</include>
 			</includes>
 		</fileSet>
 		
+		<!-- Add data (images, locales, help, etc.) -->
 		<fileSet>
-			<directory>${scriptSourceDirectory}</directory>
-			<outputDirectory>/</outputDirectory>
-			<includes>
-				<include>${project.launcher}</include>
-			</includes>
+			<directory>${project.basedir}/src/main/config</directory>
+			<outputDirectory>/data</outputDirectory>
+			<excludes>
+				<exclude>configuration.xml</exclude>
+			</excludes>
 		</fileSet>
 	</fileSets>
 
