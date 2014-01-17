@@ -60,6 +60,15 @@
 				<exclude>configuration.xml</exclude>
 			</excludes>
 		</fileSet>
+		
+		<!-- PDF document to be delivered with the build. -->
+		<fileSet>
+			<directory>${project.basedir}/src/main/assembly</directory>
+			<outputDirectory>/data</outputDirectory>
+			<includes>
+				<include>*.pdf</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 
 </assembly>
