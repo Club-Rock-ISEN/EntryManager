@@ -7,9 +7,20 @@
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 
+	<organization>
+		<name>Club Rock ISEN</name>
+		<url>http://clubrockisen.org/</url>
+	</organization>
 	<name>EntryManager</name>
-	<url>http://clubrockisen.org/</url>
+	<url>https://github.com/Club-Rock-ISEN/EntryManager</url>
 	<inceptionYear>2012</inceptionYear>
+	<licenses>
+		<license>
+			<name>BSD 3-Clause License</name>
+			<url>https://inoreader.com/</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
 
 	<scm>
 		<url>https://github.com/Club-Rock-ISEN/EntryManager</url>
@@ -28,6 +39,7 @@
 			<name>Alex Barféty</name>
 			<url>https://github.com/AlexRNL</url>
 			<id>AlexRNL</id>
+			<timezone>+1</timezone>
 		</developer>
 	</developers>
 
@@ -93,6 +105,8 @@
 						<manifest>
 							<mainClass>org.clubrockisen.App</mainClass>
 							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 						<manifestEntries>
 							<SplashScreen-Image>splash.png</SplashScreen-Image>
