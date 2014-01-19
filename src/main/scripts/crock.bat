@@ -1,0 +1,1 @@
+javaw -Djava.util.logging.config.file=./config/logging.properties -jar "lib/EntryManager-1.0-SNAPSHOT.jar" config/configuration.xml

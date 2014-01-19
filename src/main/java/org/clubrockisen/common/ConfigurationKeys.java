@@ -12,8 +12,8 @@ public final class ConfigurationKeys {
 	/** Logger */
 	private static Logger					lg		= Logger.getLogger(ConfigurationKeys.class.getName());
 	
-	/** The path to the configuration file */
-	public static final String				FILE	= "conf/configuration.xml";
+	/** The path to the configuration file TODO change this ugly!! */
+	public static final String				FILE	= "./src/main/config/configuration.xml";
 	/** The access to the configuration key structure */
 	public static final ConfigurationKeys	KEY		= new ConfigurationKeys();
 	

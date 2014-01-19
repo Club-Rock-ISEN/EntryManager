@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.clubrockisen</groupId>
+	<artifactId>EntryManager</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+
+	<organization>
+		<name>Club Rock ISEN</name>
+		<url>http://clubrockisen.org/</url>
+	</organization>
+	<name>EntryManager</name>
+	<url>https://github.com/Club-Rock-ISEN/EntryManager</url>
+	<inceptionYear>2012</inceptionYear>
+	<licenses>
+		<license>
+			<name>BSD 3-Clause License</name>
+			<url>https://inoreader.com/</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/Club-Rock-ISEN/EntryManager</url>
+		<connection>scm:git:git://github.com/Club-Rock-ISEN/EntryManager</connection>
+		<developerConnection>scm:git:git@github.com:Club-Rock-ISEN/EntryManager.git</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/Club-Rock-ISEN/EntryManager/issues</url>
+	</issueManagement>
+
+	<developers>
+		<developer>
+			<email>alexbarfety@free.fr</email>
+			<name>Alex Barféty</name>
+			<url>https://github.com/AlexRNL</url>
+			<id>AlexRNL</id>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<properties>
+		<!-- Version management -->
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
+		<java.version>1.7</java.version>
+
+		<!-- Project properties -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<assemblyDirectory>src/main/assembly</assemblyDirectory>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.171</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.28</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alexrnl</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.clubrockisen.App</mainClass>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<SplashScreen-Image>splash.png</SplashScreen-Image>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven-assembly-plugin.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>${assemblyDirectory}/assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
