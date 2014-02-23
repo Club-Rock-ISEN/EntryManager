@@ -11,7 +11,7 @@ import org.clubrockisen.common.Constants;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.EntityColumn;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -441,7 +441,7 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		if (!(obj instanceof Party)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Party) obj);
+		return AutoEquals.getInstance().compare(this, (Party) obj);
 	}
 	
 	/*

@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.EntityColumn;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -254,7 +254,7 @@ public class Parameter extends Entity implements Cloneable {
 		if (!(obj instanceof Parameter)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Parameter) obj);
+		return AutoEquals.getInstance().compare(this, (Parameter) obj);
 	}
 	
 	/*

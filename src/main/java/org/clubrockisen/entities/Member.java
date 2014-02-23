@@ -10,7 +10,7 @@ import org.clubrockisen.entities.enums.Status;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.EntityColumn;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -334,7 +334,7 @@ public class Member extends Entity implements Cloneable {
 		if (!(obj instanceof Member)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Member) obj);
+		return AutoEquals.getInstance().compare(this, (Member) obj);
 	}
 	
 	/*
