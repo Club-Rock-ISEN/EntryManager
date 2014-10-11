@@ -153,12 +153,8 @@ public final class OldDataFiles implements Format {
 		return fieldOrder;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	public String toString () {
+	public String getTranslationKey () {
 		return TranslationKeys.FORMATS.oldFileFormat();
 	}
 	

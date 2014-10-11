@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.clubrockisen.entities.Member.MemberColumn;
 
+import com.alexrnl.commons.translation.Translatable;
+
 
 /**
  * Interface defining a file format for storing entities.
  * @author Alex
  */
-public interface Format {
+public interface Format extends Translatable {
 	
 	/**
 	 * Retrieve the string which separates two definitions of entities.

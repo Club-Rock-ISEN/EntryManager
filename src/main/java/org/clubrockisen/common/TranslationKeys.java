@@ -985,12 +985,8 @@ public final class TranslationKeys {
 					parameters[0] = author;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return aboutKey;
 				}
 				
@@ -1039,7 +1035,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return notSelectedMemberKey;
 				}
 				
@@ -1078,7 +1074,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return notPersistedMember;
 				}
 				
@@ -1117,7 +1113,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return notPersistedParameter;
 				}
 				
@@ -1161,7 +1157,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return unparsableDateKey;
 				}
 				
@@ -1209,7 +1205,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return helpNotDisplayableKey;
 				}
 				
@@ -1253,7 +1249,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return deleteMemberKey;
 				}
 				
@@ -1310,7 +1306,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return fileImportSuccessfulKey;
 				}
 				
@@ -1366,7 +1362,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return fileImportFailedKey;
 				}
 				
@@ -1413,7 +1409,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return chooseFormaKey;
 				}
 			}
@@ -1457,7 +1453,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return fileExportSuccessfulKey;
 				}
 				
@@ -1511,7 +1507,7 @@ public final class TranslationKeys {
 				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return fileExportFailedKey;
 				}
 				
@@ -1574,7 +1570,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return freeEntryKey;
 				}
 				
@@ -1632,7 +1628,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return entryPriceKey;
 				}
 				
@@ -1689,7 +1685,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return memberEntryKey;
 				}
 				
@@ -1744,7 +1740,7 @@ public final class TranslationKeys {
 				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
 				 */
 				@Override
-				public String toString () {
+				public String getTranslationKey () {
 					return memberEntryFailedKey;
 				}
 				
