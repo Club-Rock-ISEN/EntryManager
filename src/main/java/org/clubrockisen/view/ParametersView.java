@@ -59,20 +59,12 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 		super(TranslationKeys.GUI.parameters().title(), parametersPanelController);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
-	 */
 	@Override
 	protected void preInit (final Object... parameters) {
 		controller = (ParametersPanelController) parameters[0];
 		parametersComponents = new EnumMap<>(ParametersEnum.class);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
-	 */
 	@Override
 	protected void build () {
 		setContentPane(buildParametersPanel());
@@ -129,10 +121,6 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 		}
 		
 		validateCancelPanel.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
@@ -147,11 +135,6 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 		
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
-	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -192,9 +175,6 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterChangeListener#parameterChangeValue(java.lang.String)
-	 */
 	@Override
 	public void parameterChangeValue (final ParametersEnum parameter, final String value) {
 		controller.changeValue(parameter, value);

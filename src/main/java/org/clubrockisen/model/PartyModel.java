@@ -38,10 +38,6 @@ public class PartyModel extends AbstractModel {
 		this.newFlag = true;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
-	 */
 	@Override
 	public boolean persist () {
 		boolean success = false;
@@ -61,10 +57,6 @@ public class PartyModel extends AbstractModel {
 		return success;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
-	 */
 	@Override
 	public void reload () {
 		final int id = party.getIdParty();

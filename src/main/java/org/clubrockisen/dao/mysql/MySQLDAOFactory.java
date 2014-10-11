@@ -58,47 +58,27 @@ public class MySQLDAOFactory extends EntryManagerAbstractDAOFactory {
 		addDAO(EntryMemberParty.class, entryMemberPartyDao);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.io.Closeable#close()
-	 */
 	@Override
 	public void close () throws IOException {
 		super.close();
 		Utils.close(connection);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.AbstractDAOFactory#getMemberDAO()
-	 */
 	@Override
 	public DAO<Member> getMemberDAO () {
 		return memberDao;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.AbstractDAOFactory#getParameterDAO()
-	 */
 	@Override
 	public DAO<Parameter> getParameterDAO () {
 		return parameterDao;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.AbstractDAOFactory#getPartyDAO()
-	 */
 	@Override
 	public DAO<Party> getPartyDAO () {
 		return partyDao;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.AbstractDAOFactory#getEntryMemberPartyDAO()
-	 */
 	@Override
 	public DAO<EntryMemberParty> getEntryMemberPartyDAO () {
 		return entryMemberPartyDao;

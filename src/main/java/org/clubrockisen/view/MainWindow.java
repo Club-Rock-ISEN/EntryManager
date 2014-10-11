@@ -84,19 +84,13 @@ public class MainWindow extends EntryManagerFrame {
 		super(TranslationKeys.GUI.title(), controller);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
-	 */
+	
 	@Override
 	protected void preInit (final Object... parameters) {
 		controller = (MainWindowController) parameters[0];
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
-	 */
+	
 	@Override
 	protected void build () {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -113,20 +107,12 @@ public class MainWindow extends EntryManagerFrame {
 		// File menu creation
 		final JMenu fileMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().file().toString());
 		final JMenuItem parametersItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().file().parameters(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showParameters();
 			}
 		});
 		final JMenuItem quitItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().file().quit(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				getFrame().dispose();
@@ -139,30 +125,18 @@ public class MainWindow extends EntryManagerFrame {
 		// Database menu creation
 		final JMenu dataBaseMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().database().toString());
 		final JMenuItem seeMembersItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().seeMembers(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showAllMembers();
 			}
 		});
 		final JMenuItem seeAttendeesItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().seeAttendees(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showAttendees();
 			}
 		});
 		final JMenuItem importDataItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().importData(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				Format format;
@@ -182,10 +156,6 @@ public class MainWindow extends EntryManagerFrame {
 			}
 		});
 		final JMenuItem exportDataItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().database().exportData(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				Format format;
@@ -212,20 +182,12 @@ public class MainWindow extends EntryManagerFrame {
 		// Member menu creation
 		final JMenu memberMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().member().toString());
 		final JMenuItem newMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().newMember(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.createMember();
 			}
 		});
 		final JMenuItem deleteMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().deleteMember(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (SwingUtils.askConfirmation(getFrame(), getTranslator(),
@@ -235,10 +197,6 @@ public class MainWindow extends EntryManagerFrame {
 			}
 		});
 		final JMenuItem updateMemberItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().member().updateMember(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showMember(getSelectedMember());
@@ -251,10 +209,6 @@ public class MainWindow extends EntryManagerFrame {
 		// Help menu creation
 		final JMenu helpMenu = SwingUtils.getMenu(getTranslator(), TranslationKeys.GUI.menu().help().toString());
 		final JMenuItem helpItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().help().help(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.showHelp()) {
@@ -265,10 +219,6 @@ public class MainWindow extends EntryManagerFrame {
 			}
 		});
 		final JMenuItem aboutItem = SwingUtils.getMenuItem(getTranslator(), TranslationKeys.GUI.menu().help().about(), new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				SwingUtils.showMessageDialog(getFrame(), getTranslator(), TranslationKeys.GUI.dialog().about(Constants.AUTHOR_NAME),
@@ -313,20 +263,12 @@ public class MainWindow extends EntryManagerFrame {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		resultList.addListSelectionListener(new ListSelectionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
-			 */
 			@Override
 			public void valueChanged (final ListSelectionEvent e) {
 				controller.initMember(resultList.getSelectedValue() == null ? new Member() : resultList.getSelectedValue());
 			}
 		});
 		resultList.addKeyListener(new KeyAdapter() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
-			 */
 			@Override
 			public void keyPressed (final KeyEvent e) {
 				switch (e.getKeyCode()) {
@@ -364,10 +306,6 @@ public class MainWindow extends EntryManagerFrame {
 		c.fill = GridBagConstraints.NONE;
 		enterButton = new JButton(getTranslator().get(TranslationKeys.GUI.buttons().enter()));
 		enterButton.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				final Member member = getSelectedMember();
@@ -423,10 +361,6 @@ public class MainWindow extends EntryManagerFrame {
 		c.gridx = ++xIndex;
 		updateButton = new JButton(getTranslator().get(TranslationKeys.GUI.buttons().update()));
 		updateButton.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.showMember(getSelectedMember());
@@ -513,20 +447,14 @@ public class MainWindow extends EntryManagerFrame {
 		return chooser.getSelectedFile().toPath();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.Window#dispose()
-	 */
+	
 	@Override
 	public void dispose () {
 		super.dispose();
 		controller.dispose();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
-	 */
+	
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		memberComponent.modelPropertyChange(evt);
@@ -546,10 +474,6 @@ public class MainWindow extends EntryManagerFrame {
 	 * @author Alex
 	 */
 	private final class SearchKeyListener extends KeyAdapter {
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
-		 */
 		@Override
 		public void keyTyped (final KeyEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -560,10 +484,6 @@ public class MainWindow extends EntryManagerFrame {
 			});
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
-		 */
 		@Override
 		public void keyPressed (final KeyEvent e) {
 			switch (e.getKeyCode()) {

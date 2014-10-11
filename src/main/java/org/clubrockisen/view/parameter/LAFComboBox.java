@@ -35,10 +35,6 @@ public class LAFComboBox extends ParameterComponent {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getComponent()
-	 */
 	@Override
 	public JComponent getComponent () {
 		if (comboBox == null) {
@@ -48,12 +44,6 @@ public class LAFComboBox extends ParameterComponent {
 		return comboBox;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.parameter.ParameterComponent#installListener(org.clubrockisen.view.
-	 * parameter.ParameterChangeListener)
-	 */
 	@Override
 	public void installListener (final ParameterChangeListener listener) {
 		if (comboBox == null) {
@@ -62,18 +52,10 @@ public class LAFComboBox extends ParameterComponent {
 		}
 		
 		comboBox.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				listener.parameterChangeValue(getParameter(), getValue());
 				SwingUtilities.invokeLater(new Runnable() {
-					/*
-					 * (non-Javadoc)
-					 * @see java.lang.Runnable#run()
-					 */
 					@Override
 					public void run () {
 						SwingUtils.setLookAndFeel(getValue());
@@ -83,19 +65,11 @@ public class LAFComboBox extends ParameterComponent {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getValue()
-	 */
 	@Override
 	public String getValue () {
 		return comboBox == null ? null : ((LookAndFeelInfo) comboBox.getSelectedItem()).getName();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#setValue(java.lang.Object)
-	 */
 	@Override
 	public void setValue (final Object value) {
 		if (comboBox == null) {

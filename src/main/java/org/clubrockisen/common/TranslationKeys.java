@@ -32,10 +32,6 @@ public final class TranslationKeys {
 			super();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString () {
 			return entityKey;
@@ -60,10 +56,6 @@ public final class TranslationKeys {
 				this.memberKey = parentKey + "." + "member";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return memberKey;
@@ -137,10 +129,6 @@ public final class TranslationKeys {
 				this.partyKey = parentKey + "." + "party";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return partyKey;
@@ -256,10 +244,6 @@ public final class TranslationKeys {
 			super();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString () {
 			return enumKey;
@@ -283,10 +267,6 @@ public final class TranslationKeys {
 				this.genderKey = parentKey + "." + "gender";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return genderKey;
@@ -336,10 +316,6 @@ public final class TranslationKeys {
 				this.statusKey = parentKey + "." + "status";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return statusKey;
@@ -405,10 +381,6 @@ public final class TranslationKeys {
 				this.parameterKey = parentKey + "." + "parameter";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return parameterKey;
@@ -537,10 +509,6 @@ public final class TranslationKeys {
 			super();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString () {
 			return guiKey;
@@ -573,10 +541,6 @@ public final class TranslationKeys {
 				menuKey = parentKey + "." + "menu";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return menuKey;
@@ -601,10 +565,6 @@ public final class TranslationKeys {
 					fileKey = parentKey + "." + "file";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see java.lang.Object#toString()
-				 */
 				@Override
 				public String toString () {
 					return fileKey;
@@ -655,10 +615,6 @@ public final class TranslationKeys {
 					databaseKey = parentKey + "." + "database";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see java.lang.Object#toString()
-				 */
 				@Override
 				public String toString () {
 					return databaseKey;
@@ -725,10 +681,6 @@ public final class TranslationKeys {
 					memberKey = parentKey + "." + "member";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see java.lang.Object#toString()
-				 */
 				@Override
 				public String toString () {
 					return memberKey;
@@ -787,10 +739,6 @@ public final class TranslationKeys {
 					helpKey = parentKey + "." + "help";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see java.lang.Object#toString()
-				 */
 				@Override
 				public String toString () {
 					return helpKey;
@@ -851,10 +799,6 @@ public final class TranslationKeys {
 				parametersKey = parentKey + "." + "parameters";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return parametersKey;
@@ -913,10 +857,6 @@ public final class TranslationKeys {
 				return buttonsKey + "." + "update";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return buttonsKey;
@@ -951,10 +891,6 @@ public final class TranslationKeys {
 				dialogKey = parentKey + "." + "dialog";
 			}
 			
-			/*
-			 * (non-Javadoc)
-			 * @see java.lang.Object#toString()
-			 */
 			@Override
 			public String toString () {
 				return dialogKey;
@@ -990,9 +926,6 @@ public final class TranslationKeys {
 					return aboutKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1029,11 +962,6 @@ public final class TranslationKeys {
 					notSelectedMemberKey = parentKey + "." + "notSelectedMember";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return notSelectedMemberKey;
@@ -1068,11 +996,6 @@ public final class TranslationKeys {
 					notPersistedMember = parentKey + "." + "notPersistedMember";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return notPersistedMember;
@@ -1107,11 +1030,6 @@ public final class TranslationKeys {
 					notPersistedParameter = parentKey + "." + "notPersistedParameter";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return notPersistedParameter;
@@ -1152,18 +1070,11 @@ public final class TranslationKeys {
 					parameters[0] = date;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return unparsableDateKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1200,10 +1111,6 @@ public final class TranslationKeys {
 					helpNotDisplayableKey = parentKey + "." + "helpNotFound";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return helpNotDisplayableKey;
@@ -1244,18 +1151,11 @@ public final class TranslationKeys {
 					parameters[0] = memberName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return deleteMemberKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1301,18 +1201,11 @@ public final class TranslationKeys {
 					parameters[1] = membersImported;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return fileImportSuccessfulKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1357,18 +1250,11 @@ public final class TranslationKeys {
 					parameters[0] = fileName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return fileImportFailedKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1404,10 +1290,6 @@ public final class TranslationKeys {
 					chooseFormaKey = parentKey + "." + "chooseFormat";
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return chooseFormaKey;
@@ -1448,18 +1330,11 @@ public final class TranslationKeys {
 					parameters[0] = fileName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return fileExportSuccessfulKey;
 				}
 				
-				/* (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1502,19 +1377,11 @@ public final class TranslationKeys {
 					parameters[0] = fileName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return fileExportFailedKey;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
@@ -1555,20 +1422,11 @@ public final class TranslationKeys {
 					parameters[0] = memberName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return freeEntryKey;
@@ -1613,20 +1471,11 @@ public final class TranslationKeys {
 					parameters[1] = price;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return entryPriceKey;
@@ -1670,20 +1519,11 @@ public final class TranslationKeys {
 					parameters[0] = memberName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return memberEntryKey;
@@ -1725,20 +1565,11 @@ public final class TranslationKeys {
 					parameters[0] = memberName;
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see org.clubrockisen.service.Translator.Key.Parametrable#getParameters()
-				 */
 				@Override
 				public Object[] getParameters () {
 					return parameters.clone();
 				}
 				
-				/*
-				 * (non-Javadoc)
-				 * @see
-				 * org.clubrockisen.service.Translator.Key.Gui.Dialog.AbstractDialog#toString()
-				 */
 				@Override
 				public String getTranslationKey () {
 					return memberEntryFailedKey;
@@ -1786,10 +1617,6 @@ public final class TranslationKeys {
 			super();
 		}
 		
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Object#toString()
-		 */
 		@Override
 		public String toString () {
 			return miscKey;

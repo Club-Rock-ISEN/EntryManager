@@ -48,10 +48,6 @@ public class Member extends Entity implements Cloneable {
 	/** The status of the member */
 	private Status								status;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getEntityName()
-	 */
 	@Override
 	public String getEntityName () {
 		return entityName;
@@ -307,28 +303,16 @@ public class Member extends Entity implements Cloneable {
 		this.status = status;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString () {
 		return name == null ? "" : name;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Member)) {
@@ -337,10 +321,6 @@ public class Member extends Entity implements Cloneable {
 		return AutoEquals.getInstance().compare(this, (Member) obj);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#clone()
-	 */
 	@Override
 	public Entity clone () throws CloneNotSupportedException {
 		final Member clone =  new Member();

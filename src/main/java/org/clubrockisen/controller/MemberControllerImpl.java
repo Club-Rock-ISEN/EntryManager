@@ -32,10 +32,6 @@ public class MemberControllerImpl implements MemberController {
 		this.controller = controller;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeName(java.lang.String)
-	 */
 	@Override
 	public void changeName (final String newName) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -44,10 +40,6 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.NAME.getFieldName(), newName);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeGender(java.lang.String)
-	 */
 	@Override
 	public void changeGender (final Gender newGender) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -56,10 +48,6 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.GENDER.getFieldName(), newGender);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeEntries(int)
-	 */
 	@Override
 	public void changeEntries (final int newEntries) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -68,10 +56,6 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.ENTRIES.getFieldName(), newEntries);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.MemberController#changeNextFree(int)
-	 */
 	@Override
 	public void changeNextFree (final int newNextFree) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -80,10 +64,6 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.NEXT_FREE.getFieldName(), newNextFree);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeCredit(double)
-	 */
 	@Override
 	public void changeCredit (final double newCredit) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -92,10 +72,6 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.CREDIT.getFieldName(), newCredit);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeStatus(double)
-	 */
 	@Override
 	public void changeStatus (final Status newStatus) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -104,19 +80,11 @@ public class MemberControllerImpl implements MemberController {
 		controller.setModelProperty(MemberColumn.STATUS.getFieldName(), newStatus);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.MemberController#persist()
-	 */
 	@Override
 	public boolean persist () {
 		return controller.persist();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.MemberController#reload()
-	 */
 	@Override
 	public void reload () {
 		controller.reload();

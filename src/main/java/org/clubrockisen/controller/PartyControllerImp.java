@@ -30,10 +30,6 @@ public class PartyControllerImp implements PartyController {
 		this.controller = controller;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeDate(long)
-	 */
 	@Override
 	public void changeDate (final long newDate) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -42,10 +38,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.DATE.getFieldName(), newDate);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesTotal(int)
-	 */
 	@Override
 	public void changeEntriesTotal (final int newEntriesTotal) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -54,10 +46,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_TOTAL.getFieldName(), newEntriesTotal);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesFirstPart(int)
-	 */
 	@Override
 	public void changeEntriesFirstPart (final int newEntriesFirstPart) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -66,10 +54,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_FIRST_PART.getFieldName(), newEntriesFirstPart);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesSecondPart(int)
-	 */
 	@Override
 	public void changeEntriesSecondPart (final int newEntriesSecondPart) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -78,10 +62,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_SECOND_PART.getFieldName(), newEntriesSecondPart);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesNewMembers(int)
-	 */
 	@Override
 	public void changeEntriesNewMembers (final int newEntriesNewMembers) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -90,10 +70,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_NEW_MEMBER.getFieldName(), newEntriesNewMembers);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesFree(int)
-	 */
 	@Override
 	public void changeEntriesFree (final int newEntriesFree) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -102,10 +78,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_FREE.getFieldName(), newEntriesFree);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesMale(int)
-	 */
 	@Override
 	public void changeEntriesMale (final int newEntriesMale) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -114,10 +86,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_MALE.getFieldName(), newEntriesMale);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeEntriesFemale(int)
-	 */
 	@Override
 	public void changeEntriesFemale (final int newEntriesFemale) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -126,10 +94,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.ENTRIES_FEMALE.getFieldName(), newEntriesFemale);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeRevenue(double)
-	 */
 	@Override
 	public void changeRevenue (final double newRevenue) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -138,10 +102,6 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.REVENUE.getFieldName(), newRevenue);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#changeProfit(double)
-	 */
 	@Override
 	public void changeProfit (final double newProfit) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -150,19 +110,11 @@ public class PartyControllerImp implements PartyController {
 		controller.setModelProperty(PartyColumn.PROFIT.getFieldName(), newProfit);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#persist()
-	 */
 	@Override
 	public boolean persist () {
 		return controller.persist();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.PartyController#reload()
-	 */
 	@Override
 	public void reload () {
 		controller.reload();

@@ -41,37 +41,21 @@ public class ServiceFactoryImpl extends ServiceFactory {
 		fileManager = new FileManager(getDaoFactory().getMemberDAO());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getParameterManager()
-	 */
 	@Override
 	public IParametersManager getParameterManager () {
 		return parameterManager;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getTranslator()
-	 */
 	@Override
 	public Translator getTranslator () {
 		return translator;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getEntryManager()
-	 */
 	@Override
 	public IEntryManager getEntryManager () {
 		return entryManager;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.ServiceFactory#getFileManager()
-	 */
 	@Override
 	public IFileManager getFileManager () {
 		return fileManager;

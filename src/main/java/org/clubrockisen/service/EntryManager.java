@@ -53,10 +53,6 @@ public class EntryManager implements IEntryManager {
 		entryDAO = daoFactory.getEntryMemberPartyDAO();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#getCurrentParty()
-	 */
 	@Override
 	public Party getCurrentParty () {
 		final SimpleDateFormat storedDateFormat = new SimpleDateFormat(Constants.STORED_DATE_FORMAT);
@@ -88,11 +84,6 @@ public class EntryManager implements IEntryManager {
 		return partyDAO.create(party);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#getPrice(org.clubrockisen.entities.Member)
-	 */
 	@Override
 	public double getPrice (final Member member) {
 		final IParametersManager parametersManager = ServiceFactory.getImplementation().getParameterManager();
@@ -123,11 +114,6 @@ public class EntryManager implements IEntryManager {
 		return price;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#entry(org.clubrockisen.entities.Member,
-	 * org.clubrockisen.entities.Party)
-	 */
 	@Override
 	public boolean entry (final Member member, final Party party) {
 		if (member == null || party == null) {
@@ -136,10 +122,6 @@ public class EntryManager implements IEntryManager {
 		return entry(member.getIdMember(), party.getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#entry(int, int)
-	 */
 	@Override
 	public boolean entry (final int memberId, final int partyId) {
 		if (!canEnter(memberId)) {
@@ -188,12 +170,6 @@ public class EntryManager implements IEntryManager {
 		return successful;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#cancelEntry(org.clubrockisen.entities.Member
-	 * , org.clubrockisen.entities.Party)
-	 */
 	@Override
 	public boolean cancelEntry (final Member member, final Party party) {
 		if (member == null || party == null) {
@@ -202,59 +178,32 @@ public class EntryManager implements IEntryManager {
 		return cancelEntry(member.getIdMember(), party.getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#cancelEntry(int, int)
-	 */
 	@Override
 	public boolean cancelEntry (final int memberId, final int partyId) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Cancel entry method no yet implemented.");
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#entry(org.clubrockisen.entities.Member)
-	 */
 	@Override
 	public boolean entry (final Member member) {
 		return entry(member.getIdMember());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#entry(int)
-	 */
 	@Override
 	public boolean entry (final int memberId) {
 		return entry(memberId, getCurrentParty().getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#cancelEntry(org.clubrockisen.entities.Member
-	 * )
-	 */
 	@Override
 	public boolean cancelEntry (final Member member) {
 		return cancelEntry(member.getIdMember());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#cancelEntry(int)
-	 */
 	@Override
 	public boolean cancelEntry (final int memberId) {
 		return cancelEntry(memberId, getCurrentParty().getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#getParties(org.clubrockisen.entities.Member)
-	 */
 	@Override
 	public SortedSet<Party> getParties (final Member member) {
 		if (member == null) {
@@ -263,10 +212,6 @@ public class EntryManager implements IEntryManager {
 		return getParties(member.getIdMember());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#getParties(int)
-	 */
 	@Override
 	public SortedSet<Party> getParties (final int memberId) {
 		final Set<EntryMemberParty> entries = entryDAO.search(EntryMemberParty.getColumns().get(EntryColumn.MEMBER_ID),
@@ -289,11 +234,6 @@ public class EntryManager implements IEntryManager {
 		return parties;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#getMembers(org.clubrockisen.entities.Party)
-	 */
 	@Override
 	public Set<Member> getMembers (final Party party) {
 		if (party == null) {
@@ -302,10 +242,6 @@ public class EntryManager implements IEntryManager {
 		return getMembers(party.getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#getMembers(int)
-	 */
 	@Override
 	public Set<Member> getMembers (final int partyId) {
 		final Set<EntryMemberParty> entries = entryDAO.search(EntryMemberParty.getColumns().get(EntryColumn.PARTY_ID),
@@ -328,11 +264,6 @@ public class EntryManager implements IEntryManager {
 		return members;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#canEnter(org.clubrockisen.entities.Member)
-	 */
 	@Override
 	public boolean canEnter (final Member member) {
 		if (member == null) {
@@ -341,21 +272,11 @@ public class EntryManager implements IEntryManager {
 		return canEnter(member.getIdMember());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#canEnter(int)
-	 */
 	@Override
 	public boolean canEnter (final int memberId) {
 		return !getMembers(getCurrentParty()).contains(memberDAO.find(memberId));
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.service.abstracts.IEntryManager#canEnter(org.clubrockisen.entities.Member,
-	 * org.clubrockisen.entities.Party)
-	 */
 	@Override
 	public boolean canEnter (final Member member, final Party party) {
 		if (member == null || party == null) {
@@ -364,10 +285,6 @@ public class EntryManager implements IEntryManager {
 		return canEnter(member.getIdMember(), party.getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IEntryManager#canEnter(int, int)
-	 */
 	@Override
 	public boolean canEnter (final int memberId, final int partyId) {
 		return !getMembers(partyId).contains(memberDAO.find(memberId));

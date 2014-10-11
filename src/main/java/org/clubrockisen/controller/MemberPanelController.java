@@ -54,50 +54,31 @@ public class MemberPanelController extends AbstractController implements MemberC
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeName(java.lang.String)
-	 */
 	@Override
 	public void changeName (final String newName) {
 		memberController.changeName(newName);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeGender(java.lang.String)
-	 */
 	@Override
 	public void changeGender (final Gender newGender) {
 		memberController.changeGender(newGender);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeEntries(int)
-	 */
 	@Override
 	public void changeEntries (final int newEntries) {
 		memberController.changeEntries(newEntries);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.MemberController#changeNextFree(int)
-	 */
 	@Override
 	public void changeNextFree (final int newNextFree) {
 		memberController.changeNextFree(newNextFree);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeCredit(double)
-	 */
 	@Override
 	public void changeCredit (final double newCredit) {
 		memberController.changeCredit(newCredit);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.MemberController#changeStatus(double)
-	 */
 	@Override
 	public void changeStatus (final Status newStatus) {
 		memberController.changeStatus(newStatus);
@@ -116,28 +97,17 @@ public class MemberPanelController extends AbstractController implements MemberC
 		memberView.setVisible(true);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
-	 */
 	@Override
 	public boolean persist () {
 		return memberModel.persist();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
-	 */
 	@Override
 	public void dispose () {
 		super.dispose();
 		memberView.dispose();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
-	 */
 	@Override
 	public void reload () {
 		memberModel.reload();

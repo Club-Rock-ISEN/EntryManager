@@ -206,10 +206,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 	 */
 	public void addListeners (final PartyController controller) {
 		dateField.addFocusListener(new FocusAdapter() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-			 */
 			@Override
 			public void focusLost (final FocusEvent evt) {
 				final String oldValue = dateField.getText();
@@ -227,10 +223,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesTotalField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesTotal((int) entriesTotalField.getValue());
@@ -238,10 +230,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesFirstPartField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesFirstPart((int) entriesFirstPartField.getValue());
@@ -249,10 +237,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesSecondPartField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesSecondPart((int) entriesSecondPartField.getValue());
@@ -260,10 +244,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesNewMemberField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesNewMembers((int) entriesNewMemberField.getValue());
@@ -271,10 +251,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesFreeField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesFree((int) entriesFreeField.getValue());
@@ -282,10 +258,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesMaleField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesFree((int) entriesMaleField.getValue());
@@ -293,10 +265,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		entriesFemaleField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntriesFree((int) entriesFemaleField.getValue());
@@ -304,10 +272,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		revenueField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeRevenue((double) revenueField.getValue());
@@ -315,10 +279,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 		
 		profitField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeProfit((double) revenueField.getValue());
@@ -326,10 +286,6 @@ public class PartyPanel extends JPanel implements AbstractView {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
-	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		if (lg.isLoggable(Level.FINE)) {

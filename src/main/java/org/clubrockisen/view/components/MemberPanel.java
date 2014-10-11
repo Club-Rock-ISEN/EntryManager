@@ -160,10 +160,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 	 */
 	public void addListeners (final MemberController controller) {
 		nameField.addFocusListener(new FocusAdapter() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-			 */
 			@Override
 			public void focusLost (final FocusEvent e) {
 				controller.changeName(nameField.getText());
@@ -171,10 +167,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 		
 		genderField.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.changeGender((Gender) genderField.getSelectedItem());
@@ -182,10 +174,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 		
 		statusField.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				controller.changeStatus((Status) statusField.getSelectedItem());
@@ -193,10 +181,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 		
 		entryNumberField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeEntries((int) entryNumberField.getValue());
@@ -204,10 +188,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 		
 		nextFreeField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeNextFree((int) nextFreeField.getValue());
@@ -215,10 +195,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 		
 		creditField.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				controller.changeCredit((double) creditField.getValue());
@@ -226,11 +202,6 @@ public class MemberPanel extends JPanel implements AbstractView {
 		});
 	}
 	
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
-	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		if (lg.isLoggable(Level.FINE)) {

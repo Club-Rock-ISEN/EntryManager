@@ -48,10 +48,6 @@ public class MySQLMemberDAO extends SQLDAO<Member> {
 		columns = getEntitySample().getEntityColumns();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
-	 */
 	@Override
 	protected Member getEntitySample () {
 		if (memberSample == null) {
@@ -60,10 +56,6 @@ public class MySQLMemberDAO extends SQLDAO<Member> {
 		return memberSample;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#createEntityFromResult(java.sql.ResultSet)
-	 */
 	@Override
 	protected Member createEntityFromResult (final ResultSet result) throws SQLException {
 		final Member newMember = new Member();
@@ -80,11 +72,6 @@ public class MySQLMemberDAO extends SQLDAO<Member> {
 		return newMember;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillInsertStatement (final PreparedStatement statement, final Member obj)
 			throws SQLException {
@@ -97,11 +84,6 @@ public class MySQLMemberDAO extends SQLDAO<Member> {
 		statement.setString(index++, obj.getStatus().getName());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillUpdateStatement (final PreparedStatement statement, final Member obj)
 			throws SQLException {

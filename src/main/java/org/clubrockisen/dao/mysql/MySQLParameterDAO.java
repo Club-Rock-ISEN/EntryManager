@@ -41,10 +41,6 @@ public class MySQLParameterDAO extends SQLDAO<Parameter> {
 		columns = getEntitySample().getEntityColumns();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
-	 */
 	@Override
 	protected Parameter getEntitySample () {
 		if (parameterSample == null) {
@@ -65,22 +61,12 @@ public class MySQLParameterDAO extends SQLDAO<Parameter> {
 		return newParameter;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillInsertStatement (final PreparedStatement statement, final Parameter obj)
 			throws SQLException {
 		// Leave empty for parameter DAO
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillUpdateStatement (final PreparedStatement statement, final Parameter obj)
 			throws SQLException {

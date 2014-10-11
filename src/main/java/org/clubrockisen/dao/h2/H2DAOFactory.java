@@ -64,42 +64,27 @@ public class H2DAOFactory extends EntryManagerAbstractDAOFactory {
 		addDAO(EntryMemberParty.class, entryMemberPartyDao);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.io.Closeable#close()
-	 */
 	@Override
 	public void close () throws IOException {
 		super.close();
 		Utils.close(connection);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getParameterDAO()
-	 */
 	@Override
 	public DAO<Parameter> getParameterDAO () {
 		return parameterDao;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getMemberDAO()
-	 */
 	@Override
 	public DAO<Member> getMemberDAO () {
 		return memberDao;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getPartyDAO()
-	 */
 	@Override
 	public DAO<Party> getPartyDAO () {
 		return partyDao;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.abstracts.EntryManagerAbstractDAOFactory#getEntryMemberPartyDAO()
-	 */
 	@Override
 	public DAO<EntryMemberParty> getEntryMemberPartyDAO () {
 		return entryMemberPartyDao;

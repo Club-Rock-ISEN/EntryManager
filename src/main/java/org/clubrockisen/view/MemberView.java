@@ -44,19 +44,11 @@ public class MemberView extends EntryManagerFrame {
 		super(TranslationKeys.ENTITY.member().toString(), controller);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#preInit(java.lang.Object[])
-	 */
 	@Override
 	protected void preInit (final Object ... parameters) {
 		controller = (MemberController) parameters[0];
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.EntryManagerFrame#build()
-	 */
 	@Override
 	protected void build () {
 		setContentPane(buildMemberPanel());
@@ -89,10 +81,6 @@ public class MemberView extends EntryManagerFrame {
 		memberPanel.addListeners(controller);
 		
 		validateCancelPanel.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				if (!controller.persist()) {
@@ -107,10 +95,6 @@ public class MemberView extends EntryManagerFrame {
 		
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.abstracts.AbstractView#modelPropertyChange(java.beans.PropertyChangeEvent)
-	 */
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		memberPanel.modelPropertyChange(evt);

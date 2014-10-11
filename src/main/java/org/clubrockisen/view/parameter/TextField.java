@@ -30,10 +30,6 @@ public class TextField extends ParameterComponent {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getComponent()
-	 */
 	@Override
 	public JComponent getComponent () {
 		if (textField != null) {
@@ -42,12 +38,6 @@ public class TextField extends ParameterComponent {
 		return textField;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.parameter.ParameterComponent#installListener(org.clubrockisen.view.
-	 * ParametersView.ParameterChangeListener)
-	 */
 	@Override
 	public void installListener (final ParameterChangeListener listener) {
 		if (textField == null) {
@@ -55,10 +45,6 @@ public class TextField extends ParameterComponent {
 			return;
 		}
 		textField.addFocusListener(new FocusAdapter() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-			 */
 			@Override
 			public void focusLost (final FocusEvent e) {
 				listener.parameterChangeValue(getParameter(), getValue());
@@ -66,19 +52,11 @@ public class TextField extends ParameterComponent {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getValue()
-	 */
 	@Override
 	public String getValue () {
 		return textField != null ? textField.getText() : null;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#setValue(java.lang.Object)
-	 */
 	@Override
 	public void setValue (final Object value) {
 		if (textField == null) {

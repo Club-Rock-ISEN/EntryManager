@@ -20,10 +20,6 @@ public class IntegerSpinner extends Spinner {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.Spinner#getSpinnerModel()
-	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
 		return new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);

@@ -30,10 +30,6 @@ public abstract class Spinner extends ParameterComponent {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getComponent()
-	 */
 	@Override
 	public JComponent getComponent () {
 		if (spinner == null) {
@@ -64,12 +60,6 @@ public abstract class Spinner extends ParameterComponent {
 		return null;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.parameter.ParameterComponent#installListener(org.clubrockisen.view.
-	 * parameter.ParameterChangeListener)
-	 */
 	@Override
 	public void installListener (final ParameterChangeListener listener) {
 		if (spinner == null) {
@@ -77,10 +67,6 @@ public abstract class Spinner extends ParameterComponent {
 			return;
 		}
 		spinner.addChangeListener(new ChangeListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged (final ChangeEvent e) {
 				listener.parameterChangeValue(getParameter(), getValue());
@@ -88,19 +74,11 @@ public abstract class Spinner extends ParameterComponent {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getValue()
-	 */
 	@Override
 	public String getValue () {
 		return spinner == null ? null : spinner.getValue().toString();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#setValue(java.lang.Object)
-	 */
 	@Override
 	public void setValue (final Object value) {
 		if (spinner == null) {

@@ -11,10 +11,6 @@ import com.alexrnl.commons.gui.swing.renderers.ListCellTextRenderer;
  */
 public class CustomEnumRenderer extends ListCellTextRenderer<Enum<?>> {
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.renderers.CustomTextRenderer#getText(java.lang.Object)
-	 */
 	@Override
 	protected String getText (final Enum<?> value) {
 		return ServiceFactory.getImplementation().getTranslator().get(value);

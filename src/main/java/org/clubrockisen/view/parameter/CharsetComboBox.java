@@ -52,10 +52,6 @@ public class CharsetComboBox extends ParameterComponent {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getComponent()
-	 */
 	@Override
 	public JComponent getComponent () {
 		if (comboBox == null) {
@@ -85,12 +81,6 @@ public class CharsetComboBox extends ParameterComponent {
 		return comboBox;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.view.parameter.ParameterComponent#installListener(org.clubrockisen.view.
-	 * parameter.ParameterChangeListener)
-	 */
 	@Override
 	public void installListener (final ParameterChangeListener listener) {
 		if (comboBox == null) {
@@ -99,10 +89,6 @@ public class CharsetComboBox extends ParameterComponent {
 		}
 		
 		comboBox.addActionListener(new ActionListener() {
-			/*
-			 * (non-Javadoc)
-			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-			 */
 			@Override
 			public void actionPerformed (final ActionEvent e) {
 				listener.parameterChangeValue(getParameter(), getValue());
@@ -110,19 +96,11 @@ public class CharsetComboBox extends ParameterComponent {
 		});
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#getValue()
-	 */
 	@Override
 	public String getValue () {
 		return comboBox == null ? null : (String) comboBox.getSelectedItem();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.ParameterComponent#setValue(java.lang.Object)
-	 */
 	@Override
 	public void setValue (final Object value) {
 		if (comboBox == null) {

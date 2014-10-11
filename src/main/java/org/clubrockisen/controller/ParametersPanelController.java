@@ -60,10 +60,6 @@ public class ParametersPanelController extends AbstractController {
 		parametersView.setVisible(true);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
-	 */
 	@Override
 	public void dispose () {
 		super.dispose();
@@ -73,10 +69,6 @@ public class ParametersPanelController extends AbstractController {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
-	 */
 	@Override
 	public boolean persist () {
 		boolean success = true;
@@ -89,10 +81,6 @@ public class ParametersPanelController extends AbstractController {
 		return success;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
-	 */
 	@Override
 	public void reload () {
 		for (final ParameterControllerImpl parameterController : parametersControllers.values()) {

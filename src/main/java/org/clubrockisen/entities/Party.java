@@ -58,10 +58,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 	/** The profit for the party */
 	private Double							profit;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getEntityName()
-	 */
 	@Override
 	public String getEntityName () {
 		return entityName;
@@ -114,10 +110,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#setEntityColumns()
-	 */
 	@Override
 	protected void setEntityColumns () {
 		synchronized (lock) {
@@ -139,10 +131,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
-	 */
 	@Override
 	public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
 		return columns;
@@ -156,10 +144,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		return columns;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getID()
-	 */
 	@Override
 	public String getID () {
 		return getIdParty().toString();
@@ -414,28 +398,16 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		this.profit = profit;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString () {
 		return "Party of " + dateFormat.format(new Date(getDate())) + " (id: " + idParty + ")";
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Party)) {
@@ -444,10 +416,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		return AutoEquals.getInstance().compare(this, (Party) obj);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#clone()
-	 */
 	@Override
 	public Party clone () throws CloneNotSupportedException {
 		final Party clone = new Party();
@@ -465,10 +433,6 @@ public class Party extends Entity implements Cloneable, java.lang.Comparable<Par
 		return clone;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo (final Party o) {
 		if (o == null || o.date == null) {

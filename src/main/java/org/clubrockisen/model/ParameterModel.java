@@ -38,19 +38,11 @@ public class ParameterModel extends AbstractModel {
 		firstRefresh = false;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#persist()
-	 */
 	@Override
 	public boolean persist () {
 		return parametersManager.set(parameter);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.model.abstracts.AbstractModel#reload()
-	 */
 	@Override
 	public void reload () {
 		final Parameter param = parametersManager.get(ParametersEnum.fromValue(parameter.getName()));

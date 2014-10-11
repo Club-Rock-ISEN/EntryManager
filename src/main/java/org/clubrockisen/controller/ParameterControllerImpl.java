@@ -43,29 +43,16 @@ public class ParameterControllerImpl extends AbstractController implements Param
 		this.parentController = parentController;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.ParameterController#changeValue(java.lang.String)
-	 */
 	@Override
 	public void changeValue (final String newValue) {
 		setModelProperty(ParameterColumn.VALUE.getFieldName(), newValue);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.ParameterController#changeType(java.lang.String)
-	 */
 	@Override
 	public void changeType (final String newType) {
 		setModelProperty(ParameterColumn.TYPE.getFieldName(), newType);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#propertyChange(java.beans.
-	 * PropertyChangeEvent)
-	 */
 	@Override
 	public void propertyChange (final PropertyChangeEvent evt) {
 		if (lg.isLoggable(Level.FINE)) {
@@ -78,28 +65,16 @@ public class ParameterControllerImpl extends AbstractController implements Param
 		parentController.propertyChange(newEvt);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#dispose()
-	 */
 	@Override
 	public void dispose () {
 		removeModel(parameterModel);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#persist()
-	 */
 	@Override
 	public boolean persist () {
 		return parameterModel.persist();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.controller.abstracts.AbstractController#reload()
-	 */
 	@Override
 	public void reload () {
 		parameterModel.reload();

@@ -21,9 +21,6 @@ public class DoubleSpinner extends Spinner {
 		super(parameter);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.Spinner#getSpinnerModel()
-	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
 		return new SpinnerNumberModel(0.0, Integer.MIN_VALUE, Integer.MAX_VALUE, Constants.MONEY_STEP_SPINNER);

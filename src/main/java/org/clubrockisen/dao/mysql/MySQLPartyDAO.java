@@ -45,9 +45,6 @@ public class MySQLPartyDAO extends SQLDAO<Party> {
 		columns = new Party().getEntityColumns();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
-	 */
 	@Override
 	protected Party getEntitySample () {
 		if (partySample == null) {
@@ -56,9 +53,6 @@ public class MySQLPartyDAO extends SQLDAO<Party> {
 		return partySample;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#createEntityFromResult(java.sql.ResultSet)
-	 */
 	@Override
 	protected Party createEntityFromResult (final ResultSet result) throws SQLException {
 		final Party newParty = new Party();
@@ -78,11 +72,6 @@ public class MySQLPartyDAO extends SQLDAO<Party> {
 		return newParty;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillInsertStatement (final PreparedStatement statement, final Party obj)
 			throws SQLException {
@@ -99,11 +88,6 @@ public class MySQLPartyDAO extends SQLDAO<Party> {
 		statement.setDouble(index++, obj.getProfit());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillUpdateStatement (final PreparedStatement statement, final Party obj)
 			throws SQLException {

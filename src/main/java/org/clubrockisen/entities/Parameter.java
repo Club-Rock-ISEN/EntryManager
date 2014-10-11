@@ -38,10 +38,6 @@ public class Parameter extends Entity implements Cloneable {
 	/** Component class */
 	private String								componentClass;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getEntityName()
-	 */
 	@Override
 	public String getEntityName () {
 		return entityName;
@@ -81,10 +77,6 @@ public class Parameter extends Entity implements Cloneable {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#setEntityColumns()
-	 */
 	@Override
 	protected void setEntityColumns () {
 		synchronized (lock) {
@@ -99,10 +91,6 @@ public class Parameter extends Entity implements Cloneable {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#getEntityColumns()
-	 */
 	@Override
 	public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
 		return columns;
@@ -236,19 +224,11 @@ public class Parameter extends Entity implements Cloneable {
 		this.componentClass = component;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Parameter)) {
@@ -257,10 +237,6 @@ public class Parameter extends Entity implements Cloneable {
 		return AutoEquals.getInstance().compare(this, (Parameter) obj);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.entities.Entity#clone()
-	 */
 	@Override
 	public Parameter clone () throws CloneNotSupportedException {
 		final Parameter clone = new Parameter();

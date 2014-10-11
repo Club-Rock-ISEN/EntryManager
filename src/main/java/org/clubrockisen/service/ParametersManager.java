@@ -50,21 +50,11 @@ public final class ParametersManager implements IParametersManager {
 		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.services.interfaces.IParametersManager#get(org.clubrockisen.services.
-	 * ParametersEnum)
-	 */
 	@Override
 	public Parameter get (final ParametersEnum parameter) {
 		return parameters.get(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.clubrockisen.services.interfaces.IParametersManager#set(org.clubrockisen.entities.Parameter)
-	 */
 	@Override
 	public boolean set (final Parameter parameter) {
 		if (dao.update(parameter)) {

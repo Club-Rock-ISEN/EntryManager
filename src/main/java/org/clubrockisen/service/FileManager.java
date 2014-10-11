@@ -89,20 +89,11 @@ public class FileManager implements IFileManager {
 		return charSet;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IFileManager#getAvailableFormat()
-	 */
 	@Override
 	public Set<Format> getAvailableFormat () {
 		return fileFormats;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IFileImporter#parseFile(java.nio.file.Path,
-	 * org.clubrockisen.service.abstracts.Format)
-	 */
 	@Override
 	public Integer parseFile (final Path file, final Format format) {
 		if (file == null || !Files.exists(file)) {
@@ -145,10 +136,6 @@ public class FileManager implements IFileManager {
 		return membersPersisted;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.service.abstracts.IFileManager#exportFile(java.nio.file.Path,
-	 * org.clubrockisen.service.abstracts.Format)
-	 */
 	@Override
 	public boolean exportFile (final Path file, final Format format) {
 		if (file == null || Files.isDirectory(file)) { // Avoid deleting a lot of data

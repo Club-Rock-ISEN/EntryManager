@@ -25,20 +25,12 @@ public class TimeSpinner extends Spinner {
 		super(parameter);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.Spinner#getSpinnerModel()
-	 */
 	@Override
 	protected SpinnerModel getSpinnerModel () {
 		return new SpinnerTimeModel(Constants.TIME_MIN_SPINNER, Constants.TIME_MIN_SPINNER,
 				Constants.TIME_MAX_SPINNER, Constants.TIME_STEP_SPINNER);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.view.parameter.Spinner#getSpinnerEditor(javax.swing.JSpinner)
-	 */
 	@Override
 	protected JComponent getSpinnerEditor (final JSpinner targetSpinner) {
 		return new SpinnerEditableRenderer(targetSpinner);

@@ -45,9 +45,6 @@ public class MySQLEntryMemberPartyDAO extends SQLDAO<EntryMemberParty> {
 		columns = getEntitySample().getEntityColumns();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#getEntitySample()
-	 */
 	@Override
 	protected EntryMemberParty getEntitySample () {
 		if (entrySample == null) {
@@ -56,9 +53,6 @@ public class MySQLEntryMemberPartyDAO extends SQLDAO<EntryMemberParty> {
 		return entrySample;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#createEntityFromResult(java.sql.ResultSet)
-	 */
 	@Override
 	protected EntryMemberParty createEntityFromResult (final ResultSet result) throws SQLException {
 		final EntryMemberParty newEntry = new EntryMemberParty();
@@ -71,11 +65,6 @@ public class MySQLEntryMemberPartyDAO extends SQLDAO<EntryMemberParty> {
 		return newEntry;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillInsertStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillInsertStatement (final PreparedStatement statement, final EntryMemberParty obj)
 			throws SQLException {
@@ -84,11 +73,6 @@ public class MySQLEntryMemberPartyDAO extends SQLDAO<EntryMemberParty> {
 		statement.setInt(index++, obj.getIdParty());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.clubrockisen.dao.mysql.MySQLDAO#fillUpdateStatement(java.sql.PreparedStatement,
-	 * org.clubrockisen.entities.Entity)
-	 */
 	@Override
 	protected void fillUpdateStatement (final PreparedStatement statement, final EntryMemberParty obj)
 			throws SQLException {
