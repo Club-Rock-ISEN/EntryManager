@@ -11,11 +11,13 @@ import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.clubrockisen.common.Constants;
 import org.clubrockisen.common.TranslationKeys;
-import org.clubrockisen.view.abstracts.EntryManagerFrame;
+
+import com.alexrnl.commons.translation.Translator;
 
 /**
  * Panel with a cancel and a validate button.<br />
@@ -39,20 +41,22 @@ public class ValidateCancelPanel extends JPanel implements ActionListener {
 	/** List of the listener for the panel */
 	private final transient List<ActionListener>	actionListeners;
 	/** The parent frame to be hidden on cancel */
-	private final EntryManagerFrame					parentFrame;
+	private final JFrame							parentFrame;
 	
 	/**
 	 * Constructor #1.<br />
 	 * @param frame
 	 *        the parent frame to be hidden on cancel.
+	 * @param translator
+	 *        the translator to use for the buttons.
 	 */
-	public ValidateCancelPanel (final EntryManagerFrame frame) {
+	public ValidateCancelPanel (final JFrame frame, final Translator translator) {
 		super();
 		// Initialization
 		this.parentFrame = frame;
 		actionListeners = new ArrayList<>();
-		cancelButton = new JButton(frame.getTranslator().get(TranslationKeys.MISC.cancel()));
-		validateButton = new JButton(frame.getTranslator().get(TranslationKeys.MISC.ok()));
+		cancelButton = new JButton(translator.get(TranslationKeys.MISC.cancel()));
+		validateButton = new JButton(translator.get(TranslationKeys.MISC.ok()));
 		
 		// Creating layout, and adding buttons
 		final Box hBox = new Box(BoxLayout.LINE_AXIS);

@@ -106,7 +106,7 @@ public class ParametersView extends EntryManagerFrame implements ParameterChange
 		c.gridx = ++xIndex;
 		c.gridy = ++yIndex;
 		c.fill = GridBagConstraints.NONE;
-		validateCancelPanel = new ValidateCancelPanel(this);
+		validateCancelPanel = new ValidateCancelPanel(this, getTranslator());
 		pane.add(validateCancelPanel, c);
 		
 		return pane;

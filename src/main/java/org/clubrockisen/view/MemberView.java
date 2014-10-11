@@ -65,7 +65,7 @@ public class MemberView extends EntryManagerFrame {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				Constants.DEFAULT_INSETS, 0, 0);
 		memberPanel = new MemberPanel(true);
-		validateCancelPanel = new ValidateCancelPanel(this);
+		validateCancelPanel = new ValidateCancelPanel(this, getTranslator());
 		
 		pane.add(memberPanel, c);
 		c.gridy = 1;
