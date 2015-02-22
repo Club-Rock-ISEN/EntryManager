@@ -1,6 +1,5 @@
 package org.clubrockisen.dao.mysql;
 
-import static org.clubrockisen.common.ConfigurationKeys.KEY;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -8,10 +7,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Set;
+import java.net.URISyntaxException;
 
-import org.clubrockisen.common.ConfigurationKeys;
+import org.clubrockisen.dao.h2.H2DAOFactory;
+import org.clubrockisen.dao.h2.H2DAOFactoryTest;
 import org.clubrockisen.entities.EntryMemberParty;
 import org.clubrockisen.entities.Member;
 import org.clubrockisen.entities.Party;
@@ -21,9 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.alexrnl.commons.database.dao.AbstractDAOFactory;
-import com.alexrnl.commons.database.dao.DataSourceConfiguration;
-import com.alexrnl.commons.utils.Configuration;
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Test suite for the {@link MySQLEntryMemberPartyDAO} class.
@@ -31,35 +28,29 @@ import com.alexrnl.commons.utils.Configuration;
  */
 public class MySQLEntryMemberPartyDAOTest {
 	/** The factory */
-	private static MySQLDAOFactory			factory;
-	/** Backup for the entries */
-	private static Set<EntryMemberParty>	entriesBackup;
+	private static H2DAOFactory			factory;
 	/** The DAO for the entries */
-	private MySQLEntryMemberPartyDAO		entriesDAO;
+	private MySQLEntryMemberPartyDAO	entriesDAO;
 	
 	/**
 	 * Create the factory.
+	 * @throws URISyntaxException
+	 *         if the configuration file could not be loaded.
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass () {
-		final Configuration config = new Configuration(Paths.get(ConfigurationKeys.FILE));
-		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(config.get(KEY.db().url()),
-				config.get(KEY.db().username()), config.get(KEY.db().password()),
-				Paths.get(config.get(KEY.db().creationFile())));
-		factory = AbstractDAOFactory.buildFactory(MySQLDAOFactory.class.getName(), dbInfos, MySQLDAOFactory.class);
-		entriesBackup = factory.getEntryMemberPartyDAO().retrieveAll();
+	public static void setUpBeforeClass () throws URISyntaxException {
+		factory = H2DAOFactoryTest.getDAOFactory(H2DAOFactory.class);
 	}
 	
 	/**
 	 * Close the resources.
+	 * @throws IOException
+	 *         if the factory could not be close.
 	 */
 	@AfterClass
-	public static void tearDownAfterClass () {
-		try {
-			assertEquals(entriesBackup, factory.getEntryMemberPartyDAO().retrieveAll());
+	public static void tearDownAfterClass () throws IOException {
+		if (factory != null) {
 			factory.close();
-		} catch (final IOException e) {
-			fail(e.getMessage());
 		}
 	}
 	
@@ -72,7 +63,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO#getEntitySample()}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#getEntitySample()}.
 	 */
 	@Test
 	public void testGetEntitySample () {
@@ -80,7 +71,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO#create(org.clubrockisen.entities.EntryMemberParty)}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#create(EntryMemberParty)}.
 	 */
 	@Test
 	public void testCreate () {
@@ -126,7 +117,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLEntryMemberPartyDAO#update(org.clubrockisen.entities.EntryMemberParty)}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#update(EntryMemberParty)}.
 	 */
 	@Ignore
 	@Test
@@ -135,7 +126,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#find(int)}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#find(int)}.
 	 */
 	@Ignore
 	@Test
@@ -144,7 +135,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#delete(org.clubrockisen.entities.Entity)}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#delete(EntryMemberParty)}.
 	 */
 	@Ignore
 	@Test
@@ -153,7 +144,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#retrieveAll()}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#retrieveAll()}.
 	 */
 	@Ignore
 	@Test
@@ -162,7 +153,7 @@ public class MySQLEntryMemberPartyDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link org.clubrockisen.dao.mysql.MySQLDAO#search(org.clubrockisen.entities.Column, java.lang.String)}.
+	 * Test method for {@link MySQLEntryMemberPartyDAO#search(Column, String)}.
 	 */
 	@Ignore
 	@Test

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- DAO factory to load -->
+	<!-- <entry key="configuration.dao">org.clubrockisen.dao.mysql.MySQLDAOFactory</entry> -->
+	<entry key="configuration.dao">org.clubrockisen.dao.h2.H2DAOFactory</entry>
+	<!-- Service factory to load -->
+	<entry key="configuration.service">org.clubrockisen.service.ServiceFactoryImpl</entry>
+	
+	<!-- Data base connection information -->
+	<!-- MySQL
+	<entry key="configuration.db.creationFile">data/scripts/creation.MySQL.sql</entry>
+	<entry key="configuration.db.url">jdbc:mysql://localhost/crock</entry>
+	<entry key="configuration.db.username">crock</entry>
+	<entry key="configuration.db.password">burgerking</entry> -->
+	<!-- H2 -->
+	<entry key="configuration.db.creationFile">./creation.H2.sql</entry>
+	<entry key="configuration.db.url">jdbc:h2:mem:crock_test%d;DB_CLOSE_DELAY=-1</entry>
+	<entry key="configuration.db.username">crock</entry>
+	<entry key="configuration.db.password">burgerking</entry>
+	
+	<!-- Miscellaneous -->
+	<entry key="configuration.translationFile">data/locale/fr.xml</entry>
+	<entry key="configuration.iconFile">data/images/icon.png</entry>
+	<entry key="configuration.helpFile">data/help.html</entry>
+</properties>
