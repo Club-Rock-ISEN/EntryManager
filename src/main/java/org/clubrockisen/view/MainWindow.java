@@ -43,7 +43,7 @@ import org.clubrockisen.view.components.MemberPanel;
 import org.clubrockisen.view.components.PartyPanel;
 
 import com.alexrnl.commons.gui.swing.SwingUtils;
-import com.alexrnl.commons.translation.AbstractDialog;
+import com.alexrnl.commons.translation.Dialog;
 
 /**
  * The main window of the application.<br />
@@ -325,7 +325,7 @@ public class MainWindow extends EntryManagerFrame {
 				}
 				
 				final double price = controller.getPrice(member);
-				AbstractDialog dialog;
+				Dialog dialog;
 				if (price == 0.0) {
 					dialog = TranslationKeys.GUI.dialog().freeEntry(member.getName());
 				} else {

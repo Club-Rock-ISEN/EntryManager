@@ -1,7 +1,7 @@
 package org.clubrockisen.common;
 
-import com.alexrnl.commons.translation.AbstractDialog;
 import com.alexrnl.commons.translation.GUIElement;
+import com.alexrnl.commons.translation.StandardDialog;
 
 /**
  * The Translation file key structure.
@@ -897,189 +897,37 @@ public final class TranslationKeys {
 			}
 			
 			/**
-			 * The about dialog translations.
-			 * @author Alex
-			 */
-			public static final class About extends AbstractDialog {
-				/** The key to the about dialog */
-				private final String	aboutKey;
-				/** Array with the parameters to use */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the about dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param author
-				 *        the author of the application.
-				 */
-				private About (final String parentKey, final String author) {
-					super();
-					aboutKey = parentKey + "." + "about";
-					parameters = new Object[1];
-					parameters[0] = author;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return aboutKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
-			}
-			
-			/**
 			 * Access to the translations for the about dialog.
 			 * @param author
 			 *        the author of the application.
 			 * @return the about dialog translations.
 			 */
-			public Dialog.About about (final String author) {
-				return new About(dialogKey, author);
-			}
-			
-			/**
-			 * The dialog to warn when a member is not selected.
-			 * @author Alex
-			 */
-			public static final class NotSelectedMember extends AbstractDialog {
-				/** The key to the not selected member dialog */
-				private final String	notSelectedMemberKey;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the not selected member dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 */
-				private NotSelectedMember (final String parentKey) {
-					super();
-					notSelectedMemberKey = parentKey + "." + "notSelectedMember";
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return notSelectedMemberKey;
-				}
-				
+			public StandardDialog about (final String author) {
+				return new StandardDialog(dialogKey, author);
 			}
 			
 			/**
 			 * Access to the translations for the not selected member dialog.
 			 * @return the not selected member dialog translations.
 			 */
-			public Dialog.NotSelectedMember notSelectedMember () {
-				return new NotSelectedMember(dialogKey);
-			}
-			
-			/**
-			 * The dialog to warn when a member is not persisted.
-			 * @author Alex
-			 */
-			public static final class NotPersistedMember extends AbstractDialog {
-				/** The key to the not persisted member dialog */
-				private final String	notPersistedMember;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the not persisted member dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 */
-				private NotPersistedMember (final String parentKey) {
-					super();
-					notPersistedMember = parentKey + "." + "notPersistedMember";
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return notPersistedMember;
-				}
-				
+			public StandardDialog notSelectedMember () {
+				return new StandardDialog(dialogKey);
 			}
 			
 			/**
 			 * Access to the translations for the not persisted member.
 			 * @return the not selected member dialog translations.
 			 */
-			public Dialog.NotPersistedMember notPersistedMember () {
-				return new NotPersistedMember(dialogKey);
-			}
-			
-			/**
-			 * The dialog to warn when a parameter is not persisted.
-			 * @author Alex
-			 */
-			public static final class NotPersistedParameter extends AbstractDialog {
-				/** The key to the not persisted parameter dialog */
-				private final String	notPersistedParameter;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the not persisted parameter dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 */
-				private NotPersistedParameter (final String parentKey) {
-					super();
-					notPersistedParameter = parentKey + "." + "notPersistedParameter";
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return notPersistedParameter;
-				}
-				
+			public StandardDialog notPersistedMember () {
+				return new StandardDialog(dialogKey);
 			}
 			
 			/**
 			 * Access to the translations for the not persisted parameter.
 			 * @return the not persisted parameter dialog translations.
 			 */
-			public Dialog.NotPersistedParameter notPersistedParameter () {
-				return new NotPersistedParameter(dialogKey);
-			}
-			
-			/**
-			 * The dialog to warn when a unparsable date is entered.
-			 * @author Alex
-			 */
-			public static final class UnparsableDate extends AbstractDialog {
-				/** The key to the unparsable date dialog */
-				private final String	unparsableDateKey;
-				/** Array with the parameters to use */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the unparsable date dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param date
-				 *        the date which could not be parsed.
-				 */
-				private UnparsableDate (final String parentKey, final String date) {
-					super();
-					unparsableDateKey = parentKey + "." + "unparsableDate";
-					parameters = new Object[1];
-					parameters[0] = date;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return unparsableDateKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
+			public StandardDialog notPersistedParameter () {
+				return new StandardDialog(dialogKey);
 			}
 			
 			/**
@@ -1088,79 +936,16 @@ public final class TranslationKeys {
 			 *        the date which could not be parsed.
 			 * @return the unparsable date dialog translations.
 			 */
-			public Dialog.UnparsableDate unparsableDate (final String date) {
-				return new UnparsableDate(dialogKey, date);
-			}
-			
-			/**
-			 * The dialog to warn that the help could not be displayed.
-			 * @author Alex
-			 */
-			public static final class HelpNotDisplayable extends AbstractDialog {
-				/** The key to the help not displayable dialog */
-				private final String	helpNotDisplayableKey;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the help not displayable dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 */
-				private HelpNotDisplayable (final String parentKey) {
-					super();
-					helpNotDisplayableKey = parentKey + "." + "helpNotFound";
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return helpNotDisplayableKey;
-				}
-				
+			public StandardDialog unparsableDate (final String date) {
+				return new StandardDialog(dialogKey, date);
 			}
 			
 			/**
 			 * Access to the translations for the help not displayable dialog.
 			 * @return the help not displayable dialog translations.
 			 */
-			public Dialog.HelpNotDisplayable helpNotDisplayable () {
-				return new HelpNotDisplayable(dialogKey);
-			}
-			
-			/**
-			 * The dialog to ask confirmation for member deletion.
-			 * @author Alex
-			 */
-			public static final class DeleteMember extends AbstractDialog {
-				/** The key to the delete member dialog */
-				private final String	deleteMemberKey;
-				/** The array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the delete member dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param memberName
-				 *        the name of the member to delete.
-				 */
-				private DeleteMember (final String parentKey, final String memberName) {
-					super();
-					deleteMemberKey = parentKey + "." + "deleteMember";
-					parameters = new Object[1];
-					parameters[0] = memberName;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return deleteMemberKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
+			public StandardDialog helpNotDisplayable () {
+				return new StandardDialog(dialogKey);
 			}
 			
 			/**
@@ -1169,48 +954,8 @@ public final class TranslationKeys {
 			 *        the name of the member to delete.
 			 * @return the delete member dialog translations.
 			 */
-			public Dialog.DeleteMember deleteMember (final String memberName) {
-				return new DeleteMember(dialogKey, memberName);
-			}
-			
-			/**
-			 * The dialog to confirm the success of file import.
-			 * @author Alex
-			 */
-			public static final class FileImportSuccessful extends AbstractDialog {
-				/** The key to the file import successful dialog */
-				private final String	fileImportSuccessfulKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the file import successful dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param fileName
-				 *        the name of the file imported.
-				 * @param membersImported
-				 *        the number of members correctly imported
-				 */
-				private FileImportSuccessful (final String parentKey, final String fileName, final int membersImported) {
-					super();
-					fileImportSuccessfulKey = parentKey + "." + "fileImportSucceed";
-					parameters = new Object[2];
-					parameters[0] = fileName;
-					parameters[1] = membersImported;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return fileImportSuccessfulKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
+			public StandardDialog deleteMember (final String memberName) {
+				return new StandardDialog(dialogKey, memberName);
 			}
 			
 			/**
@@ -1221,44 +966,8 @@ public final class TranslationKeys {
 			 *        the number of member successfully imported.
 			 * @return the file import successful dialog.
 			 */
-			public Dialog.FileImportSuccessful fileImportSuccessful (final String fileName, final int memberImported) {
-				return new FileImportSuccessful(dialogKey, fileName, memberImported);
-			}
-			
-			/**
-			 * The dialog of file import failed.
-			 * @author Alex
-			 */
-			public static final class FileImportFailed extends AbstractDialog {
-				/** The key to the file import failed dialog */
-				private final String	fileImportFailedKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the file import failed dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param fileName
-				 *        the name of the file imported.
-				 */
-				private FileImportFailed (final String parentKey, final String fileName) {
-					super();
-					fileImportFailedKey = parentKey + "." + "fileImportFailed";
-					parameters = new Object[1];
-					parameters[0] = fileName;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return fileImportFailedKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
+			public StandardDialog fileImportSuccessful (final String fileName, final int memberImported) {
+				return new StandardDialog(dialogKey, fileName, memberImported);
 			}
 			
 			/**
@@ -1267,79 +976,16 @@ public final class TranslationKeys {
 			 *        the name of the file imported.
 			 * @return the file import failed dialog.
 			 */
-			public Dialog.FileImportFailed fileImportFailed (final String fileName) {
-				return new FileImportFailed(dialogKey, fileName);
-			}
-			
-			/**
-			 * Structure of the choose format dialog.
-			 * @author Alex
-			 */
-			public static final class ChooseFormat extends AbstractDialog {
-				/** The key to the choose format dialog */
-				private final String	chooseFormaKey;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the help not displayable dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 */
-				private ChooseFormat (final String parentKey) {
-					super();
-					chooseFormaKey = parentKey + "." + "chooseFormat";
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return chooseFormaKey;
-				}
+			public StandardDialog fileImportFailed (final String fileName) {
+				return new StandardDialog(dialogKey, fileName);
 			}
 			
 			/**
 			 * Access to the choose format dialog.
 			 * @return the choose format dialog.
 			 */
-			public Dialog.ChooseFormat chooseFormat () {
-				return new ChooseFormat(dialogKey);
-			}
-			
-			
-			/**
-			 * The dialog to confirm the success of file export.
-			 * @author Alex
-			 */
-			public static final class FileExportSuccessful extends AbstractDialog {
-				/** The key to the file export successful dialog */
-				private final String	fileExportSuccessfulKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the file export successful dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param fileName
-				 *        the name of the file exported.
-				 */
-				private FileExportSuccessful (final String parentKey, final String fileName) {
-					super();
-					fileExportSuccessfulKey = parentKey + "." + "fileExportSucceed";
-					parameters = new Object[1];
-					parameters[0] = fileName;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return fileExportSuccessfulKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
+			public StandardDialog chooseFormat () {
+				return new StandardDialog(dialogKey);
 			}
 			
 			/**
@@ -1348,44 +994,8 @@ public final class TranslationKeys {
 			 *        the name of the file imported.
 			 * @return the file export successful dialog.
 			 */
-			public Dialog.FileExportSuccessful fileExportSuccessful (final String fileName) {
-				return new FileExportSuccessful(dialogKey, fileName);
-			}
-			
-			/**
-			 * The dialog of file export failed.
-			 * @author Alex
-			 */
-			public static final class FileExportFailed extends AbstractDialog {
-				/** The key to the file export failed dialog */
-				private final String	fileExportFailedKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * Build the file export failed dialog structure.
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param fileName
-				 *        the name of the file exported.
-				 */
-				private FileExportFailed (final String parentKey, final String fileName) {
-					super();
-					fileExportFailedKey = parentKey + "." + "fileExportFailed";
-					parameters = new Object[1];
-					parameters[0] = fileName;
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return fileExportFailedKey;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
+			public StandardDialog fileExportSuccessful (final String fileName) {
+				return new StandardDialog(dialogKey, fileName);
 			}
 			
 			/**
@@ -1394,44 +1004,8 @@ public final class TranslationKeys {
 			 *        the name of the file exported.
 			 * @return the file export failed dialog.
 			 */
-			public Dialog.FileExportFailed fileExportFailed (final String fileName) {
-				return new FileExportFailed(dialogKey, fileName);
-			}
-			
-			/**
-			 * The dialog for free entrances.
-			 * @author Alex
-			 */
-			public static final class FreeEntry extends AbstractDialog {
-				/** The key to the free entry dialog */
-				private final String	freeEntryKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param memberName
-				 *        the name of the member.
-				 */
-				public FreeEntry (final String parentKey, final String memberName) {
-					super();
-					freeEntryKey = parentKey + "." + "freeEntry";
-					parameters = new Object[1];
-					parameters[0] = memberName;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return freeEntryKey;
-				}
-				
+			public StandardDialog fileExportFailed (final String fileName) {
+				return new StandardDialog(dialogKey, fileName);
 			}
 			
 			/**
@@ -1440,47 +1014,8 @@ public final class TranslationKeys {
 			 *        the name of the member whose entry is free.
 			 * @return the free entry dialog.
 			 */
-			public Dialog.FreeEntry freeEntry (final String memberName) {
-				return new FreeEntry (dialogKey, memberName);
-			}
-			
-			/**
-			 * The dialog for entry price.
-			 * @author Alex
-			 */
-			public static final class EntryPrice extends AbstractDialog {
-				/** The key to the entry price dialog */
-				private final String	entryPriceKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param memberName
-				 *        the name of the member.
-				 * @param price
-				 *        the price the member has to pay.
-				 */
-				public EntryPrice (final String parentKey, final String memberName, final double price) {
-					super();
-					entryPriceKey = parentKey + "." + "entryPrice";
-					parameters = new Object[2];
-					parameters[0] = memberName;
-					parameters[1] = price;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return entryPriceKey;
-				}
-				
+			public StandardDialog freeEntry (final String memberName) {
+				return new StandardDialog (dialogKey, memberName);
 			}
 			
 			/**
@@ -1491,44 +1026,8 @@ public final class TranslationKeys {
 			 *        the price the member has to pay.
 			 * @return the entry price dialog.
 			 */
-			public Dialog.EntryPrice entryPrice (final String memberName, final double price) {
-				return new EntryPrice (dialogKey, memberName, price);
-			}
-			
-			/**
-			 * The dialog for member entry.
-			 * @author Alex
-			 */
-			public static final class MemberEntry extends AbstractDialog {
-				/** The key to the member entry dialog */
-				private final String	memberEntryKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param memberName
-				 *        the name of the member.
-				 */
-				public MemberEntry (final String parentKey, final String memberName) {
-					super();
-					memberEntryKey = parentKey + "." + "memberEntry";
-					parameters = new Object[1];
-					parameters[0] = memberName;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return memberEntryKey;
-				}
-				
+			public StandardDialog entryPrice (final String memberName, final double price) {
+				return new StandardDialog (dialogKey, memberName, price);
 			}
 			
 			/**
@@ -1537,44 +1036,8 @@ public final class TranslationKeys {
 			 *        the name of the member whose entry is free.
 			 * @return the member entry dialog.
 			 */
-			public Dialog.MemberEntry memberEntry (final String memberName) {
-				return new MemberEntry (dialogKey, memberName);
-			}
-			
-			/**
-			 * The dialog for member entry failed.
-			 * @author Alex
-			 */
-			public static final class MemberEntryFailed extends AbstractDialog {
-				/** The key to the member entry failed dialog */
-				private final String	memberEntryFailedKey;
-				/** Array with the parameters */
-				private final Object[]	parameters;
-				
-				/**
-				 * Constructor #1.<br />
-				 * @param parentKey
-				 *        the key from the parent category.
-				 * @param memberName
-				 *        the name of the member.
-				 */
-				public MemberEntryFailed (final String parentKey, final String memberName) {
-					super();
-					memberEntryFailedKey = parentKey + "." + "memberEntryFailed";
-					parameters = new Object[1];
-					parameters[0] = memberName;
-				}
-				
-				@Override
-				public Object[] getParameters () {
-					return parameters.clone();
-				}
-				
-				@Override
-				public String getTranslationKey () {
-					return memberEntryFailedKey;
-				}
-				
+			public StandardDialog memberEntry (final String memberName) {
+				return new StandardDialog (dialogKey, memberName);
 			}
 			
 			/**
@@ -1583,8 +1046,8 @@ public final class TranslationKeys {
 			 *        the name of the member whose entry is free.
 			 * @return the member entry failed dialog.
 			 */
-			public Dialog.MemberEntryFailed memberEntryFailed (final String memberName) {
-				return new MemberEntryFailed (dialogKey, memberName);
+			public StandardDialog memberEntryFailed (final String memberName) {
+				return new StandardDialog (dialogKey, memberName);
 			}
 		}
 		
