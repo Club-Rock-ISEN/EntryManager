@@ -57,7 +57,7 @@
 			<directory>${project.basedir}/src/main/config</directory>
 			<outputDirectory>/data</outputDirectory>
 			<excludes>
-				<exclude>configuration.xml</exclude>
+				<exclude>configuration*.xml</exclude>
 			</excludes>
 		</fileSet>
 		
