@@ -905,7 +905,7 @@ public final class TranslationKeys {
 			 * @return the about dialog translations.
 			 */
 			public StandardDialog about (final String author) {
-				return new StandardDialog(dialogKey, author);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "about", author);
 			}
 			
 			/**
@@ -913,7 +913,7 @@ public final class TranslationKeys {
 			 * @return the not selected member dialog translations.
 			 */
 			public StandardDialog notSelectedMember () {
-				return new StandardDialog(dialogKey);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "notSelectedMember");
 			}
 			
 			/**
@@ -921,7 +921,7 @@ public final class TranslationKeys {
 			 * @return the not selected member dialog translations.
 			 */
 			public StandardDialog notPersistedMember () {
-				return new StandardDialog(dialogKey);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "notPersistedMember");
 			}
 			
 			/**
@@ -929,7 +929,7 @@ public final class TranslationKeys {
 			 * @return the not persisted parameter dialog translations.
 			 */
 			public StandardDialog notPersistedParameter () {
-				return new StandardDialog(dialogKey);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "notPersistedParameter");
 			}
 			
 			/**
@@ -939,7 +939,7 @@ public final class TranslationKeys {
 			 * @return the unparsable date dialog translations.
 			 */
 			public StandardDialog unparsableDate (final String date) {
-				return new StandardDialog(dialogKey, date);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "unparsableDate", date);
 			}
 			
 			/**
@@ -947,7 +947,7 @@ public final class TranslationKeys {
 			 * @return the help not displayable dialog translations.
 			 */
 			public StandardDialog helpNotDisplayable () {
-				return new StandardDialog(dialogKey);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "helpNotFound");
 			}
 			
 			/**
@@ -957,7 +957,7 @@ public final class TranslationKeys {
 			 * @return the delete member dialog translations.
 			 */
 			public StandardDialog deleteMember (final String memberName) {
-				return new StandardDialog(dialogKey, memberName);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "deleteMember", memberName);
 			}
 			
 			/**
@@ -969,7 +969,7 @@ public final class TranslationKeys {
 			 * @return the file import successful dialog.
 			 */
 			public StandardDialog fileImportSuccessful (final String fileName, final int memberImported) {
-				return new StandardDialog(dialogKey, fileName, memberImported);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "fileImportSucceed", fileName, memberImported);
 			}
 			
 			/**
@@ -979,7 +979,7 @@ public final class TranslationKeys {
 			 * @return the file import failed dialog.
 			 */
 			public StandardDialog fileImportFailed (final String fileName) {
-				return new StandardDialog(dialogKey, fileName);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "fileImportFailed", fileName);
 			}
 			
 			/**
@@ -987,7 +987,7 @@ public final class TranslationKeys {
 			 * @return the choose format dialog.
 			 */
 			public StandardDialog chooseFormat () {
-				return new StandardDialog(dialogKey);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "chooseFormat");
 			}
 			
 			/**
@@ -997,7 +997,7 @@ public final class TranslationKeys {
 			 * @return the file export successful dialog.
 			 */
 			public StandardDialog fileExportSuccessful (final String fileName) {
-				return new StandardDialog(dialogKey, fileName);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "fileExportSucceed", fileName);
 			}
 			
 			/**
@@ -1007,7 +1007,7 @@ public final class TranslationKeys {
 			 * @return the file export failed dialog.
 			 */
 			public StandardDialog fileExportFailed (final String fileName) {
-				return new StandardDialog(dialogKey, fileName);
+				return new StandardDialog(dialogKey + HIERARCHY_SEPARATOR + "fileExportFailed", fileName);
 			}
 			
 			/**
@@ -1017,7 +1017,7 @@ public final class TranslationKeys {
 			 * @return the free entry dialog.
 			 */
 			public StandardDialog freeEntry (final String memberName) {
-				return new StandardDialog (dialogKey, memberName);
+				return new StandardDialog (dialogKey + HIERARCHY_SEPARATOR + "freeEntry", memberName);
 			}
 			
 			/**
@@ -1029,7 +1029,7 @@ public final class TranslationKeys {
 			 * @return the entry price dialog.
 			 */
 			public StandardDialog entryPrice (final String memberName, final double price) {
-				return new StandardDialog (dialogKey, memberName, price);
+				return new StandardDialog (dialogKey + HIERARCHY_SEPARATOR + "entryPrice", memberName, price);
 			}
 			
 			/**
@@ -1039,7 +1039,7 @@ public final class TranslationKeys {
 			 * @return the member entry dialog.
 			 */
 			public StandardDialog memberEntry (final String memberName) {
-				return new StandardDialog (dialogKey, memberName);
+				return new StandardDialog (dialogKey + HIERARCHY_SEPARATOR + "memberEntry", memberName);
 			}
 			
 			/**
@@ -1049,7 +1049,7 @@ public final class TranslationKeys {
 			 * @return the member entry failed dialog.
 			 */
 			public StandardDialog memberEntryFailed (final String memberName) {
-				return new StandardDialog (dialogKey, memberName);
+				return new StandardDialog (dialogKey + HIERARCHY_SEPARATOR + "memberEntryFailed", memberName);
 			}
 		}
 		
