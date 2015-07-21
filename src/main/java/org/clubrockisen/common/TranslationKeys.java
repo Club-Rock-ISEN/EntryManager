@@ -1,5 +1,7 @@
 package org.clubrockisen.common;
 
+import static com.alexrnl.commons.translation.Translator.HIERARCHY_SEPARATOR;
+
 import com.alexrnl.commons.translation.GUIElement;
 import com.alexrnl.commons.translation.StandardDialog;
 
@@ -53,7 +55,7 @@ public final class TranslationKeys {
 			 */
 			private Member (final String parentKey) {
 				super();
-				this.memberKey = parentKey + "." + "member";
+				this.memberKey = parentKey + HIERARCHY_SEPARATOR + "member";
 			}
 			
 			@Override
@@ -66,7 +68,7 @@ public final class TranslationKeys {
 			 * @return The translation for the name field.
 			 */
 			public String name () {
-				return memberKey + "." + "name";
+				return memberKey + HIERARCHY_SEPARATOR + "name";
 			}
 			
 			/**
@@ -74,7 +76,7 @@ public final class TranslationKeys {
 			 * @return The translation for the gender field.
 			 */
 			public String gender () {
-				return memberKey + "." + "gender";
+				return memberKey + HIERARCHY_SEPARATOR + "gender";
 			}
 			
 			/**
@@ -82,7 +84,7 @@ public final class TranslationKeys {
 			 * @return The translation for the entry field.
 			 */
 			public String entries () {
-				return memberKey + "." + "entries";
+				return memberKey + HIERARCHY_SEPARATOR + "entries";
 			}
 			
 			/**
@@ -90,7 +92,7 @@ public final class TranslationKeys {
 			 * @return The translation for the credit field.
 			 */
 			public String credit () {
-				return memberKey + "." + "credit";
+				return memberKey + HIERARCHY_SEPARATOR + "credit";
 			}
 			
 			/**
@@ -98,7 +100,7 @@ public final class TranslationKeys {
 			 * @return The translation for the status field.
 			 */
 			public String status () {
-				return memberKey + "." + "status";
+				return memberKey + HIERARCHY_SEPARATOR + "status";
 			}
 		}
 		
@@ -126,7 +128,7 @@ public final class TranslationKeys {
 			 */
 			private Party (final String parentKey) {
 				super();
-				this.partyKey = parentKey + "." + "party";
+				this.partyKey = parentKey + HIERARCHY_SEPARATOR + "party";
 			}
 			
 			@Override
@@ -139,7 +141,7 @@ public final class TranslationKeys {
 			 * @return the translation for the date field.
 			 */
 			public String date () {
-				return partyKey + "." + "date";
+				return partyKey + HIERARCHY_SEPARATOR + "date";
 			}
 			
 			/**
@@ -147,7 +149,7 @@ public final class TranslationKeys {
 			 * @return the translation for the total entries.
 			 */
 			public String entriesTotal () {
-				return partyKey + "." + "entriestotal";
+				return partyKey + HIERARCHY_SEPARATOR + "entriestotal";
 			}
 			
 			/**
@@ -155,7 +157,7 @@ public final class TranslationKeys {
 			 * @return the translation for the first part entries.
 			 */
 			public String entriesFirstPart () {
-				return partyKey + "." + "entriesfirstpart";
+				return partyKey + HIERARCHY_SEPARATOR + "entriesfirstpart";
 			}
 			
 			/**
@@ -163,7 +165,7 @@ public final class TranslationKeys {
 			 * @return the translation for the second part entries.
 			 */
 			public String entriesSecondPart () {
-				return partyKey + "." + "entriessecondpart";
+				return partyKey + HIERARCHY_SEPARATOR + "entriessecondpart";
 			}
 			
 			/**
@@ -171,7 +173,7 @@ public final class TranslationKeys {
 			 * @return the translation for the entries of new members.
 			 */
 			public String entriesNewMember () {
-				return partyKey + "." + "entriesnewmember";
+				return partyKey + HIERARCHY_SEPARATOR + "entriesnewmember";
 			}
 			
 			/**
@@ -179,7 +181,7 @@ public final class TranslationKeys {
 			 * @return the translation for the free entries.
 			 */
 			public String entriesFree () {
-				return partyKey + "." + "entriesfree";
+				return partyKey + HIERARCHY_SEPARATOR + "entriesfree";
 			}
 			
 			/**
@@ -187,7 +189,7 @@ public final class TranslationKeys {
 			 * @return the translation for the male entries.
 			 */
 			public String entriesMale () {
-				return partyKey + "." + "entriesmale";
+				return partyKey + HIERARCHY_SEPARATOR + "entriesmale";
 			}
 			
 			/**
@@ -195,7 +197,7 @@ public final class TranslationKeys {
 			 * @return the translation for the female entries.
 			 */
 			public String entriesFemale () {
-				return partyKey + "." + "entriesfemale";
+				return partyKey + HIERARCHY_SEPARATOR + "entriesfemale";
 			}
 			
 			/**
@@ -203,7 +205,7 @@ public final class TranslationKeys {
 			 * @return the translation for the revenue of the party.
 			 */
 			public String revenue () {
-				return partyKey + "." + "revenue";
+				return partyKey + HIERARCHY_SEPARATOR + "revenue";
 			}
 			
 			/**
@@ -211,7 +213,7 @@ public final class TranslationKeys {
 			 * @return the translation for the profit of the party.
 			 */
 			public String profit () {
-				return partyKey + "." + "profit";
+				return partyKey + HIERARCHY_SEPARATOR + "profit";
 			}
 		}
 		
@@ -264,7 +266,7 @@ public final class TranslationKeys {
 			 */
 			private Gender (final String parentKey) {
 				super();
-				this.genderKey = parentKey + "." + "gender";
+				this.genderKey = parentKey + HIERARCHY_SEPARATOR + "gender";
 			}
 			
 			@Override
@@ -277,7 +279,7 @@ public final class TranslationKeys {
 			 * @return the translation for the male gender.
 			 */
 			public String male () {
-				return genderKey + "." + "male";
+				return genderKey + HIERARCHY_SEPARATOR + "male";
 			}
 			
 			/**
@@ -285,7 +287,7 @@ public final class TranslationKeys {
 			 * @return the translation for the female gender.
 			 */
 			public String female () {
-				return genderKey + "." + "female";
+				return genderKey + HIERARCHY_SEPARATOR + "female";
 			}
 			
 		}
@@ -313,7 +315,7 @@ public final class TranslationKeys {
 			 */
 			private Status (final String parentKey) {
 				super();
-				this.statusKey = parentKey + "." + "status";
+				this.statusKey = parentKey + HIERARCHY_SEPARATOR + "status";
 			}
 			
 			@Override
@@ -326,7 +328,7 @@ public final class TranslationKeys {
 			 * @return the translation for the member status.
 			 */
 			public String member () {
-				return statusKey + "." + "member";
+				return statusKey + HIERARCHY_SEPARATOR + "member";
 			}
 			
 			/**
@@ -334,7 +336,7 @@ public final class TranslationKeys {
 			 * @return the translation for the helper member status.
 			 */
 			public String helperMember () {
-				return statusKey + "." + "helperMember";
+				return statusKey + HIERARCHY_SEPARATOR + "helperMember";
 			}
 			
 			/**
@@ -342,7 +344,7 @@ public final class TranslationKeys {
 			 * @return the translation for the office member status.
 			 */
 			public String officeMember () {
-				return statusKey + "." + "officeMember";
+				return statusKey + HIERARCHY_SEPARATOR + "officeMember";
 			}
 			
 			/**
@@ -350,7 +352,7 @@ public final class TranslationKeys {
 			 * @return the translation for the veteran status.
 			 */
 			public String veteran () {
-				return statusKey + "." + "veteran";
+				return statusKey + HIERARCHY_SEPARATOR + "veteran";
 			}
 			
 		}
@@ -378,7 +380,7 @@ public final class TranslationKeys {
 			 */
 			private Parameter (final String parentKey) {
 				super();
-				this.parameterKey = parentKey + "." + "parameter";
+				this.parameterKey = parentKey + HIERARCHY_SEPARATOR + "parameter";
 			}
 			
 			@Override
@@ -391,7 +393,7 @@ public final class TranslationKeys {
 			 * @return the translation for the look and feel parameter.
 			 */
 			public String lookAndFeel () {
-				return parameterKey + "." + "look_and_feel";
+				return parameterKey + HIERARCHY_SEPARATOR + "look_and_feel";
 			}
 			
 			/**
@@ -399,7 +401,7 @@ public final class TranslationKeys {
 			 * @return the translation for the time limit parameter.
 			 */
 			public String timeLimit () {
-				return parameterKey + "." + "time_limit";
+				return parameterKey + HIERARCHY_SEPARATOR + "time_limit";
 			}
 			
 			/**
@@ -407,7 +409,7 @@ public final class TranslationKeys {
 			 * @return the translation for the entry price total parameter.
 			 */
 			public String entryPriceTotal () {
-				return parameterKey + "." + "entry_price_total";
+				return parameterKey + HIERARCHY_SEPARATOR + "entry_price_total";
 			}
 			
 			/**
@@ -415,7 +417,7 @@ public final class TranslationKeys {
 			 * @return the translation for the entry price first price parameter.
 			 */
 			public String entryPriceFirstPart () {
-				return parameterKey + "." + "entry_price_first_part";
+				return parameterKey + HIERARCHY_SEPARATOR + "entry_price_first_part";
 			}
 			
 			/**
@@ -423,7 +425,7 @@ public final class TranslationKeys {
 			 * @return the translation for the entry price second price parameter.
 			 */
 			public String entryPriceSecondPart () {
-				return parameterKey + "." + "entry_price_second_part";
+				return parameterKey + HIERARCHY_SEPARATOR + "entry_price_second_part";
 			}
 			
 			/**
@@ -431,7 +433,7 @@ public final class TranslationKeys {
 			 * @return the translation for the free entry frequency parameter.
 			 */
 			public String freeEntryFrequency () {
-				return parameterKey + "." + "free_entry_frequency";
+				return parameterKey + HIERARCHY_SEPARATOR + "free_entry_frequency";
 			}
 			
 			/**
@@ -439,7 +441,7 @@ public final class TranslationKeys {
 			 * @return the translation for the minimum credit parameter.
 			 */
 			public String minCredit () {
-				return parameterKey + "." + "min_credit";
+				return parameterKey + HIERARCHY_SEPARATOR + "min_credit";
 			}
 			
 			/**
@@ -447,7 +449,7 @@ public final class TranslationKeys {
 			 * @return the translation for the maximum credit parameter.
 			 */
 			public String maxCredit () {
-				return parameterKey + "." + "max_credit";
+				return parameterKey + HIERARCHY_SEPARATOR + "max_credit";
 			}
 			
 		}
@@ -486,7 +488,7 @@ public final class TranslationKeys {
 		 * @return the translation for the old file format.
 		 */
 		public String oldFileFormat () {
-			return formatsKey + "." + "oldFileFormat";
+			return formatsKey + HIERARCHY_SEPARATOR + "oldFileFormat";
 		}
 	}
 	
@@ -519,7 +521,7 @@ public final class TranslationKeys {
 		 * @return the translation for the application's title.
 		 */
 		public String title () {
-			return guiKey + "." + "title";
+			return guiKey + HIERARCHY_SEPARATOR + "title";
 		}
 		
 		/**
@@ -538,7 +540,7 @@ public final class TranslationKeys {
 			 */
 			private Menu (final String parentKey) {
 				super();
-				menuKey = parentKey + "." + "menu";
+				menuKey = parentKey + HIERARCHY_SEPARATOR + "menu";
 			}
 			
 			@Override
@@ -562,7 +564,7 @@ public final class TranslationKeys {
 				 */
 				private File (final String parentKey) {
 					super();
-					fileKey = parentKey + "." + "file";
+					fileKey = parentKey + HIERARCHY_SEPARATOR + "file";
 				}
 				
 				@Override
@@ -575,7 +577,7 @@ public final class TranslationKeys {
 				 * @return the translation for the parameters item.
 				 */
 				public GUIElement parameters () {
-					return new GUIElement(fileKey + "." + "parameters");
+					return new GUIElement(fileKey + HIERARCHY_SEPARATOR + "parameters");
 				}
 				
 				/**
@@ -583,7 +585,7 @@ public final class TranslationKeys {
 				 * @return the translation for the quit item.
 				 */
 				public GUIElement quit () {
-					return new GUIElement(fileKey + "." + "quit");
+					return new GUIElement(fileKey + HIERARCHY_SEPARATOR + "quit");
 				}
 				
 			}
@@ -612,7 +614,7 @@ public final class TranslationKeys {
 				 */
 				private Database (final String parentKey) {
 					super();
-					databaseKey = parentKey + "." + "database";
+					databaseKey = parentKey + HIERARCHY_SEPARATOR + "database";
 				}
 				
 				@Override
@@ -625,7 +627,7 @@ public final class TranslationKeys {
 				 * @return the translation for the see members item.
 				 */
 				public GUIElement seeMembers () {
-					return new GUIElement(databaseKey + "." + "seeMembers");
+					return new GUIElement(databaseKey + HIERARCHY_SEPARATOR + "seeMembers");
 				}
 				
 				/**
@@ -633,7 +635,7 @@ public final class TranslationKeys {
 				 * @return the translation for the see attendees item.
 				 */
 				public GUIElement seeAttendees () {
-					return new GUIElement(databaseKey + "." + "seeAttendees");
+					return new GUIElement(databaseKey + HIERARCHY_SEPARATOR + "seeAttendees");
 				}
 				
 				/**
@@ -641,7 +643,7 @@ public final class TranslationKeys {
 				 * @return the translation for the import data item.
 				 */
 				public GUIElement importData () {
-					return new GUIElement(databaseKey + "." + "importData");
+					return new GUIElement(databaseKey + HIERARCHY_SEPARATOR + "importData");
 				}
 				
 				/**
@@ -649,7 +651,7 @@ public final class TranslationKeys {
 				 * @return the translation for the export data item.
 				 */
 				public GUIElement exportData () {
-					return new GUIElement(databaseKey + "." + "exportData");
+					return new GUIElement(databaseKey + HIERARCHY_SEPARATOR + "exportData");
 				}
 				
 			}
@@ -678,7 +680,7 @@ public final class TranslationKeys {
 				 */
 				private Member (final String parentKey) {
 					super();
-					memberKey = parentKey + "." + "member";
+					memberKey = parentKey + HIERARCHY_SEPARATOR + "member";
 				}
 				
 				@Override
@@ -691,7 +693,7 @@ public final class TranslationKeys {
 				 * @return the translation for the new member item.
 				 */
 				public GUIElement newMember () {
-					return new GUIElement(memberKey + "." + "newMember");
+					return new GUIElement(memberKey + HIERARCHY_SEPARATOR + "newMember");
 				}
 				
 				/**
@@ -699,7 +701,7 @@ public final class TranslationKeys {
 				 * @return the translation for the delete member item.
 				 */
 				public GUIElement deleteMember () {
-					return new GUIElement(memberKey + "." + "deleteMember");
+					return new GUIElement(memberKey + HIERARCHY_SEPARATOR + "deleteMember");
 				}
 				
 				/**
@@ -707,7 +709,7 @@ public final class TranslationKeys {
 				 * @return the translation for the update member item.
 				 */
 				public GUIElement updateMember () {
-					return new GUIElement(memberKey + "." + "updateMember");
+					return new GUIElement(memberKey + HIERARCHY_SEPARATOR + "updateMember");
 				}
 				
 			}
@@ -736,7 +738,7 @@ public final class TranslationKeys {
 				 */
 				public Help (final String parentKey) {
 					super();
-					helpKey = parentKey + "." + "help";
+					helpKey = parentKey + HIERARCHY_SEPARATOR + "help";
 				}
 				
 				@Override
@@ -749,7 +751,7 @@ public final class TranslationKeys {
 				 * @return the translation for the help item.
 				 */
 				public GUIElement help () {
-					return new GUIElement(helpKey + "." + "help");
+					return new GUIElement(helpKey + HIERARCHY_SEPARATOR + "help");
 				}
 				
 				/**
@@ -757,7 +759,7 @@ public final class TranslationKeys {
 				 * @return the translation for the about item.
 				 */
 				public GUIElement about () {
-					return new GUIElement(helpKey + "." + "about");
+					return new GUIElement(helpKey + HIERARCHY_SEPARATOR + "about");
 				}
 				
 			}
@@ -796,7 +798,7 @@ public final class TranslationKeys {
 			 */
 			private Parameters (final String parentKey) {
 				super();
-				parametersKey = parentKey + "." + "parameters";
+				parametersKey = parentKey + HIERARCHY_SEPARATOR + "parameters";
 			}
 			
 			@Override
@@ -809,7 +811,7 @@ public final class TranslationKeys {
 			 * @return the translation for the panel.
 			 */
 			public String title () {
-				return parametersKey + "." + "title";
+				return parametersKey + HIERARCHY_SEPARATOR + "title";
 			}
 			
 		}
@@ -838,7 +840,7 @@ public final class TranslationKeys {
 			 */
 			public Buttons (final String parentKey) {
 				super();
-				buttonsKey = parentKey + "." + "buttons";
+				buttonsKey = parentKey + HIERARCHY_SEPARATOR + "buttons";
 			}
 			
 			/**
@@ -846,7 +848,7 @@ public final class TranslationKeys {
 			 * @return the text of the enter button.
 			 */
 			public String enter () {
-				return buttonsKey + "." + "enter";
+				return buttonsKey + HIERARCHY_SEPARATOR + "enter";
 			}
 			
 			/**
@@ -854,7 +856,7 @@ public final class TranslationKeys {
 			 * @return the text of the update button.
 			 */
 			public String update () {
-				return buttonsKey + "." + "update";
+				return buttonsKey + HIERARCHY_SEPARATOR + "update";
 			}
 			
 			@Override
@@ -888,7 +890,7 @@ public final class TranslationKeys {
 			 */
 			private Dialog (final String parentKey) {
 				super();
-				dialogKey = parentKey + "." + "dialog";
+				dialogKey = parentKey + HIERARCHY_SEPARATOR + "dialog";
 			}
 			
 			@Override
@@ -1090,7 +1092,7 @@ public final class TranslationKeys {
 		 * @return the translation for the field / value separator.
 		 */
 		public String fieldValueSeparator () {
-			return miscKey + "." + "fieldValueSeparator";
+			return miscKey + HIERARCHY_SEPARATOR + "fieldValueSeparator";
 		}
 		
 		/**
@@ -1098,7 +1100,7 @@ public final class TranslationKeys {
 		 * @return the translation for the currency symbol.
 		 */
 		public String currencySymbol () {
-			return miscKey + "." + "currencySymbol";
+			return miscKey + HIERARCHY_SEPARATOR + "currencySymbol";
 		}
 		
 		/**
@@ -1106,7 +1108,7 @@ public final class TranslationKeys {
 		 * @return the plural letter of the language.
 		 */
 		public String pluralLetter () {
-			return miscKey + "." + "pluralLetter";
+			return miscKey + HIERARCHY_SEPARATOR + "pluralLetter";
 		}
 		
 		/**
@@ -1114,7 +1116,7 @@ public final class TranslationKeys {
 		 * @return the translation for the OK.
 		 */
 		public String ok () {
-			return miscKey + "." + "ok";
+			return miscKey + HIERARCHY_SEPARATOR + "ok";
 		}
 		
 		/**
@@ -1122,7 +1124,7 @@ public final class TranslationKeys {
 		 * @return the translation for the cancel.
 		 */
 		public String cancel () {
-			return miscKey + "." + "cancel";
+			return miscKey + HIERARCHY_SEPARATOR + "cancel";
 		}
 		
 		/**
@@ -1130,7 +1132,7 @@ public final class TranslationKeys {
 		 * @return the translation for the apply.
 		 */
 		public String apply () {
-			return miscKey + "." + "apply";
+			return miscKey + HIERARCHY_SEPARATOR + "apply";
 		}
 	}
 	
